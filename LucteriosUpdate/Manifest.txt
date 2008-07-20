@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Created-By: FFSS38
+Main-class: org.lucterios.update.Main
+Class-Path: 
+
+Name: ApasUpdate
+Specification-Title: LucteriosUpdate
+Specification-Version: 0.34
+Specification-Vendor: Lucterios.org
+Implementation-Title: LucteriosUpdate
+Implementation-Version: 2008-02-20-A
+Implementation-Vendor: Lucterios.org

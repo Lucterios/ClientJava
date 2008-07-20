@@ -1,0 +1,27 @@
+
+# set here the target dir for all classes
+CLASS_DIR       = $(TOP_DIR)
+#JAVA_CLASS     = 
+LOCAL_CLASS_DIR = $(CLASS_DIR)/$(PACKAGE_DIR)
+
+JCC   = $(JAVA_HOME)/bin/javac
+FILES = $(wildcard *.java)
+
+#new rule for java
+.SUFFIXES:
+.SUFFIXES: .java .class
+
+#magical command that tells make to find class files in another dir
+vpath %.class $(LOCAL_CLASS_DIR)
+
+all: classes
+
+classes: $(FILES:.java=.class)
+
+.java.class:
+	@CLASSPATH=$(CLASSPATH):$(CLASS_DIR) $(JCC) -source 1.4 -target 1.4 -nowarn -d $(CLASS_DIR) $<
+
+clean:
+	@@echo rm -f *~ *.~java *.class *.bak
+	@@rm -f *~ *.~java *.class *.bak
+

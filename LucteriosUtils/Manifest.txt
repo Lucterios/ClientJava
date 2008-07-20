@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Created-By: Lucterios
+Main-class: org.lucterios.Client.Main
+Class-Path: Date_selector.jar commons-codec-1.3.jar jdom.jar junit.jar batik-all-1.7.jar
+
+Name: LucteriosUtils
+Specification-Title: LucteriosUtils
+Specification-Version: 0.34
+Specification-Vendor: Lucterios.org
+Implementation-Title: LucteriosUtils
+Implementation-Version: 2008-02-20-A
+Implementation-Vendor: Lucterios.org
