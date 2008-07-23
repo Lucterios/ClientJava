@@ -6,12 +6,10 @@ rm -f *.zip
 rm -f *.tar.gz
 rm -f *.tar
 rm -f *.lpk
-rm -fr BIN
-mkdir BIN 
+rm -f Output.txt
 
 ./createSources.sh 
 
 ./compile.sh
 
-cp *.lpk BIN
-mv *_JavaClient_*.zip BIN
+cp antBuilderOutput.log Output.txt
