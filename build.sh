@@ -11,5 +11,5 @@ mkdir BIN
 
 ./compile.sh
 
-mv *.lpk BIN
+cp *.lpk BIN
 mv *_JavaClient_*.zip BIN
