@@ -136,8 +136,9 @@ then
 fi
 
 rm -rf bin
-cp java.lpk bin/java_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild.lpk
-cp $ArcFileName.tar bin/$ArcFileName.tar
+mkdir bin
+cp java.lpk bin/$ArcFileName.lpk
+cp Lucterios_$ArcFileName.zip bin/Lucterios_$ArcFileName.zip
 
 echo "--- Compilation $VersionMaj.$VersionMin.$VersionRev.$VersionBuild Success ---"
 echo "----------------------------"
