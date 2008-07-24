@@ -135,5 +135,9 @@ then
 	exit 2
 fi
 
+rm -rf bin
+cp java.lpk bin/java_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild.lpk
+cp $ArcFileName.tar bin/$ArcFileName.tar
+
 echo "--- Compilation $VersionMaj.$VersionMin.$VersionRev.$VersionBuild Success ---"
 echo "----------------------------"

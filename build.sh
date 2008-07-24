@@ -12,4 +12,4 @@ rm -f Output.txt
 
 ./compile.sh
 
-cp antBuilderOutput.log Output.txt
+cp antBuilderOutput.log bin/Output.txt
