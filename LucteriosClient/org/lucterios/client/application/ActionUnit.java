@@ -76,8 +76,7 @@ public class ActionUnit extends TestCase {
 
 	public void testAction() {
 		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='0'><![CDATA[_Modifier]]></ACTION>");
+		action.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("Titre", "Modifier", mAction.getTitle());
@@ -240,7 +239,7 @@ public class ActionUnit extends TestCase {
 
 		SimpleParsing action = new SimpleParsing();
 		action
-				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
+				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='0'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
 		mAction.actionPerformed(null);
 		sleepOneTime();

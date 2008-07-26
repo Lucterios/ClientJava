@@ -3,7 +3,7 @@
 
 VersionMaj=0
 VersionMin=35
-VersionRev=5
+VersionRev=6
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
 
@@ -32,18 +32,19 @@ cp -vf version.txt LucteriosClient/org/lucterios/client/resources/version.txt
 
 class_path=$PWD/COMPILEDIR/lib/LucteriosPrint.jar
 class_path=$class_path:$PWD/COMPILEDIR/lib/LucteriosUtils.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/commons-httpclient-3.0.1.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/commons-logging-1.0.4.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/commons-codec-1.3.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/xercesImpl.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/jdom.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/junit.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/js.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/fop.jar:$PWD/lib/ekit.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/batik-all.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/Date_selector.jar
-class_path=$class_path:$PWD/COMPILEDIR/lib/tableview.jar
 class_path=$class_path:$PWD/COMPILEDIR/lib/avalon-framework-4.2.0.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/batik-all-1.7.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/commons-codec-1.3.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/commons-httpclient-3.0.1.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/commons-logging-1.1.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/Date_selector.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/xercesImpl.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/ekit.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/fop.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/jdom.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/js.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/junit.jar
+class_path=$class_path:$PWD/COMPILEDIR/lib/tableview.jar
 
 export CLASSPATH=$class_path
 export JAVA_HOME="/usr/lib/jvm/java-1.5.0-sun"

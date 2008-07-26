@@ -149,10 +149,17 @@ public class HttpTransportImpl implements HttpTransport {
 				} finally {
 					downloadFinished();
 				}
-				return icon_result;
+				if (icon_result==null)
+					return new ImageIcon();
+				else
+					return icon_result;
 			}
-		} else
-			return null;
+		} else {
+			if (aIconName != null)
+				return new ImageIcon();
+			else
+				return null;
+		}
 	}
 
 	private String parseISToString(java.io.InputStream is, boolean withRefresh)

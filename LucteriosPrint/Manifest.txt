@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Created-By: Lucterios
 Main-class: org.lucterios.Print.DemoPrint
-Class-Path: xercesImpl-2.7.1.jar batik-all.jar fop.jar serializer-2.7.0.jar xalan-2.7.0.jar commons-logging-1.0.4.jar avalon-framework-4.2.0.jar LucteriosUtils.jar
+Class-Path: avalon-framework-4.2.0.jar batik-all-1.7.jar commons-logging-1.0.4.jar fop.jar xercesImpl-2.7.1.jar LucteriosUtils.jar
 
 Name: LucteriosPrint
 Specification-Title: LucteriosPrint
-Specification-Version: 0.34
+Specification-Version: 0.35
 Specification-Vendor: Lucterios.org
 Implementation-Title: LucteriosPrint
 Implementation-Version: 2008-02-20-A

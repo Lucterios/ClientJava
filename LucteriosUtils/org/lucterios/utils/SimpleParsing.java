@@ -58,7 +58,7 @@ public class SimpleParsing
 			List this_attributes=mItem.getAttributes();
 			List other_attributes=other_parse.mItem.getAttributes();
 			result=result && (this_attributes.size()==other_attributes.size());
-			result = isAttributesEquals(this_attributes,other_attributes);
+			result=result && isAttributesEquals(this_attributes,other_attributes);
 			result=result && (getTagCount()==other_parse.getTagCount());
 			for(int index=0;result && (index<getTagCount());index++)
 				result=result && getSubTag(index).equals(other_parse.getSubTag(index));

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Created-By: Lucterios
 Main-class: org.lucterios.client.Main
-Class-Path: lib/junit.jar lib/js.jar lib/commons-codec-1.3.jar lib/commons-httpclient-3.0.1.jar lib/tableview.jar lib/jdom.jar lib/LucteriosUtils.jar lib/LucteriosPrint.jar
+Class-Path: lib/commons-codec-1.3.jar lib/commons-httpclient-3.0.1.jar lib/tableview.jar lib/jdom.jar lib/junit.jar lib/js.jar  lib/LucteriosUtils.jar lib/LucteriosPrint.jar
 
 Name: LucteriosClient
 Specification-Title: LucteriosClient

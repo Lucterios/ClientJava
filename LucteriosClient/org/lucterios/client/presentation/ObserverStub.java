@@ -44,8 +44,6 @@ public class ObserverStub extends ObserverAbstract {
 		return mType;
 	}
 
-	static private SimpleParsing mContent = null;
-
 	public void setContent(SimpleParsing aContent) {
 		mContent = aContent;
 	}
