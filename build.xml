@@ -13,9 +13,13 @@
 	<target name="all" depends="svn,init,build,package,doc,tests" />
 
 	<target name="svn">
-		<svn username="${svn.username}" password="${svn.password}">
-		     <checkout url="${svn.url}/clients/java" destPath="." />
-		</svn>
+		<exec executable="svn">
+			<arg line="checkout" />
+			<arg line="${svn.url}/Clients/java" />
+			<arg line="." />
+			<arg line="--username=${svn.username}" />
+			<arg line="--password=${svn.password}" />
+		</exec>
 	</target>		
 	
 	<target name="init">
