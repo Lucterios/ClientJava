@@ -52,9 +52,9 @@ public class Logging
             {
                 tdclass=record.getSourceMethodName();
                 if (record.getSourceMethodName().equals(METHOD_XFER_OUT))
-                    title="Envoyé";
+                    title="EnvoyÃ©";
                 else
-                    title="Reçu";                
+                    title="ReÃ§u";
             }
             else
             {
