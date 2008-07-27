@@ -46,24 +46,24 @@ public class HttpTranportUnit extends TestCase {
 		assertEquals("Port connect a", 0, http_transport.getCurrentPort());
 		assertEquals("Session initial", "", http_transport.getSession());
 
-		http_transport.connectToServer("localhost", "FFSS", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80);
 		http_transport.setSession("ABCDEF12345");
 		assertEquals("Server connect b", "localhost", http_transport
 				.getServerHost());
-		assertEquals("Path connect b", "/FFSS", http_transport.getRootPath());
+		assertEquals("Path connect b", "/lucterios", http_transport.getRootPath());
 		assertEquals("Port connect b", 80, http_transport.getCurrentPort());
 		assertEquals("Session final", "ABCDEF12345", http_transport
 				.getSession());
 	}
 
 	public void testStatic() {
-		http_transport.connectToServer("localhost", "FFSS", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80);
 		http_transport.setSession("ABCDEF12345");
 
 		HttpTransport new_http_transport = new HttpTransportImpl();
 		assertEquals("Server connect b", "localhost", new_http_transport
 				.getServerHost());
-		assertEquals("Path connect b", "/FFSS", new_http_transport
+		assertEquals("Path connect b", "/lucterios", new_http_transport
 				.getRootPath());
 		assertEquals("Port connect b", 80, new_http_transport.getCurrentPort());
 		assertEquals("Session final", "ABCDEF12345", new_http_transport
@@ -71,7 +71,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testImage() {
-		http_transport.connectToServer("localhost", "FFSS", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80);
 		ImageIcon null_icon = http_transport.getIcon(null);
 		assertTrue("Null icon", null_icon == null);
 
@@ -87,7 +87,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActions() throws LucteriosException {
-		http_transport.connectToServer("localhost", "FFSS", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80);
 		String xml_retour;
 		xml_retour = http_transport
 				.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
