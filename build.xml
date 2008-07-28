@@ -1,4 +1,5 @@
 <project name="JavaClient" default="all" basedir=".">
+	<property environment="env"/>
 	<property name="svn.url" value="http://projets.lucterios.org/svn"/>
 	<property name="svn.username" value="user"/>
 	<property name="svn.password" value="user123"/>
@@ -8,7 +9,7 @@
 	<property name="projet.version.max" value="0"/>
 	<property name="projet.version.min" value="36"/>
 	<property name="projet.version.release" value="7"/>
-	<property name="projet.version.build" value="0"/>
+	<property name="projet.version.build" value="${env.ClientJavaVersionBuild}"/>
 
 	<target name="all" depends="svn,init,build,package,doc,tests" />
 
