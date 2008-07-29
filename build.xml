@@ -9,9 +9,17 @@
 	<property name="projet.version.max" value="0"/>
 	<property name="projet.version.min" value="36"/>
 	<property name="projet.version.release" value="7"/>
-	<property name="projet.version.build" value="1"/>
 
-	<target name="all" depends="svn,init,build,package,doc,tests" />
+	<target name="all">
+		<buildnumber />
+		<property name="projet.version.build" value="${build.number}"/>
+		<antcall target="svn" />
+		<antcall target="init" />
+		<antcall target="build" />
+		<antcall target="package" />
+		<antcall target="doc" />
+		<antcall target="tests" />
+	</target>		
 
 	<target name="svn">
 		<exec executable="svn">
@@ -24,6 +32,7 @@
 	</target>		
 	
 	<target name="init">
+		<property name="projet.version.build" value="1"/>
 		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
 		<delete file="setup.inc.php"/>
 		<exec executable="./createSetup.sh">
@@ -58,6 +67,7 @@
 	</target>	
 
 	<target name="package">
+		<property name="projet.version.build" value="1"/>
 		<zip destfile="${projet.lpk.dir}/Lucterios_JavaClient_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.zip" >
 			<fileset dir="." includes="LucteriosClient.jar"/>
 			<fileset dir="." includes="LucteriosClient.bat"/>
