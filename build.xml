@@ -3,22 +3,10 @@
 	<property name="svn.url" value="http://projets.lucterios.org/svn"/>
 	<property name="svn.username" value="user"/>
 	<property name="svn.password" value="user123"/>
-	<property name="projet.lib.dir" value="lib"/>
-	<property name="projet.lpk.dir" value="bin"/>
-	<property name="projet.test.dir" value="test-results"/>
-	<property name="projet.version.max" value="0"/>
-	<property name="projet.version.min" value="36"/>
-	<property name="projet.version.release" value="7"/>
 
 	<target name="all">
-		<buildnumber />
-		<property name="projet.version.build" value="${build.number}"/>
 		<antcall target="svn" />
-		<antcall target="init" />
-		<antcall target="build" />
-		<antcall target="package" />
-		<antcall target="doc" />
-		<antcall target="tests" />
+		<ant antfile="build_all.xml" />
 	</target>		
 
 	<target name="svn">
@@ -30,121 +18,4 @@
 			<arg line="--password=${svn.password}" />
 		</exec>
 	</target>		
-	
-	<target name="init">
-		<property name="projet.version.build" value="1"/>
-		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
-		<delete file="setup.inc.php"/>
-		<exec executable="./createSetup.sh">
-			<arg line="${projet.version.max}" />
-			<arg line="${projet.version.min}" />
-			<arg line="${projet.version.release}" />
-			<arg line="${projet.version.build}" />
-		</exec>
-		<copy file="version.txt" tofile="LucteriosClient/org/lucterios/client/resources/version.txt" />
-		<delete dir="${projet.lpk.dir}" /> 
-		<mkdir dir="${projet.lpk.dir}" />	
-		<delete dir="${projet.test.dir}" /> 
-		<mkdir dir="${projet.test.dir}" /> 		
-	</target>	
-	
-	<target name="clear">
-		<ant antfile="Utils_build.xml" target="clear"/>
-		<ant antfile="Print_build.xml" target="clear"/>
-		<ant antfile="Client_build.xml" target="clear"/>
-		<ant antfile="Update_build.xml" target="clear"/>
-	</target>	
-
-	<target name="build">
-		<ant antfile="Utils_build.xml" target="build"/>
-		<copy file="LucteriosUtils/LucteriosUtils.jar" todir="${projet.lib.dir}" overwrite="true"/>
-		<ant antfile="Print_build.xml" target="build"/>
-		<copy file="LucteriosPrint/LucteriosPrint.jar" todir="${projet.lib.dir}" overwrite="true"/>
-		<ant antfile="Client_build.xml" target="build"/>
-		<copy file="LucteriosClient/LucteriosClient.jar" todir="." overwrite="true"/>
-		<ant antfile="Update_build.xml" target="build"/>
-		<copy file="LucteriosUpdate/LucteriosUpdate.jar" todir="." overwrite="true"/>
-	</target>	
-
-	<target name="package">
-		<property name="projet.version.build" value="1"/>
-		<zip destfile="${projet.lpk.dir}/Lucterios_JavaClient_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.zip" >
-			<fileset dir="." includes="LucteriosClient.jar"/>
-			<fileset dir="." includes="LucteriosClient.bat"/>
-			<fileset dir="." includes="LucteriosClient.sh"/>
-			<fileset dir="." includes="LucteriosLogo.png"/>
-			<fileset dir="." includes="LucteriosLogo.ico"/>
-		</zip>
-		<zip destfile="${projet.lpk.dir}/Lucterios_JavaClient_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.zip" basedir="." update="true" includes="lib/**/*.jar"/>
-		
-		<delete dir="JavaClient.zip" /> 
-		<zip destfile="JavaClient.zip" >
-			<fileset dir="." includes="LucteriosClient.jar"/>
-		</zip>
-		<zip destfile="JavaClient.zip" update="true" basedir="." includes="lib/**/*.jar"/>
-		
-		<tar destfile="JavaClient.tar">
-			<fileset dir="." includes="JavaClient.zip"/>
-			<fileset dir="." includes="LucteriosUpdate.jar"/>
-			<fileset dir="." includes="version.txt"/>
-			<fileset dir="." includes="index.php"/>
-			<fileset dir="." includes="setup.inc.php"/>
-			<fileset dir="." includes="LucteriosClient.bat"/>
-			<fileset dir="." includes="LucteriosClient.sh"/>
-			<fileset dir="." includes="LucteriosLogo.png"/>
-			<fileset dir="." includes="LucteriosLogo.ico"/>
-		</tar>
-		<gzip src="JavaClient.tar" destfile="${projet.lpk.dir}/java_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
- 	</target>		
-	
-	<target name="doc">
-		<delete dir="doc" /> 
-		<mkdir dir="doc" />
-		<mkdir dir="doc/LucteriosClient" />
-		<copy todir="doc/LucteriosClient">
-			<fileset dir="LucteriosClient/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>			
-		<mkdir dir="doc/LucteriosUpdate" />
-		<copy todir="doc/LucteriosUpdate">
-			<fileset dir="LucteriosUpdate/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>			
-		<mkdir dir="doc/LucteriosPrint" />
-		<copy todir="doc/LucteriosPrint">
-			<fileset dir="LucteriosPrint/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>			
-		<mkdir dir="doc/LucteriosUtils" />
-		<copy todir="doc/LucteriosUtils">
-			<fileset dir="LucteriosUtils/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>
-		<zip destfile="${projet.lpk.dir}/JavaClientDoc.zip" basedir="doc" />
-	</target>	
-
-	<target name="tests">
-		<ant antfile="Utils_build.xml" target="tests"/>
-		<ant antfile="Print_build.xml" target="tests"/>
-		<ant antfile="Client_build.xml" target="tests"/>
-		<ant antfile="Update_build.xml" target="tests"/>
- 		<copy todir="${projet.test.dir}">
-			<fileset dir="LucteriosUtils">
-				<include name="TEST*.xml"/>
-			</fileset>
-			<fileset dir="LucteriosPrint">
-				<include name="TEST*.xml"/>
-			</fileset>
-			<fileset dir="LucteriosClient">
-				<include name="TEST*.xml"/>
-			</fileset>
-			<fileset dir="LucteriosUpdate">
-				<include name="TEST*.xml"/>
-			</fileset>
-		</copy>
-	</target>	
 </project>

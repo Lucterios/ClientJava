@@ -149,16 +149,10 @@ public class HttpTransportImpl implements HttpTransport {
 				} finally {
 					downloadFinished();
 				}
-				if (icon_result==null)
-					return new ImageIcon();
-				else
-					return icon_result;
+				return icon_result;
 			}
 		} else {
-			if (aIconName != null)
-				return new ImageIcon();
-			else
-				return null;
+			return null;
 		}
 	}
 

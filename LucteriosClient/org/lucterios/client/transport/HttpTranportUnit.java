@@ -76,9 +76,7 @@ public class HttpTranportUnit extends TestCase {
 		assertTrue("Null icon", null_icon == null);
 
 		ImageIcon empty_icon = http_transport.getIcon("");
-		assertTrue("Empty icon", empty_icon != null);
-		assertEquals("Empty Height", -1, empty_icon.getIconHeight());
-		assertEquals("Empty Width", -1, empty_icon.getIconWidth());
+		assertTrue("Empty icon", empty_icon == null);
 
 		ImageIcon add_icon = http_transport.getIcon("images/add.png");
 		assertTrue("Add icon", add_icon != null);
