@@ -170,7 +170,8 @@ public class LInsets {
 		int customSiz = getKdeINI("General", "CustomSize");
 		int siz = getKdeINI("General", "Size");
 		int pos = getKdeINI("General", "Position");
-		int position = pos==-1?3:pos;
+		int position = pos==-1?2:pos;
+		if(siz == -1) siz = 3;
 		int size = (customSiz==-1||siz!=4)?siz:customSiz;
 		size = size<24?sizes[size]:size;
 		i[position]=size;
