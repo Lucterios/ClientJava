@@ -360,8 +360,14 @@ public class HttpTransportImpl implements HttpTransport {
 			Logging.getInstance().setInText(xml_param);
 
 			Map params = new TreeMap();
-			params.put(POST_VARIABLE, xml_param);
-			//params.put("nourlencode","");
+	        try
+	        {
+	        	params.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
+	        }
+	        catch(java.io.UnsupportedEncodingException e)
+	        {
+	            throw new LucteriosException(e.toString(),e);
+	        }
 			try {
 				data = "<?xml version='1.0' encoding='ISO-8859-1'?>";
 				data = data	+ transfertFileFromServerString(MANAGER_FILE, params);
