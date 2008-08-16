@@ -117,21 +117,24 @@ public class Main
 			ZipEntry e=(ZipEntry)entries.nextElement();
 			String file_extracted=targetPath+e.getName();
 			File new_file=new File(file_extracted);
-			if (new_file.exists())
-				new_file.delete();
-			checkPathExists(new_file.getParentFile());
-			InputStream is=zf.getInputStream(e);
-			System.out.println(file_extracted);
-			
-			FileOutputStream fos=new FileOutputStream(file_extracted);
-			dest = new BufferedOutputStream(fos,BUFFER);
-			int count;
-			while ((count=is.read(data,0,BUFFER))!=-1)
+			if (!new_file.isDirectory())
 			{
-				dest.write(data,0,count);
+				if (new_file.exists())
+					new_file.delete();
+				checkPathExists(new_file.getParentFile());
+				InputStream is=zf.getInputStream(e);
+				System.out.println(file_extracted);
+				
+				FileOutputStream fos=new FileOutputStream(file_extracted);
+				dest = new BufferedOutputStream(fos,BUFFER);
+				int count;
+				while ((count=is.read(data,0,BUFFER))!=-1)
+				{
+					dest.write(data,0,count);
+				}
+				dest.flush();
+				dest.close();
 			}
-			dest.flush();
-			dest.close();
 		}
 		zf.close();
 	}
