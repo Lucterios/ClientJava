@@ -177,9 +177,9 @@ public class ActionImpl implements Action {
 	}
 
 	public void showObserver(Observer aObs) {
+		System.out.print("ShowObserver:begin\n");
+		aObs.eventForEnabled(true);
 		try {
-			System.out.print("ShowObserver:begin\n");
-			aObs.eventForEnabled(true);
 			try {
 				Dialog owner_dialog = null;
 				Form owner_frame = null;
@@ -197,11 +197,11 @@ public class ActionImpl implements Action {
 					}
 				}
 				showObserver(aObs, owner_dialog, owner_frame, form_type);
-			} finally {
-				aObs.eventForEnabled(false);
+			} catch (LucteriosException e) {
+				ExceptionDlg.throwException(e);
 			}
-		} catch (LucteriosException e) {
-			ExceptionDlg.throwException(e);
+		} finally {
+			aObs.eventForEnabled(false);
 		}
 	}
 

@@ -154,17 +154,17 @@ public class CmpDate extends CmpAbstractEvent {
 
 		Vector month_list = new Vector();
 		month_list.add("Janvier");
-		month_list.add("F�vrier");
+		month_list.add("Février");
 		month_list.add("Mars");
 		month_list.add("Avril");
 		month_list.add("Mai");
 		month_list.add("Juin");
 		month_list.add("Juillet");
-		month_list.add("Ao�t");
+		month_list.add("Août");
 		month_list.add("Septembre");
 		month_list.add("Octobre");
 		month_list.add("Novembre");
-		month_list.add("D�cembre");
+		month_list.add("Décembre");
 		cmp_month = new javax.swing.JComboBox(month_list);
 		cmp_month.setName("cmp_month");
 		cmp_month.addActionListener(new ActionListener() {

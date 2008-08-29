@@ -252,6 +252,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			Dimension dialog = mGUIDialog.getSize();
 			mGUIDialog.setLocation((screen.width - dialog.width) / 2,
 					(screen.height - dialog.height) / 2);
+			mGUIDialog.setSize((int)(dialog.width*1.05), (int)(dialog.height*1.05));
 			SwingUtilities.invokeLater(this);
 			mGUIDialog.setVisible(true);
 		}

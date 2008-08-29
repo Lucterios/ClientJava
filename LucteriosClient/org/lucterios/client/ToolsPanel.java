@@ -272,8 +272,12 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 
 	public void setApplication(String aText, javax.swing.ImageIcon aIcon) {
 		String[] text = aText.split(" - ");
-		mApplicationText = text[0];
-		mApplicationDescription = text[1];
+		mApplicationText = "";
+		mApplicationDescription = "";
+		if (text.length>0)
+			mApplicationText = text[0];
+		if (text.length>1)
+			mApplicationDescription = text[1];
 		mApplicationIcon = aIcon;
 	}
 
