@@ -116,7 +116,7 @@ public class LogonBox extends JDialog implements ActionListener {
 		if ("BADAUTH".equals( aReason ))
 			lb_Reason.setText("Alias ou Mot de passe incorrect!");
 		else if ("BADSESS".equals( aReason ))
-			lb_Reason.setText("Session expir�e!");
+			lb_Reason.setText("Session expirée!");
 		else if ("BADFROMLOCATION".equals( aReason ))
 			lb_Reason.setText("Localisation de connection interdite!");
 		else {
