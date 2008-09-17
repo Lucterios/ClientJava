@@ -52,10 +52,10 @@ public class CmpTime extends CmpAbstractEvent {
 	}
 
 	public Map getRequete(String aActionIdent) {
-		String time_hour = new Integer(spe_hour.getNumber()).toString();
+		String time_hour = new Long(spe_hour.getNumber()).toString();
 		if (time_hour.length() == 1)
 			time_hour = "0" + time_hour;
-		String time_min = new Integer(spe_minute.getNumber()).toString();
+		String time_min = new Long(spe_minute.getNumber()).toString();
 		if (time_min.length() == 1)
 			time_min = "0" + time_min;
 		TreeMap tree_map = new TreeMap();

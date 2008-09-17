@@ -57,9 +57,9 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     private JButton upButton;
     private JButton downButton;
     private JTextField numberField;
-    private int number;
-    private int upperLimit;
-    private int bottomLimit;
+    private long number;
+    private long upperLimit;
+    private long bottomLimit;
     private boolean reverse;
     private String actionCommand = "SpinEdit";
     
@@ -84,7 +84,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * @param num start value
     */
     
-    public SpinEdit(int num) 
+    public SpinEdit(long num) 
     {
         init(num, 0, Integer.MAX_VALUE);
     }
@@ -98,12 +98,12 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * @param upperL upper limit
     */
     
-    public SpinEdit(int num, int bottomL, int upperL) 
+    public SpinEdit(long num, long bottomL, long upperL) 
     {
         init(num, bottomL, upperL);
     }
     
-    public void init(int num, int bottomL, int upperL) 
+    public void init(long num, long bottomL, long upperL) 
     {
         upperLimit = upperL;
         bottomLimit = bottomL;
@@ -115,7 +115,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
         setLayout(null);
         
         numberField = new ExtraField(this);
-        numberField.setText(Integer.toString(number));
+        numberField.setText(Long.toString(number));
         numberField.setEnabled(true);
         add(numberField);
 
@@ -172,12 +172,12 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * @param num new number
     */
     
-    public void setNumber(int num) 
+    public void setNumber(long num) 
     {
-        int old = number;
+    	long old = number;
         if(number <= upperLimit && number >= bottomLimit)
                 number = num;
-        numberField.setText(Integer.toString(number));
+        numberField.setText(Long.toString(number));
         firePropertyChange("number", old, number);
     }
 
@@ -185,7 +185,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * Returns the number on SpinEdit control.
     */
 
-    public int getNumber() 
+    public long getNumber() 
     {
         return number;
     }
@@ -220,7 +220,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     
     public void setUpperLimit(int limit) 
     {
-        int old = upperLimit;
+    	long old = upperLimit;
         upperLimit = limit;
         if (number>upperLimit)
             setNumber(upperLimit);
@@ -231,7 +231,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * Returns the upper limit.
     */
     
-    public int getUpperLimit() 
+    public long getUpperLimit() 
     {
         return upperLimit;
     }
@@ -242,9 +242,9 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * @param limit bottom limit
     */
     
-    public void setBottomLimit(int limit) 
+    public void setBottomLimit(long limit) 
     {
-        int old = bottomLimit;
+    	long old = bottomLimit;
         bottomLimit = limit;
         if (number<bottomLimit)
                 setNumber(bottomLimit);
@@ -255,7 +255,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
     * Returns the bottom limit.
     */
     
-    public int getBottomLimit() 
+    public long getBottomLimit() 
     {
         return bottomLimit;
     }
@@ -294,10 +294,10 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
 
     protected void checkNumberValue() 
     {
-        int old = number;
+    	long old = number;
         try
         {
-            int num = Integer.parseInt(numberField.getText());
+        	long num = Long.parseLong(numberField.getText());
             if(num <= upperLimit && num >= bottomLimit)
                 number = num;
         }
@@ -323,7 +323,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
 
     public void actionPerformed(ActionEvent e) 
     {
-        int old = number;
+    	long old = number;
         
         if(e.getActionCommand().equals( "numF" )) 
         {
@@ -349,7 +349,7 @@ public class SpinEdit extends JComponent  implements ActionListener,FocusListene
             else if(number > bottomLimit)
                 number -= 1;
         }
-        numberField.setText(Integer.toString(number));		
+        numberField.setText(Long.toString(number));		
         fireActionEvent();
         firePropertyChange("number", old, number);
     }

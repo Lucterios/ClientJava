@@ -146,6 +146,19 @@ public class SimpleParsing
             return aDefault;
         }
 	}
+
+	public double getAttributDouble(String aName,double aDefault)
+	{
+		String value=getAttribut(aName);
+        try
+        {
+            return new Double(value).doubleValue();
+        }
+        catch(java.lang.Exception e)
+        {
+            return aDefault;
+        }
+	}
 	
 	private String getContent(Element aItem)
 	{
@@ -228,12 +241,12 @@ public class SimpleParsing
         }
 	}
 
-	public float getCDataFloat(float aDefault)
+	public double getCDataDouble(double aDefault)
 	{
 		String value=getCData();
         try
         {
-            return new Float(value).floatValue();
+            return new Double(value).doubleValue();
         }
         catch(java.lang.Exception e)
         {

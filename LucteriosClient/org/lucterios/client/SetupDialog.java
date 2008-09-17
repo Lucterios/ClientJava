@@ -205,7 +205,7 @@ public class SetupDialog extends JDialog {
 			String name = txt_name.getText().trim();
 			String srv = txt_srv.getText().trim();
 			if ((name.length() != 0) && (srv.length() != 0)) {
-				mServer = newServer(name, srv, spe_port.getNumber(), txt_dir
+				mServer = newServer(name, srv, (int)(spe_port.getNumber()), txt_dir
 						.getText());
 				dispose();
 			}
@@ -551,7 +551,7 @@ public class SetupDialog extends JDialog {
 		try {
 			mConf.TitreDefault = txt_Title.getText().trim();
 			mConf.ProxyAdress = txt_proxyaddr.getText();
-			mConf.ProxyPort = spe_proxyport.getNumber();
+			mConf.ProxyPort = (int)(spe_proxyport.getNumber());
 			mConf.write();
 			dispose();
 		} catch (java.io.IOException ioe) {

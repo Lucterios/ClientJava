@@ -318,7 +318,7 @@ public class PreviewObserver extends JPanel implements PrintObserverAbstract,Pri
 	
 	private void changeEchelle()
 	{
-		int num=mEchelles.getNumber();
+		int num=(int)mEchelles.getNumber();
 		mSheet.setSizeEchelle(num);
 	    mHeader.setSizeEchelle(num);
 	    mFooter.setSizeEchelle(num);

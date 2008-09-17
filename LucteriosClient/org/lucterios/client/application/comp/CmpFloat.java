@@ -36,8 +36,8 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	class FloatField extends JTextField {
 		private static final long serialVersionUID = 1L;
-		float mMinVal = Float.MIN_VALUE;
-		float mMaxVal = Float.MAX_VALUE;
+		double mMinVal = Double.MIN_VALUE;
+		double mMaxVal = Double.MAX_VALUE;
 		int mPrecVal = 2;
 
 		public FloatField() {
@@ -49,11 +49,10 @@ public class CmpFloat extends CmpAbstractEvent {
 			});
 		}
 
-		private String convertValue(float init_value) {
-			float Val_r = (float) Math.min(mMaxVal, Math.max(mMinVal,
-					init_value));
+		private String convertValue(double init_value) {
+			double Val_r = Math.min(mMaxVal, Math.max(mMinVal,init_value));
 			long val_i = Math.round(Val_r * Math.pow(10, mPrecVal));
-			String val = new Float(val_i / Math.pow(10, mPrecVal)).toString();
+			String val = new Double(val_i / Math.pow(10, mPrecVal)).toString();
 			int pos = val.indexOf(".");
 			if (pos != -1) {
 				if (mPrecVal > 0)
@@ -65,25 +64,25 @@ public class CmpFloat extends CmpAbstractEvent {
 			return val;
 		}
 
-		public void setRange(float aMinVal, float aMaxVal, int aPrecVal) {
+		public void setRange(double aMinVal, double aMaxVal, int aPrecVal) {
 			mMinVal = aMinVal;
 			mMaxVal = aMaxVal;
 			mPrecVal = Math.max(0, aPrecVal);
 		}
 
-		public void setValue(float aVal) {
+		public void setValue(double aVal) {
 			setText(convertValue(aVal));
 		}
 
-		protected float getValue(String aValue) {
+		protected double getValue(String aValue) {
 			try {
-				return new Float(aValue).floatValue();
+				return new Double(aValue).doubleValue();
 			} catch (NumberFormatException e) {
 				return mMinVal;
 			}
 		}
 
-		public float getValue() {
+		public double getValue() {
 			return getValue(getText());
 		}
 
@@ -151,7 +150,7 @@ public class CmpFloat extends CmpAbstractEvent {
 	public Map getRequete(String aActionIdent) {
 		TreeMap tree_map = new TreeMap();
 		if (mIsInteger)
-			tree_map.put(getName(), new Integer(getCmpInt().getNumber())
+			tree_map.put(getName(), new Long(getCmpInt().getNumber())
 					.toString());
 		else
 			tree_map.put(getName(), getCmpFloat().getText());
@@ -187,10 +186,10 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		float min_val = mXmlItem.getAttributFloat("min", Float.MIN_VALUE);
-		float max_val = mXmlItem.getAttributFloat("max", Float.MAX_VALUE);
+		double min_val = mXmlItem.getAttributDouble("min", Double.MIN_VALUE);
+		double max_val = mXmlItem.getAttributDouble("max", Double.MAX_VALUE);
 		int prec_val = mXmlItem.getAttributInt("prec", 2);
-		float val = mXmlItem.getCDataFloat(min_val);
+		double val = mXmlItem.getCDataDouble(min_val);
 		mIsInteger = (prec_val == 0);
 		if (mIsInteger) {
 			getCmpInt().init(Math.round(val), Math.round(min_val),

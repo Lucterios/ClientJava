@@ -114,8 +114,8 @@ public class CmpDate extends CmpAbstractEvent {
 		edit_date.setEnabled(aEnabled);
 	}
 
-	private String convertIntToStr(int value, int digit) {
-		String result = new Integer(value).toString();
+	private String convertIntToStr(long value, int digit) {
+		String result = new Long(value).toString();
 		while (result.length() < digit)
 			result = "0" + result;
 		return result;
@@ -237,8 +237,8 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected void fillData() {
-		date_simple.selector.set(spe_year.getNumber(), cmp_month
-				.getSelectedIndex(), spe_day.getNumber());
+		date_simple.selector.set((int)(spe_year.getNumber()), cmp_month
+				.getSelectedIndex(),(int)(spe_day.getNumber()));
 	}
 
 	protected void refreshData() {

@@ -105,7 +105,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 			case TypeInt:
 				return Integer.class;
 			case TypeFloat:
-				return Float.class;
+				return Double.class;
 			case TypeBool:
 				return Boolean.class;
 			case TypeIcon:
@@ -126,7 +126,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				case TypeInt:
 					return new Integer(valuetxt);
 				case TypeFloat:
-					return new Float(valuetxt);
+					return new Double(valuetxt);
 				case TypeBool:
 					return new Boolean(valuetxt.toLowerCase().equalsIgnoreCase(
 							"oui"));
