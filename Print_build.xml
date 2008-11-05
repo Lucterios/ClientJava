@@ -14,6 +14,7 @@
  
 	<target name="tests" >
 		<junit fork="yes" printsummary="no" haltonfailure="no">
+			<jvmarg value="-Djava.awt.headless=true"/>
 			<batchtest fork="yes" todir="${projet.bin.dir}" >
 				<fileset dir="${projet.bin.dir}">
 					<include name="**/AllTests.class" />
