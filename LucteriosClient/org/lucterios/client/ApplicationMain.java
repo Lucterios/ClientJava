@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -668,13 +669,12 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			String aServerVersion, String aCopyRigth, String aLogoName,
 			String aLogin, String aRealName) {
 		mLogoIconName = aLogoName;
-		try {
-			mLogoIcon = Toolkit.getDefaultToolkit().getImage(
-					new java.net.URL(mLogoIconName));
-			setIconImage(mLogoIcon);
-		} catch (java.net.MalformedURLException urle) {
-			throwException(urle);
-		}
+		ImageIcon img=Singletons.Transport().getIcon(mLogoIconName);
+		if (img!=null) 
+			mLogoIcon = img.getImage();
+		else
+			mLogoIcon = null;
+		setIconImage(mLogoIcon);
 		mTitle = aTitle;
 		String sub_title = aSubTitle;
 		if (!sub_title.equals( "" ))
