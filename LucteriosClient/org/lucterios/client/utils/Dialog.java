@@ -77,6 +77,7 @@ public class Dialog extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 				close();
+				System.gc();
 			}
 		});
 	}

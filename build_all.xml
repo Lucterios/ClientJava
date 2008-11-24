@@ -4,8 +4,8 @@
 	<property name="projet.lpk.dir" value="bin"/>
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="0"/>
-	<property name="projet.version.min" value="36"/>
-	<property name="projet.version.release" value="20"/>
+	<property name="projet.version.min" value="40"/>
+	<property name="projet.version.release" value="1"/>
 
 	<target name="all">
 		<buildnumber />

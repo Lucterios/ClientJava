@@ -38,9 +38,7 @@ public class SetupDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static final int DEFAULT_PORT = 80;
-
+	
 	protected Image mFontImg;
 
 	class NewServer extends JDialog {
@@ -58,6 +56,8 @@ public class SetupDialog extends JDialog {
 		private javax.swing.JTextField txt_srv;
 		private javax.swing.JLabel lbl_port;
 		private org.lucterios.utils.graphic.SpinEdit spe_port;
+		private javax.swing.JLabel lbl_mode;
+		private javax.swing.JComboBox sel_mode;
 		private javax.swing.JLabel lbl_dir;
 		private javax.swing.JTextField txt_dir;
 
@@ -77,6 +77,7 @@ public class SetupDialog extends JDialog {
 			txt_srv.setText(aServer.HostName);
 			spe_port.setNumber(aServer.HostPort);
 			txt_dir.setText(aServer.Directory);
+			sel_mode.setSelectedIndex(aServer.ConnectionMode);
 		}
 
 		private void Initial() {
@@ -85,7 +86,8 @@ public class SetupDialog extends JDialog {
 			getContentPane().setLayout(new java.awt.GridBagLayout());
 			Init();
 			InitBtn();
-			spe_port.init(DEFAULT_PORT, 10, 9999);
+			spe_port.init(LucteriosConfiguration.DEFAULT_PORT, 10, 9999);
+			sel_mode.setSelectedIndex(LucteriosConfiguration.MODE_NORMAL);
 			setResizable(true);
 			setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 			pack();
@@ -136,28 +138,26 @@ public class SetupDialog extends JDialog {
 			pnl_new_btn = new JAdvancePanel();
 			pnl_new_btn.setFontImage(mFontImg, JAdvancePanel.TEXTURE);
 			pnl_new_btn.setLayout(new java.awt.GridBagLayout());
-			getContentPane().add(pnl_new_btn,
-					getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 1));
+			getContentPane().add(pnl_new_btn,getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 1));
 
-			btn_Del = new javax.swing.JButton();
 			lbl_name = new javax.swing.JLabel();
 			txt_name = new javax.swing.JTextField();
 			lbl_srv = new javax.swing.JLabel();
 			txt_srv = new javax.swing.JTextField();
-			btn_Add = new javax.swing.JButton();
-
+			lbl_mode=new javax.swing.JLabel();
+			sel_mode=new javax.swing.JComboBox(LucteriosConfiguration.MODE_TEXTS);
 			lbl_port = new javax.swing.JLabel();
 			spe_port = new org.lucterios.utils.graphic.SpinEdit();
 			lbl_dir = new javax.swing.JLabel();
 			txt_dir = new javax.swing.JTextField();
+			btn_Del = new javax.swing.JButton();
+			btn_Add = new javax.swing.JButton();
 
 			lbl_name.setFont(new java.awt.Font("Dialog", 0, 10));
 			lbl_name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lbl_name.setText("Nom");
-			lbl_name
-					.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			pnl_new_btn.add(lbl_name, getCnt(0, 0, 1, 1,
-					GridBagConstraints.BOTH, 0));
+			lbl_name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+			pnl_new_btn.add(lbl_name, getCnt(0, 0, 1, 1,GridBagConstraints.BOTH, 0));
 			cnt = getCnt(1, 0, 3, 1, GridBagConstraints.BOTH, 0);
 			cnt.weightx = 1;
 			pnl_new_btn.add(txt_name, cnt);
@@ -165,36 +165,39 @@ public class SetupDialog extends JDialog {
 			lbl_srv.setFont(new java.awt.Font("Dialog", 0, 10));
 			lbl_srv.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lbl_srv.setText("Serveur");
-			lbl_srv
-					.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			pnl_new_btn.add(lbl_srv, getCnt(0, 1, 1, 1,
-					GridBagConstraints.BOTH, 0));
+			lbl_srv.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+			pnl_new_btn.add(lbl_srv, getCnt(0, 1, 1, 1,GridBagConstraints.BOTH, 0));
 			txt_srv.setPreferredSize(new Dimension(100, 19));
 			txt_srv.setMinimumSize(new Dimension(100, 19));
-			cnt = getCnt(1, 1, 1, 1, GridBagConstraints.BOTH, 0);
+			cnt = getCnt(1, 1, 3, 1, GridBagConstraints.BOTH, 0);
 			cnt.weightx = 1;
 			pnl_new_btn.add(txt_srv, cnt);
 
+			lbl_mode.setFont(new java.awt.Font("Dialog", 0, 10));
+			lbl_mode.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+			lbl_mode.setText("Mode");
+			lbl_mode.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+			pnl_new_btn.add(lbl_mode, getCnt(0, 2, 1, 1,GridBagConstraints.BOTH, 0));
+			cnt = getCnt(1, 2, 1, 1, GridBagConstraints.BOTH, 0);
+			cnt.weightx = 1;
+			pnl_new_btn.add(sel_mode, cnt);
+			
 			lbl_port.setFont(new java.awt.Font("Dialog", 0, 10));
 			lbl_port.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lbl_port.setText("Port");
-			lbl_port
-					.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			pnl_new_btn.add(lbl_port, getCnt(2, 1, 1, 1,
-					GridBagConstraints.BOTH, 0));
+			lbl_port.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+			pnl_new_btn.add(lbl_port, getCnt(2, 2, 1, 1,GridBagConstraints.BOTH, 0));
 			spe_port.setPreferredSize(new Dimension(40, 0));
 			spe_port.setMinimumSize(new Dimension(40, 0));
-			cnt = getCnt(3, 1, 1, 1, GridBagConstraints.BOTH, 0);
+			cnt = getCnt(3, 2, 1, 1, GridBagConstraints.BOTH, 0);
 			cnt.weightx = 1;
 			pnl_new_btn.add(spe_port, cnt);
 
 			lbl_dir.setFont(new java.awt.Font("Dialog", 0, 10));
 			lbl_dir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lbl_dir.setText("Répertoire");
-			lbl_dir
-					.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			pnl_new_btn.add(lbl_dir, getCnt(0, 2, 1, 1,
-					GridBagConstraints.BOTH, 0));
+			lbl_dir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+			pnl_new_btn.add(lbl_dir, getCnt(0, 2, 1, 1,GridBagConstraints.BOTH, 0));
 			txt_dir.setText("/");
 			cnt = getCnt(1, 2, 3, 1, GridBagConstraints.BOTH, 0);
 			cnt.weightx = 1;
@@ -205,8 +208,9 @@ public class SetupDialog extends JDialog {
 			String name = txt_name.getText().trim();
 			String srv = txt_srv.getText().trim();
 			if ((name.length() != 0) && (srv.length() != 0)) {
+				int mode=sel_mode.getSelectedIndex();
 				mServer = newServer(name, srv, (int)(spe_port.getNumber()), txt_dir
-						.getText());
+						.getText(), mode);
 				dispose();
 			}
 		}
@@ -262,8 +266,8 @@ public class SetupDialog extends JDialog {
 	}
 
 	public LucteriosConfiguration.Server newServer(String aServerName,
-			String aHostName, int aHostPort, String aDirectory) {
-		return mConf.newServer(aServerName, aHostName, aHostPort, aDirectory);
+			String aHostName, int aHostPort, String aDirectory,int aConnectionMode) {
+		return mConf.newServer(aServerName, aHostName, aHostPort, aDirectory, aConnectionMode);
 	}
 
 	public GridBagConstraints getCnt(int x, int y, int w, int h, int fill,
@@ -374,8 +378,7 @@ public class SetupDialog extends JDialog {
 		lbl_tbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		pnl_main.add(lbl_tbl, getCnt(0, 2, 3, 1, GridBagConstraints.BOTH, 0));
 		cmp_tbl.setFocusable(true);
-		cmp_tbl
-				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		cmp_tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		cmp_tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
 		cmp_tbl.setRowSelectionAllowed(true);
 		selectListener();

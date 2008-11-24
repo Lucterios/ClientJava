@@ -343,6 +343,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			if (mGUIFrame != null)
 				mGUIFrame.dispose();
 			super.close();
+			System.gc();
 		}
 	}
 

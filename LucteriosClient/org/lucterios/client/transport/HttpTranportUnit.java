@@ -46,7 +46,7 @@ public class HttpTranportUnit extends TestCase {
 		assertEquals("Port connect a", 0, http_transport.getCurrentPort());
 		assertEquals("Session initial", "", http_transport.getSession());
 
-		http_transport.connectToServer("localhost", "lucterios", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80, false);
 		http_transport.setSession("ABCDEF12345");
 		assertEquals("Server connect b", "localhost", http_transport
 				.getServerHost());
@@ -57,7 +57,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testStatic() {
-		http_transport.connectToServer("localhost", "lucterios", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80, false);
 		http_transport.setSession("ABCDEF12345");
 
 		HttpTransport new_http_transport = new HttpTransportImpl();
@@ -71,7 +71,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testImage() {
-		http_transport.connectToServer("localhost", "lucterios", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80, false);
 		ImageIcon null_icon = http_transport.getIcon(null);
 		assertTrue("Null icon", null_icon == null);
 
@@ -85,7 +85,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActions() throws LucteriosException {
-		http_transport.connectToServer("localhost", "lucterios", 80);
+		http_transport.connectToServer("localhost", "lucterios", 80, false);
 		String xml_retour;
 		xml_retour = http_transport
 				.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
@@ -120,5 +120,17 @@ public class HttpTranportUnit extends TestCase {
 				"3eme reponse",
 				"<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Menu' source_extension='CORE' source_action='menu'>",
 				xml_retour.substring(0, 128));
+	}
+
+	public void testActionsSecurity() throws LucteriosException {
+		http_transport.connectToServer("localhost", "Lucterios", 433, true);
+		String xml_retour;
+		xml_retour = http_transport.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
+		xml_retour = xml_retour.replaceAll("\n", "");
+		System.out.println("1er reponse:" + xml_retour);
+		assertEquals(
+				"1er reponse",
+				"<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Auth' source_extension='CORE' source_action='authentification'><![CDATA[NEEDAUTH]]></REPONSE></REPONSES>",
+				xml_retour);
 	}
 }

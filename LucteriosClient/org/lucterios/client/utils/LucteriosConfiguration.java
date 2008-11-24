@@ -30,10 +30,16 @@ public class LucteriosConfiguration extends
 		javax.swing.table.AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	public final static String CONF_FILE_NAME = "LucteriosClient.conf";
+	public final static int DEFAULT_PORT = 80;
 
+	public final static int MODE_NORMAL=0;
+	public final static int MODE_SECURITY=1;
+
+	public final static String[] MODE_TEXTS=new String[]{"Normal", "Sécurisé" };
+	
 	public class Server {
 		public Server(String aServerName, String aHostName, int aHostPort,
-				String aDirectory) {
+				String aDirectory,int aConnectionMode) {
 			ServerName = aServerName;
 			HostName = aHostName;
 			HostPort = aHostPort;
@@ -41,12 +47,14 @@ public class LucteriosConfiguration extends
 			if ((Directory.length() == 0)
 					|| (Directory.charAt(Directory.length() - 1) != '/'))
 				Directory = Directory + "/";
+			ConnectionMode=aConnectionMode;
 		}
 
 		public String ServerName;
 		public String HostName;
 		public int HostPort;
 		public String Directory;
+		public int ConnectionMode;
 
 		public String toString() {
 			return ServerName;
@@ -56,8 +64,8 @@ public class LucteriosConfiguration extends
 	private Vector mServers;
 
 	public Server newServer(String aServerName, String aHostName,
-			int aHostPort, String aDirectory) {
-		return new Server(aServerName, aHostName, aHostPort, aDirectory);
+			int aHostPort, String aDirectory,int aConnectionMode) {
+		return new Server(aServerName, aHostName, aHostPort, aDirectory,aConnectionMode);
 	}
 
 	public LucteriosConfiguration() throws IOException {
@@ -92,8 +100,8 @@ public class LucteriosConfiguration extends
 	}
 
 	public void AddServer(String aServerName, String aHostName, int aHostPort,
-			String aDirectory) {
-		mServers.add(new Server(aServerName, aHostName, aHostPort, aDirectory));
+			String aDirectory,int aConnectionMode) {
+		mServers.add(new Server(aServerName, aHostName, aHostPort, aDirectory,aConnectionMode));
 	}
 
 	public void read() throws IOException {
@@ -130,10 +138,11 @@ public class LucteriosConfiguration extends
 			ProxyPort = proxy_port.getCDataInt(0);
 		SimpleParsing[] servers = root.getSubTag("SERVER");
 		for (int item_idx = 0; item_idx < servers.length; item_idx++) {
-			int port_host = servers[item_idx].getAttributInt("port", 80);
+			int port_host = servers[item_idx].getAttributInt("port", DEFAULT_PORT);
+			int mode = servers[item_idx].getAttributInt("mode", MODE_NORMAL);
 			AddServer(servers[item_idx].getAttribut("name"), servers[item_idx]
 					.getAttribut("host"), port_host, servers[item_idx]
-					.getAttribut("dir"));
+					.getAttribut("dir"),mode);
 		}
 	}
 
@@ -148,7 +157,7 @@ public class LucteriosConfiguration extends
 			Server serv = GetServer(index);
 			file_conf.write("\t<SERVER name='" + serv.ServerName + "' host='"
 					+ serv.HostName + "' port='" + serv.HostPort + "' dir='"
-					+ serv.Directory + "'/>\n");
+					+ serv.Directory + "' mode='" + serv.ConnectionMode + "'/>\n");
 		}
 		file_conf.write("</CONFIG>\n");
 		file_conf.flush();
@@ -165,7 +174,7 @@ public class LucteriosConfiguration extends
 	}
 
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	public int getRowCount() {
@@ -179,9 +188,11 @@ public class LucteriosConfiguration extends
 		case 1:
 			return "Serveur";
 		case 2:
-			return "Port";
+			return "Mode";
 		case 3:
-			return "R�pertoire";
+			return "Port";
+		case 4:
+			return "Répertoire";
 		default:
 			return "???";
 		}
@@ -198,8 +209,10 @@ public class LucteriosConfiguration extends
 		case 1:
 			return GetServer(row).HostName;
 		case 2:
-			return new Integer(GetServer(row).HostPort);
+			return MODE_TEXTS[GetServer(row).ConnectionMode];
 		case 3:
+			return new Integer(GetServer(row).HostPort);
+		case 4:
 			return GetServer(row).Directory;
 		default:
 			return null;

@@ -53,6 +53,7 @@ public class FormList implements Form.NotifyFrameList {
 
 	public void clearShortCut() {
 		mShortCut.clear();
+		System.gc();
 	}
 
 	public void newShortCut(String aActionName, KeyStroke aShortCut,
@@ -112,6 +113,7 @@ public class FormList implements Form.NotifyFrameList {
 	public void removeFrame(Form aForm) {
 		aForm.setNotifyFrameList(null);
 		mList.remove(aForm);
+		System.gc();
 	}
 
 	public int count() {

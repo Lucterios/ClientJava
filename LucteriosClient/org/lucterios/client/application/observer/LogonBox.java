@@ -30,6 +30,7 @@ import javax.swing.JComboBox;
 
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.client.utils.LucteriosConfiguration;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.JAdvancePanel;
@@ -61,8 +62,12 @@ public class LogonBox extends JDialog implements ActionListener {
 	JTextField txt_User = new JTextField();
 	JPasswordField txt_PassWord = new JPasswordField();
 
-	static String mLastUserLogon = "";
-	static Server LastServerIndex = null;
+	private static String mLastUserLogon = "";
+	private static Server mLastServer = null;
+
+	public static Server getLastServer() {
+		return mLastServer;
+	}
 
 	public int mModalResult = 0;
 
@@ -73,20 +78,20 @@ public class LogonBox extends JDialog implements ActionListener {
 		if (cmp_Server != null)
 			editPnl.remove(cmp_Server);
 		if (Singletons.Configuration.ServerCount() == 0) {
-			LastServerIndex = null;
+			mLastServer = null;
 			txt_Server.setText("");
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(false);
 		} else if (Singletons.Configuration.ServerCount() == 1) {
-			LastServerIndex = Singletons.Configuration.GetServer(0);
-			txt_Server.setText(LastServerIndex.ServerName);
+			mLastServer = Singletons.Configuration.GetServer(0);
+			txt_Server.setText(mLastServer.ServerName);
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		} else {
-			if (LastServerIndex == null)
-				LastServerIndex = Singletons.Configuration.GetServer(0);
+			if (mLastServer == null)
+				mLastServer = Singletons.Configuration.GetServer(0);
 			cmp_Server = new JComboBox(Singletons.Configuration.getServers());
-			cmp_Server.setSelectedItem(LastServerIndex);
+			cmp_Server.setSelectedItem(mLastServer);
 			cmp_Server.setVisible(true);
 			cmp_Server.setMinimumSize(new java.awt.Dimension(150, 19));
 			cmp_Server.setPreferredSize(new java.awt.Dimension(150, 19));
@@ -108,7 +113,7 @@ public class LogonBox extends JDialog implements ActionListener {
 
 	public void actionPerformed(ActionEvent event) {
 		JComboBox cb = (JComboBox) event.getSource();
-		LastServerIndex = (Server) cb.getSelectedItem();
+		mLastServer = (Server) cb.getSelectedItem();
 	}
 
 	private void setReason(String aReason) {
@@ -145,8 +150,8 @@ public class LogonBox extends JDialog implements ActionListener {
 			HttpTransport transp = Singletons.Transport();
 			transp.setProxy(Singletons.Configuration.ProxyAdress,
 					Singletons.Configuration.ProxyPort);
-			transp.connectToServer(LastServerIndex.HostName,
-					LastServerIndex.Directory, LastServerIndex.HostPort);
+			transp.connectToServer(mLastServer.HostName,
+					mLastServer.Directory, mLastServer.HostPort, mLastServer.ConnectionMode==LucteriosConfiguration.MODE_SECURITY);
 			mLastUserLogon = txt_User.getText();
 			Singletons.Factory().setAuthentification(txt_User.getText(),
 					new String(txt_PassWord.getPassword()));

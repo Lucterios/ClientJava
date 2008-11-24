@@ -28,6 +28,10 @@ if ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
 	{
 		global $extention_description;
 		global $extention_appli;
+		$http_referer=$_SERVER["HTTP_REFERER"];
+		$pos=strpos($http_referer,'://');
+		$protocol=substr($http_referer,0,$pos);
+		$mode=($protocol=='https')?1:0;		
 		$server_name=$_SERVER["SERVER_NAME"];
 		$server_port=$_SERVER["SERVER_PORT"];
 		$server_dir=$_SERVER["PHP_SELF"];
@@ -41,7 +45,7 @@ if ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
 		$conf_content.="<?xml version='1.0' encoding='ISO-8859-1'?>\n";
 		$conf_content.="<CONFIG>\n";
 		$conf_content.="	<TITLE>$extention_description</TITLE>\n";
-		$conf_content.="	<SERVER name='$extention_appli' host='$server_name' port='$server_port' dir='$server_dir'/>\n";
+		$conf_content.="	<SERVER name='$extention_appli' host='$server_name' port='$server_port' dir='$server_dir' mode='$mode'/>\n";
 		$conf_content.="</CONFIG>\n";
 		return $conf_content;
 	}

@@ -32,15 +32,17 @@ public class HttpTransportStub implements HttpTransport {
 	static private int mCurrentPort = 0;
 	static private String mRootPath = "";
 	static private String mSession = "";
+	static private boolean mSecurity=false;
 
 	public HttpTransportStub() {
 		super();
 	}
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort) {
+	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity) {
 		mCurrentPort = aPort;
 		mServerHost = aServerHost;
 		mRootPath = aRootPath;
+		mSecurity = aSecurity;
 		if ((mRootPath.length() > 0) && (mRootPath.charAt(0) != '/'))
 			mRootPath = "/" + mRootPath;
 	}
@@ -53,6 +55,7 @@ public class HttpTransportStub implements HttpTransport {
 		mServerHost = "";
 		mCurrentPort = 0;
 		mRootPath = "";
+		mSecurity=false;
 	}
 
 	public String getSession() {
@@ -65,6 +68,10 @@ public class HttpTransportStub implements HttpTransport {
 
 	public int getCurrentPort() {
 		return mCurrentPort;
+	}
+
+	public boolean getSecurity() {
+		return mSecurity;
 	}
 
 	public String getRootPath() {
@@ -114,5 +121,12 @@ public class HttpTransportStub implements HttpTransport {
 
 	public int getFileLength(String webFile) throws LucteriosException {
 		return 0;
+	}
+
+	public String getProtocol() {
+		if (mSecurity)
+			return "https";
+		else
+			return "http";
 	}
 }

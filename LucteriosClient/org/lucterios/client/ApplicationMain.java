@@ -50,7 +50,6 @@ import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
-import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.client.utils.FormList;
@@ -58,6 +57,7 @@ import org.lucterios.client.utils.LookAndFeelMenuItem;
 import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.client.utils.Form.NotifyFrameChange;
 import org.lucterios.client.utils.LookAndFeelMenuItem.LookAndFeelCallBack;
+import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.LInsets;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -90,6 +90,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private JMenuBar menuBar;
 	private JMenuItem refreshMenuItem;
 
+	private JLabel mConnectionLogo;
 	private JLabel mLogName;
 	private JLabel mServer;
 	private TimeLabel mTimeValue;
@@ -120,12 +121,14 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private Action mRefreshMenuAction;
 	private Action mContentMenuAction;
 	private Action mAboutAction;
+	private boolean mLogActivated;
 
 	private ProgressPanel mProgressPanelTop;
 	private ProgressPanel mProgressPanelBottom;
 
-	public ApplicationMain() {
+	public ApplicationMain(boolean aLogActivated) {
 		super();
+		mLogActivated=aLogActivated;
 		setVisible(false);
 		initialize();
 		initAction();
@@ -218,7 +221,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						while (mFormList.count() > 0) {
 							mFormList.get(0).dispose();
-							mFormList.get(0).Close();
 						}
 					}
 				}, javax.swing.KeyStroke.getKeyStroke(
@@ -330,7 +332,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		getContentPane().add(mProgressPanelBottom, cnt);
 
 		mStatBarPnl = new JPanel();
-		mStatBarPnl.setLayout(new BorderLayout());
+		mStatBarPnl.setLayout(new GridBagLayout());
 		mStatBarPnl.setFont(new Font("TimesRoman", Font.PLAIN, 9));
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
@@ -340,16 +342,43 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.fill = GridBagConstraints.BOTH;
 		getContentPane().add(mStatBarPnl, cnt);
 
+		mConnectionLogo = new JLabel();
+		mConnectionLogo.setHorizontalAlignment(JLabel.CENTER);
+		cnt = new GridBagConstraints();
+		cnt.gridx = 0;
+		cnt.gridy = 0;
+		cnt.weightx = 0;
+		cnt.weighty = 0;
+		cnt.fill = GridBagConstraints.BOTH;
+		mStatBarPnl.add(mConnectionLogo, cnt);
 		mLogName = new JLabel();
 		mLogName.setFont(new Font("TimesRoman", Font.BOLD, 9));
 		mLogName.setHorizontalAlignment(JLabel.CENTER);
-		mStatBarPnl.add(mLogName, BorderLayout.WEST);
+		cnt = new GridBagConstraints();
+		cnt.gridx = 1;
+		cnt.gridy = 0;
+		cnt.weightx = 0;
+		cnt.weighty = 0;
+		cnt.fill = GridBagConstraints.BOTH;
+		mStatBarPnl.add(mLogName, cnt);
 		mServer = new JLabel();
 		mServer.setFont(new Font("TimesRoman", Font.PLAIN, 9));
 		mServer.setHorizontalAlignment(JLabel.CENTER);
-		mStatBarPnl.add(mServer, BorderLayout.CENTER);
-		mTimeValue = new TimeLabel();
-		mStatBarPnl.add(mTimeValue, BorderLayout.EAST);
+		cnt = new GridBagConstraints();
+		cnt.gridx = 2;
+		cnt.gridy = 0;
+		cnt.weightx = 1;
+		cnt.weighty = 0;
+		cnt.fill = GridBagConstraints.BOTH;
+		mStatBarPnl.add(mServer, cnt);
+		mTimeValue = new TimeLabel(mLogActivated);
+		cnt = new GridBagConstraints();
+		cnt.gridx = 3;
+		cnt.gridy = 0;
+		cnt.weightx = 0;
+		cnt.weighty = 0;
+		cnt.fill = GridBagConstraints.BOTH;
+		mStatBarPnl.add(mTimeValue, cnt);
 
 		mTimeValue.start();
 	}
@@ -652,12 +681,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			setTitle(mTitle + " - " + sub_title);
 		else
 			setTitle(mTitle);
-		HttpTransport transp = Singletons.Transport();
-		String server_cnx = transp.getServerHost() + "/";
-		if (!"/".equals( transp.getRootPath() ))
-			server_cnx += transp.getRootPath();
+		Server server=LogonBox.getLastServer();
+		mConnectionLogo.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("resources/connection"+server.ConnectionMode+".png")));
 		mLogName.setText(aRealName);
-		mServer.setText(aLogin + "@" + server_cnx);
+		mServer.setText(aLogin + "@" + server.ServerName);
 		mVersion = aVersion;
 		mServerVersion = aServerVersion;
 		mCopyRigth = aCopyRigth;

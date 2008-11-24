@@ -158,6 +158,10 @@ public class Logging
     {
         
     }
+    
+    public boolean isLogActivate() {
+    	return (mLogger!=null);
+    }
 
     public void setDebugLevel(String aLevelParam)
     {

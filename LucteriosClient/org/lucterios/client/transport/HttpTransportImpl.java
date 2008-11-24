@@ -33,7 +33,9 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
 import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.protocol.Protocol;
 
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.Logging;
@@ -52,20 +54,23 @@ public class HttpTransportImpl implements HttpTransport {
 
 	static private String mProxyServer = "";
 	static private int mProxyPort = 0;
+	static private boolean mSecurity=false;
 
 	private org.apache.commons.httpclient.HttpClient m_Cnx = null;
 	private ImageCache imageCache = null;
 
 	public HttpTransportImpl() {
 		super();
+		Protocol.registerProtocol("https",new Protocol("https", new EasySSLProtocolSocketFactory(),443));
 		m_Cnx = new org.apache.commons.httpclient.HttpClient();
 		imageCache = new ImageCache(this);
 	}
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort) {
+	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity) {
 		mCurrentPort = aPort;
 		mServerHost = aServerHost;
 		mRootPath = aRootPath;
+		mSecurity = aSecurity;
 		if ((mRootPath.length() > 0) && (mRootPath.charAt(0) != '/'))
 			mRootPath = "/" + mRootPath;
 	}
@@ -89,6 +94,7 @@ public class HttpTransportImpl implements HttpTransport {
 		mRootPath = "";
 		mProxyServer = "";
 		mProxyPort = 0;
+		mSecurity=false;
 	}
 
 	public String getSession() {
@@ -103,6 +109,17 @@ public class HttpTransportImpl implements HttpTransport {
 		return mCurrentPort;
 	}
 
+	public boolean getSecurity() {
+		return mSecurity;
+	}
+
+	public String getProtocol() {
+		if (mSecurity)
+			return "https";
+		else
+			return "http";
+	}
+	
 	public String getRootPath() {
 		return mRootPath;
 	}
@@ -118,13 +135,13 @@ public class HttpTransportImpl implements HttpTransport {
 	private java.net.URL getUrl(String aWebName) {
 		if (aWebName != null) {
 			try {
-				if (aWebName.startsWith("http://"))
+				if (aWebName.startsWith("http://") || aWebName.startsWith("https://"))
 					return new java.net.URL(aWebName);
 				if ((aWebName.length() > 0) && (aWebName.charAt(0) != '/')
 						&& (mRootPath.length() > 0)
 						&& (mRootPath.charAt(mRootPath.length() - 1) != '/'))
 					aWebName = "/" + aWebName;
-				return new java.net.URL("http", mServerHost, mCurrentPort,
+				return new java.net.URL(getProtocol(), mServerHost, mCurrentPort,
 						mRootPath + aWebName);
 			} catch (MalformedURLException e) {
 				return null;

@@ -276,6 +276,7 @@ public class ObserverTemplate extends ObserverAbstract {
 			super.close();
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
+			System.gc();
 		}
 	}
 

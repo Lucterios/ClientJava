@@ -68,7 +68,7 @@ class Main {
 				CustomManager.initalize();
 				if (args.length == 1)
 					Logging.getInstance().setDebugLevel(args[0]);
-				main = new ApplicationMain();
+				main = new ApplicationMain(Logging.getInstance().isLogActivate());
 				main.setIconImage(Toolkit.getDefaultToolkit().getImage(
 						main.getClass().getResource("resources/connect.png")));
 				ActionListener run_setup_dlg = main.getRunSetupDialog();

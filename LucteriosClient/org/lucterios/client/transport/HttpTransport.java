@@ -38,9 +38,13 @@ public interface HttpTransport {
 
 	public String getServerHost();
 
+	public boolean getSecurity();
+
+	public String getProtocol();
+	
 	public void setProxy(String aProxyServer, int aProxyPort);
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort);
+	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity);
 
 	public void closeConnection();
 

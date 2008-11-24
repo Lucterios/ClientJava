@@ -195,6 +195,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			super.close();
+			System.gc();
 		}
 	}
 

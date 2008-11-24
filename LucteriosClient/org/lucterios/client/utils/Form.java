@@ -72,6 +72,7 @@ public class Form extends JFrame {
 			public void windowClosed(WindowEvent e) {
 				Close();
 				Change();
+				System.gc();
 			}
 		});
 	}
