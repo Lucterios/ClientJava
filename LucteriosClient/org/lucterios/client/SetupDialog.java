@@ -197,9 +197,9 @@ public class SetupDialog extends JDialog {
 			lbl_dir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lbl_dir.setText("Répertoire");
 			lbl_dir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			pnl_new_btn.add(lbl_dir, getCnt(0, 2, 1, 1,GridBagConstraints.BOTH, 0));
+			pnl_new_btn.add(lbl_dir, getCnt(0, 3, 1, 1,GridBagConstraints.BOTH, 0));
 			txt_dir.setText("/");
-			cnt = getCnt(1, 2, 3, 1, GridBagConstraints.BOTH, 0);
+			cnt = getCnt(1, 3, 3, 1, GridBagConstraints.BOTH, 0);
 			cnt.weightx = 1;
 			pnl_new_btn.add(txt_dir, cnt);
 		}
