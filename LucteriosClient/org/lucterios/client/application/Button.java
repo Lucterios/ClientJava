@@ -37,6 +37,7 @@ public class Button extends JButton {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final int OFFCET=1;
 	public Action mAction;
 
 	public Button(Action aAction) {
@@ -79,12 +80,12 @@ public class Button extends JButton {
 				act.initialize(aOwner, aFactory, xml_actions[index]);
 				Button new_btn = new Button(act);
 				if (aOrientationPaysage) {
-					gdbConstr_btn.gridx = index;
+					gdbConstr_btn.gridx = index+OFFCET;
 					gdbConstr_btn.gridy = 0;
 					gdbConstr_btn.insets = new Insets(10, 0, 10, 0);
 				} else {
 					gdbConstr_btn.gridx = 0;
-					gdbConstr_btn.gridy = index;
+					gdbConstr_btn.gridy = index+OFFCET;
 					gdbConstr_btn.insets = new Insets(2, 5, 2, 5);
 				}
 				gdbConstr_btn.gridwidth = 1;
@@ -101,7 +102,7 @@ public class Button extends JButton {
 			if (!aOrientationPaysage) {
 				gdbConstr_btn = new GridBagConstraints();
 				gdbConstr_btn.gridx = 0;
-				gdbConstr_btn.gridy = nb_btn;
+				gdbConstr_btn.gridy = nb_btn+OFFCET;
 				gdbConstr_btn.gridwidth = 1;
 				gdbConstr_btn.gridheight = 1;
 				gdbConstr_btn.fill = GridBagConstraints.NONE;

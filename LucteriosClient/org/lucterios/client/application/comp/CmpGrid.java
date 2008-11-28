@@ -30,6 +30,7 @@ import javax.swing.Icon;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
+import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.Button;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
@@ -252,9 +253,14 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 	private CmpTableModel cmp_tbl_Model = null;
 	private javax.swing.JPanel pnl_Btn;
 	private javax.swing.JPanel pnl_Grid;
+	private javax.swing.JPanel pnl_Pages;
 	private javax.swing.JScrollPane scr_pnl;
+	private javax.swing.JComboBox cmp_Pages;
 
 	private int mSelectMode = ActionConstantes.SELECT_NONE;
+	private int mPageMax=0;
+	private int mPageNum=0;
+	private Action mPageRefreshAction = null;
 	private Action[] mActions = null;
 
 	public CmpGrid() {
@@ -284,6 +290,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 			if (grid_action && (current_action != null))
 				tree_map = getRequeteForSelectRow(id_list, current_action);
 		}
+		if (cmp_Pages!=null)
+			tree_map.put("GRID_PAGE%"+getName(),new Integer(cmp_Pages.getSelectedIndex()));
 		return tree_map;
 	}
 
@@ -367,8 +375,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		cmp_tbl.addMouseListener(this);
 		cmp_tbl_Model = new CmpTableModel();
 
-		pnl_Grid
-				.add(cmp_tbl.getTableHeader(), java.awt.BorderLayout.PAGE_START);
+		pnl_Grid.add(cmp_tbl.getTableHeader(), java.awt.BorderLayout.PAGE_START);
 		pnl_Grid.add(cmp_tbl, java.awt.BorderLayout.CENTER);
 	}
 
@@ -386,8 +393,12 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		pnl_Btn.setName("pnl_Btn");
 		pnl_Btn.setLayout(new GridBagLayout());
 		add(pnl_Btn, java.awt.BorderLayout.EAST);
-		//scr_pnl.setMinimumSize(new Dimension(HMin, VMin));
-		//scr_pnl.setMaximumSize(new Dimension(HMax, VMax));
+
+		pnl_Pages=new javax.swing.JPanel();
+		pnl_Pages.setOpaque(this.isOpaque());
+		pnl_Pages.setName("pnl_Pages");
+		pnl_Pages.setLayout(new GridBagLayout());
+		add(pnl_Pages, java.awt.BorderLayout.NORTH);
 
 		pnl_Btn.setFocusable(false);
 		pnl_Grid.setFocusable(false);
@@ -429,6 +440,12 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 	}
 
 	protected void refreshComponent() {
+		mPageRefreshAction = new ActionImpl();
+		mPageRefreshAction.initialize(mObsCustom,Singletons.Factory(), "",mObsCustom.getSourceExtension(), mObsCustom.getSourceAction());
+		mPageRefreshAction.setFormType(ActionConstantes.FORM_REFRESH);
+		mPageRefreshAction.setClose(false);
+		mPageRefreshAction.setSelect(ActionConstantes.SELECT_NONE);
+		
 		action();
 		initBtn();
 		switch (mSelectMode) {
@@ -480,12 +497,46 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				btn.mAction.setCheckNull(false);
 				mActions[action_idx++] = btn.mAction;
 			}
+		mPageMax=mXmlItem.getAttributInt("PageMax", 0);
+		mPageNum=mXmlItem.getAttributInt("PageNum", 0);
+		pnl_Pages.removeAll();
+		if (mPageMax>1) {
+			pnl_Pages.setVisible(nb==0);
+			String[] values=new String[mPageMax];
+			for(int idx=0;idx<mPageMax;idx++)
+				values[idx]="Page N°"+(idx+1);
+			cmp_Pages=new javax.swing.JComboBox(values);
+			cmp_Pages.setSelectedIndex(mPageNum);
+			cmp_Pages.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					mPageRefreshAction.actionPerformed(null);
+				}
+			});
+
+			GridBagConstraints cst = new GridBagConstraints();
+			cst.insets = new Insets(2, 5, 2, 5);
+			if (nb>0) {
+				cst.fill = GridBagConstraints.BOTH;
+				cst.anchor = GridBagConstraints.CENTER;
+				pnl_Btn.add(cmp_Pages, cst);
+			}
+			else {
+				cmp_Pages.setPreferredSize(new Dimension(50,20));
+				cst.fill = GridBagConstraints.NONE;
+				cst.anchor = GridBagConstraints.EAST;
+				pnl_Pages.add(cmp_Pages, cst);
+			}
+		}
+		else {
+			cmp_Pages=null;
+			pnl_Pages.setVisible(false);
+		}
 	}
 
 	public void action() {
 		mLabelForm.clearTag();
 	}
-
+	
 	/*
 	 * <HEADER name='val1'> Premier champ </HEADER> <HEADER name='val2'
 	 * type='int'> deuxieme champ </HEADER> <HEADER name='val3' type='float'>

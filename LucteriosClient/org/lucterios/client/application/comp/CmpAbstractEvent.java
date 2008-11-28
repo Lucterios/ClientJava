@@ -102,27 +102,35 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 		}
 	}
 
+	boolean mActionPerforming=false;
 	public void actionPerformed(ActionEvent aEvent) {
-		try {
-			runJavaScript();
-		} catch (LucteriosException e) {
-			ExceptionDlg.throwException(e);
-		}
-		if (mEnabled && (mEventAction != null) && hasChanged() && !focuslosted) {
-			focuslosted = true;
-			Component comp = (Component) aEvent.getSource();
-			comp.removeFocusListener(this);
-			Cmponent new_Cmponent_focused = getParentOfControle(comp);
-			if (new_Cmponent_focused != null) {
-				mObsCustom.setNameComponentFocused(new_Cmponent_focused
-						.getName());
-				System.out.printf("edit:New focus Component(edit):%s:%s\n",
-						new Object[] {
-								new_Cmponent_focused.getClass().getName(),
-								new_Cmponent_focused.getName() });
-			} else
-				System.out.print("edit:No focus Component(edit)\n");
-			mEventAction.actionPerformed(null);
+		if (!mActionPerforming) {
+			mActionPerforming=true;
+			try {
+				try {
+					runJavaScript();
+				} catch (LucteriosException e) {
+					ExceptionDlg.throwException(e);
+				}
+				if (mEnabled && (mEventAction != null) && hasChanged() && !focuslosted) {
+					focuslosted = true;
+					Component comp = (Component) aEvent.getSource();
+					comp.removeFocusListener(this);
+					Cmponent new_Cmponent_focused = getParentOfControle(comp);
+					if (new_Cmponent_focused != null) {
+						mObsCustom.setNameComponentFocused(new_Cmponent_focused
+								.getName());
+						System.out.printf("edit:New focus Component(edit):%s:%s\n",
+								new Object[] {
+										new_Cmponent_focused.getClass().getName(),
+										new_Cmponent_focused.getName() });
+					} else
+						System.out.print("edit:No focus Component(edit)\n");
+					mEventAction.actionPerformed(null);
+				}
+			}finally {
+				mActionPerforming=false;
+			}
 		}
 	}
 
