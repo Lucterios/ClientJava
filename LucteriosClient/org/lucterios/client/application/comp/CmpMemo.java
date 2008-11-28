@@ -161,7 +161,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		super.refreshComponent();
 		cmp_text.getDocument().removeUndoableEditListener(
 				popupListener.getUndo());
-		String in_text = mXmlItem.getCData().trim();
+		String in_text = mXmlItem.getText().trim();
 		mEncode = (mXmlItem.getAttributInt("Encode", 0) != 0);
 		if (mEncode)
 			try {
@@ -212,7 +212,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(mXmlItem.getCData().trim());
+		return !cmp_text.getText().equals(mXmlItem.getText().trim());
 	}
 
 }

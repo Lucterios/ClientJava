@@ -81,7 +81,7 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 		super.refreshComponent();
 		m_RegularExpression = mXmlItem.getCDataOfFirstTag("REG_EXPR");
 		m_StringSize = mXmlItem.getAttributInt("stringSize", 0);
-		cmp_text.setText(mXmlItem.getCData().trim());
+		cmp_text.setText(mXmlItem.getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
 		dim = cmp_text.getColumns();
@@ -89,7 +89,7 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(mXmlItem.getCData().trim());
+		return !cmp_text.getText().equals(mXmlItem.getText().trim());
 	}
 
 	public void keyPressed(KeyEvent e) {

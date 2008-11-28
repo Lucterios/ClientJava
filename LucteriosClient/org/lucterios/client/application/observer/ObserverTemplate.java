@@ -103,8 +103,8 @@ public class ObserverTemplate extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
-		String data_str = data_elements.getCData();
-		String style_str = style_elements.getCData();
+		String data_str = data_elements.getText();
+		String style_str = style_elements.getText();
 		setValue(data_str, style_str, mTitle);
 	}
 
@@ -270,10 +270,10 @@ public class ObserverTemplate extends ObserverAbstract {
 
 	boolean closed = false;
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
-			super.close();
+			super.close(aMustRefreshParent);
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			System.gc();

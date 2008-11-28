@@ -203,7 +203,7 @@ public class CmpFloat extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getCData();
+		String init_value = mXmlItem.getText();
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}

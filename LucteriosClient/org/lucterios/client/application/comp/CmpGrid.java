@@ -56,7 +56,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		public GridColomn(SimpleParsing aXmlItem) {
 			if (aXmlItem.getTagName().equalsIgnoreCase(TAGNAME)) {
 				mHeaderId = aXmlItem.getAttribut("name");
-				mName = aXmlItem.getCData();
+				mName = aXmlItem.getText();
 				String type = aXmlItem.getAttribut("type");
 				if (type == null)
 					mHeaderType = TypeString;
@@ -185,7 +185,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				SimpleParsing[] xml_items = aXmlItem.getSubTag("VALUE");
 				for (int val_idx = 0; val_idx < xml_items.length; val_idx++) {
 					String field_name = xml_items[val_idx].getAttribut("name");
-					String value = xml_items[val_idx].getCData().trim();
+					String value = xml_items[val_idx].getText().trim();
 					mCells.put(field_name, value);
 				}
 			} else

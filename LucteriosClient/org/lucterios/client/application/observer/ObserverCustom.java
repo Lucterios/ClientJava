@@ -335,14 +335,14 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	boolean closed = false;
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			if (mGUIFrame != null)
 				mGUIFrame.dispose();
-			super.close();
+			super.close(aMustRefreshParent);
 			System.gc();
 		}
 	}

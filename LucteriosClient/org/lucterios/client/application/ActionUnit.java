@@ -94,8 +94,7 @@ public class ActionUnit extends TestCase {
 
 	public void testMenu() {
 		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardées]]></MENU>");
+		action.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardées]]></MENU>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("ID", "Im_pressionsauvegardees", mAction.getID());
@@ -162,7 +161,7 @@ public class ActionUnit extends TestCase {
 		assertTrue("Visible", ObserverFactoryMock.NewObserver.getGUIDialog()
 				.isVisible());
 
-		ObserverFactoryMock.NewObserver.close();
+		ObserverFactoryMock.NewObserver.close(true);
 	}
 
 	public void testNewFrame() throws LucteriosException {
@@ -192,7 +191,7 @@ public class ActionUnit extends TestCase {
 		assertTrue("Visible", ObserverFactoryMock.NewObserver.getGUIFrame()
 				.isVisible());
 
-		ObserverFactoryMock.NewObserver.close();
+		ObserverFactoryMock.NewObserver.close(true);
 	}
 
 	public void testCloseParent() {

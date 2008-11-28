@@ -47,7 +47,7 @@ public class CmpLabelform extends Cmponent {
 	}
 
 	protected void refreshComponent() {
-		String val = mXmlItem.getCData();
+		String val = mXmlItem.getText();
 		val = Tools.convertLuctoriosFormatToHtml(val);
 		cmp_text.setText(val);
 	}

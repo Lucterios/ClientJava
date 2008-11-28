@@ -112,7 +112,7 @@ public class CmpTime extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String[] times = mXmlItem.getCData().trim().split(":");
+		String[] times = mXmlItem.getText().trim().split(":");
 		if (times.length == 3) {
 			spe_hour.setNumber(Integer.parseInt(times[0]));
 			spe_minute.setNumber(Integer.parseInt(times[1]));
@@ -137,7 +137,7 @@ public class CmpTime extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getCData().trim();
+		String init_value = mXmlItem.getText().trim();
 		;
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);

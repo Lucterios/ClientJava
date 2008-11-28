@@ -62,7 +62,7 @@ public class ObserverFactoryUnit extends TestCase {
 				"CONFIRME"));
 		assertEquals(
 				"Content",
-				"<TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
+				"<TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
 				obs.getContentText());
 
 		assertEquals(
@@ -95,7 +95,7 @@ public class ObserverFactoryUnit extends TestCase {
 				"CONFIRME"));
 		assertEquals(
 				"Content",
-				"<TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
+				"<TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
 				obs.getContentText());
 
 		assertEquals(

@@ -51,7 +51,7 @@ public class ObserverPrint extends ObserverAbstract {
 			title = fo_elements.getAttribut("title");
 			type = fo_elements.getAttributInt("type", 0);
 			mode = fo_elements.getAttributInt("mode", SelectPrintDlg.MODE_NONE);
-			xml_content = fo_elements.getCData();
+			xml_content = fo_elements.getText();
 		}
 	}
 

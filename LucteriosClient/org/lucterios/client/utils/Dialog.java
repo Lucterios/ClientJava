@@ -99,7 +99,7 @@ public class Dialog extends JDialog {
 
 	public void close() {
 		if (mNotifyFrameClose != null)
-			mNotifyFrameClose.close();
+			mNotifyFrameClose.close(true);
 	}
 
 	public void refresh() {

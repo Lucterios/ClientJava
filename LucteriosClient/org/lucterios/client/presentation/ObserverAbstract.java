@@ -149,13 +149,13 @@ public abstract class ObserverAbstract implements Observer {
 
 	boolean closed = false;
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
 			if (mCloseAction != null)
 				mCloseAction.actionPerformed(null);
 			try {
-				if (getParent() != null)
+				if (aMustRefreshParent && (getParent() != null))
 					getParent().refresh();
 			} catch (LucteriosException e) {
 				ExceptionDlg.throwException(e);

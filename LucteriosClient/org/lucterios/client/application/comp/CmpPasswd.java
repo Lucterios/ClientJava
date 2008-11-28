@@ -62,13 +62,13 @@ public class CmpPasswd extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		cmp_text.setText(mXmlItem.getCData().trim());
+		cmp_text.setText(mXmlItem.getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
 		dim = cmp_text.getColumns();
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getPassword().equals(mXmlItem.getCData().trim());
+		return !cmp_text.getPassword().equals(mXmlItem.getText().trim());
 	}
 }

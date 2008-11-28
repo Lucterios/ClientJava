@@ -63,7 +63,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 			SimpleParsing xml_aut = aut.getContent();
 			SimpleParsing xml_param = xml_aut.getFirstSubTag("PARAM");
 			if (xml_param != null) {
-				String session = xml_param.getCData();
+				String session = xml_param.getText();
 				res = (session != null);
 				if (res) {
 					mTransport.setSession(session);
@@ -107,7 +107,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 			SimpleParsing xmlparams[] = xmlcontext.getSubTag("PARAM");
 			for (int index = 0; index < xmlparams.length; index++)
 				context.put(xmlparams[index].getAttribut("name"),
-						xmlparams[index].getCData());
+						xmlparams[index].getText());
 		}
 		return context;
 	}

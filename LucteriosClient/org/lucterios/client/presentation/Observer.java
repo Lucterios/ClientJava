@@ -69,7 +69,7 @@ public interface Observer extends NotifyFrameObserver {
 
 	public void setActive(boolean aIsActive);
 
-	public void close();
+	public void close(boolean aMustRefreshParent);
 
 	public void refresh() throws LucteriosException;
 

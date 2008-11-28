@@ -90,7 +90,7 @@ public class Menu extends JMenu {
 			SimpleParsing[] sub_xml_menus = aXml[menu_idx].getSubTag("MENU");
 			JMenuItem new_menu = null;
 			if (sub_xml_menus.length > 0)
-				new_menu = new Menu(aXml[menu_idx].getCData(), aXml[menu_idx]
+				new_menu = new Menu(aXml[menu_idx].getText(), aXml[menu_idx]
 						.getAttribut("icon"), help_text, sub_xml_menus, aOwner,
 						aFactory, false);
 			else {
@@ -160,7 +160,7 @@ public class Menu extends JMenu {
 			SimpleParsing[] sub_xml_menus = xml_menus[menu_idx]
 					.getSubTag("MENU");
 			if (sub_xml_menus.length > 0)
-				new_menu = new Menu(xml_menus[menu_idx].getCData(),
+				new_menu = new Menu(xml_menus[menu_idx].getText(),
 						xml_menus[menu_idx].getAttribut("icon"), help_text,
 						sub_xml_menus, aOwner, aFactory, true);
 			else {

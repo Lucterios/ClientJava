@@ -45,7 +45,7 @@ public class Form extends JFrame {
 	}
 
 	public interface NotifyFrameObserver {
-		public void close();
+		public void close(boolean aMustRefreshParent);
 
 		public void refresh() throws LucteriosException;
 
@@ -84,7 +84,7 @@ public class Form extends JFrame {
 
 	public void Close() {
 		if (mNotifyFrameObserver != null)
-			mNotifyFrameObserver.close();
+			mNotifyFrameObserver.close(true);
 		if (mNotifyFrameList != null)
 			mNotifyFrameList.removeFrame(this);
 	}

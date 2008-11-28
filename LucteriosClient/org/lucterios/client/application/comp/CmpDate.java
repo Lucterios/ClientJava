@@ -254,7 +254,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String date = mXmlItem.getCData().trim();
+		String date = mXmlItem.getText().trim();
 		String[] dates = date.split("-");
 		if (dates.length == 3) {
 			spe_year.setNumber(Integer.parseInt(dates[0]));
@@ -291,7 +291,7 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getCData().trim();
+		String init_value = mXmlItem.getText().trim();
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}

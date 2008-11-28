@@ -42,7 +42,7 @@ public class ObserverAuthentification extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
-		String cdate = mContent.getCData();
+		String cdate = mContent.getText();
 		if (!cdate.equalsIgnoreCase("OK")
 				|| "".equals( Singletons.Transport().getSession() )) {
 			Singletons.Transport().setSession("");

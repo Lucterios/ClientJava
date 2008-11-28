@@ -58,7 +58,7 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		super.show(aTitle);
 		if (mRedirectAction != null)
 			mRedirectAction.actionPerformed(null);
-		close();
+		close(mRedirectAction == null);
 	}
 
 	public void show(String aTitle, Form new_frame) throws LucteriosException {

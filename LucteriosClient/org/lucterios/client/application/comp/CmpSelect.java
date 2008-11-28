@@ -130,12 +130,12 @@ public class CmpSelect extends CmpAbstractEvent {
 		xml_items = mXmlItem.getSubTag("CASE");
 		m_comboModel.clear();
 		try {
-			String id = mXmlItem.getCData().trim();
+			String id = mXmlItem.getText().trim();
 			String tmp = "[";
 			xml_items = mXmlItem.getSubTag("CASE");
 			for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
 				SimpleParsing case_item = xml_items[case_idx];
-				ItemObj item_obj = new ItemObj(case_item.getCData(), case_item
+				ItemObj item_obj = new ItemObj(case_item.getText(), case_item
 						.getAttribut("id"));
 				if (item_obj.mID.equals(id))
 					sel_item = item_obj;

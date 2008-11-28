@@ -45,7 +45,7 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("Tag",SimpleParsing.EMPTY_NAME,mParsing.getTagName());
 		assertEquals("Attr","",mParsing.getAttribut("aa"));
 		assertEquals("SubContent","",mParsing.getSubContent());
-		assertEquals("CData","",mParsing.getCData());
+		assertEquals("CData","",mParsing.getText());
 		assertEquals("SubTag",0,mParsing.getSubTag("TOTO").length);
 	}
 
@@ -55,11 +55,11 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("Tag","SIMPLE",mParsing.getTagName());
 		assertEquals("Attr","123",mParsing.getAttribut("aa"));
 		assertEquals("SubContent","<![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE>",mParsing.getSubContent());
-		assertEquals("CData","WXCVBN",mParsing.getCData());
+		assertEquals("CData","WXCVBN",mParsing.getText());
 		SimpleParsing[] sub=mParsing.getSubTag("SUBSIMPLE");
 		assertEquals("SubTag",2,sub.length);
-		assertEquals("CData 1","101",sub[0].getCData());
-		assertEquals("CData 2","102",sub[1].getCData());
+		assertEquals("CData 1","101",sub[0].getText());
+		assertEquals("CData 2","102",sub[1].getText());
 	}
 	
 	public void testSimpleWithComment()
@@ -68,11 +68,11 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("Tag","SIMPLE",mParsing.getTagName());
 		assertEquals("Attr","123",mParsing.getAttribut("aa"));
 		assertEquals("SubContent","<![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE>",mParsing.getSubContent());
-		assertEquals("CData","WXCVBN",mParsing.getCData());
+		assertEquals("CData","WXCVBN",mParsing.getText());
 		SimpleParsing[] sub=mParsing.getSubTag("SUBSIMPLE");
 		assertEquals("SubTag",2,sub.length);
-		assertEquals("CData 1","101",sub[0].getCData());
-		assertEquals("CData 2","102",sub[1].getCData());
+		assertEquals("CData 1","101",sub[0].getText());
+		assertEquals("CData 2","102",sub[1].getText());
 	}
 	
 	public void testConfigure()
@@ -101,14 +101,14 @@ public class SimpleParsingUnit extends TestCase
 		SimpleParsing[] sub_param=sub_context.getSubTag("PARAM");
 		assertEquals("SubTag C",2,sub_param.length);
 		assertEquals("Attr d","print_model",sub_param[0].getAttribut("name"));
-		assertEquals("CData 1","107",sub_param[0].getCData());
+		assertEquals("CData 1","107",sub_param[0].getText());
 		assertEquals("Attr e","CONFIRME",sub_param[1].getAttribut("name"));
-		assertEquals("CData 2","YES",sub_param[1].getCData());
+		assertEquals("CData 2","YES",sub_param[1].getText());
 		
 		SimpleParsing[] sub_text=sub_rep[0].getSubTag("TEXT");
 		assertEquals("SubTag D",1,sub_text.length);
 		assertEquals("Attr f","2",sub_text[0].getAttribut("type"));
-		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text[0].getCData());
+		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text[0].getText());
 		
 		SimpleParsing sub_actions=sub_rep[0].getFirstSubTag("ACTIONS");		
 		SimpleParsing[] sub_action=sub_actions.getSubTag("ACTION");
@@ -116,11 +116,11 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("Attr g","images/ok.png",sub_action[0].getAttribut("icon"));
 		assertEquals("Attr h","CORE",sub_action[0].getAttribut("extension"));
 		assertEquals("Attr i","printmodel_APAS_reinit",sub_action[0].getAttribut("action"));
-		assertEquals("CData 4","Oui",sub_action[0].getCData());
+		assertEquals("CData 4","Oui",sub_action[0].getText());
 		assertEquals("Attr j","images/cancel.png",sub_action[1].getAttribut("icon"));
 		assertEquals("Attr k","",sub_action[1].getAttribut("extension"));
 		assertEquals("Attr l","",sub_action[1].getAttribut("action"));
-		assertEquals("CData 5","Non",sub_action[1].getCData());
+		assertEquals("CData 5","Non",sub_action[1].getText());
 	}
 
 	public void testSubTagNames()
@@ -136,7 +136,7 @@ public class SimpleParsingUnit extends TestCase
 
 		SimpleParsing sub_text=sub_rep.getSubTag(1);	
 		assertEquals("Attr f","2",sub_text.getAttribut("type"));
-		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text.getCData());
+		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text.getText());
 	}
 	
 	public void testMenu()
@@ -148,18 +148,18 @@ public class SimpleParsingUnit extends TestCase
 
 		SimpleParsing[] menu1=menus.getSubTag("MENU");		
 		assertEquals("menu1",1,menu1.length);		
-		assertEquals("menu1 titre","Ad_ministration",menu1[0].getCData());
+		assertEquals("menu1 titre","Ad_ministration",menu1[0].getText());
 
 		SimpleParsing[] menu2=menu1[0].getSubTag("MENU");		
 		assertEquals("menu2",2,menu2.length);		
-		assertEquals("menu2 titre0","_Changer de mot de passe",menu2[0].getCData());
-		assertEquals("menu2 titre1","_Avancé",menu2[1].getCData());
+		assertEquals("menu2 titre0","_Changer de mot de passe",menu2[0].getText());
+		assertEquals("menu2 titre1","_Avancé",menu2[1].getText());
 		
 		SimpleParsing[] menu3=menu2[1].getSubTag("MENU");		
 		assertEquals("menu3",3,menu3.length);		
-		assertEquals("menu3 titre0","_Paramètres",menu3[0].getCData());
-		assertEquals("menu3 titre1","Autorisation d`acces _réseau",menu3[1].getCData());
-		assertEquals("menu3 titre2","_Session",menu3[2].getCData());
+		assertEquals("menu3 titre0","_Paramètres",menu3[0].getText());
+		assertEquals("menu3 titre1","Autorisation d`acces _réseau",menu3[1].getText());
+		assertEquals("menu3 titre2","_Session",menu3[2].getText());
 	}
 
 	public void testEquals()
@@ -180,4 +180,26 @@ public class SimpleParsingUnit extends TestCase
 		other_parsing.parse("<SIMPLE aa='123'><![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE></SIMPLE>");
 		assertTrue("E",mParsing.equals(other_parsing));
 	}
+	
+	public void testSubText()
+	{
+		mParsing.parse("<P><![CDATA[WXCVBN]]><A/><![CDATA[UYT]]><B><![CDATA[BGTF]]></B><![CDATA[OIUY]]><C><![CDATA[102]]></C></P>");
+		assertEquals("A","WXCVBNUYTOIUY",mParsing.getText());
+		assertEquals("B","WXCVBN",mParsing.getText(0));
+		assertEquals("C","UYT",mParsing.getText(1));
+		assertEquals("D","OIUY",mParsing.getText(2));
+		assertEquals("E","",mParsing.getText(3));
+	}
+	
+	public void testSpecialText()
+	{
+		char myspace=160;
+		assertTrue("A",mParsing.parse("<P>abc&#160;def&#160;ghi&#160;jkl</P>"));
+		assertEquals("B","abc"+myspace+"def"+myspace+"ghi"+myspace+"jkl",mParsing.getText(0));
+		assertEquals("C","",mParsing.getText(1));
+		
+		assertTrue("D",mParsing.parse("<P><![CDATA[é\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}]]></P>"));
+		assertEquals("E","é\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}",mParsing.getText(0));
+	}
+	
 }

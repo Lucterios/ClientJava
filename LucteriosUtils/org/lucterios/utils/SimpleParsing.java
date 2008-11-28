@@ -20,32 +20,46 @@
 
 package org.lucterios.utils;
 
-import java.io.StringReader;
+import java.io.InputStream;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
 
-import org.jdom.Attribute;
-import org.jdom.CDATA;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Text;
-import org.jdom.input.SAXBuilder;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
-public class SimpleParsing 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class SimpleParsing extends DefaultHandler 
 {	
 	public int hashCode() {
 		return 0;
 	}
 
-	private Element mItem;
 	public final static String EMPTY_NAME="empty";
+	public final static String XML_ENCODING="<?xml version='1.0' encoding='ISO-8859-1'?>";
 
+	private SimpleParsing mParent;
+	private TreeMap mAttrs=new TreeMap();
+	private String mSimpleName=EMPTY_NAME;
+	private Vector mTexts=new Vector();
+	private Vector mFields=new Vector();
+
+	private SimpleParsing(SimpleParsing aParent) 
+	{
+		super();
+		mParent=aParent;
+	}
+	
 	public SimpleParsing() 
 	{
 		super();
-		mItem=new Element(EMPTY_NAME); 
+		mParent=null;
 	}
-
+	
 	public boolean equals(Object value)
 	{
 		if (SimpleParsing.class.isInstance(value))
@@ -55,44 +69,44 @@ public class SimpleParsing
 
 			result=result && (getTagName().equals( other_parse.getTagName() ));
 			
-			List this_attributes=mItem.getAttributes();
-			List other_attributes=other_parse.mItem.getAttributes();
-			result=result && (this_attributes.size()==other_attributes.size());
-			result=result && isAttributesEquals(this_attributes,other_attributes);
+			result=result && (mAttrs.size()==other_parse.mAttrs.size());
+			result=result && isAttributesEquals(mAttrs,other_parse.mAttrs);
 			result=result && (getTagCount()==other_parse.getTagCount());
 			for(int index=0;result && (index<getTagCount());index++)
 				result=result && getSubTag(index).equals(other_parse.getSubTag(index));
-			result=result && getCData().equals(other_parse.getCData());
+			result=result && getText().equals(other_parse.getText());
 			return result;
 		}
 		else
 			return false;
 	}
 
-	private boolean isAttributesEquals(List firstAttributes,List secondaryAttributes) {
+	private boolean isAttributesEquals(TreeMap firstAttributes,TreeMap secondaryAttributes) {
 		boolean result=true;
-		for(int index=0;result && (index<firstAttributes.size());index++)
-		{
-			result=result && ((Attribute)firstAttributes.get(index)).getName().equals(((Attribute)secondaryAttributes.get(index)).getName());
-			result=result && ((Attribute)firstAttributes.get(index)).getValue().equals(((Attribute)secondaryAttributes.get(index)).getValue());
+		for (Iterator iterator = firstAttributes.entrySet().iterator(); iterator.hasNext();){
+			Map.Entry entry = (Map.Entry) iterator.next();
+			String key = (String) entry.getKey();
+			result=result && secondaryAttributes.containsKey(key);
+			result=result && firstAttributes.get(key).equals(secondaryAttributes.get(key));
 		}
 		return result;
 	}
 	
-	private SimpleParsing(Element aItem) 
-	{
-		super();
-		mItem=aItem;
-	}
-		
+	private SimpleParsing mCurrent=null;
 	public boolean parse(String aText)
 	{
 		boolean res;
-		SAXBuilder sxb = new SAXBuilder();
-		try
-		{
-			Document doc= sxb.build(new StringReader(aText));
-			mItem = doc.getRootElement();
+		
+		mCurrent=null;
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+        try {
+            SAXParser saxParser = factory.newSAXParser();
+            InputStream is;
+            if (aText.startsWith("<?xml"))
+            	is=new BufferInputStream(aText);
+            else
+        		is=new BufferInputStream(XML_ENCODING+aText);
+	        saxParser.parse(is, this);
 			res=true;
 		}
 		catch(Exception e)
@@ -102,16 +116,54 @@ public class SimpleParsing
 		return res;
 	}
 
+    private void fillElement (String aSimpleName,Attributes aAttrs) {
+    	mSimpleName=aSimpleName;
+    	mTexts.clear();
+    	mFields.clear();
+    	mAttrs.clear();
+    	for(int idx=0;idx<aAttrs.getLength();idx++)
+    		mAttrs.put(aAttrs.getQName(idx),aAttrs.getValue(idx));
+    }
+    public void startElement (String namespaceURI,String simpleName,String qualifiedName,Attributes attrs) throws SAXException {
+    	if (mCurrent==null)
+    		mCurrent=this;
+    	else {
+    		SimpleParsing new_item=new SimpleParsing(mCurrent);
+    		mCurrent.mFields.addElement(new_item);
+    		mCurrent=new_item;
+    	}
+    	mCurrent.fillElement(qualifiedName, attrs);
+    }
+
+    public void endElement (String namespaceURI,String simpleName,String qualifiedName) throws SAXException {
+    	mCurrent=mCurrent.mParent;
+    }
+
+    public void characters (char buf [], int offset, int len) throws SAXException {
+    	while (mCurrent.mFields.size()>=mCurrent.mTexts.size())
+    		mCurrent.mTexts.add("");
+    	int idx=mCurrent.mTexts.size()-1;
+    	String line=(String)mCurrent.mTexts.get(idx);
+    	line+=new String(buf, offset,len);
+    	mCurrent.mTexts.set(idx,line);
+    }
+	
 	public String getTagName()
 	{
-		return mItem.getName();
+		return mSimpleName;
 	}
 	
 	public String getAttribut(String aName,String aDefault)
 	{
-		String value=mItem.getAttributeValue(aName);
-		if (value!=null)
-			return value;
+		if (mAttrs!=null) {
+			String value=null;
+			if (mAttrs.containsKey(aName))
+				value=(String)mAttrs.get(aName);	
+			if (value!=null)
+				return value;
+			else
+				return aDefault;
+		}
 		else
 			return aDefault;
 	}
@@ -160,36 +212,24 @@ public class SimpleParsing
         }
 	}
 	
-	private String getContent(Element aItem)
+	private String getContent()
 	{
-		String content="<"+aItem.getName();
-		List attribs=aItem.getAttributes();
-		Iterator i_att = attribs.iterator();
-		while(i_att.hasNext())
-		{
-			Attribute cur=(Attribute)i_att.next();
-			content+=" "+cur.getName()+"='"+cur.getValue()+"'";
+		String content="<"+getTagName();		
+		for (Iterator iterator = mAttrs.entrySet().iterator(); iterator.hasNext();){
+			Map.Entry entry = (Map.Entry) iterator.next();
+			String key = (String) entry.getKey();
+			content+=" "+key+"='"+mAttrs.get(key)+"'";	
 		}
-		
-		String value=getCdata(aItem);
-		List children=aItem.getChildren();
-
-		if ((value.length()==0) && (children.size()==0))
+		if ((mTexts.size()==0) && (mFields.size()==0))
 			content+="/>";
 		else
-		{
-			content+=">"+value;		
-			Iterator i_child = children.iterator();
-			while(i_child.hasNext())
-				content+=getContent((Element)i_child.next());
-			content+="</"+aItem.getName()+">";
-		}
+			content+=">"+getSubContent()+"</"+getTagName()+">";
 		return content;
 	}
 	
-	private String getCdata(Element aItem)
+	private String getCData()
 	{
-		String value=aItem.getTextTrim();
+		String value=getText();
 		if (value.length()>0)
 			return "<![CDATA["+value+"]]>";
 		else
@@ -198,39 +238,32 @@ public class SimpleParsing
 	
 	public String getSubContent()
 	{
-		String sub_content=getCdata(mItem);
-		List children=mItem.getChildren();
-		Iterator i = children.iterator();
-		while(i.hasNext())
-			sub_content+=getContent((Element)i.next());
+		String sub_content=getCData();
+		for(int idx=0;idx<mFields.size();idx++)
+			sub_content+=((SimpleParsing)mFields.get(idx)).getContent();
 		return sub_content;
 	}
 
-	public String getCData(int index)
+	public String getText(int index)
 	{
-		List content=mItem.getContent();
 		String val="";
-		int child_idx=0;
-		for(int idx=0;idx<content.size();idx++)
-		{
-			if (Element.class.isInstance(content.get(idx)))
-				child_idx++;
-			if (Text.class.isInstance(content.get(idx)) && (child_idx==index))
-				val=((Text)content.get(idx)).getText();
-			if (CDATA.class.isInstance(content.get(idx)) && (child_idx==index))
-				val=((Text)content.get(idx)).getText();
-		}
+		for(int idx=0;idx<mTexts.size();idx++)
+			if (idx==index)
+				val+=(String)mTexts.get(idx);
 		return val;
 	}
 	
-	public String getCData()
+	public String getText()
 	{
-		return mItem.getTextTrim();
+		String value="";
+		for(int idx=0;idx<mTexts.size();idx++)
+			value+=(String)mTexts.get(idx);
+		return value.trim();
 	}
 
 	public int getCDataInt(int aDefault)
 	{
-		String value=getCData();
+		String value=getText();
         try
         {
             return new Integer(value).intValue();
@@ -243,7 +276,7 @@ public class SimpleParsing
 
 	public double getCDataDouble(double aDefault)
 	{
-		String value=getCData();
+		String value=getText();
         try
         {
             return new Double(value).doubleValue();
@@ -258,7 +291,7 @@ public class SimpleParsing
 	{
 		SimpleParsing first=getFirstSubTag(aName);
 		if (first!=null)
-			return first.getCData();
+			return first.getText();
 		else
 			return "";
 	}
@@ -266,88 +299,34 @@ public class SimpleParsing
 	public String[] getTagNames()
 	{
 		String[] res=null;	
-		List children=mItem.getChildren();
-		res=new String[children.size()];
-		Iterator i = children.iterator();
-		int tag_idx=0;
-		while(i.hasNext())
-		{
-	      Element courant = (Element)i.next();
-		  res[tag_idx++]=courant.getName();
-	    }		
-				
-		/*int nb=0;
-		for(int index=1;index<(mContent.length-1);index++)
-			if (mContent[index].startsWith("\t<") && !mContent[index].startsWith("\t</"))
-				nb++;
-		res=new String[nb];
-		int tag_idx=0;
-		for(int index=1;index<(mContent.length-1);index++)
-			if (mContent[index].startsWith("\t<") && !mContent[index].startsWith("\t</"))
-			{
-				String line=mContent[index].substring(2,mContent[index].length()-1);
-				if (line.endsWith("/")) line=line.substring(0,line.length()-1);
-				res[tag_idx++]=line.split(" ")[0];
-			}*/
+		res=new String[mFields.size()];
+		for(int idx=0;idx<mFields.size();idx++)
+			res[idx]=((SimpleParsing)mFields.get(idx)).getTagName();
 		return res;
 	}
 
 	public int getTagCount()
 	{
-		List children=mItem.getChildren();
-		return children.size();
-		
-		/*int nb=0;
-		for(int index=1;index<(mContent.length-1);index++)
-			if (mContent[index].startsWith("\t<") && !mContent[index].startsWith("\t</"))
-				nb++;
-		return nb;*/
+		return mFields.size();
 	}
 		
 	public SimpleParsing getSubTag(int aIndex)
 	{
-		List children=mItem.getChildren();
-		return new SimpleParsing((Element)children.get(aIndex));
-		
-		/*SimpleParsing res=null;
-		int tag_idx=0;
-		int index=1;
-		while ((index<(mContent.length-1)) && (res==null))
-		{
-			if (mContent[index].startsWith("\t<") && !mContent[index].startsWith("\t</"))
-			{
-				if (tag_idx==aIndex)
-				{
-					res=new SimpleParsing();
-					String new_content="";
-					if (mContent[index].endsWith("/>"))
-						new_content=mContent[index++].trim();
-					else
-					{
-						while ((index<(mContent.length-1)) && !mContent[index].startsWith("\t</"))
-							new_content+=mContent[index++].trim();
-						new_content+=mContent[index++].trim();
-					}
-					res.parse(new_content);
-				}
-				else
-					index++;
-				tag_idx++;
-			}
-			else
-				index++;
-		}
-		return res;*/
+		return (SimpleParsing)mFields.get(aIndex);
 	}
 	
 	public SimpleParsing[] getSubTag(String aName)
 	{
-		List children=mItem.getChildren(aName);
-		SimpleParsing[] pars_ret=new SimpleParsing[children.size()];
-		Iterator i = children.iterator();
+		String[] names=getTagNames();
+		int nb=0;
+		for(int idx=0;idx<names.length;idx++)
+			if (names[idx]==aName)
+				nb++;
+		SimpleParsing[] pars_ret=new SimpleParsing[nb];
 		int tag_idx=0;
-		while(i.hasNext())
-	      pars_ret[tag_idx++]=new SimpleParsing((Element)i.next());
+		for(int idx=0;idx<mFields.size();idx++)
+			if (((SimpleParsing)mFields.get(idx)).getTagName()==aName)
+				pars_ret[tag_idx++]=(SimpleParsing)mFields.get(idx);
 		return pars_ret;
 	}
 	
@@ -362,6 +341,6 @@ public class SimpleParsing
 	
 	public String toString()
 	{
-		return getContent(mItem);
+		return getContent();
 	}
 }

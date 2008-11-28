@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -64,6 +65,14 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 		initial(false, aToolTip);
 	}
 
+	private ToolButton(String aText, String aDescription, ImageIcon aIcon) {
+		mActionListener = null;
+		mText = aText;
+		mDescription = aDescription;
+		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 64, true);
+		initial(false, "");
+	}
+
 	public ToolButton(String aText, String aDescription, String aToolTip,
 			javax.swing.ImageIcon aIcon) {
 		super();
@@ -85,7 +94,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 	}
 
 	public ToolButton getBannierButton() {
-		return new ToolButton(null, mText, mDescription, "", mIcon);
+		return new ToolButton(mText, mDescription, mIcon);
 	}
 
 	public String toString() {

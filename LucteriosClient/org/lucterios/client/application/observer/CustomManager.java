@@ -316,7 +316,7 @@ public class CustomManager extends JAdvancePanel {
 				PnlTab = new javax.swing.JTabbedPane();
 				PnlTab.setOpaque(false);
 			}
-			newTab(value_obj.getCData(), tag_num);
+			newTab(value_obj.getText(), tag_num);
 		} else {
 			JPanel current_panel;
 			if (tag_num == 0) {

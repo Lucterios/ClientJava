@@ -31,6 +31,7 @@ if ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
 		$http_referer=$_SERVER["HTTP_REFERER"];
 		$pos=strpos($http_referer,'://');
 		$protocol=substr($http_referer,0,$pos);
+		$protocol=($protocol='')?'http':$protocol;
 		$mode=($protocol=='https')?1:0;		
 		$server_name=$_SERVER["SERVER_NAME"];
 		$server_port=$_SERVER["SERVER_PORT"];

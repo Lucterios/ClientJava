@@ -60,7 +60,7 @@ public class CmpImage extends Cmponent {
 
 	protected void refreshComponent() {
 		mType = mXmlItem.getCDataOfFirstTag("TYPE");
-		mVal = mXmlItem.getCData();
+		mVal = mXmlItem.getText();
 		int height=mXmlItem.getAttributInt("height",0);
 		int width=mXmlItem.getAttributInt("width",0);
 		cmp_text.setPreferredSize(new Dimension(width,height));

@@ -56,9 +56,9 @@ public class RequirementProcesses implements ExternalProcess.ProcessNotification
 		{
 			SimpleParsing action=aArchi.getSubTag(index);
 			if ("CMD".equalsIgnoreCase(action.getTagName()))
-				ExternalProcess.executeCommand(action.getCData(),60000);
+				ExternalProcess.executeCommand(action.getText(),60000);
 			else if ("PROCESS".equalsIgnoreCase(action.getTagName()))
-				addProcessor(action.getAttribut("name"),action.getCData());			
+				addProcessor(action.getAttribut("name"),action.getText());			
 		}
 	}
 	

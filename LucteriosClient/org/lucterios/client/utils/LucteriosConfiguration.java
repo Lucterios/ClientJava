@@ -127,11 +127,11 @@ public class LucteriosConfiguration extends
 		SimpleParsing title = root.getFirstSubTag("TITLE");
 		TitreDefault = "";
 		if (title != null)
-			TitreDefault = title.getCData();
+			TitreDefault = title.getText();
 		SimpleParsing proxy = root.getFirstSubTag("PROXY");
 		ProxyAdress = "";
 		if (proxy != null)
-			ProxyAdress = proxy.getCData();
+			ProxyAdress = proxy.getText();
 		SimpleParsing proxy_port = root.getFirstSubTag("PROXY_PORT");
 		ProxyPort = 0;
 		if (proxy_port != null)

@@ -67,7 +67,7 @@ public class CmpCheck extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String value = mXmlItem.getCData().trim();
+		String value = mXmlItem.getText().trim();
 		cmp_Check.setText("");
 		cmp_Check.setSelected("1".equals( value ));
 		cmp_Check.addFocusListener(this);
@@ -75,7 +75,7 @@ public class CmpCheck extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String value = mXmlItem.getCData().trim();
+		String value = mXmlItem.getText().trim();
 		return cmp_Check.isSelected() != "1".equals( value );
 	}
 

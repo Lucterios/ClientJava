@@ -195,11 +195,11 @@ public class LucteriosDocumentParser {
 			if (txt_color.equalsIgnoreCase("#ff0000"))
 				new_model.color=Color.red;
 		}
-		list.add(new Run(aItem.getCData(0),new_model));
+		list.add(new Run(aItem.getText(0),new_model));
 		for(int idx=0;idx<aItem.getTagCount();idx++)
 		{
 			list.addAll(getRunsByPara(aItem.getSubTag(idx),new_model));
-			list.add(new Run(aItem.getCData(idx+1),new_model));
+			list.add(new Run(aItem.getText(idx+1),new_model));
 		}
 		return list;
 	}

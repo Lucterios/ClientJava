@@ -65,7 +65,7 @@ public class ActionImpl implements Action {
 
 	public void initialize(Observer aOwner, ObserverFactory aFactory,
 			SimpleParsing aXml) {
-		initialize(aOwner, aFactory, aXml.getCData(), aXml
+		initialize(aOwner, aFactory, aXml.getText(), aXml
 				.getAttribut("extension"), aXml.getAttribut("action"));
 		if (!aXml.getAttribut("id").equals( "" ))
 			mID = aXml.getAttribut("id");
@@ -300,7 +300,7 @@ public class ActionImpl implements Action {
 			return false;
 		if ("".equals( mExtension ) || "".equals( mAction )) {
 			if ((mOwner != null) && (mClose))
-				mOwner.close();
+				mOwner.close(true);
 			return false;
 		}
 		return true;
@@ -312,7 +312,7 @@ public class ActionImpl implements Action {
 			if (param != null) {
 				if (mOwner != null) {
 					if (mClose)
-						mOwner.close();
+						mOwner.close(false);
 					else
 						mOwner.setActive(false);
 				}

@@ -59,7 +59,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 	public void setContent(SimpleParsing aContent) {
 		super.setContent(aContent);
 		SimpleParsing xml_text = mContent.getFirstSubTag("TEXT");
-		mText = xml_text.getCData();
+		mText = xml_text.getText();
 		mType = xml_text.getAttributInt("type", 0);
 		mActions = mContent.getFirstSubTag("ACTIONS");
 	}
@@ -189,12 +189,12 @@ public class ObserverDialogBox extends ObserverAbstract {
 
 	boolean closed = false;
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
-			super.close();
+			super.close(aMustRefreshParent);
 			System.gc();
 		}
 	}

@@ -253,11 +253,11 @@ public class CmpUpload extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		lbl_message.setText(mXmlItem.getCData().trim());
+		lbl_message.setText(mXmlItem.getText().trim());
 		SimpleParsing[] filer_list = mXmlItem.getSubTag("FILTER");
 		filters = new String[filer_list.length];
 		for (int index = 0; index < filer_list.length; index++)
-			filters[index] = filer_list[index].getCData();
+			filters[index] = filer_list[index].getText();
 	}
 
 	protected boolean hasChanged() {
