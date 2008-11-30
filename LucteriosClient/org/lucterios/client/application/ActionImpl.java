@@ -96,6 +96,10 @@ public class ActionImpl implements Action {
 		mID = (new Integer(hashCode())).toString();
 	}
 
+	public void setOwner(Observer aOwner) {
+		mOwner = aOwner;
+	}
+
 	public Observer getOwner() {
 		return mOwner;
 	}

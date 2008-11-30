@@ -406,7 +406,6 @@ public class HttpTransportImpl implements HttpTransport {
 
 	public void openPageInWebBrowser(String pageName) throws LucteriosException {
 		java.net.URL page_url = getUrl(pageName);
-		DesktopTools desktop = new DesktopTools();
-		desktop.launch(page_url.toString());
+		DesktopTools.instance().launch(page_url.toString());
 	}
 }

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import org.apache.batik.util.Base64EncoderStream;
 
 public class EncodeBase64FromInputStream {
-	
 	private byte[] outStream=null;
 	public EncodeBase64FromInputStream(InputStream input) {
 		
@@ -31,5 +30,5 @@ public class EncodeBase64FromInputStream {
 	public byte[] encode () 
 	{
 		return outStream; 
-	}		
+	}	
 }

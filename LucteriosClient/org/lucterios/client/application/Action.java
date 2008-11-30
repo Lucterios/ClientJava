@@ -38,6 +38,8 @@ public interface Action extends ActionListener, javax.swing.Action {
 			String aTitle, String aExtension, String aAction);
 
 	public Observer getOwner();
+	
+	public void setOwner(Observer aOwner);	
 
 	public String getID();
 

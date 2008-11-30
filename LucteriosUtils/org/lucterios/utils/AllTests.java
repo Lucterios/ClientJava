@@ -31,6 +31,7 @@ public class AllTests
     public static Test suite() 
     {
         TestSuite suite = new TestSuite("Utils");
+        suite.addTest(new TestSuite(ZipMangerUnit.class));
         suite.addTest(new TestSuite(SimpleParsingUnit.class));
         suite.addTest(new TestSuite(LucteriosEditorUnit.class));
         return suite;

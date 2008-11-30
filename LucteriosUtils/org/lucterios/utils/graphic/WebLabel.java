@@ -49,8 +49,7 @@ public class WebLabel extends LinkLabel {
 		setLinker(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				try {
-					DesktopTools desktop=new DesktopTools();
-					desktop.launch(mUrl);
+					DesktopTools.instance().launch(mUrl);
 				} catch (LucteriosException e1) 
 				{
 					ExceptionDlg.throwException(e1);

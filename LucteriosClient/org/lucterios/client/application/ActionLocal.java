@@ -55,6 +55,9 @@ public class ActionLocal implements Action {
 		mAction = aAction;
 		mKey = aKey;
 	}
+	
+	public void setOwner(Observer aOwner) {
+	}
 
 	public String getAction() {
 		return "";

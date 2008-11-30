@@ -67,6 +67,10 @@ public abstract class Cmponent extends JPanel {
 		setOpaque(false);
 		setFocusable(false);
 	}
+	
+	public void close() {
+		
+	}
 
 	public void fillActions(Vector atns) {
 

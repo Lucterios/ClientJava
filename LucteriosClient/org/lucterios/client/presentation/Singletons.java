@@ -25,12 +25,19 @@ import java.io.IOException;
 import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.client.transport.HttpTransportImpl;
 import org.lucterios.client.utils.LucteriosConfiguration;
+import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.IniFileReader;
 
 public class Singletons {
+	
+	static final public String LUCTERIOS_CONFIG = ".LucteriosSetting";
+	static final public String TEMP_DIR=".LucteriosTemp";
 	
 	public interface ApplicationTerminate{
 		void exit();
 	}
+
+	static public IniFileReader LucteriosSettingFile=null;
 	
 	static public ApplicationTerminate AppTerminate=null;
 	
@@ -61,6 +68,12 @@ public class Singletons {
 		HttpTransportClass = HttpTransportImpl.class;
 		Configuration = new LucteriosConfiguration();
 		mFactory = new ObserverFactoryImpl();
+		loadSetting();
+	}
+
+	static public void loadSetting() throws IOException {
+		LucteriosSettingFile=new IniFileReader(LUCTERIOS_CONFIG);
+		DesktopTools.instance().initApplicationsSetting(LucteriosSettingFile);
 	}
 	
 	static public void exit(){

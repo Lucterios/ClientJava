@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.utils.LInsets;
+import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.NavigatorBar;
 
@@ -137,7 +137,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		mNavigatorBar = new NavigatorBar();
 		mNavigatorBar.setOpaque(false);
 
-		Insets insets = LInsets.getInsets();
+		Insets insets = DesktopTools.instance().getInsets();
 		Dimension screen = tkt.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		int height = (int) (screen.getHeight() - insets.top - insets.bottom);
@@ -169,7 +169,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	public void clearTools() {
 		mCurrentButton = null;
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Insets insets = LInsets.getInsets();
+		Insets insets = DesktopTools.instance().getInsets();
 		Dimension screen = kit.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		mNbHorizontalButton = (width - 3 * SIZE_SMALL) / SIZEX;

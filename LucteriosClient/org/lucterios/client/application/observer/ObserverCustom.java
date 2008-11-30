@@ -337,6 +337,8 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
+			for (int cmp_idx = 0; cmp_idx < mCustomManager.getCmponentCount(); cmp_idx++) 
+					mCustomManager.getCmponents(cmp_idx).close();
 			closed = true;
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();

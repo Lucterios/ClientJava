@@ -59,7 +59,7 @@ import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.client.utils.Form.NotifyFrameChange;
 import org.lucterios.client.utils.LookAndFeelMenuItem.LookAndFeelCallBack;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
-import org.lucterios.utils.LInsets;
+import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.ProgressPanel;
@@ -611,7 +611,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private Rectangle getArea() {
 		Rectangle rect = new Rectangle();
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Insets insets = LInsets.getInsets();
+		Insets insets = DesktopTools.instance().getInsets();
 		Dimension screen = kit.getScreenSize();
 		rect.width = (int) (screen.getWidth() - insets.left - insets.right);
 		rect.height = (int) (screen.getHeight() - insets.top - insets.bottom);
