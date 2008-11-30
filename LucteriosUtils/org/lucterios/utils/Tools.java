@@ -20,12 +20,14 @@
 
 package org.lucterios.utils;
 
+import java.io.FileInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import javax.swing.KeyStroke;
 
 public class Tools {
@@ -120,24 +122,46 @@ public class Tools {
     }
 
     static public void saveFileStream(File aFile,InputStream aStream) throws LucteriosException{
-		FileOutputStream fos;
-		try {
-			int BUFFER = 2048;
-			byte data[] = new byte[BUFFER];
-			
-			fos = new FileOutputStream(aFile);
-			BufferedOutputStream dest = new BufferedOutputStream(fos,
-					BUFFER);
-			int count;
-			while ((count = aStream.read(data, 0, BUFFER)) != -1) {
-				dest.write(data, 0, count);
-			}
-			dest.flush();
-			dest.close();
-		} catch (FileNotFoundException e) {
-			throw new LucteriosException("Echec de sauvegarde", e);
-		} catch (IOException e) {
-			throw new LucteriosException("Echec de sauvegarde", e);
+	FileOutputStream fos;
+	try {
+		int BUFFER = 2048;
+		byte data[] = new byte[BUFFER];
+		
+		fos = new FileOutputStream(aFile);
+		BufferedOutputStream dest = new BufferedOutputStream(fos,
+				BUFFER);
+		int count;
+		while ((count = aStream.read(data, 0, BUFFER)) != -1) {
+			dest.write(data, 0, count);
 		}
+		dest.flush();
+		dest.close();
+	} catch (FileNotFoundException e) {
+		throw new LucteriosException("Echec de sauvegarde", e);
+	} catch (IOException e) {
+		throw new LucteriosException("Echec de sauvegarde", e);
+	}
     }
+
+    static public void copyFile(File in, File out) throws LucteriosException
+    {
+	try {
+		FileChannel inChannel = new FileInputStream(in).getChannel();
+		FileChannel outChannel = new FileOutputStream(out).getChannel();
+		try {
+			// magic number for Windows, 64Mb - 32Kb)
+			int maxCount = (64 * 1024 * 1024) - (32 * 1024);
+			long size = inChannel.size();
+			long position = 0;
+			while (position < size) 
+				position += inChannel.transferTo(position, maxCount, outChannel);
+		} finally {
+			if (inChannel != null) inChannel.close();
+			if (outChannel != null) outChannel.close();
+		}
+	} catch (IOException ioe) {
+		throw new LucteriosException("Echec de copie", ioe);
+	}
+    }
+
 }
