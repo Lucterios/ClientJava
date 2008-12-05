@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
@@ -17,13 +18,12 @@ public class ImageCache {
 	
 	private HttpTransport mTransport=null;
 	private static final String CACHE_DIR=".LucteriosCache";
+	private static final String SUFIX_FOR_DUMMY="%DUMMY";
+	private static final long TIME_PERINITY=1000*60*60*24*15; // 15j en millisecondes
+	private static final long TIME_PERINITY_DUMMY=1000*60*60*12; // 12h en millisecondes
 	
 	public ImageCache(HttpTransport aTransport){
 		mTransport=aTransport;
-		clear();
-	}
-	
-	private void clear(){
 		File cache_dir=new File(CACHE_DIR);
 		if (!cache_dir.isDirectory())
 			cache_dir.mkdir();
@@ -31,43 +31,39 @@ public class ImageCache {
 	
 	private String getCacheFileName(String aName){
 		String val=Tools.replace(aName,"\\","%"); 
+		val=Tools.replace(val,":","%");
 		val=Tools.replace(val,"/","%");
 		return CACHE_DIR+"/"+val;
 	}
 
-	private long getFileSize(String aFileName)
-	{
-		File f=new File(aFileName);
-		return f.length();
-		/*try {
-			long size = 0;
-			FileReader reader;
-			reader = new FileReader(aFileName);
-			while (reader.read()!=-1)
-			    size++;
-			return size;
-		} 
-		catch (FileNotFoundException e) {
-			return 0;
-		}
-		catch (IOException e) {
-			return 0;
-		}*/
-	}
-	
 	public boolean isInCache(String aIconName)
 	{
 		try {
-			long file_size=getFileSize(getCacheFileName(aIconName));
-			if (file_size!=0) {
-				long size = mTransport.getFileLength(aIconName);
+			String cache_file_name=getCacheFileName(aIconName);
+			File cache_file=new File(cache_file_name);
+			long file_size=cache_file.length();
+			Date date_limit=new Date(cache_file.lastModified()+TIME_PERINITY);			
+			if ((file_size!=0) && (date_limit.after(new Date()))) {
+				long size;
+				size = mTransport.getFileLength(aIconName);
 				return (file_size==size);
 			}
-			else 
-				return false; 
+			else {
+				File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY); 
+				Date dummy_limit=new Date(dummy_file.lastModified()+TIME_PERINITY_DUMMY);			
+				return (dummy_file.exists() && (dummy_limit.after(new Date()))); 
+			}
 		} catch (LucteriosException e) {
 			return true;
 		}
+	}
+
+	public void addDummy(String aIconName) {
+		try {
+			String cache_file_name=getCacheFileName(aIconName);
+			File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY);
+			dummy_file.createNewFile();
+		} catch (IOException e) {}
 	}
 	
 	public ImageIcon getImage(String aIconName){
@@ -92,7 +88,11 @@ public class ImageCache {
 	public ImageIcon addImage(String aIconName,InputStream aImageStream) {
 		if (aImageStream != null)
 			try {			
-				File file_cache=new File(getCacheFileName(aIconName));
+				String cache_file_name=getCacheFileName(aIconName);
+				File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY);
+				if (dummy_file.isFile())
+					dummy_file.delete();
+				File file_cache=new File(cache_file_name);
 				if (file_cache.isFile())
 					file_cache.delete();
 				Tools.saveFileStream(file_cache, aImageStream);
@@ -101,4 +101,5 @@ public class ImageCache {
 			}
 		return getImage(aIconName);
 	}
+
 }

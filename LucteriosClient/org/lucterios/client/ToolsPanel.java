@@ -338,12 +338,12 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 				setCoinAction(mCoinActions[index], index);
 		}
 		mRefreshButtonPanel.refreshSize();
-		mRefreshButtonPanel.reorganize();
 	}
 
 	public void setMainMenuBar(JMenuBar aMenuBar) {
 		changeMainAction(new ToolButtonCollection(this, mApplicationText,
 				mApplicationDescription, mApplicationIcon, aMenuBar));
+		mRefreshButtonPanel.reorganize();
 	}
 
 	public void changeMainAction(ToolButtonCollection aAction) {

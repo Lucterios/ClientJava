@@ -57,7 +57,7 @@ public class ObserverMenu extends ObserverAbstract {
 		throw new LucteriosException("Not in Dialog");
 	}
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		Main.setActive(false);
 	}
 

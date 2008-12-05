@@ -27,6 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.lucterios.client.presentation.Observer;
 import org.lucterios.client.presentation.ObserverFactory;
@@ -96,6 +97,7 @@ public class Menu extends JMenu {
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, aXml[menu_idx]);
+				//act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 				if (new_menu.getAccelerator() != null)
 					mToolBar.newShortCut(act.getID(),
@@ -139,8 +141,13 @@ public class Menu extends JMenu {
 		fillMenuBar(aOwner, aFactory, aXml, menu_bar, extra_menu_idx,
 				extra_menu_nb);
 		aJPOwner.refreshSize();
-		if (mToolBar != null)
-			mToolBar.terminatToolBar();
+		if (mToolBar != null) {
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {
+					mToolBar.terminatToolBar();
+				}
+			});
+		}
 	}
 
 	private static void fillMenuBar(Observer aOwner, ObserverFactory aFactory,
@@ -166,6 +173,7 @@ public class Menu extends JMenu {
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, xml_menus[menu_idx]);
+				//act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 			}
 			menu_bar.add(new_menu);

@@ -21,6 +21,7 @@
 package org.lucterios.client.transport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -35,6 +36,10 @@ import javax.swing.ImageIcon;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
 import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.protocol.Protocol;
 
 import org.lucterios.utils.DesktopTools;
@@ -45,7 +50,6 @@ import org.lucterios.utils.Tools;
 public class HttpTransportImpl implements HttpTransport {
 	final static public String ENCODE = "utf-8";
 	final static String MANAGER_FILE = "coreIndex.php";
-	final static String POST_VARIABLE = "XMLinput";
 
 	static private String mServerHost = "";
 	static private int mCurrentPort = 0;
@@ -158,9 +162,11 @@ public class HttpTransportImpl implements HttpTransport {
 				ImageIcon icon_result = null;
 				try {
 					try {
+						Logging.getInstance().writeLog("### TELECHARGEMENT ###",aIconName,2);
 						InputStream reponse = transfertFileFromServer(aIconName, new TreeMap());
 						icon_result=imageCache.addImage(aIconName, reponse);
 					} catch (LucteriosException e) {
+						imageCache.addDummy(aIconName);
 						e.printStackTrace();
 					}
 				} finally {
@@ -258,21 +264,28 @@ public class HttpTransportImpl implements HttpTransport {
 		}
 	}
 
-	private String getMethodByParameters(Map aParams, java.net.URL aPathUrl) {
+	private String getMethodByParameters(Map aParams, java.net.URL aPathUrl) throws FileNotFoundException {
 		String param_txt = "";
 		method = new PostMethod(aPathUrl.toString());
 		if (aParams != null) {
 			Set keys = aParams.keySet();
+			Part[] parts = new Part[keys.size()]; 
 			for (int data_idx = 0; data_idx < keys.size(); data_idx++) {
 				String key = (String) keys.toArray()[data_idx];
-				method.addParameter(key, (String) aParams.get(key));
-				param_txt += (String) aParams.get(key);
+				Object obj=aParams.get(key);
+				if (File.class.isInstance(obj))
+					parts[data_idx]=new FilePart(key,(File)obj);
+				else
+					parts[data_idx]=new StringPart(key,obj.toString()); 
+				param_txt += obj.toString();
 			}
+			method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
 		}
 		return param_txt;
 	}
 
 	public int getFileLength(String aWebFile) throws LucteriosException {
+		Logging.getInstance().writeLog("### HEADER ###",aWebFile,2);
 		int size = 0;
 		String value="";
 		java.net.URL path_url = getUrl(aWebFile);
@@ -358,8 +371,7 @@ public class HttpTransportImpl implements HttpTransport {
 
 	protected Object mSynchronizedObj = new Object();
 
-	public String transfertXMLFromServer(String aXmlParam)
-			throws LucteriosException {
+	public String transfertXMLFromServer(Map aXmlParam) throws LucteriosException {
 		String data = "";
 		synchronized (mSynchronizedObj) {
 			String xml_param = "<?xml version='1.0' encoding='" + ENCODE
@@ -372,14 +384,13 @@ public class HttpTransportImpl implements HttpTransport {
 						+ mSession + "</PARAM>";
 				xml_param = xml_param + "</REQUETE>";
 			}
-			xml_param = xml_param + aXmlParam;
+			if (aXmlParam.containsKey(POST_VARIABLE))
+				xml_param = xml_param + aXmlParam.get(POST_VARIABLE).toString();
 			xml_param = xml_param + "</REQUETES>";
 			Logging.getInstance().setInText(xml_param);
-
-			Map params = new TreeMap();
 	        try
 	        {
-	        	params.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
+	        	aXmlParam.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
 	        }
 	        catch(java.io.UnsupportedEncodingException e)
 	        {
@@ -387,7 +398,7 @@ public class HttpTransportImpl implements HttpTransport {
 	        }
 			try {
 				data = "<?xml version='1.0' encoding='ISO-8859-1'?>";
-				data = data	+ transfertFileFromServerString(MANAGER_FILE, params);
+				data = data	+ transfertFileFromServerString(MANAGER_FILE, aXmlParam);
 			} catch (TransportException e) {
 				throw new LucteriosException("<b>Le serveur ne répond pas.</b>" +
 						"<br>Vérifiez la connection réseau et les configurations de l'outil.",e);
@@ -398,7 +409,7 @@ public class HttpTransportImpl implements HttpTransport {
 				throw new LucteriosException(e.toString(), e);
 			}
 			if ((data.length() > 0) && (data.charAt(0) != '<'))
-				throw new TransportException(data,TransportException.TYPE_HTTP, 2, aXmlParam, data);
+				throw new TransportException(data,TransportException.TYPE_HTTP, 2, xml_param, data);
 			Logging.getInstance().setOutText(data);
 		}
 		return data;

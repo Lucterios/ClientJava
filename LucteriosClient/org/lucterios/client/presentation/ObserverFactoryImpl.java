@@ -20,6 +20,7 @@
 
 package org.lucterios.client.presentation;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -83,8 +84,10 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return callAction(aExtension, aAction, aParam, null);
 	}
 
-	protected String getParamToXML(String aExtension, String aAction, Map aParam) {
-		String xml_text = "<REQUETE extension='" + aExtension + "' action='"
+	private String m_XMLParameters="";
+	protected Map convertParameters(String aExtension, String aAction, Map aParam) {
+		Map result=new TreeMap();
+		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='"
 				+ aAction + "'>";
 
 		for (Iterator iterator = aParam.entrySet().iterator(); iterator
@@ -92,12 +95,14 @@ public class ObserverFactoryImpl implements ObserverFactory {
 			Map.Entry entry = (Map.Entry) iterator.next();
 			String key = (String) entry.getKey();
 			Object value_obj = entry.getValue();
+			if (File.class.isInstance(value_obj))
+				result.put(key,value_obj);
 			String value = value_obj.toString();
-			xml_text = xml_text + "<PARAM name='" + key + "'><![CDATA[" + value
-					+ "]]></PARAM>";
+			m_XMLParameters = m_XMLParameters + "<PARAM name='" + key + "'><![CDATA[" + value + "]]></PARAM>";
 		}
-		xml_text = xml_text + "</REQUETE>";
-		return xml_text;
+		m_XMLParameters = m_XMLParameters + "</REQUETE>";
+		result.put(HttpTransport.POST_VARIABLE,m_XMLParameters);
+		return result;
 	}
 
 	private Map getContext(SimpleParsing aReponse) {
@@ -119,10 +124,10 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		try {
 			res_obs = (Observer) observ.newInstance();
 		} catch (InstantiationException e) {
-			throw new LucteriosException("Observeur non cr��", aParamTxt,
+			throw new LucteriosException("Observeur non créé", aParamTxt,
 					aXmlText, e);
 		} catch (IllegalAccessException e) {
-			throw new LucteriosException("Observeur non cr��", aParamTxt,
+			throw new LucteriosException("Observeur non créé", aParamTxt,
 					aXmlText, e);
 		}
 		return res_obs;
@@ -133,8 +138,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		if (mTransport == null)
 			throw new LucteriosException("Transport null");
 		Observer res_obs = null;
-		String param_txt = getParamToXML(aExtension, aAction, aParam);
-		String xml_text = mTransport.transfertXMLFromServer(param_txt);
+		String xml_text = mTransport.transfertXMLFromServer(convertParameters(aExtension, aAction, aParam));
 		SimpleParsing parse = new SimpleParsing();
 		if (parse.parse(xml_text)) {
 			SimpleParsing rep = parse.getFirstSubTag("REPONSE");
@@ -143,7 +147,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 				String source_extension = rep.getAttribut("source_extension");
 				String source_action = rep.getAttribut("source_action");
 				if (aObserver == null) {
-					res_obs = factoryObserver(observer_name, param_txt,
+					res_obs = factoryObserver(observer_name, m_XMLParameters,
 							xml_text);
 					res_obs.setSource(source_extension, source_action);
 				} else {
@@ -154,12 +158,12 @@ public class ObserverFactoryImpl implements ObserverFactory {
 						if (observer_name.equalsIgnoreCase("CORE.Auth")
 								|| observer_name
 										.equalsIgnoreCase("CORE.Exception")) {
-							res_obs = factoryObserver(observer_name, param_txt,
+							res_obs = factoryObserver(observer_name, m_XMLParameters,
 									xml_text);
 							res_obs.setSource(source_extension, source_action);
 						} else
 							throw new LucteriosException(
-									"Erreur de parsing xml", param_txt,
+									"Erreur de parsing xml", m_XMLParameters,
 									xml_text);
 					}
 				}
@@ -168,9 +172,9 @@ public class ObserverFactoryImpl implements ObserverFactory {
 				res_obs.setContent(rep);
 			} else
 				throw new LucteriosException("Observeur '" + observer_name
-						+ "' inconnu", param_txt, xml_text);
+						+ "' inconnu", m_XMLParameters, xml_text);
 		} else
-			throw new LucteriosException("Erreur de parsing xml", param_txt,
+			throw new LucteriosException("Erreur de parsing xml", m_XMLParameters,
 					xml_text);
 		return res_obs;
 	}
@@ -178,9 +182,8 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	public void refreshAction(Observer aObserver) throws LucteriosException {
 		if (mTransport == null)
 			throw new LucteriosException("Transport null");
-		String param_txt = getParamToXML(aObserver.getSourceExtension(),
-				aObserver.getSourceAction(), aObserver.getContext());
-		String xml_text = mTransport.transfertXMLFromServer(param_txt);
+		String xml_text = mTransport.transfertXMLFromServer(convertParameters(aObserver.getSourceExtension(),
+				aObserver.getSourceAction(), aObserver.getContext()));
 		SimpleParsing parse = new SimpleParsing();
 		if (parse.parse(xml_text)) {
 			SimpleParsing rep = parse.getFirstSubTag("REPONSE");
@@ -197,17 +200,17 @@ public class ObserverFactoryImpl implements ObserverFactory {
 				if (observer_name.equalsIgnoreCase("CORE.Auth")
 						|| observer_name.equalsIgnoreCase("CORE.Exception")) {
 					Observer res_obs = factoryObserver(observer_name,
-							param_txt, xml_text);
+							m_XMLParameters, xml_text);
 					res_obs.setSource(source_extension, source_action);
 					res_obs.setContext(getContext(rep));
 					res_obs.setContent(rep);
 					res_obs.show(null);
 				} else
-					throw new LucteriosException("Observeur non respect�",
-							param_txt, xml_text);
+					throw new LucteriosException("Observeur non respecté",
+							m_XMLParameters, xml_text);
 			}
 		} else
-			throw new LucteriosException("Erreur de parsing xml", param_txt,
+			throw new LucteriosException("Erreur de parsing xml", m_XMLParameters,
 					xml_text);
 	}
 }

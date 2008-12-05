@@ -28,6 +28,8 @@ import javax.swing.ImageIcon;
 import org.lucterios.utils.LucteriosException;
 
 public interface HttpTransport {
+	public final static String POST_VARIABLE = "XMLinput";
+
 	public String getSession();
 
 	public void setSession(String aSession);
@@ -48,8 +50,7 @@ public interface HttpTransport {
 
 	public void closeConnection();
 
-	public String transfertXMLFromServer(String aXmlParam)
-			throws LucteriosException;
+	public String transfertXMLFromServer(Map aParams) throws LucteriosException;
 
 	public String transfertFileFromServerString(String aWebFile, Map aParams)
 			throws LucteriosException;

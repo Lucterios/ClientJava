@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Created-By: Lucterios
 Main-class: org.lucterios.Client.Main
-Class-Path: batik-all-1.7.jar commons-codec-1.3.jar Date_selector.jar jdom.jar junit.jar
+Class-Path: batik-all-1.7.jar commons-codec-1.3.jar Date_selector.jar junit.jar
 
 Name: LucteriosUtils
 Specification-Title: LucteriosUtils

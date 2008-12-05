@@ -35,6 +35,7 @@ import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
+import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -181,7 +182,7 @@ public class ActionImpl implements Action {
 	}
 
 	public void showObserver(Observer aObs) {
-		System.out.print("ShowObserver:begin\n");
+		Logging.getInstance().writeLog("@@@ showObserver @@@","BEGIN",2);
 		aObs.eventForEnabled(true);
 		try {
 			try {
@@ -207,6 +208,7 @@ public class ActionImpl implements Action {
 		} finally {
 			aObs.eventForEnabled(false);
 		}
+		Logging.getInstance().writeLog("@@@ showObserver @@@","END",2);
 	}
 
 	private int getFormType(Observer aObs) {
@@ -257,6 +259,7 @@ public class ActionImpl implements Action {
 
 	public void runAction(Map aParam) {
 		try {
+			Logging.getInstance().writeLog("@@@ runAction @@@","BEGIN",2);
 			Observer old_observrer = null;
 			if (mFormType == ActionConstantes.FORM_REFRESH)
 				old_observrer = getOwner();
@@ -285,6 +288,7 @@ public class ActionImpl implements Action {
 				}
 			});
 		}
+		Logging.getInstance().writeLog("@@@ runAction @@@","END",2);
 	}
 
 	private Map getParameters() {

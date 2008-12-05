@@ -53,6 +53,7 @@ public class CmpUpload extends CmpAbstractEvent {
 	private JButton btn_select;
 
 	private boolean m_isCompress=false; 
+	private boolean m_isHttpFile=false; 
 	
 	public CmpUpload() {
 		super();
@@ -66,7 +67,7 @@ public class CmpUpload extends CmpAbstractEvent {
 		}
 	}
 
-	public static String getFileContentBase64(File aFile,boolean aIsCompress){
+	public static Object getFileContentBase64(File aFile,boolean aIsCompress,boolean aIsHttpFile){
 		String content="";
 		try {
 			File tmp_file;
@@ -78,7 +79,8 @@ public class CmpUpload extends CmpAbstractEvent {
 			}
 			else
 				tmp_file=aFile;		
-			
+			if (aIsHttpFile) 
+				return tmp_file; 
 			InputStream file_stream = new java.io.FileInputStream(tmp_file);
 			EncodeBase64FromInputStream encoder = new EncodeBase64FromInputStream(file_stream);
 			content=aFile.getName() + ";" + encoder.encodeString();
@@ -90,7 +92,7 @@ public class CmpUpload extends CmpAbstractEvent {
 	public Map getRequete(String aActionIdent) {
 		TreeMap tree_map = new TreeMap();
 		File file = new File(txt_FileName.getText());
-		tree_map.put(getName(), getFileContentBase64(file,m_isCompress));
+		tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile));
 		return tree_map;
 	}
 
@@ -158,7 +160,8 @@ public class CmpUpload extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0); 
+		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0);
+		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
 		lbl_message.setText(mXmlItem.getText().trim());
 		SimpleParsing[] filer_list = mXmlItem.getSubTag("FILTER");
 		filters = new String[filer_list.length];

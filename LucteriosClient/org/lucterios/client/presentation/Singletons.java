@@ -20,6 +20,7 @@
 
 package org.lucterios.client.presentation;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.lucterios.client.transport.HttpTransport;
@@ -27,6 +28,7 @@ import org.lucterios.client.transport.HttpTransportImpl;
 import org.lucterios.client.utils.LucteriosConfiguration;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.IniFileReader;
+import org.lucterios.utils.Tools;
 
 public class Singletons {
 	
@@ -68,6 +70,11 @@ public class Singletons {
 		HttpTransportClass = HttpTransportImpl.class;
 		Configuration = new LucteriosConfiguration();
 		mFactory = new ObserverFactoryImpl();
+		File cache_dir=new File(TEMP_DIR);
+		if (cache_dir.isDirectory())
+			Tools.deleteDir(cache_dir);
+		if (!cache_dir.isDirectory())
+			cache_dir.mkdir();
 		loadSetting();
 	}
 

@@ -20,6 +20,9 @@
 
 package org.lucterios.client.transport;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import javax.swing.ImageIcon;
 
 import org.lucterios.utils.LucteriosException;
@@ -32,6 +35,12 @@ public class HttpTranportUnit extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		http_transport = new HttpTransportImpl();
+	}
+	
+	private Map getParam(String aText){
+		Map result=new TreeMap();
+		result.put(HttpTransport.POST_VARIABLE,aText);
+		return result;
 	}
 
 	protected void tearDown() throws Exception {
@@ -87,8 +96,7 @@ public class HttpTranportUnit extends TestCase {
 	public void testActions() throws LucteriosException {
 		http_transport.connectToServer("localhost", "lucterios", 80, false);
 		String xml_retour;
-		xml_retour = http_transport
-				.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
+		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
 		System.out.println("1er reponse:" + xml_retour);
 		assertEquals(
@@ -96,8 +104,7 @@ public class HttpTranportUnit extends TestCase {
 				"<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Auth' source_extension='CORE' source_action='authentification'><![CDATA[NEEDAUTH]]></REPONSE></REPONSES>",
 				xml_retour);
 
-		xml_retour = http_transport
-				.transfertXMLFromServer("<REQUETE extension='common' action='authentification'><PARAM name='login'>admin</PARAM><PARAM name='pass'>admin</PARAM></REQUETE>");
+		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='common' action='authentification'><PARAM name='login'>admin</PARAM><PARAM name='pass'>admin</PARAM></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
 		System.out.println("2eme reponse:" + xml_retour);
 		assertTrue("2eme reponse size", 140 <= xml_retour.length());
@@ -111,8 +118,7 @@ public class HttpTranportUnit extends TestCase {
 		System.out.println("Session:" + session);
 		http_transport.setSession(session);
 
-		xml_retour = http_transport
-				.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
+		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
 		System.out.println("3eme reponse:" + xml_retour);
 		assertTrue("3eme reponse size", 128 <= xml_retour.length());
@@ -125,7 +131,7 @@ public class HttpTranportUnit extends TestCase {
 	public void testActionsSecurity() throws LucteriosException {
 		http_transport.connectToServer("localhost", "Lucterios", 433, true);
 		String xml_retour;
-		xml_retour = http_transport.transfertXMLFromServer("<REQUETE extension='CORE' action='menu'></REQUETE>");
+		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
 		System.out.println("1er reponse:" + xml_retour);
 		assertEquals(

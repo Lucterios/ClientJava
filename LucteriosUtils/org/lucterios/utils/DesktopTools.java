@@ -110,7 +110,6 @@ public class DesktopTools {
 	
 	private void openInMail(String aUrl) throws LucteriosException {
 		try {
-			//String url_without_mailto=url.replaceAll("mailto:","");
 			String[] args;
 			String os_arch=System.getProperty("os.arch").toLowerCase();
 	        Logging.getInstance().writeLog("OS to open URL",os_arch,1);
@@ -133,7 +132,7 @@ public class DesktopTools {
 
 	private String searchBrowserFromUnix() throws InterruptedException, IOException, LucteriosException 
 	{
-		String[] browsers = { "firefox", "mozilla", "konqueror", "opera", "epiphany", "netscape" }; 
+		String[] browsers = {"xdg-open","firefox", "mozilla", "konqueror", "opera", "epiphany", "netscape" }; 
 		String browser = null; 
 		for (int count = 0; count < browsers.length && browser == null; count++)
 		if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
@@ -145,7 +144,7 @@ public class DesktopTools {
 
 	private String searchMailerFromUnix()
 			throws InterruptedException, IOException, LucteriosException {
-		String[] browsers = { "thunderbird", "mozilla", "kmail", "opera", "netscape" }; 
+		String[] browsers = {"xdg-open","thunderbird", "mozilla", "kmail", "opera", "netscape" }; 
 		String browser = null; 
 		for (int count = 0; count < browsers.length && browser == null; count++)
 		if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)

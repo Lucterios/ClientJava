@@ -45,7 +45,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	private String m_FileName;
 	private File m_LocalFile; 
 	private FileMonitoring m_file_monitoring=null;
-	private boolean m_isCompress=false; 
+	private boolean m_isCompress=false;
+	private boolean m_isHttpFile=false;
 
 	public CmpDownLoad() {
 		super();
@@ -130,6 +131,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		btn_open.setEnabled(false);
 		btn_save.setEnabled(false); 
 		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0); 
+		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
 		m_FileName=mXmlItem.getText();
 		String message=m_FileName;
 		if (mEventAction==null)
@@ -199,7 +201,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 				public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
 					Map requete = new TreeMap();
 					requete.putAll(mObsCustom.getContext());
-					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress));
+					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile));
 					return requete;
 				}
 			});
