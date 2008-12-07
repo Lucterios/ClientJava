@@ -51,6 +51,7 @@ import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
+import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.client.utils.FormList;
@@ -553,6 +554,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	public void refreshMainFrame() {
+		ImageCache.clearMiniImages();
 		mToolNavigator.clearTools();
 		setActive(false);
 		ObserverMenu.Main = this;

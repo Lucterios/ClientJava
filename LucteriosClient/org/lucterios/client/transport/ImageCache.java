@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
@@ -21,6 +22,11 @@ public class ImageCache {
 	private static final String SUFIX_FOR_DUMMY="%DUMMY";
 	private static final long TIME_PERINITY=1000*60*60*24*15; // 15j en millisecondes
 	private static final long TIME_PERINITY_DUMMY=1000*60*60*12; // 12h en millisecondes
+	private static Vector mMiniImages=new Vector();
+	
+	public static void clearMiniImages(){
+		mMiniImages.clear();
+	}
 	
 	public ImageCache(HttpTransport aTransport){
 		mTransport=aTransport;
@@ -44,14 +50,18 @@ public class ImageCache {
 			long file_size=cache_file.length();
 			Date date_limit=new Date(cache_file.lastModified()+TIME_PERINITY);			
 			if ((file_size!=0) && (date_limit.after(new Date()))) {
-				long size;
-				size = mTransport.getFileLength(aIconName);
-				return (file_size==size);
+				if (mMiniImages.contains(cache_file_name))
+					return true;
+				else {
+					long size;
+					size = mTransport.getFileLength(aIconName);
+					return (file_size==size);
+				}
 			}
 			else {
 				File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY); 
 				Date dummy_limit=new Date(dummy_file.lastModified()+TIME_PERINITY_DUMMY);			
-				return (dummy_file.exists() && (dummy_limit.after(new Date()))); 
+				return (!dummy_file.exists() || (dummy_limit.before(new Date()))); 
 			}
 		} catch (LucteriosException e) {
 			return true;
@@ -74,6 +84,8 @@ public class ImageCache {
 				FileImageInputStream fiis = new FileImageInputStream(file);
 				BufferedImage img=ImageIO.read(fiis);			
 				ImageIcon icon=new ImageIcon(img);
+				if (!mMiniImages.contains(file_cache) && (icon.getIconHeight()<=64) && (icon.getIconWidth()<=64))
+					mMiniImages.add(file_cache);
 				return icon;
 			} catch (FileNotFoundException e) {
 				return null;

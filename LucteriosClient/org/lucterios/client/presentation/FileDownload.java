@@ -77,7 +77,7 @@ public class FileDownload implements Runnable {
 				m_CallBack.failure("Echec de l'import");
 		} catch (TransportException te) {
 			if (te.mCode==404)
-				m_CallBack.failure("Inexistant");
+				m_CallBack.failure("Fichier inexistant");
 			else
 				m_CallBack.failure(te.getMessage());
 		} catch (LucteriosException le) {

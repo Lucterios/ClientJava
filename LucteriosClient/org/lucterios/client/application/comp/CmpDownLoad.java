@@ -60,9 +60,14 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		}
 	}
 
-	public void close(){
+	private void closeMonitoring(){
 		if (m_file_monitoring!=null)
 			m_file_monitoring.stop();
+		m_file_monitoring=null;
+	}
+	
+	public void close(){
+		closeMonitoring();
 		super.close();
 	}
 	
@@ -91,7 +96,6 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
-		gridBagConstraints.gridwidth = 2;
 		gridBagConstraints.weightx = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 		pnl_Btn.add(lbl_message, gridBagConstraints);
@@ -103,8 +107,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 				saveExtractedFile();
 			}});
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 0;
 		gridBagConstraints.weightx = 0;
 		gridBagConstraints.insets= new Insets(5,10,2,10);
 		pnl_Btn.add(btn_save, gridBagConstraints);
@@ -116,8 +120,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 				openExtractedFile();
 			}});
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 0;
 		gridBagConstraints.weightx = 0;
 		gridBagConstraints.insets= new Insets(5,10,2,10);
 		pnl_Btn.add(btn_open, gridBagConstraints);
@@ -150,8 +154,10 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		btn_open.setEnabled(mEventAction==null); 
 	    if (m_LocalFile.exists()) {
 			try {
-				if (mEventAction!=null)
+				if (mEventAction!=null) {				
+					closeMonitoring();
 					m_file_monitoring=new FileMonitoring(m_LocalFile,this);
+				}
 				DesktopTools.instance().launch(m_LocalFile.toURI().toString());
 			} catch (LucteriosException e1) 
 			{
@@ -184,7 +190,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	}
 
 	public void failure(String aMessage) {
-		lbl_message.setText("<CENTER><font color='red'>Erreur (fichier "+m_FileName+"): "+aMessage+" </font><CENTER>");
+		lbl_message.setText("<CENTER><font color='red'>Erreur<br>"+m_FileName+": "+aMessage+" </font><CENTER>");
 	}
 
 	public void success(String aLocalFile) {
