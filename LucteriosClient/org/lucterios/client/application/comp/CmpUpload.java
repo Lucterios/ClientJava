@@ -96,6 +96,11 @@ public class CmpUpload extends CmpAbstractEvent {
 		return tree_map;
 	}
 
+	public boolean isEmpty() {
+		File file = new File(txt_FileName.getText());
+		return mNeeded && !file.exists();
+	}
+
 	protected void initComponent() {
 		java.awt.GridBagConstraints gridBagConstraints;
 		pnl_Btn = new JPanel();

@@ -60,8 +60,11 @@ public class ImageCache {
 			}
 			else {
 				File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY); 
-				Date dummy_limit=new Date(dummy_file.lastModified()+TIME_PERINITY_DUMMY);			
-				return (!dummy_file.exists() || (dummy_limit.before(new Date()))); 
+				Date dummy_limit=new Date(dummy_file.lastModified()+TIME_PERINITY_DUMMY);
+				if (dummy_file.exists())
+					return dummy_limit.after(new Date());
+				else
+					return false;
 			}
 		} catch (LucteriosException e) {
 			return true;
