@@ -24,6 +24,7 @@ import java.util.*;
 
 import java.awt.*;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.*;
 
@@ -100,6 +101,7 @@ public class CmpTime extends CmpAbstractEvent {
 		add(spe_minute, gdbConstr);
 
 		JPanel pnl_date = new JPanel();
+		pnl_date.setOpaque(false);
 		pnl_date.setFocusable(false);
 		gdbConstr = new GridBagConstraints();
 		gdbConstr.gridx = 3;
@@ -142,4 +144,17 @@ public class CmpTime extends CmpAbstractEvent {
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}
+	
+	public void addFocusListener(FocusListener aFocus) {
+		super.addFocusListener(aFocus);
+		spe_hour.addFocusListener(aFocus);
+		spe_minute.addFocusListener(aFocus);
+	}
+
+	public void removeFocusListener(FocusListener aFocus) {
+		super.removeFocusListener(aFocus);
+		spe_hour.removeFocusListener(aFocus);
+		spe_minute.removeFocusListener(aFocus);
+	}
+	
 }

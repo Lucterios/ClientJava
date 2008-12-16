@@ -108,22 +108,24 @@ public abstract class Cmponent extends JPanel {
 		VMin = aXmlItem.getAttributInt("VMin", 0);
 		HMax = aXmlItem.getAttributInt("HMax", Integer.MAX_VALUE);
 		VMax = aXmlItem.getAttributInt("VMax", Integer.MAX_VALUE);
-		mGdbConp.gridx = X;
-		mGdbConp.gridy = Y;
-		mGdbConp.gridwidth = W;
-		mGdbConp.gridheight = H;
-		mGdbConp.fill = mFill;
-		mGdbConp.anchor = GridBagConstraints.NORTH;
-		mGdbConp.weightx = mWeightx;
-		mGdbConp.weighty = mWeighty;
-		mGdbConp.insets = new Insets(1, 1, 1, 1);
-		if ((HMin > 0) && (VMin > 0)) {
-			this.setMinimumSize(new Dimension(HMin, VMin));
-			this.setPreferredSize(new Dimension(HMin, VMin));
+		if (mOwnerPanel!=null) {
+			mGdbConp.gridx = X;
+			mGdbConp.gridy = Y;
+			mGdbConp.gridwidth = W;
+			mGdbConp.gridheight = H;
+			mGdbConp.fill = mFill;
+			mGdbConp.anchor = GridBagConstraints.NORTH;
+			mGdbConp.weightx = mWeightx;
+			mGdbConp.weighty = mWeighty;
+			mGdbConp.insets = new Insets(1, 1, 1, 1);
+			if ((HMin > 0) && (VMin > 0)) {
+				this.setMinimumSize(new Dimension(HMin, VMin));
+				this.setPreferredSize(new Dimension(HMin, VMin));
+			}
+			if ((HMax > 0) && (VMax > 0))
+				this.setMaximumSize(new Dimension(HMax, VMax));
+			aOwnerPanel.add(this, mGdbConp);
 		}
-		if ((HMax > 0) && (VMax > 0))
-			this.setMaximumSize(new Dimension(HMax, VMax));
-		aOwnerPanel.add(this, mGdbConp);
 		mNeeded = (aXmlItem.getAttributInt("needed", 0) == 1);
 		try {
 			JavaScript = java.net.URLDecoder.decode(aXmlItem

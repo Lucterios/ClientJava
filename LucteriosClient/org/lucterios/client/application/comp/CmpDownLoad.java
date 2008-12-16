@@ -5,6 +5,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -158,10 +159,12 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 					closeMonitoring();
 					m_file_monitoring=new FileMonitoring(m_LocalFile,this);
 				}
-				DesktopTools.instance().launch(m_LocalFile.toURI().toString());
+				DesktopTools.instance().launch(m_LocalFile.toURI().toURL().toString());
 			} catch (LucteriosException e1) 
 			{
 				ExceptionDlg.throwException(e1);
+			} catch (MalformedURLException e) {
+				ExceptionDlg.throwException(e);
 			}	    	
 	    }
 	}

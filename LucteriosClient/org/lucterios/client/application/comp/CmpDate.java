@@ -26,67 +26,11 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
+import org.lucterios.client.utils.DatePickerSimple;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.MyDateSelectorPanel;
 
 public class CmpDate extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
-
-	class DatePickerSimple extends JDialog {
-		private static final long serialVersionUID = 1L;
-		MyDateSelectorPanel selector;
-
-		public DatePickerSimple() {
-			super();
-			this.setVisible(false);
-			this.setModal(true);
-			this.setResizable(false);
-			this.setTitle("Date");
-			this.toFront();
-			this.setLocationRelativeTo(null);
-			buildGUI();
-		}
-
-		public String getDate() {
-			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-					"yyyy-MM-dd");
-			java.util.Calendar cal = selector.get_calendar();
-			return sdf.format(cal.getTime());
-		}
-
-		public void buildGUI() {
-			selector = new MyDateSelectorPanel();
-			JPanel pnl_select = selector
-					.getTitledDateSelector(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							setVisible(false);
-						}
-					});
-			selector.set_from_calendar(java.util.Calendar.getInstance());
-			getContentPane().add(pnl_select); // I hate these casts, but
-												// they're
-			pack();
-		}
-
-		public int day() {
-			return date_simple.selector.get_calendar().get(
-					java.util.Calendar.DAY_OF_MONTH);
-		}
-
-		public int month() {
-			return date_simple.selector.get_calendar().get(
-					java.util.Calendar.MONTH);
-		}
-
-		public int year() {
-			return date_simple.selector.get_calendar().get(
-					java.util.Calendar.YEAR);
-		}
-
-	}
-
-	static private int MIN_YEAR = 1930;
-	static private int MAX_YEAR = 2015;
 
 	private org.lucterios.utils.graphic.SpinEdit spe_day;
 	private javax.swing.JComboBox cmp_month;
@@ -114,21 +58,14 @@ public class CmpDate extends CmpAbstractEvent {
 		edit_date.setEnabled(aEnabled);
 	}
 
-	private String convertIntToStr(long value, int digit) {
-		String result = new Long(value).toString();
-		while (result.length() < digit)
-			result = "0" + result;
-		return result;
-	}
-
 	public Map getRequete(String aActionIdent) {
 		fillData();
 		TreeMap tree_map = new TreeMap();
 		String date_text = "";
-		date_text = date_text + convertIntToStr(spe_year.getNumber(), 4);
+		date_text = date_text + DatePickerSimple.convertIntToStr(spe_year.getNumber(), 4);
 		date_text = date_text + "-"
-				+ convertIntToStr(cmp_month.getSelectedIndex() + 1, 2);
-		date_text = date_text + "-" + convertIntToStr(spe_day.getNumber(), 2);
+				+ DatePickerSimple.convertIntToStr(cmp_month.getSelectedIndex() + 1, 2);
+		date_text = date_text + "-" + DatePickerSimple.convertIntToStr(spe_day.getNumber(), 2);
 		tree_map.put(getName(), date_text);
 		return tree_map;
 	}
@@ -152,20 +89,7 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.weighty = 1.0;
 		add(spe_day, gdbConstr);
 
-		Vector month_list = new Vector();
-		month_list.add("Janvier");
-		month_list.add("Février");
-		month_list.add("Mars");
-		month_list.add("Avril");
-		month_list.add("Mai");
-		month_list.add("Juin");
-		month_list.add("Juillet");
-		month_list.add("Août");
-		month_list.add("Septembre");
-		month_list.add("Octobre");
-		month_list.add("Novembre");
-		month_list.add("Décembre");
-		cmp_month = new javax.swing.JComboBox(month_list);
+		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList());
 		cmp_month.setName("cmp_month");
 		cmp_month.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -195,9 +119,6 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.fill = GridBagConstraints.BOTH;
 		add(cmp_month, gdbConstr);
 
-		Vector year_list = new Vector();
-		for (int year_idx = MIN_YEAR; year_idx <= MAX_YEAR; year_idx++)
-			year_list.add(new Integer(year_idx));
 		spe_year = new org.lucterios.utils.graphic.SpinEdit(date_simple.year(),
 				1000, 3000);
 		spe_year.setName("spe_year");
@@ -227,6 +148,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 		JLabel pnl_date = new JLabel();
 		pnl_date.setFocusable(false);
+		pnl_date.setOpaque(false);
 		gdbConstr = new GridBagConstraints();
 		gdbConstr.gridx = 4;
 		gdbConstr.gridy = 0;
@@ -237,7 +159,7 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected void fillData() {
-		date_simple.selector.set((int)(spe_year.getNumber()), cmp_month
+		date_simple.getSelector().set((int)(spe_year.getNumber()), cmp_month
 				.getSelectedIndex(),(int)(spe_day.getNumber()));
 	}
 
@@ -296,4 +218,20 @@ public class CmpDate extends CmpAbstractEvent {
 		return !init_value.equals(current_value);
 	}
 
+	public void addFocusListener(FocusListener aFocus) {
+		super.addFocusListener(aFocus);
+		spe_day.addFocusListener(aFocus);
+		cmp_month.addFocusListener(aFocus);
+		spe_year.addFocusListener(aFocus);
+		edit_date.addFocusListener(aFocus);
+	}
+
+	public void removeFocusListener(FocusListener aFocus) {
+		super.removeFocusListener(aFocus);
+		spe_day.removeFocusListener(aFocus);
+		cmp_month.removeFocusListener(aFocus);
+		spe_year.removeFocusListener(aFocus);
+		edit_date.removeFocusListener(aFocus);
+	}
+	
 }

@@ -21,6 +21,7 @@ import org.lucterios.client.application.comp.CmpButton;
 import org.lucterios.client.application.comp.CmpCheck;
 import org.lucterios.client.application.comp.CmpChecklist;
 import org.lucterios.client.application.comp.CmpDate;
+import org.lucterios.client.application.comp.CmpDateTime;
 import org.lucterios.client.application.comp.CmpDownLoad;
 import org.lucterios.client.application.comp.CmpEdit;
 import org.lucterios.client.application.comp.CmpFloat;
@@ -58,6 +59,7 @@ public class CustomManager extends JAdvancePanel {
 		ListComponents.put("CHECK", CmpCheck.class);
 		ListComponents.put("CHECKLIST", CmpChecklist.class);
 		ListComponents.put("DATE", CmpDate.class);
+		ListComponents.put("DATETIME", CmpDateTime.class);
 		ListComponents.put("EDIT", CmpEdit.class);
 		ListComponents.put("FLOAT", CmpFloat.class);
 		ListComponents.put("MEMO", CmpMemo.class);

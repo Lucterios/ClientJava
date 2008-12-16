@@ -26,12 +26,6 @@ public class FileDownload implements Runnable {
 		mTransport=Singletons.Transport();
 	}
 	
-	public void clear(){
-		File cache_dir=new File(Singletons.TEMP_DIR);
-		if (!cache_dir.isDirectory())
-			cache_dir.mkdir();
-	}
-	
 	private String getTempFileName(String aName){
 		String val=Tools.replace(aName,"\\","%"); 
 		val=Tools.replace(val,"/","%");
