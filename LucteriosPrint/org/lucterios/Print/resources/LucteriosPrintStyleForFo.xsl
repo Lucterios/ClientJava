@@ -300,7 +300,12 @@
 							<xsl:call-template name="component_border"/>
 							<fo:block>
 								<xsl:call-template name="component_font"/>
-								<xsl:apply-templates/>
+								<xsl:if test="@image=1">
+									<xsl:call-template name="addimage"/>
+								</xsl:if>
+								<xsl:if test="@image!=1">
+									<xsl:apply-templates/>
+								</xsl:if>
 							</fo:block>
 						</fo:table-cell>				
 					</xsl:for-each>
@@ -331,9 +336,15 @@
 			</xsl:if>
 			<fo:block>
 				<xsl:call-template name="table_body"/>
-                        </fo:block>
+            </fo:block>
 		</fo:block>
 	</xsl:if>
+</xsl:template>
+
+<xsl:template name="addimage">
+    <fo:external-graphic>
+		<xsl:attribute name="src">url('<xsl:call-template name="trim"><xsl:with-param name="s" select="text()"/></xsl:call-template>')</xsl:attribute>
+	</fo:external-graphic>
 </xsl:template>
 
 <xsl:template match="image">
@@ -345,10 +356,8 @@
 			<xsl:call-template name="component_border"/>
 			<xsl:call-template name="component_font"/>
 			<fo:block>
-                                <fo:external-graphic>
-					<xsl:attribute name="src">url('<xsl:call-template name="trim"><xsl:with-param name="s" select="text()"/></xsl:call-template>')</xsl:attribute>
-				</fo:external-graphic>
-                        </fo:block>
+				<xsl:call-template name="addimage"/>
+            </fo:block>
 		</fo:block-container>
 	</xsl:if>
 	<xsl:if test="number(@spacing)!=0">
@@ -360,10 +369,8 @@
 				<xsl:attribute name="space-before"><xsl:value-of select="@space_before"/>mm</xsl:attribute>
 			</xsl:if>
 			<fo:block>
-                                <fo:external-graphic>
-					<xsl:attribute name="src">url('<xsl:call-template name="trim"><xsl:with-param name="s" select="text()"/></xsl:call-template>')</xsl:attribute>
-				</fo:external-graphic>
-                        </fo:block>
+				<xsl:call-template name="addimage"/>
+            </fo:block>
 		</fo:block>
 	</xsl:if>
 </xsl:template>

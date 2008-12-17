@@ -120,6 +120,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 			return false;
 		}
 
+		private TreeMap mIconCache=new TreeMap();
 		public Object getValue(Object row) {
 			String valuetxt = ((GridRow) row).GetCell(mHeaderId);
 			try {
@@ -133,7 +134,12 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 							"oui"));
 				case TypeIcon:
 					Icon new_icon;
-					new_icon = (Icon) Singletons.Transport().getIcon(valuetxt);
+					if (mIconCache.containsKey(valuetxt))
+						new_icon = (Icon)mIconCache.get(valuetxt);
+					else {
+						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt);
+						mIconCache.put(valuetxt, new_icon);
+					}
 					return new_icon;
 				default:
 					return valuetxt;
