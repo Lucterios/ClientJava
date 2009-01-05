@@ -7,6 +7,7 @@ import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 
 public class DesktopTools {
 
-	private static final String DESKTOP_ENVIRONMENTS = "kdesktop|gnome-panel";
+	private static final String DESKTOP_ENVIRONMENTS = "kde|gnome";
 	
 	private static final String KDE_CONFIG = System.getProperty("user.home") + "/.kde/share/config/kickerrc";
 		
@@ -250,16 +251,21 @@ public class DesktopTools {
 		
 		
 		/* Needs to be fixed.  Doesn't know the difference between CustomSize and Size */
-		IniFileReader ini_file=new IniFileReader(KDE_CONFIG);
-		int customSiz = ini_file.getValueSectionInt("General", "CustomSize");
-		int siz = ini_file.getValueSectionInt("General", "Size");
-		int pos = ini_file.getValueSectionInt("General", "Position");
-		ini_file.close();
-		int position = pos==-1?2:pos;
-		if(siz == -1) siz = 3;
-		int size = (customSiz==-1||siz!=4)?siz:customSiz;
-		size = size<24?sizes[size]:size;
-		i[position]=size;
+		File kde_file=new File(KDE_CONFIG);
+		if (kde_file.exists()) {
+			IniFileReader ini_file=new IniFileReader(KDE_CONFIG);
+			int customSiz = ini_file.getValueSectionInt("General", "CustomSize");
+			int siz = ini_file.getValueSectionInt("General", "Size");
+			int pos = ini_file.getValueSectionInt("General", "Position");
+			ini_file.close();
+			int position = pos==-1?2:pos;
+			if(siz == -1) siz = 3;
+			int size = (customSiz==-1||siz!=4)?siz:customSiz;
+			size = size<24?sizes[size]:size;
+			i[position]=size;
+		}
+		else
+			i[3]=sizes[3];
 		current_insets=new Insets(i[2],i[0],i[3],i[1]);
 	}
 	
