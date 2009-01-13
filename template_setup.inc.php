@@ -21,7 +21,7 @@
 // --- Last modification: Date 01 March 2008 12:28:58 By  ---
 
 $extention_name="java";
-$extention_description="Client gÃ©nÃ©rique pour toutes applications compatible Lucterios.{[newline]}NÃ©cessite une machine virtuel Java (voir http://www.java.com).";
+$extention_description="Client générique pour toutes applications compatible Lucterios.{[newline]}Nécessite une machine virtuel Java (voir http://www.java.com).";
 $extention_appli="";
 $extention_famille="client";
 $extention_titre="interface graphique Lucterios";
@@ -33,7 +33,7 @@ $version_release=X;
 $version_build=X;
 
 $depencies=array();
-$depencies[0] = new Param_Depencies("CORE", 0, 20, 0, 14, false);
+$depencies[0] = new Param_Depencies("CORE", 0, 90, 0, 90, false);
 
 $rights=array();
 
