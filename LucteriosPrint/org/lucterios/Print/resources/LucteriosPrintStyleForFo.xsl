@@ -303,7 +303,7 @@
 								<xsl:if test="@image=1">
 									<xsl:call-template name="addimage"/>
 								</xsl:if>
-								<xsl:if test="@image!=1">
+								<xsl:if test="not(@image=1)">
 									<xsl:apply-templates/>
 								</xsl:if>
 							</fo:block>
