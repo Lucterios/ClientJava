@@ -29,10 +29,19 @@ public class LucteriosException extends Exception
 	public String mRequest="";
 	public String mReponse="";
 	public Exception mLastException=null;
-	
+	public boolean mWithTrace=true;
+
 	public LucteriosException(String aMsg)
 	{
 		super(aMsg);
+		mWithTrace=true;
+	}
+
+	
+	public LucteriosException(String aMsg,boolean aWithTrace)
+	{
+		super(aMsg);
+		mWithTrace=aWithTrace;
 	}
 
 	public LucteriosException(String aMsg,Exception aLastException)

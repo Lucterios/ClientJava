@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 
 public class DesktopTools {
@@ -129,6 +132,18 @@ public class DesktopTools {
 			String[] args=new String[] {applic, aUrl};				
 			new ProcessExitDetector(args);			
 		} 
+		else if ("x86".equals(OS_ARCH)) {
+				try {
+					URL url = new URL(aUrl);
+					File current_file=new File(url.toURI());
+					String[] args = new String[]{"rundll32","url.dll","FileProtocolHandler",'"'+current_file.getAbsolutePath()+'"'};
+					new ProcessExitDetector(args);							
+				} catch (MalformedURLException e) {
+					throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
+				} catch (URISyntaxException e) {
+					throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
+				}
+		}
 		else
 			openInWeb(aUrl);
 	}

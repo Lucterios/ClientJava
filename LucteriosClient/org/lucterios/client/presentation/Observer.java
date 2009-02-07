@@ -73,7 +73,7 @@ public interface Observer extends NotifyFrameObserver {
 
 	public void refresh() throws LucteriosException;
 
-	public Map getParameters(String aActionId, int aUnique, boolean aCheckNull);
+	public Map getParameters(String aActionId, int aUnique, boolean aCheckNull) throws LucteriosException;
 
 	public void setNameComponentFocused(String aNameComponentFocused);
 }

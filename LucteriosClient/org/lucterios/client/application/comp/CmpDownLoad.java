@@ -48,6 +48,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	private FileMonitoring m_file_monitoring=null;
 	private boolean m_isCompress=false;
 	private boolean m_isHttpFile=false;
+	private int m_maxsize=1048576;
 
 	public CmpDownLoad() {
 		super();
@@ -137,6 +138,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		btn_save.setEnabled(false); 
 		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0); 
 		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
+		m_maxsize=mXmlItem.getAttributInt("maxsize",1048576);;
 		m_FileName=mXmlItem.getText();
 		String message=m_FileName;
 		if (mEventAction==null)
@@ -207,10 +209,10 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	public void fileModified() {
 		if (JOptionPane.showConfirmDialog(this,"Le fichier a été modifié.\nVoulez vous le ré-injecter dans l'application?","Extraction", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 			mEventAction.setOwner(new ObserverAcknowledge(){
-				public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+				public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 					Map requete = new TreeMap();
 					requete.putAll(mObsCustom.getContext());
-					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile));
+					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile,m_maxsize));
 					if (m_isCompress) 
 						requete.put(getName()+CmpUpload.SUFFIX_FILE_NAME,m_LocalFile.getName());
 					return requete;

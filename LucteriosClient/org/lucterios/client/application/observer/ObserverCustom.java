@@ -258,7 +258,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		}
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 		if (!aCheckNull || checkCompoundEmpty()) {
 			Map requete = new TreeMap();
 			if (mGUIContainer != null) {

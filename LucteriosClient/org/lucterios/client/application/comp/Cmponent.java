@@ -31,6 +31,7 @@ import org.lucterios.client.presentation.Observer;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing; // import
+import org.lucterios.utils.graphic.ExceptionDlg;
 											// org.lucterios.client.utils.Logging;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
@@ -161,7 +162,12 @@ public abstract class Cmponent extends JPanel {
 	}
 
 	public String getValue() {
-		return getRequete("").get(getName()).toString();
+		try {
+			return getRequete("").get(getName()).toString();
+		} catch (LucteriosException e) {
+			ExceptionDlg.throwException(e);
+			return "";
+		}
 	}
 
 	public static Cmponent getParentOfControle(Component aComponent) {
@@ -201,7 +207,7 @@ public abstract class Cmponent extends JPanel {
 		}
 	}
 
-	public abstract Map getRequete(String aActionIdent);
+	public abstract Map getRequete(String aActionIdent) throws LucteriosException;
 
 	protected abstract void initComponent();
 

@@ -55,6 +55,7 @@ public class CmpUpload extends CmpAbstractEvent {
 
 	private boolean m_isCompress=false; 
 	private boolean m_isHttpFile=false; 
+	private int m_maxsize=1048576;
 	
 	public CmpUpload() {
 		super();
@@ -68,7 +69,7 @@ public class CmpUpload extends CmpAbstractEvent {
 		}
 	}
 
-	public static Object getFileContentBase64(File aFile,boolean aIsCompress,boolean aIsHttpFile){
+	public static Object getFileContentBase64(File aFile,boolean aIsCompress,boolean aIsHttpFile,int aMaxSize) throws LucteriosException {
 		String content="";
 		try {
 			File tmp_file;
@@ -79,22 +80,25 @@ public class CmpUpload extends CmpAbstractEvent {
 				zip_manager.compressSimpleFile(aFile);
 			}
 			else
-				tmp_file=aFile;		
+				tmp_file=aFile;
+			if (tmp_file.length()>aMaxSize) {
+				float size=aMaxSize/(1024*1024);
+				throw new LucteriosException("Téléchargement impossible<br/>Le fichier doit faire moins de "+size+"Mo ",false);
+			}
 			if (aIsHttpFile) 
 				return tmp_file; 
 			InputStream file_stream = new java.io.FileInputStream(tmp_file);
 			EncodeBase64FromInputStream encoder = new EncodeBase64FromInputStream(file_stream);
 			content=aFile.getName() + ";" + encoder.encodeString();
 		} catch (IOException ioe) {}
-		catch (LucteriosException le) {}
 		return content;
 	}
 	
-	public Map getRequete(String aActionIdent) {
+	public Map getRequete(String aActionIdent) throws LucteriosException {
 		TreeMap tree_map = new TreeMap();
 		if (txt_FileName.getText().length()>0) {
 			File file = new File(txt_FileName.getText());
-			tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile));
+			tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile,m_maxsize));
 			if (m_isCompress) 
 				tree_map.put(getName()+SUFFIX_FILE_NAME,file.getName());
 		}
@@ -172,6 +176,7 @@ public class CmpUpload extends CmpAbstractEvent {
 		super.refreshComponent();
 		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0);
 		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
+		m_maxsize=mXmlItem.getAttributInt("maxsize",1048576);;
 		lbl_message.setText(mXmlItem.getText().trim());
 		SimpleParsing[] filer_list = mXmlItem.getSubTag("FILTER");
 		filters = new String[filer_list.length];

@@ -163,7 +163,7 @@ public abstract class ObserverAbstract implements Observer {
 		}
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 		return new TreeMap();
 	}
 

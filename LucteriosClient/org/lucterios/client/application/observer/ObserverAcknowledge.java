@@ -69,7 +69,7 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		throw new LucteriosException("Not in Dialog");
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 		Map requete = new TreeMap();
 		requete.putAll(mContext);
 		return requete;

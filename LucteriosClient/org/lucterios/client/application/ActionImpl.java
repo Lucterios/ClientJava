@@ -291,7 +291,7 @@ public class ActionImpl implements Action {
 		Logging.getInstance().writeLog("@@@ runAction @@@","END",2);
 	}
 
-	private Map getParameters() {
+	private Map getParameters() throws LucteriosException {
 		Map param;
 		if (mOwner != null) {
 			if (mUsedContext)
@@ -315,7 +315,8 @@ public class ActionImpl implements Action {
 	}
 
 	public void actionPerformed(ActionEvent aEvent) {
-		if (mustPerforme()) {
+		if (mustPerforme())
+			try {
 			final Map param = getParameters();
 			if (param != null) {
 				if (mOwner != null) {
@@ -336,6 +337,8 @@ public class ActionImpl implements Action {
 				};
 				thd.start();
 			}
+		} catch (LucteriosException e) {
+			ExceptionDlg.throwException(e);
 		}
 	}
 

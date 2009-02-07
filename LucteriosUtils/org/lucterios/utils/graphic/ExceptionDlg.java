@@ -297,22 +297,27 @@ public class ExceptionDlg extends javax.swing.JDialog {
     protected void setLucteriosException(LucteriosException le)
     {
     	setMessage("<b>Message</b> "+le.getMessage()+"<br>"+le.getExtraInfo(),FAILURE);
-        addTrace(le);
+        btn_more.setVisible(le.mWithTrace);
+    	if (le.mWithTrace) { 
+    		addTrace(le);
         
-        String rep=le.mReponse;
-        int pos=rep.indexOf("?>");
-        if (pos>=0)
-            rep=rep.substring(pos+2);
-        pos=rep.indexOf("<REPONSES");
-        if (pos>=0)
-        {
-        	if (pos>0)
-        		addExtra(rep.substring(0,pos-1));
-            addReponse(rep.substring(pos).replaceAll("><",">\n<"));
-        }
-        else
-        	addExtra(rep);
-        addRequette(le.mRequest.replaceAll("><",">\n<"));        
+	        String rep=le.mReponse;
+	        int pos=rep.indexOf("?>");
+	        if (pos>=0)
+	            rep=rep.substring(pos+2);
+	        pos=rep.indexOf("<REPONSES");
+	        if (pos>=0)
+	        {
+	        	if (pos>0)
+	        		addExtra(rep.substring(0,pos-1));
+	            addReponse(rep.substring(pos).replaceAll("><",">\n<"));
+	        }
+	        else
+	        	addExtra(rep);
+	        addRequette(le.mRequest.replaceAll("><",">\n<"));
+    	}
+    	else
+    		lbl_img.setIcon(getIcon(IMPORTANT));
     }
     
     public void showDialog()
