@@ -24,10 +24,12 @@ import java.util.*;
 
 import java.awt.*;
 
+import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.lucterios.client.presentation.Observer;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -109,6 +111,15 @@ public class CmpChecklist extends CmpAbstractEvent implements
 		add(scrl_list, java.awt.BorderLayout.CENTER);
 	}
 
+	public void init(JPanel aOwnerPanel, Observer aObsCustom,
+			SimpleParsing aXmlItem) {
+		if (aXmlItem.getAttributInt("simple", 0) != 0) {
+			mFill = GridBagConstraints.BOTH;
+			mWeighty = 1.0;
+		}
+		super.init(aOwnerPanel, aObsCustom, aXmlItem);
+	}
+	
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
 		mSimple = (mXmlItem.getAttributInt("simple", 0) != 0);

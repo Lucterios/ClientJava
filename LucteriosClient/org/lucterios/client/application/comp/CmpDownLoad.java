@@ -211,6 +211,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 					Map requete = new TreeMap();
 					requete.putAll(mObsCustom.getContext());
 					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile));
+					if (m_isCompress) 
+						requete.put(getName()+CmpUpload.SUFFIX_FILE_NAME,m_LocalFile.getName());
 					return requete;
 				}
 			});

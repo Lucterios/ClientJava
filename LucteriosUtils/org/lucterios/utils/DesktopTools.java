@@ -9,12 +9,61 @@ import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.util.Arrays;
 
 public class DesktopTools {
 
+	class ProcessExitDetector extends Thread {
+
+		private Process process;
+
+	    private boolean isExited() {
+	        try {
+	            process.exitValue();
+	            return false; 
+	        } catch (IllegalThreadStateException exc) {
+	            return true; 
+	        }
+	    }
+		
+	    public ProcessExitDetector(String[] aArgs) throws LucteriosException {
+    		String cmd="";
+	    	try{
+	    		for(int idx=0;idx<aArgs.length;idx++)
+	    			cmd+=aArgs[idx]+" ";
+	    		process = Runtime.getRuntime().exec(aArgs);
+	    		start();
+				System.out.println("Commande '"+cmd+"' lancée");
+			} catch (IOException e) {
+				throw new LucteriosException("Commande '"+cmd+"' non lancée!",e);
+			}
+	    }
+
+	    private void showInputStream(InputStream aStream){
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(aStream));
+				String inputLine;
+				while ((inputLine = in.readLine()) != null) 
+					System.out.println(inputLine);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		    	
+	    }
+	    
+	    public void run() {
+	        try {
+	        	while (isExited()) {
+	        		showInputStream(process.getInputStream());
+	        		showInputStream(process.getErrorStream());
+	        		sleep(1000);
+	        	}
+	        	System.out.println("Exit:"+process.exitValue());		
+	        } catch (InterruptedException e) {}
+	    }
+	}
+	
 	private static final String DESKTOP_ENVIRONMENTS = "kde|gnome";
 	
 	private static final String KDE_CONFIG = System.getProperty("user.home") + "/.kde/share/config/kickerrc";
@@ -76,14 +125,9 @@ public class DesktopTools {
 		String applic="";
 		if (m_ApplicationsSettingFile!=null)
 			applic=m_ApplicationsSettingFile.getValueSection(ASSOCIATION_SECTION,ext);
-		if (applic!=null) 
-		try {
+		if (applic!=null) {
 			String[] args=new String[] {applic, aUrl};				
-			Runtime.getRuntime().exec(args);			
-		} catch (MalformedURLException e) {
-			throw new LucteriosException("Application non trouvée!",e);
-		} catch (IOException e) {
-			throw new LucteriosException("Application non trouvée!",e);
+			new ProcessExitDetector(args);			
 		} 
 		else
 			openInWeb(aUrl);
@@ -95,15 +139,11 @@ public class DesktopTools {
 	        Logging.getInstance().writeLog("OS to open URL",OS_ARCH,1);
 			if ("x86".equals(OS_ARCH))
 				args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
-			else if ("ppc".equals(OS_ARCH) || "powerpc".equals(OS_ARCH))
+			else if ("ppc".equals(OS_ARCH) || "powerpc".equals(OS_ARCH) || "i386".equals(OS_ARCH)) // MAC OS-X
 				args = new String[] {"open",aUrl};
 			else
 				args=new String[] {searchBrowserFromUnix(), aUrl};				
-			Runtime.getRuntime().exec(args);
-		} catch (MalformedURLException e) {
-			throw new LucteriosException("Page non trouvée!",e);
-		} catch (IOException e) {
-			throw new LucteriosException("Page non trouvée!",e);
+			new ProcessExitDetector(args);			
 		} catch (InterruptedException e) {
 			throw new LucteriosException("Page non trouvée!",e);
 		} 
@@ -120,39 +160,42 @@ public class DesktopTools {
 				args = new String[] {"open",aUrl};
 			else
 				args = new String[] {searchMailerFromUnix(),aUrl};				
-			Runtime.getRuntime().exec(args);
-		} catch (MalformedURLException e) 
-		{
-			throw new LucteriosException("Courriel non trouvée!",e);
-		} catch (IOException e) {
-			throw new LucteriosException("Courriel non trouvée!",e);
+			new ProcessExitDetector(args);			
 		} catch (InterruptedException e) {
 			throw new LucteriosException("Courriel non trouvée!",e);
 		} 
 	}
 
-	private String searchBrowserFromUnix() throws InterruptedException, IOException, LucteriosException 
+	private String searchBrowserFromUnix() throws InterruptedException, LucteriosException 
 	{
 		String[] browsers = {"xdg-open","firefox", "mozilla", "konqueror", "opera", "epiphany", "netscape" }; 
 		String browser = null; 
-		for (int count = 0; count < browsers.length && browser == null; count++)
-		if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
-			browser = browsers[count]; 
-		if (browser == null) 
-			throw new LucteriosException("Impossible de trouver un navigateur Web."); 
-		return browser;
+		try {
+			for (int count = 0; count < browsers.length && browser == null; count++)
+					if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
+						browser = browsers[count];
+			if (browser == null) 
+				throw new LucteriosException("Impossible de trouver un navigateur Web."); 
+			return browser;
+		} catch (IOException e) {
+			throw new LucteriosException("Browser web non trouvé",e);
+		} 
 	}
 
 	private String searchMailerFromUnix()
-			throws InterruptedException, IOException, LucteriosException {
+			throws InterruptedException,  LucteriosException {
 		String[] browsers = {"xdg-open","thunderbird", "mozilla", "kmail", "opera", "netscape" }; 
 		String browser = null; 
-		for (int count = 0; count < browsers.length && browser == null; count++)
-		if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
-			browser = browsers[count]; 
-		if (browser == null) 
-			throw new LucteriosException("Impossible de trouver un editeur courriel."); 
-		return browser;
+		try {
+			for (int count = 0; count < browsers.length && browser == null; count++)
+			if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
+				browser = browsers[count]; 
+			if (browser == null) 
+				throw new LucteriosException("Impossible de trouver un editeur courriel."); 
+			return browser;
+		} catch (IOException e) {
+			throw new LucteriosException("Gestionnaire de courriel non trouvé",e);
+		} 
 	}
 	
 	/*

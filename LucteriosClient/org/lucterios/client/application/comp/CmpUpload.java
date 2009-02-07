@@ -45,6 +45,7 @@ import org.lucterios.utils.graphic.ImagePreview;
 public class CmpUpload extends CmpAbstractEvent {
 	
 	private static File CurrentDirectory=null;
+	public final static String SUFFIX_FILE_NAME="_FILENAME";
 		
 	private static final long serialVersionUID = 1L;
 	private JPanel pnl_Btn;
@@ -91,8 +92,12 @@ public class CmpUpload extends CmpAbstractEvent {
 	
 	public Map getRequete(String aActionIdent) {
 		TreeMap tree_map = new TreeMap();
-		File file = new File(txt_FileName.getText());
-		tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile));
+		if (txt_FileName.getText().length()>0) {
+			File file = new File(txt_FileName.getText());
+			tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile));
+			if (m_isCompress) 
+				tree_map.put(getName()+SUFFIX_FILE_NAME,file.getName());
+		}
 		return tree_map;
 	}
 
