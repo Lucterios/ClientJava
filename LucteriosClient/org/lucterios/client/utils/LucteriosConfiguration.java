@@ -105,13 +105,14 @@ public class LucteriosConfiguration extends
 	}
 
 	public void read() throws IOException {
+		read(new java.io.File(CONF_FILE_NAME));
+	}
+
+	public void read(java.io.File aConFile) throws IOException {
 		mServers.clear();
-		java.io.File conf_file = new java.io.File(CONF_FILE_NAME);
-		if (conf_file.exists()) {
-			java.io.FileInputStream input = new java.io.FileInputStream(
-					conf_file);
-			java.io.BufferedReader lecture = new java.io.BufferedReader(
-					new java.io.InputStreamReader(input));
+		if (aConFile.exists()) {
+			java.io.FileInputStream input = new java.io.FileInputStream(aConFile);
+			java.io.BufferedReader lecture = new java.io.BufferedReader(new java.io.InputStreamReader(input));
 			String ligne;
 			String contenu = "";
 			while ((ligne = lecture.readLine()) != null) {
@@ -120,7 +121,7 @@ public class LucteriosConfiguration extends
 			read(contenu);
 		}
 	}
-
+	
 	public void read(String aConfigText) {
 		SimpleParsing root = new SimpleParsing();
 		root.parse(aConfigText);

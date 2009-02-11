@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class Form extends JFrame {
@@ -72,7 +73,7 @@ public class Form extends JFrame {
 			public void windowClosed(WindowEvent e) {
 				Close();
 				Change();
-				System.gc();
+				Tools.clearGC();
 			}
 		});
 	}

@@ -21,12 +21,16 @@
 package org.lucterios.client;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileFilter;
 
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.utils.LucteriosConfiguration;
@@ -51,6 +55,7 @@ public class SetupDialog extends JDialog {
 	private ConfigurationPanel conf_pnl;
 	private AssociationPanel asso_pnl;
 	private JAdvancePanel pnl_btn;
+	private javax.swing.JButton btn_import;
 	private javax.swing.JButton btn_Ok;
 	private javax.swing.JButton btn_Cancel;
 
@@ -100,6 +105,7 @@ public class SetupDialog extends JDialog {
 
 		pnl_btn = new JAdvancePanel();
 		pnl_btn.setFontImage(mFontImg, JAdvancePanel.TEXTURE);
+		btn_import = new javax.swing.JButton();
 		btn_Ok = new javax.swing.JButton();
 		btn_Cancel = new javax.swing.JButton();
 
@@ -118,6 +124,7 @@ public class SetupDialog extends JDialog {
 		getContentPane().add(pnl_main,getCnt(0, 0, 4, 1, GridBagConstraints.BOTH, 1));
 
 		pnl_btn.setLayout(new java.awt.GridBagLayout());
+		
 		btn_Ok.setMnemonic('o');
 		btn_Ok.setText("OK");
 		btn_Ok.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +134,7 @@ public class SetupDialog extends JDialog {
 		});
 		btn_Ok.setIcon(new ImageIcon(getClass().getResource("resources/ok.png")));
 		pnl_btn.add(btn_Ok, getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 0));
+		
 		btn_Cancel.setMnemonic('n');
 		btn_Cancel.setText("Annuler");
 		btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +144,16 @@ public class SetupDialog extends JDialog {
 		});
 		btn_Cancel.setIcon(new ImageIcon(getClass().getResource("resources/cancel.png")));
 		pnl_btn.add(btn_Cancel, getCnt(1, 0, 1, 1, GridBagConstraints.BOTH, 0));
+
+		btn_import.setMnemonic('o');
+		btn_import.setText("Import");
+		btn_import.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btn_importActionPerformed(evt);
+			}
+		});
+		btn_import.setIcon(new ImageIcon(getClass().getResource("resources/import.png")));
+		pnl_btn.add(btn_import, getCnt(2, 0, 1, 1, GridBagConstraints.BOTH, 0));
 
 		getContentPane().add(pnl_btn,getCnt(0, 4, 4, 1, GridBagConstraints.BOTH, 1));
 	}
@@ -158,8 +176,41 @@ public class SetupDialog extends JDialog {
 		setResizable(true);
 		setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 	}
+	
+
+	private void btn_importActionPerformed(java.awt.event.ActionEvent evt) {
+		JFileChooser file_dlg;
+		file_dlg = new JFileChooser();
+		file_dlg.setFileFilter(new FileFilter(){
+			public boolean accept(File aFile) {
+				return aFile.isDirectory() || aFile.getName().equalsIgnoreCase(LucteriosConfiguration.CONF_FILE_NAME);
+			}
+			public String getDescription() {
+				return "Fichier de configuration";
+			}
+			
+		});
+		if (file_dlg.showOpenDialog(this)== JFileChooser.APPROVE_OPTION) {
+	    	try {
+		    	java.io.File file_exp = file_dlg.getSelectedFile();
+				LucteriosConfiguration conf_import=new LucteriosConfiguration();
+				conf_import.read(file_exp);
+				for(int conf_idx=0;conf_idx<conf_import.ServerCount();conf_idx++)
+					mConf.AddServer(conf_import.GetServer(conf_idx));
+				conf_pnl.refreshGUI(mConf.ServerCount()-1);
+			} catch (IOException e) {
+				ExceptionDlg.throwException(e);
+			} 	    	
+		}
+		
+	}
 
 	private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {
+		try {
+			mConf.read();
+		} catch (IOException e) {
+			ExceptionDlg.throwException(e);
+		}
 		dispose();
 	}
 

@@ -1,8 +1,6 @@
 <?
 
-$appli_dir="../../applis";
-if (!is_dir($appli_dir)) $appli_dir="./applis";
-if (!is_dir($appli_dir)) $appli_dir="../../extensions/applis";
+$appli_dir="../../extensions/applis";
 if (!is_dir($appli_dir)) $appli_dir="./extensions/applis";
 
 if (is_file($appli_dir."/application.inc.php")) {
@@ -22,35 +20,41 @@ if (is_file($appli_dir."/setup.inc.php")) {
 	$extention_appli='Lucterios';
 }
 
-if ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
+function getConfigFile()
+{
+	global $extention_titre;
+	global $extention_appli;
+	$http_referer=$_SERVER["HTTP_REFERER"];
+	$pos=strpos($http_referer,'://');
+	$protocol=substr($http_referer,0,$pos);
+	$protocol=($protocol='')?'http':$protocol;
+	$mode=($protocol=='https')?1:0;		
+	$server_name=$_SERVER["SERVER_NAME"];
+	$server_port=$_SERVER["SERVER_PORT"];
+	$server_dir=$_SERVER["PHP_SELF"];
+	if ($server_dir[0]=='/')
+		$server_dir=substr($server_dir,1);
+	$pos=strpos($server_dir,'UpdateClients/java');
+	if ($pos===false) $pos=strpos($server_dir,'java');
+	$server_dir=substr($server_dir,0,$pos);
 	
-	function getConfigFile()
-	{
-		global $extention_description;
-		global $extention_appli;
-		$http_referer=$_SERVER["HTTP_REFERER"];
-		$pos=strpos($http_referer,'://');
-		$protocol=substr($http_referer,0,$pos);
-		$protocol=($protocol='')?'http':$protocol;
-		$mode=($protocol=='https')?1:0;		
-		$server_name=$_SERVER["SERVER_NAME"];
-		$server_port=$_SERVER["SERVER_PORT"];
-		$server_dir=$_SERVER["PHP_SELF"];
-		if ($server_dir[0]=='/')
-			$server_dir=substr($server_dir,1);
-		$pos=strpos($server_dir,'UpdateClients/java');
-		if ($pos===false) $pos=strpos($server_dir,'java');
-		$server_dir=substr($server_dir,0,$pos);
-		
-		$conf_content="";
-		$conf_content.="<?xml version='1.0' encoding='ISO-8859-1'?>\n";
-		$conf_content.="<CONFIG>\n";
-		$conf_content.="	<TITLE>$extention_description</TITLE>\n";
-		$conf_content.="	<SERVER name='$extention_appli' host='$server_name' port='$server_port' dir='$server_dir' mode='$mode'/>\n";
-		$conf_content.="</CONFIG>\n";
-		return $conf_content;
-	}
+	$conf_content="";
+	$conf_content.="<?xml version='1.0' encoding='ISO-8859-1'?>\n";
+	$conf_content.="<CONFIG>\n";
+	$conf_content.="	<TITLE>$extention_titre</TITLE>\n";
+	$conf_content.="	<SERVER name='$extention_appli' host='$server_name' port='$server_port' dir='$server_dir' mode='$mode'/>\n";
+	$conf_content.="</CONFIG>\n";
+	return $conf_content;
+}
 
+if ((array_key_exists('act',$_GET)) && ($_GET['act']='conf')) {
+	header("Content-Type: text/*");
+	header('Content-Disposition: attachment; filename="LucteriosClient.conf"');
+	$content=getConfigFile()
+	echo $content;
+}
+elseif ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
+	
 	if (is_file('NewJavaClient.zip')) unlink('NewJavaClient.zip');
 	if (copy('JavaClient.zip','NewJavaClient.zip')) {
 		header("Content-Type: application/zip");
@@ -224,6 +228,14 @@ header('Content-Type: text/html; charset=ISO-8859-1');
 		</ul>
 		<i>Attention:</i> vérifiez que l'environnement JAVA est bien installé sur votre ordinateur (téléchargement <a href="http://www.java.com/fr/download">ici</a>).
 		<br><br>
+		Pour modifier la configuration de votre client JAVA:<br>
+		<ul>
+			<li>Téléchargez ce fichier <a href="index.php?act=conf">LucteriosClient.conf</a> </li>
+			<li>Lancer votre client JAVA</li>
+			<li>Dans l'écran de connexion, cliquer sur <i>Conf...</i>.</li>
+			<li>Importer le fichier précédent.</li>
+			<li>Valider.</li>
+		</ul>
         </td>
     </tr>
     <tr class="pied">

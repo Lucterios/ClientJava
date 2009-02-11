@@ -32,6 +32,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.lucterios.utils.Tools;
+
 public class FormList implements Form.NotifyFrameList {
 	class ShortCut {
 		String mActionName = "";
@@ -53,7 +55,7 @@ public class FormList implements Form.NotifyFrameList {
 
 	public void clearShortCut() {
 		mShortCut.clear();
-		System.gc();
+		Tools.clearGC();
 	}
 
 	public void newShortCut(String aActionName, KeyStroke aShortCut,

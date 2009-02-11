@@ -393,15 +393,15 @@ public class ConfigurationPanel extends JAdvancePanel {
 		srv.setVisible(true);
 		if (srv.mServer != null) {
 			mConf.AddServer(srv.mServer);
-			refreshGrid();
-			cmp_tbl.setRowSelectionInterval(mConf.ServerCount() - 1, mConf.ServerCount() - 1);
+			refreshGUI(mConf.ServerCount() - 1);
 		}
 	}
 
-	private void refreshGrid() {
+	public void refreshGUI(int aRow){
 		cmp_tbl.setModel(new javax.swing.table.DefaultTableModel());
 		cmp_tbl.setModel(mConf);
 		selectListener();
+		cmp_tbl.setRowSelectionInterval(aRow,aRow);
 	}
 
 	private void btn_ModActionPerformed(java.awt.event.ActionEvent evt) {
@@ -410,8 +410,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 		srv.setVisible(true);
 		if (srv.mServer != null) {
 			mConf.SetServer(row, srv.mServer);
-			refreshGrid();
-			cmp_tbl.setRowSelectionInterval(row, row);
+			refreshGUI(row);
 		}
 	}
 
@@ -421,8 +420,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 		Server srv2 = mConf.GetServer(row - 1);
 		mConf.SetServer(row, srv2);
 		mConf.SetServer(row - 1, srv1);
-		refreshGrid();
-		cmp_tbl.setRowSelectionInterval(row - 1, row - 1);
+		refreshGUI(row - 1);
 	}
 
 	private void btn_DownActionPerformed(java.awt.event.ActionEvent evt) {
@@ -431,15 +429,13 @@ public class ConfigurationPanel extends JAdvancePanel {
 		Server srv2 = mConf.GetServer(row + 1);
 		mConf.SetServer(row, srv2);
 		mConf.SetServer(row + 1, srv1);
-		refreshGrid();
-		cmp_tbl.setRowSelectionInterval(row + 1, row + 1);
+		refreshGUI(row + 1);
 	}
 
 	private void btn_DelActionPerformed(java.awt.event.ActionEvent evt) {
 		int row = cmp_tbl.getSelectedRows()[0];
 		mConf.DeleteServer(row);
-		refreshGrid();
-		cmp_tbl.setRowSelectionInterval(row, row);
+		refreshGUI(row);
 	}
 
 	public String getProxyAddr(){

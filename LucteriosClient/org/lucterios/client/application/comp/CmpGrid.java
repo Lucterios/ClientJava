@@ -27,6 +27,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
@@ -44,6 +45,7 @@ import sbrunner.gui.tableView.TableView.IRowSelectCaller;
 public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		java.awt.event.MouseListener, javax.swing.event.ListSelectionListener {
 	private static final long serialVersionUID = 1L;
+	public final static Icon NullImage=new ImageIcon();
 
 	class GridColomn implements TableViewColumn {
 		public final static int TypeString = 0;
@@ -134,10 +136,14 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 							"oui"));
 				case TypeIcon:
 					Icon new_icon;
-					if (mIconCache.containsKey(valuetxt))
+					if (valuetxt.trim().equals(""))
+						new_icon = NullImage;
+					else if (mIconCache.containsKey(valuetxt))
 						new_icon = (Icon)mIconCache.get(valuetxt);
 					else {
 						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt);
+						if (new_icon==null)
+							new_icon = NullImage;
 						mIconCache.put(valuetxt, new_icon);
 					}
 					return new_icon;
@@ -541,6 +547,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 
 	public void action() {
 		mLabelForm.clearTag();
+		org.lucterios.utils.Tools.clearGC();
 	}
 	
 	/*

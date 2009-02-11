@@ -31,6 +31,8 @@ import java.nio.channels.FileChannel;
 import javax.swing.KeyStroke;
 
 public class Tools {
+	
+	public final static int GC_PASS=4;
 
     static public String parseISToString(java.io.InputStream is) throws LucteriosException
     {
@@ -175,6 +177,15 @@ public class Tools {
             }
         }
         return dir.delete();
+    }
+    
+    public static void clearGC(){
+    	Runtime rt = Runtime.getRuntime();
+        for (int i = 0; i< GC_PASS; i++) {
+            System.gc();
+            rt.gc();
+            rt.runFinalization();
+        }    	
     }
 
 }

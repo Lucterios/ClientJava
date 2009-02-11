@@ -34,7 +34,6 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
 import org.apache.commons.httpclient.methods.*;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;

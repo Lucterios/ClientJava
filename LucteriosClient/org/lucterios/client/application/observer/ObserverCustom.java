@@ -44,6 +44,7 @@ import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
+import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class ObserverCustom extends ObserverAbstract implements Runnable {
@@ -345,7 +346,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			if (mGUIFrame != null)
 				mGUIFrame.dispose();
 			super.close(aMustRefreshParent);
-			System.gc();
+			Tools.clearGC();
 		}
 	}
 

@@ -276,7 +276,7 @@ public class ObserverTemplate extends ObserverAbstract {
 			super.close(aMustRefreshParent);
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
-			System.gc();
+			org.lucterios.utils.Tools.clearGC();
 		}
 	}
 
