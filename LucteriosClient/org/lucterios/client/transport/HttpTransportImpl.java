@@ -49,7 +49,9 @@ import org.lucterios.utils.Tools;
 public class HttpTransportImpl implements HttpTransport {
 	final static public String ENCODE = "utf-8";
 	final static String MANAGER_FILE = "coreIndex.php";
-
+	final static String AUTH_REQUETE="<REQUETE extension='common' action='authentification'>";
+	final static String AUTH_PARAM="<PARAM name='ses' type='str'>";
+	
 	static private String mServerHost = "";
 	static private int mCurrentPort = 0;
 	static private String mRootPath = "";
@@ -376,11 +378,9 @@ public class HttpTransportImpl implements HttpTransport {
 			String xml_param = "<?xml version='1.0' encoding='" + ENCODE
 					+ "'?>";
 			xml_param = xml_param + "<REQUETES>\n";
-			if (!"".equals( mSession )) {
-				xml_param = xml_param
-						+ "<REQUETE extension='common' action='authentification'>";
-				xml_param = xml_param + "<PARAM name='ses' type='str'>"
-						+ mSession + "</PARAM>";
+			if (!"".equals( mSession ) && (!aXmlParam.containsKey(POST_VARIABLE) || !aXmlParam.get(POST_VARIABLE).toString().startsWith(AUTH_REQUETE))) {
+				xml_param = xml_param + AUTH_REQUETE;
+				xml_param = xml_param + AUTH_PARAM + mSession + "</PARAM>";
 				xml_param = xml_param + "</REQUETE>";
 			}
 			if (aXmlParam.containsKey(POST_VARIABLE))

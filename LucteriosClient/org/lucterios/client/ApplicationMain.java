@@ -47,7 +47,9 @@ import org.lucterios.client.application.WindowGenerator;
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.application.Menu.ToolBar;
 import org.lucterios.client.application.observer.LogonBox;
+import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverMenu;
+import org.lucterios.client.presentation.Observer;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
@@ -112,6 +114,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	private Action mMenuAction;
 	private Action mStatusAction;
+	private Action mConnectionInfoAction;
+	private Observer mConnectionInfoOwnerObserber;
 	private Action mExitAction;
 
 	private Action mDisconnectAction;
@@ -174,6 +178,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mExitAction = new ActionImpl();
 		mExitAction.initialize(null, fact, "Exit", "CORE", "exitConnection");
 
+		mConnectionInfoOwnerObserber=new ObserverAcknowledge();
+		mConnectionInfoAction = new ActionImpl();
+		mConnectionInfoAction.initialize(mConnectionInfoOwnerObserber, fact, "CnxInfo", "common", "authentification");
+		
 		mDisconnectAction = new ActionLocal("Déconnecter", 'd',
 				new javax.swing.ImageIcon(getClass().getResource(
 						"resources/disconnected.png")), new AbstractAction() {
@@ -485,6 +493,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				.getIcon(mLogoIconName));
 		mToolNavigator.setMainMenuBar(menuBar);
 		mFormList.assignShortCut(mToolNavigator);
+		mConnectionInfoAction.actionPerformed(null);
 		if (mShowStatus)
 			showStatus();
 		terminateShortCut();
@@ -667,9 +676,17 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		setSize(dim);
 	}
 
+	private void refreshConnectionInfoOwnerObs() {
+		TreeMap context=new TreeMap();
+		context.put("ses", Singletons.Transport().getSession());
+		context.put("info", "true");
+		mConnectionInfoOwnerObserber.setContext(context);	
+	}
+	
 	public void setValue(String aTitle, String aSubTitle, String aVersion,
 			String aServerVersion, String aCopyRigth, String aLogoName,
 			String aLogin, String aRealName) {
+		refreshConnectionInfoOwnerObs();
 		mLogoIconName = aLogoName;
 		ImageIcon img=Singletons.Transport().getIcon(mLogoIconName);
 		if (img!=null) 

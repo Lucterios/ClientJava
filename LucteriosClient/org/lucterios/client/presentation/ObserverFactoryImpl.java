@@ -87,8 +87,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	private String m_XMLParameters="";
 	protected Map convertParameters(String aExtension, String aAction, Map aParam) {
 		Map result=new TreeMap();
-		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='"
-				+ aAction + "'>";
+		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='" + aAction + "'>";
 
 		for (Iterator iterator = aParam.entrySet().iterator(); iterator
 				.hasNext();) {

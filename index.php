@@ -47,13 +47,13 @@ function getConfigFile()
 	return $conf_content;
 }
 
-if ((array_key_exists('act',$_GET)) && ($_GET['act']='conf')) {
+if ((array_key_exists('act',$_GET)) && ($_GET['act']=='conf')) {
 	header("Content-Type: text/*");
 	header('Content-Disposition: attachment; filename="LucteriosClient.conf"');
-	$content=getConfigFile()
+	$content=getConfigFile();
 	echo $content;
 }
-elseif ((array_key_exists('act',$_GET)) && ($_GET['act']='zip')) {
+elseif ((array_key_exists('act',$_GET)) && ($_GET['act']=='zip')) {
 	
 	if (is_file('NewJavaClient.zip')) unlink('NewJavaClient.zip');
 	if (copy('JavaClient.zip','NewJavaClient.zip')) {
