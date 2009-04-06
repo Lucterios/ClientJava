@@ -51,6 +51,7 @@ class Main {
 		fact.AddObserver("Core.Custom", ObserverCustom.class);
 		fact.AddObserver("Core.Print", ObserverPrint.class);
 		fact.AddObserver("Core.Template", ObserverTemplate.class);
+		fact.AddObserver("", ObserverAcknowledge.class);
 	}
 
 	public static void main(String args[]) {

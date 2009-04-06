@@ -141,10 +141,10 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		SimpleParsing parse = new SimpleParsing();
 		if (parse.parse(xml_text)) {
 			SimpleParsing rep = parse.getFirstSubTag("REPONSE");
-			String observer_name = rep.getAttribut("observer");
+			String observer_name = (rep!=null)?rep.getAttribut("observer"):"";
 			if (mObservers.containsKey(observer_name)) {
-				String source_extension = rep.getAttribut("source_extension");
-				String source_action = rep.getAttribut("source_action");
+				String source_extension = (rep!=null)?rep.getAttribut("source_extension"):"";
+				String source_action = (rep!=null)?rep.getAttribut("source_action"):"";
 				if (aObserver == null) {
 					res_obs = factoryObserver(observer_name, m_XMLParameters,
 							xml_text);
@@ -166,10 +166,13 @@ public class ObserverFactoryImpl implements ObserverFactory {
 									xml_text);
 					}
 				}
-				res_obs.setCaption(rep.getCDataOfFirstTag("TITLE"));
-				res_obs.setContext(getContext(rep));
-				res_obs.setContent(rep);
-			} else
+				if (rep!=null) {
+					res_obs.setCaption(rep.getCDataOfFirstTag("TITLE"));
+					res_obs.setContext(getContext(rep));
+					res_obs.setContent(rep);
+				}
+			}
+			else
 				throw new LucteriosException("Observeur '" + observer_name
 						+ "' inconnu", m_XMLParameters, xml_text);
 		} else

@@ -180,12 +180,14 @@ public class Tools {
     }
     
     public static void clearGC(){
+		Logging.getInstance().writeLog("%%% clearGC() %%%","BEGIN",2);
     	Runtime rt = Runtime.getRuntime();
         for (int i = 0; i< GC_PASS; i++) {
             System.gc();
             rt.gc();
             rt.runFinalization();
         }    	
+		Logging.getInstance().writeLog("%%% clearGC() %%%","END",2);
     }
 
 }

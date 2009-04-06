@@ -35,7 +35,6 @@ import javax.swing.KeyStroke;
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.utils.Form.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class Dialog extends JDialog {
@@ -78,7 +77,6 @@ public class Dialog extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 				close();
-				Tools.clearGC();
 			}
 		});
 	}

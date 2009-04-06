@@ -547,7 +547,6 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 
 	public void action() {
 		mLabelForm.clearTag();
-		org.lucterios.utils.Tools.clearGC();
 	}
 	
 	/*
