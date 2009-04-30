@@ -65,6 +65,7 @@ import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.utils.graphic.MemoryJauge;
 import org.lucterios.utils.graphic.ProgressPanel;
 import org.lucterios.utils.graphic.WaitingWindow;
 
@@ -98,6 +99,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private JLabel mLogName;
 	private JLabel mServer;
 	private TimeLabel mTimeValue;
+	private MemoryJauge mMemoryJauge;
 	private JPanel mStatBarPnl;
 	private ToolsPanel mToolNavigator;
 	private org.lucterios.client.ToolBar mToolBar;
@@ -127,14 +129,12 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private Action mRefreshMenuAction;
 	private Action mContentMenuAction;
 	private Action mAboutAction;
-	private boolean mLogActivated;
 
 	private ProgressPanel mProgressPanelTop;
 	private ProgressPanel mProgressPanelBottom;
 
-	public ApplicationMain(boolean aLogActivated) {
+	public ApplicationMain() {
 		super();
-		mLogActivated=aLogActivated;
 		setVisible(false);
 		initialize();
 		initAction();
@@ -381,7 +381,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
 		mStatBarPnl.add(mServer, cnt);
-		mTimeValue = new TimeLabel(mLogActivated);
+		mTimeValue = new TimeLabel();
 		cnt = new GridBagConstraints();
 		cnt.gridx = 3;
 		cnt.gridy = 0;
@@ -389,7 +389,19 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
 		mStatBarPnl.add(mTimeValue, cnt);
-
+		
+		mMemoryJauge=new MemoryJauge();
+		mMemoryJauge.setPreferredSize(new Dimension(PROGRESS_SIZE*12,PROGRESS_SIZE*2));
+		cnt = new GridBagConstraints();
+		cnt.gridx = 4;
+		cnt.gridy = 0;
+		cnt.weightx = 0;
+		cnt.weighty = 0;
+		cnt.fill = GridBagConstraints.NONE;
+		cnt.insets=new Insets(0,5,0,5);
+		mStatBarPnl.add(mMemoryJauge, cnt);
+		
+		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.start();
 	}
 

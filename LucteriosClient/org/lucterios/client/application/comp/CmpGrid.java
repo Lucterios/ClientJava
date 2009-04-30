@@ -21,245 +21,27 @@
 package org.lucterios.client.application.comp;
 
 import java.util.*;
-import java.util.List;
 
 import java.awt.event.*;
 import java.awt.*;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.Button;
+import org.lucterios.client.application.comp.CmpTableModel.GridRow;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
-import sbrunner.gui.tableView.AbstractTableViewModel;
 import sbrunner.gui.tableView.TableView;
-import sbrunner.gui.tableView.TableViewColumn;
 import sbrunner.gui.tableView.TableView.IRowSelectCaller;
 
 public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		java.awt.event.MouseListener, javax.swing.event.ListSelectionListener {
 	private static final long serialVersionUID = 1L;
-	public final static Icon NullImage=new ImageIcon();
-
-	class GridColomn implements TableViewColumn {
-		public final static int TypeString = 0;
-		public final static int TypeInt = 1;
-		public final static int TypeFloat = 2;
-		public final static int TypeBool = 3;
-		public final static int TypeIcon = 4;
-
-		public final static String TAGNAME = "HEADER";
-
-		public GridColomn(SimpleParsing aXmlItem) {
-			if (aXmlItem.getTagName().equalsIgnoreCase(TAGNAME)) {
-				mHeaderId = aXmlItem.getAttribut("name");
-				mName = aXmlItem.getText();
-				String type = aXmlItem.getAttribut("type");
-				if (type == null)
-					mHeaderType = TypeString;
-				else if ("int".equals( type ))
-					mHeaderType = TypeInt;
-				else if ("float".equals( type ))
-					mHeaderType = TypeFloat;
-				else if ("bool".equals( type ))
-					mHeaderType = TypeBool;
-				else if ("icon".equals( type ))
-					mHeaderType = TypeIcon;
-				else
-					mHeaderType = TypeString;
-			} else
-				mHeaderId = "";
-		}
-
-		public Comparator getComparator() {
-			return new Comparator() {
-				public int compare(Object o1, Object o2) {
-					GridRow row1 = (GridRow) o1;
-					GridRow row2 = (GridRow) o2;
-					String val1 = row1.GetCell(mHeaderId);
-					String val2 = row2.GetCell(mHeaderId);
-					return val1.compareTo(val2);
-				}
-			};
-		}
-
-		private String mHeaderId = "";
-
-		public String getHeaderId() {
-			return mHeaderId;
-		}
-
-		private String mName = "";
-
-		public String getName() {
-			return mName;
-		}
-
-		public int mHeaderType = 0;
-
-		public Class getColumnClass() {
-			switch (mHeaderType) {
-			case TypeInt:
-				return Integer.class;
-			case TypeFloat:
-				return Double.class;
-			case TypeBool:
-				return Boolean.class;
-			case TypeIcon:
-				return Icon.class;
-			default:
-				return String.class;
-			}
-		}
-
-		public boolean isCellEditable(Object arg0) {
-			return false;
-		}
-
-		private TreeMap mIconCache=new TreeMap();
-		public Object getValue(Object row) {
-			String valuetxt = ((GridRow) row).GetCell(mHeaderId);
-			try {
-				switch (mHeaderType) {
-				case TypeInt:
-					return new Integer(valuetxt);
-				case TypeFloat:
-					return new Double(valuetxt);
-				case TypeBool:
-					return new Boolean(valuetxt.toLowerCase().equalsIgnoreCase(
-							"oui"));
-				case TypeIcon:
-					Icon new_icon;
-					if (valuetxt.trim().equals(""))
-						new_icon = NullImage;
-					else if (mIconCache.containsKey(valuetxt))
-						new_icon = (Icon)mIconCache.get(valuetxt);
-					else {
-						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt);
-						if (new_icon==null)
-							new_icon = NullImage;
-						mIconCache.put(valuetxt, new_icon);
-					}
-					return new_icon;
-				default:
-					return valuetxt;
-				}
-			} catch (Exception e) {
-				return getDefaultValue();
-			}
-		}
-
-		private Object getDefaultValue() {
-			switch (mHeaderType) {
-			case TypeInt:
-				return new String("?");
-			case TypeFloat:
-				return new String("??");
-			case TypeBool:
-				return new String("!");
-			case TypeIcon:
-				return new String("***");
-			default:
-				return new String("!!");
-			}
-		}
-
-		public void setValue(Object arg0, Object arg1) {
-		}
-
-		public boolean isSortable() {
-			return true;
-		}
-
-		public boolean isSearchable() {
-			return true;
-		}
-
-		public boolean isDefaultVisible() {
-			return true;
-		}
-
-	}
-
-	class GridRow {
-		public final static String TAGNAME = "RECORD";
-
-		public GridRow(SimpleParsing aXmlItem) {
-			mCells.clear();
-			if (aXmlItem.getTagName().equalsIgnoreCase(TAGNAME)) {
-				mId = aXmlItem.getAttribut("id");
-
-				SimpleParsing[] xml_items = aXmlItem.getSubTag("VALUE");
-				for (int val_idx = 0; val_idx < xml_items.length; val_idx++) {
-					String field_name = xml_items[val_idx].getAttribut("name");
-					String value = xml_items[val_idx].getText().trim();
-					mCells.put(field_name, value);
-				}
-			} else
-				mId = "-1";
-		}
-
-		private String mId;
-
-		public String GetId() {
-			return mId;
-		}
-
-		private TreeMap mCells = new TreeMap();
-
-		public String GetCell(String colName) {
-			if (mCells.containsKey(colName))
-				return (String) mCells.get(colName);
-			else
-				return null;
-		}
-	}
-
-	class CmpTableModel extends AbstractTableViewModel {
-		private static final long serialVersionUID = 1L;
-
-		private List mColumns = new ArrayList();
-		private List mContent = new ArrayList();
-
-		public void setText(SimpleParsing aXmlItem) {
-			mColumns.clear();
-			mContent.clear();
-			SimpleParsing[] xml_items;
-
-			xml_items = aXmlItem.getSubTag("HEADER");
-			for (int col_idx = 0; col_idx < xml_items.length; col_idx++) {
-				GridColomn item = new GridColomn(xml_items[col_idx]);
-				mColumns.add(item);
-			}
-
-			xml_items = aXmlItem.getSubTag("RECORD");
-			for (int row_idx = 0; row_idx < xml_items.length; row_idx++) {
-				GridRow new_row = new GridRow(xml_items[row_idx]);
-				mContent.add(new_row);
-			}
-		}
-
-		public int getRowCount() {
-			return mContent.size();
-		}
-
-		public TableViewColumn[] getColumns() {
-			TableViewColumn[] result = new TableViewColumn[mColumns.size()];
-			for (int colidx = 0; colidx < mColumns.size(); colidx++)
-				result[colidx] = (TableViewColumn) mColumns.get(colidx);
-			return result;
-		}
-
-		public Object getRowObject(int pRowIndex) {
-			return mContent.get(pRowIndex);
-		}
-	}
 
 	private TableView cmp_tbl;
 	private CmpTableModel cmp_tbl_Model = null;

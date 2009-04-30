@@ -182,6 +182,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		popupListener.resetUndoManager();
 		fillSubMenu(mXmlItem.getSubTag("SUBMENU"));
 		SubMenu.setVisible(SubMenu.getMenuComponentCount() > 0);
+		Tools.clearGC();
 	}
 
 	public void actionPerformed(ActionEvent event) {

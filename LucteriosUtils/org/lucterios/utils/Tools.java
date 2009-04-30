@@ -32,7 +32,7 @@ import javax.swing.KeyStroke;
 
 public class Tools {
 	
-	public final static int GC_PASS=4;
+	public final static int EPSILON_RATIO=1;
 
     static public String parseISToString(java.io.InputStream is) throws LucteriosException
     {
@@ -182,11 +182,17 @@ public class Tools {
     public static void clearGC(){
 		Logging.getInstance().writeLog("%%% clearGC() %%%","BEGIN",2);
     	Runtime rt = Runtime.getRuntime();
-        for (int i = 0; i< GC_PASS; i++) {
+    	boolean loop_again=true;
+		long epsilon         = (EPSILON_RATIO*rt.maxMemory()/100);
+		long latest_free    = rt.freeMemory();
+		while(loop_again) {
+			rt = Runtime.getRuntime();
             System.gc();
-            rt.gc();
             rt.runFinalization();
-        }    	
+            long current_free    = rt.freeMemory();
+    		loop_again=Math.abs(latest_free-current_free)>epsilon;
+    		latest_free=current_free;
+		} 
 		Logging.getInstance().writeLog("%%% clearGC() %%%","END",2);
     }
 
