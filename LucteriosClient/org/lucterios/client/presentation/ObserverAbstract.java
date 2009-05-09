@@ -34,9 +34,16 @@ import org.lucterios.utils.graphic.ExceptionDlg;
 
 public abstract class ObserverAbstract implements Observer {
 	protected Action mCloseAction = null;
-
+	
+	//public static ArrayList ObserverCount=new ArrayList();
+	
 	public ObserverAbstract() {
 		super();
+	}
+	
+	protected void finalize() throws Throwable{
+		//ObserverCount.remove(this.toString());
+		super.finalize();
 	}
 
 	protected Observer mParent = null;
@@ -57,6 +64,18 @@ public abstract class ObserverAbstract implements Observer {
 		mAction = aAction;
 	}
 
+	public String toString() {
+		String resValue=getClass().getName()+"["+mExtension+"->"+mAction+"]";
+		String resParam="";
+		if (mContext!=null) {
+			Object[] keys=mContext.keySet().toArray();
+			for(int index=0;index<keys.length;index++){
+				resParam+="'"+keys[index]+"'='"+mContext.get(keys[index])+"',";
+			}
+		}
+		return resValue+"("+resParam+")";
+	}
+	
 	public String getSourceExtension() {
 		return mExtension;
 	}
@@ -110,7 +129,9 @@ public abstract class ObserverAbstract implements Observer {
 	protected Map mContext = null;
 
 	public void setContext(Map aContext) {
+		//ObserverCount.remove(this.toString());
 		mContext = aContext;
+		//ObserverCount.add(this.toString());
 	}
 
 	public Map getContext() {

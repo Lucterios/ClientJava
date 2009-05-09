@@ -189,8 +189,7 @@ public class ActionImpl implements Action {
 				Dialog owner_dialog = null;
 				Form owner_frame = null;
 				int form_type = getFormType(aObs);
-				if ((mOwner != null)
-						&& (form_type != ActionConstantes.FORM_REFRESH)) {
+				if ((mOwner != null) && (form_type != ActionConstantes.FORM_REFRESH)) {
 					if (mClose) {
 						if (mOwner.getParent() != null) {
 							owner_dialog = mOwner.getParent().getGUIDialog();
@@ -219,8 +218,8 @@ public class ActionImpl implements Action {
 		return form_type;
 	}
 
-	private void showObserver(Observer aObs, Dialog owner_dialog,
-			Form owner_frame, int form_type) throws LucteriosException {
+	private void showObserver(Observer aObs,final Dialog owner_dialog,
+			final Form owner_frame, int form_type) throws LucteriosException {
 		Dialog new_dialog = null;
 		Form new_frame = null;
 		if (aObs.getType() != ObserverConstant.TYPE_NONE) {

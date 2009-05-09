@@ -80,10 +80,10 @@ public class PrintPage extends PrintAbstract
         mDataList.clear();
     }
 
-    Vector mDataList=new Vector();
-    public Vector getDataList()
+    ArrayList mDataList=new ArrayList();
+    public ArrayList getDataList()
     {
-        return new Vector(mDataList);
+        return new ArrayList(mDataList);
     }
 
     public String getDataPath()

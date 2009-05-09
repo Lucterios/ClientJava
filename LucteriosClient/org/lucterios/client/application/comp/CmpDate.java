@@ -89,7 +89,7 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.weighty = 1.0;
 		add(spe_day, gdbConstr);
 
-		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList());
+		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList().toArray());
 		cmp_month.setName("cmp_month");
 		cmp_month.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

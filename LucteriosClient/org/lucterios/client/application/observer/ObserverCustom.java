@@ -341,10 +341,13 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			for (int cmp_idx = 0; cmp_idx < mCustomManager.getCmponentCount(); cmp_idx++) 
 					mCustomManager.getCmponents(cmp_idx).close();
 			closed = true;
+			mCustomManager.close();
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			if (mGUIFrame != null)
 				mGUIFrame.dispose();
+			mGUIDialog = null;
+			mGUIFrame = null;
 			super.close(aMustRefreshParent);
 			Tools.clearGC();
 		}

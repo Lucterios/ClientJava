@@ -67,7 +67,7 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
             else if (PrintArea.class.isInstance(node_value))
             	icon = getIconFromArea(node_value);
             else if (PrintVector.class.isInstance(node_value))
-            	icon = getIconFromVector(node_value);
+            	icon = getIconFromArrayList(node_value);
 		    setIconNoNull(icon);
 		    return this;
 		  }
@@ -77,14 +77,14 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
 		      setIcon(icon);
 		}
 
-		private Icon getIconFromVector(Object nodeValue) {
+		private Icon getIconFromArrayList(Object nodeValue) {
 			Icon icon;
 			if (((PrintVector)nodeValue).name.equalsIgnoreCase("Colonnes"))
 				icon = new ImageIcon(Resources.class.getResource("columns.png"));
 			else if (((PrintVector)nodeValue).name.equalsIgnoreCase("Lignes"))
 			    icon = new ImageIcon(Resources.class.getResource("rows.png"));
 			else
-				icon = new ImageIcon(Resources.class.getResource("vector.png"));
+				icon = new ImageIcon(Resources.class.getResource("ArrayList.png"));
 			return icon;
 		}
 

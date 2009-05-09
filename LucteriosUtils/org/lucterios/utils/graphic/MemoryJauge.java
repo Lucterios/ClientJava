@@ -1,14 +1,16 @@
 package org.lucterios.utils.graphic;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MemoryJauge extends Component implements ActionListener,MouseListener {
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+
+public class MemoryJauge extends JComponent implements ActionListener,MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,14 +34,19 @@ public class MemoryJauge extends Component implements ActionListener,MouseListen
 	}	
 	
 	public void refreshMemoryInformations() {
-		long maxHeap         = mRuntime.maxMemory();
-		long currentHeapSize = mRuntime.totalMemory();
-		long used            = currentHeapSize-mRuntime.freeMemory();
+		final long maxHeap         = mRuntime.maxMemory();
+		final long currentHeapSize = mRuntime.totalMemory();
+		final long used            = currentHeapSize-mRuntime.freeMemory();
 		int newPercent = (int) ((used * 100) / maxHeap);
 		currentHeapPercent = (int) ((currentHeapSize * 100) / maxHeap);
 		if (newPercent != currentUsedPercent){
 			currentUsedPercent = newPercent;
-			repaint();
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {
+					setToolTipText((used/(1024*1024))+"Mo/"+(maxHeap/(1024*1024))+"Mo"); 
+					repaint();
+				}				
+			});
 		}
 	}
 

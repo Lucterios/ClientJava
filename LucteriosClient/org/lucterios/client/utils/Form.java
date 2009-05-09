@@ -82,8 +82,10 @@ public class Form extends JFrame {
 	}
 
 	public void Close() {
-		if (mNotifyFrameObserver != null)
+		if (mNotifyFrameObserver != null) {
 			mNotifyFrameObserver.close(true);
+			mNotifyFrameObserver = null;
+		}
 		if (mNotifyFrameList != null)
 			mNotifyFrameList.removeFrame(this);
 	}

@@ -25,12 +25,12 @@ import java.util.*;
 public class PrintVector extends PrintAbstract
 {
     public String name="";
-    private Vector containers;
+    private ArrayList containers;
 
     public PrintVector(String aName)
     {
         super();
-        containers=new Vector();
+        containers=new ArrayList();
         name=aName;
     }
 
@@ -86,7 +86,7 @@ public class PrintVector extends PrintAbstract
         return containers.indexOf(item);
     }
 
-    public String writeVector(String aName)
+    public String writeArrayList(String aName)
     {
         String xml_childs="";
         for(int val_idx=0;val_idx<size();val_idx++)
@@ -108,7 +108,7 @@ public class PrintVector extends PrintAbstract
         return xml_childs;
     }
 
-    public void readVector(org.w3c.dom.NodeList aNodes, Class aClass)
+    public void readArrayList(org.w3c.dom.NodeList aNodes, Class aClass)
     {
         init();
         for(int node_idx=0;node_idx<aNodes.getLength();node_idx++)

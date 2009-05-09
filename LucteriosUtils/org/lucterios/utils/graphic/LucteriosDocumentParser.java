@@ -175,9 +175,9 @@ public class LucteriosDocumentParser {
 		return text;
 	}
 
-	private Vector getRunsByPara(SimpleParsing aItem,Run aModel)
+	private ArrayList getRunsByPara(SimpleParsing aItem,Run aModel)
 	{
-		Vector list=new Vector();
+		ArrayList list=new ArrayList();
 		Run new_model=new Run("",aModel);
 		if (aItem.getTagName().equalsIgnoreCase("b"))
 			new_model.bold=true;
@@ -215,7 +215,7 @@ public class LucteriosDocumentParser {
 		SimpleParsing paragraph=new SimpleParsing();
 		if (paragraph.parse(getFormatedText(line)))
 		{
-			Vector list=getRunsByPara(paragraph,new Run(this.styles,""));			
+			ArrayList list=getRunsByPara(paragraph,new Run(this.styles,""));			
 			try
 			{
 				for (int i = 0; i < list.size(); i++) {

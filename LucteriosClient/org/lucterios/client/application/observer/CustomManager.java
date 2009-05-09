@@ -9,7 +9,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -76,8 +76,8 @@ public class CustomManager extends JAdvancePanel {
 
 	private Observer mObserver;
 
-	public Vector mComposants = new Vector();
-	public Vector mCmponents = new Vector();
+	public ArrayList mComposants = new ArrayList();
+	public ArrayList mCmponents = new ArrayList();
 	public String[] mCompNames = new String[0];
 	private static final String CST_TABPANE = "TAB";
 	private JTabbedPane PnlTab = null;
@@ -94,10 +94,19 @@ public class CustomManager extends JAdvancePanel {
 		mComposants.clear();
 	}
 
-	public void init(SimpleParsing aXmlComponent) {
-		mCompNames = new String[aXmlComponent.getTagCount()];
+	protected void clear() {
 		mCmponents.clear();
 		mComposants.clear();
+	}
+
+	public void close() {
+		clear();
+		mObserver = null;
+	}
+	
+	public void init(SimpleParsing aXmlComponent) {
+		clear();
+		mCompNames = new String[aXmlComponent.getTagCount()];
 		for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
 			SimpleParsing component = aXmlComponent.getSubTag(index);
 			mComposants.add(component);
@@ -130,7 +139,7 @@ public class CustomManager extends JAdvancePanel {
 	}
 
 	public Cmponent getCmponents(int aIndex) {
-		return (Cmponent) mCmponents.elementAt(aIndex);
+		return (Cmponent) mCmponents.get(aIndex);
 	}
 
 	public Cmponent getCmponentName(String aName) {

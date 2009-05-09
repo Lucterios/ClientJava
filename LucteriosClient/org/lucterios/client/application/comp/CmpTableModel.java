@@ -193,7 +193,11 @@ public class CmpTableModel extends AbstractTableViewModel {
 	
 	private SimpleParsing[] mHeaderXml;
 	private SimpleParsing[] mContentXml;
-	
+
+	public void close() {
+		mHeaderXml=null;
+		mContentXml=null;
+	}
 	public void setText(SimpleParsing aXmlItem) {
 		mHeaderXml = aXmlItem.getSubTag("HEADER");
 		mContentXml = aXmlItem.getSubTag("RECORD");

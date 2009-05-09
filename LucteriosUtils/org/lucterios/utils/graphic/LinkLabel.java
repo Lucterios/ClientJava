@@ -40,14 +40,14 @@ public class LinkLabel extends JEditorPane {
 	public LinkLabel(String aUrl) 
 	{
 		super();
-		init();
+		initial();
 		setURL(aUrl,aUrl);
 	}
 
 	public LinkLabel() 
 	{
 		super();
-		init();
+		initial();
 		setURL("","");
 	}
 
@@ -56,7 +56,7 @@ public class LinkLabel extends JEditorPane {
 		setURL(mUrl,mValue);
 	}
 	
-	protected void init()
+	protected void initial()
 	{
 		setEditable(false);
 		setFocusable(false);

@@ -38,6 +38,12 @@ public class CmpTextform extends CmpAbstractEvent {
 		mWeighty = 1.0;
 	}
 
+	public void close() {
+		cmp_text.close();
+		cmp_text=null;
+		super.close();
+	}
+	
 	public void requestFocus() {
 		cmp_text.requestFocus();
 	}

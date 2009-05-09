@@ -21,7 +21,7 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.Component;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.UIManager;
 
@@ -37,7 +37,7 @@ public class LabelFormRenderer extends javax.swing.JEditorPane implements
 		setContentType("text/html");
 	}
 
-	Vector cell_check = new Vector();
+	ArrayList cell_check = new ArrayList();
 
 	public void clearTag() {
 		cell_check.clear();

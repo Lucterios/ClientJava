@@ -31,7 +31,7 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public class CmpSelect extends CmpAbstractEvent {
-	class ItemList extends Vector implements ComboBoxModel {
+	class ItemList extends ArrayList implements ComboBoxModel {
 
 		/**
 		 * 
@@ -52,7 +52,7 @@ public class CmpSelect extends CmpAbstractEvent {
 
 		public Object getElementAt(int index) {
 			if ((index >= 0) && (index < size()))
-				return this.elementAt(index);
+				return this.get(index);
 			else
 				return null;
 		}
@@ -91,6 +91,13 @@ public class CmpSelect extends CmpAbstractEvent {
 		m_comboModel.clear();
 	}
 
+	public void close() {
+		m_comboModel.clear();
+		m_comboModel=null;
+		cmp_cnbb = null;
+		super.close();
+	}
+	
 	public void requestFocus() {
 		cmp_cnbb.requestFocus();
 	}

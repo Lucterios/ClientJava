@@ -64,6 +64,18 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		mWeighty = 1.0;
 	}
 
+	public void close() {
+		cmp_tbl = null;
+		cmp_tbl_Model.close();
+		cmp_tbl_Model = null;
+		pnl_Btn = null;
+		pnl_Grid = null;
+		pnl_Pages = null;
+		scr_pnl = null;
+		cmp_Pages = null;
+		super.close();
+	}
+	
 	public void requestFocus() {
 		cmp_tbl.requestFocus();
 	}
@@ -268,7 +280,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		cmp_tbl.idealColumnSize();
 	}
 	
-	public void fillActions(Vector atns) {
+	public void fillActions(ArrayList atns) {
 		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
 			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx)))
 				atns.add(((Button) pnl_Btn.getComponent(btn_idx)).mAction);

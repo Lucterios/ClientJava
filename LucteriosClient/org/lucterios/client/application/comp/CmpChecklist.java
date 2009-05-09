@@ -62,6 +62,12 @@ public class CmpChecklist extends CmpAbstractEvent implements
 		mWeighty = 0.0;
 	}
 
+	public void close() {
+		cmp_list=null;
+		scrl_list=null;
+		super.close();
+	}
+	
 	public void requestFocus() {
 		cmp_list.requestFocus();
 	}
@@ -123,7 +129,7 @@ public class CmpChecklist extends CmpAbstractEvent implements
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
 		mSimple = (mXmlItem.getAttributInt("simple", 0) != 0);
-		Vector ItemObjs = new Vector();
+		ArrayList ItemObjs = new ArrayList();
 		int[] indices = null;
 		cmp_list.removeAll();
 		try {
@@ -140,7 +146,7 @@ public class CmpChecklist extends CmpAbstractEvent implements
 				sel_itx[case_idx] = (xml_item.getAttributInt("checked", 0) != 0);
 				if (sel_itx[case_idx])
 					nb_selected++;
-				ItemObjs.addElement(item_obj);
+				ItemObjs.add(item_obj);
 			}
 			indices = new int[nb_selected];
 			int nb = 0;
@@ -151,7 +157,7 @@ public class CmpChecklist extends CmpAbstractEvent implements
 				}
 		} catch (Exception e) {
 		}
-		cmp_list.setListData(ItemObjs);
+		cmp_list.setListData(ItemObjs.toArray());
 		if (mSimple) {
 			cmp_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			cmp_list.addListSelectionListener(this);

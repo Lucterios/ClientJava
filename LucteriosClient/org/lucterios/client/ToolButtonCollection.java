@@ -1,7 +1,7 @@
 package org.lucterios.client;
 
 import java.awt.event.ActionEvent;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
@@ -22,7 +22,7 @@ public class ToolButtonCollection extends ToolButton implements Runnable {
 	private ChangeAction mOwner;
 	private ToolButtonCollection mParent;
 	private ToolButton mButton = null;
-	private Vector mSubActions = new Vector();
+	private ArrayList mSubActions = new ArrayList();
 
 	ToolButtonCollection(ChangeAction aOwner, ToolButtonCollection aParent,
 			org.lucterios.client.application.Menu aMenu) {

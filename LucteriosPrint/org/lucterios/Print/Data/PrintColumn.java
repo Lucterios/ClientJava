@@ -36,7 +36,7 @@ public class PrintColumn extends PrintAbstract
 
     public Object[] getSelection()
     {
-        Vector data_list=Owner.getDataList();
+        ArrayList data_list=Owner.getDataList();
         if (data_list.size()>0)
             return data_list.toArray();
         else
@@ -56,9 +56,9 @@ public class PrintColumn extends PrintAbstract
         return data_path;
     }
 
-    public Vector getDataList()
+    public ArrayList getDataList()
     {
-        Vector data_list=Owner.getDataList();
+        ArrayList data_list=Owner.getDataList();
         if (data.length()>0)
             data_list.addAll(extractDataList(data_list,getDataPath()));
         return data_list;

@@ -40,6 +40,9 @@ import org.mozilla.javascript.ScriptableObject;
 
 public abstract class Cmponent extends JPanel {
 	static final long serialVersionUID = 1L;
+
+	public static int CmponentCount=0;
+	
 	protected JPanel mOwnerPanel;
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
@@ -61,6 +64,7 @@ public abstract class Cmponent extends JPanel {
 
 	public Cmponent() {
 		super();
+		CmponentCount++;
 		mFill = GridBagConstraints.BOTH;
 		mWeightx = 0.0;
 		mWeighty = 0.0;
@@ -69,11 +73,19 @@ public abstract class Cmponent extends JPanel {
 		setFocusable(false);
 	}
 	
-	public void close() {
+	protected void finalize() throws Throwable{
+		CmponentCount--;
+		super.finalize();
+	}
 		
+	public void close() {
+		mOwnerPanel=null;
+		mGdbConp=null;
+		mXmlItem=null;
+		mObsCustom=null;
 	}
 
-	public void fillActions(Vector atns) {
+	public void fillActions(ArrayList atns) {
 
 	}
 

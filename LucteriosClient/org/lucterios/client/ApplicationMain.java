@@ -402,6 +402,20 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mStatBarPnl.add(mMemoryJauge, cnt);
 		
 		mTimeValue.addActionListener(mMemoryJauge);
+/*		mTimeValue.addActionListener(new ActionListener(){
+			private int count=0;
+
+			public void actionPerformed(ActionEvent arg0) {
+				count++;
+				if (count>15) {
+					count=0;
+					Logging.getInstance().writeLog("### PROFILE ###",
+							" Observer=" + ObserverAbstract.ObserverCount + " - Cmponent="+Cmponent.CmponentCount, 2);					
+				}
+				
+			}
+			
+		});*/
 		mTimeValue.start();
 	}
 

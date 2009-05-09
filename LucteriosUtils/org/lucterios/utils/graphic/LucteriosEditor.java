@@ -692,4 +692,12 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
 		public int getIconHeight() { return 12; }
     }
 
+	public void close() {
+	    editor=null;
+	    menubar=null;
+	    toolbar=null;
+	    status=null;
+	    popupListener=null;
+	}
+
 }

@@ -1,6 +1,6 @@
 package org.lucterios.client;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
@@ -19,12 +19,12 @@ public class ToolBar extends JToolBar {
 
 	private boolean mAdded;
 
-	private Vector mActions;
+	private ArrayList mActions;
 
 	public ToolBar() {
 		super(HORIZONTAL);
 		setFloatable(false);
-		mActions = new Vector();
+		mActions = new ArrayList();
 	}
 
 	public void addAction(Action aNewAction) {

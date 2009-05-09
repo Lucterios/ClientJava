@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 public abstract class PrintAbstract
 {
     protected TreeMap ReadProperty=new TreeMap();
-    protected Vector NoAttributProperty=new Vector();
+    protected ArrayList NoAttributProperty=new ArrayList();
     protected PrintAbstract Owner=null;
 
     public void setOwner(PrintAbstract aOwner)
@@ -55,7 +55,7 @@ public abstract class PrintAbstract
         return Owner.getDataPath();
     }
 
-    public Vector getNoAttributProperty()
+    public ArrayList getNoAttributProperty()
     {
         return NoAttributProperty;
     }
@@ -80,9 +80,9 @@ public abstract class PrintAbstract
 	}
     
     
-    protected Vector extractDataList(Vector aDataList,String DataPath)
+    protected ArrayList extractDataList(ArrayList aDataList,String DataPath)
     {
-        Vector data_list=new Vector();
+        ArrayList data_list=new ArrayList();
         for(int data_idx=0;data_idx<aDataList.size();data_idx++)
         {
             String current_path=(String)aDataList.get(data_idx);
@@ -96,13 +96,13 @@ public abstract class PrintAbstract
         return data_list;
     }
     
-    public Vector getDataList()
+    public ArrayList getDataList()
     {
         if (Owner!=null)
             return Owner.getDataList();
         else
         {
-            Vector data_list=new Vector();
+            ArrayList data_list=new ArrayList();
             data_list.add("");
             return data_list;
         }
@@ -153,7 +153,7 @@ public abstract class PrintAbstract
                 if (ReadProperty.containsKey(field_name) && (PrintVector.class.isInstance(value)) && (!PrintArea.class.isInstance(value)))
                 {
                     PrintVector val_list=(PrintVector)value;
-                    xml_childs=xml_childs+val_list.writeVector(field_name);
+                    xml_childs=xml_childs+val_list.writeArrayList(field_name);
                 }
                 else if (PrintAbstract.class.isInstance(value))
                 {
@@ -232,7 +232,7 @@ public abstract class PrintAbstract
 		    val_list.setOwner(this);
 		    String class_name=(String)ReadProperty.get(fieldName);
 		    Class class_inst=Class.forName(class_name);
-		    val_list.readVector(nodes,class_inst);
+		    val_list.readArrayList(nodes,class_inst);
 		}
 		else if (PrintAbstract.class.isInstance(value))
 		{

@@ -2,7 +2,7 @@ package org.lucterios.client.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -32,8 +32,8 @@ public class DatePickerSimple extends JDialog {
 		return selector;
 	}
 	
-	public static Vector getMonthList(){
-		Vector month_list = new Vector();
+	public static ArrayList getMonthList(){
+		ArrayList month_list = new ArrayList();
 		month_list.add("Janvier");
 		month_list.add("Février");
 		month_list.add("Mars");

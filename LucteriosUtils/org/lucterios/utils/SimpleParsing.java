@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -45,8 +45,8 @@ public class SimpleParsing extends DefaultHandler
 	private SimpleParsing mParent;
 	private TreeMap mAttrs=new TreeMap();
 	private String mSimpleName=EMPTY_NAME;
-	private Vector mTexts=new Vector();
-	private Vector mFields=new Vector();
+	private ArrayList mTexts=new ArrayList();
+	private ArrayList mFields=new ArrayList();
 
 	private SimpleParsing(SimpleParsing aParent) 
 	{
@@ -129,7 +129,7 @@ public class SimpleParsing extends DefaultHandler
     		mCurrent=this;
     	else {
     		SimpleParsing new_item=new SimpleParsing(mCurrent);
-    		mCurrent.mFields.addElement(new_item);
+    		mCurrent.mFields.add(new_item);
     		mCurrent=new_item;
     	}
     	mCurrent.fillElement(qualifiedName, attrs);

@@ -1,7 +1,7 @@
 package org.lucterios.client;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.lucterios.client.presentation.Singletons.ApplicationTerminate;
 import org.lucterios.utils.ExternalProcess;
@@ -11,7 +11,7 @@ import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class RequirementProcesses implements ExternalProcess.ProcessNotification,ApplicationTerminate {
 	
-	private Vector mProcessList=new Vector(); 
+	private ArrayList mProcessList=new ArrayList(); 
 
 	public final static String CONF_FILE_NAME = "RequirementProcesses.xml";
 	
