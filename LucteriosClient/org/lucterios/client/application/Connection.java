@@ -20,8 +20,9 @@
 
 package org.lucterios.client.application;
 
+
 public interface Connection {
-	public void setValue(String aTitle, String aSubTitle, String aVersion,
-			String aServerVersion, String aCopyRigth, String aLogoName,
+	
+	public void setValue(ApplicationDescription aDescription, String aSubTitle, 
 			String aLogin, String aRealName);
 }

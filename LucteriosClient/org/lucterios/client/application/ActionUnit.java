@@ -203,8 +203,7 @@ public class ActionUnit extends TestCase {
 		ObserverFactoryMock.NewObserver = new ObserverStub();
 
 		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='1' modal='1'><![CDATA[_Modifier]]></ACTION>");
+		action.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='1' modal='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
 		mAction.actionPerformed(null);
 		sleepOneTime();
@@ -215,8 +214,7 @@ public class ActionUnit extends TestCase {
 		assertEquals("Params", 1, ObserverFactoryMock.LastParam.size());
 		assertEquals("Param 0", "123", ObserverFactoryMock.LastParam.get("abc"));
 		assertEquals("Close", true, mAction.getClose());
-		assertEquals("Unique", ActionConstantes.SELECT_NONE, mAction
-				.getSelect());
+		assertEquals("Unique", ActionConstantes.SELECT_NONE, mAction.getSelect());
 		assertTrue("Show", ObserverStub.mShow);
 		assertEquals("Title", "Modifier", ObserverStub.mTitle);
 		assertTrue("Parent",

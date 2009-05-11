@@ -44,11 +44,17 @@ public class ExceptionDlg extends javax.swing.JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	public interface InfoDescription {
+		void sendSupport(String mComplement);
+	}
+	
 	public static final int FAILURE=0;
 	public static final int CRITIC=1;
 	public static final int GRAVE=2;
 	public static final int IMPORTANT=3;
 	public static final int MINOR=4;
+	
+	public static InfoDescription mInfoDescription=null;
 
     /**
      * @param args the command line arguments
@@ -75,15 +81,16 @@ public class ExceptionDlg extends javax.swing.JDialog {
     }
     
     private javax.swing.JScrollPane Extra;
-    private javax.swing.JTabbedPane PnlExtra;
-    private javax.swing.JPanel PnlMain;
     private javax.swing.JScrollPane Reponse;
     private javax.swing.JScrollPane Requette;
     private javax.swing.JScrollPane Stack;
+    private javax.swing.JTabbedPane PnlExtra;
+    private javax.swing.JPanel PnlMain;
     private javax.swing.JToggleButton btn_more;
     private javax.swing.JButton btn_exit;
-    private javax.swing.JEditorPane edExtra;
+    private javax.swing.JButton btn_send;
     private javax.swing.JLabel lbl_img;
+    private javax.swing.JEditorPane edExtra;
     private javax.swing.JEditorPane lbl_message;
     private javax.swing.JTextArea txtReponse;
     private javax.swing.JTextArea txtRequette;
@@ -139,11 +146,25 @@ public class ExceptionDlg extends javax.swing.JDialog {
         });
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         PnlBtn.add(btn_more, gridBagConstraints);
 
+        btn_send=new JButton();
+        btn_send.setText("Envoyer au support");
+        btn_send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	sendSupport();
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        PnlBtn.add(btn_send, gridBagConstraints);
+        
+        
         btn_exit=new JButton();
         btn_exit.setText("Ok");
         btn_exit.setMnemonic('O');
@@ -168,7 +189,22 @@ public class ExceptionDlg extends javax.swing.JDialog {
         PnlExtra.setName("PnlExtra");
     }
 
-    private void btn_moreActionPerformed(java.awt.event.ActionEvent evt) 
+    protected void sendSupport() {
+    	if (mInfoDescription!=null) {
+    		String complement=lbl_message.getText().trim() + "\n";
+    		if (edExtra!=null)
+    			complement+=edExtra.getText().trim() + "\n";
+    		if (txtReponse!=null)
+    			complement+=txtReponse.getText().trim() + "\n";
+    		if (txtRequette!=null)
+    			complement+=txtRequette.getText().trim() + "\n";
+    		if (txtStack!=null)
+    			complement+=txtStack.getText().trim() + "\n";
+    		mInfoDescription.sendSupport(complement);
+    	}
+	}
+
+	private void btn_moreActionPerformed(java.awt.event.ActionEvent evt) 
     {
         int w=400;
         int h=getSize().height;
@@ -286,6 +322,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
         lbl_message.setText(aText);
         lbl_img.setIcon(getIcon(aType));
         btn_more.setVisible((aType==FAILURE) || (aType==CRITIC) || (aType==GRAVE));
+        btn_send.setVisible(btn_more.isVisible() && (mInfoDescription!=null));
     }
     
     protected void setException(Exception e)

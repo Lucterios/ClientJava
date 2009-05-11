@@ -20,6 +20,7 @@
 
 package org.lucterios.client.application.observer;
 
+import org.lucterios.client.application.ApplicationDescription;
 import org.lucterios.client.application.Connection;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
@@ -50,14 +51,14 @@ public class ObserverAuthentification extends ObserverAbstract {
 			logon_box.logon(cdate);
 		} else if (mConnection != null) {
 			SimpleParsing xml_connection = mContent.getFirstSubTag("CONNECTION");
-			mConnection.setValue(xml_connection.getCDataOfFirstTag("TITLE"),
-					xml_connection.getCDataOfFirstTag("SUBTITLE"),
-					xml_connection.getCDataOfFirstTag("VERSION"),
-					xml_connection.getCDataOfFirstTag("SERVERVERSION"),
-					xml_connection.getCDataOfFirstTag("COPYRIGHT"),
-					xml_connection.getCDataOfFirstTag("LOGONAME"),
-					xml_connection.getCDataOfFirstTag("LOGIN"), xml_connection
-							.getCDataOfFirstTag("REALNAME"));
+			ApplicationDescription desc=new ApplicationDescription(xml_connection.getCDataOfFirstTag("TITLE"),
+					xml_connection.getCDataOfFirstTag("COPYRIGHT"),xml_connection.getCDataOfFirstTag("LOGONAME"),
+					xml_connection.getCDataOfFirstTag("VERSION"),xml_connection.getCDataOfFirstTag("SERVERVERSION"));
+			desc.setSupportEmail(xml_connection.getCDataOfFirstTag("SUPPORT_EMAIL"));
+			desc.setInfoServer(xml_connection.getCDataOfFirstTag("INFO_SERVER"));
+			mConnection.setValue(desc, xml_connection.getCDataOfFirstTag("SUBTITLE"),
+					xml_connection.getCDataOfFirstTag("LOGIN"), 
+					xml_connection.getCDataOfFirstTag("REALNAME"));
 		}
 	}
 

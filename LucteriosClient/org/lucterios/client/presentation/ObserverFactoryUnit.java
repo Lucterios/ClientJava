@@ -68,7 +68,7 @@ public class ObserverFactoryUnit extends TestCase {
 		assertEquals(
 				"XmlParam",
 				"<REQUETE extension='CORE' action='printmodel_APAS_reinit'></REQUETE>",
-				mHttpTransport.XmlParam);
+				mHttpTransport.XmlParam.get("XMLinput"));
 	}
 
 	public void testRefresh() throws LucteriosException {
@@ -101,7 +101,7 @@ public class ObserverFactoryUnit extends TestCase {
 		assertEquals(
 				"XmlParam",
 				"<REQUETE extension='CORE' action='printmodel_APAS_reinit'><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM><PARAM name='print_model'><![CDATA[107]]></PARAM></REQUETE>",
-				mHttpTransport.XmlParam);
+				mHttpTransport.XmlParam.get("XMLinput"));
 	}
 
 	public void testCallActionWithParam() throws LucteriosException {
@@ -116,7 +116,7 @@ public class ObserverFactoryUnit extends TestCase {
 		assertEquals(
 				"XmlParam",
 				"<REQUETE extension='CORE' action='printmodel_APAS_reinit'><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM><PARAM name='print_model'><![CDATA[107]]></PARAM></REQUETE>",
-				mHttpTransport.XmlParam);
+				mHttpTransport.XmlParam.get("XMLinput"));
 	}
 
 	public void testCallActionBadXmlReceived() {
@@ -154,7 +154,7 @@ public class ObserverFactoryUnit extends TestCase {
 		assertEquals(
 				"param Bad",
 				"<REQUETE extension='common' action='authentification'><PARAM name='login'><![CDATA[abc]]></PARAM><PARAM name='pass'><![CDATA[123]]></PARAM></REQUETE>",
-				mHttpTransport.XmlParam);
+				mHttpTransport.XmlParam.get("XMLinput"));
 
 		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Auth' source_extension='CORE' source_action='authentification'><CONNECTION></CONNECTION><PARAM name='ses' type='str'>admin1176588477</PARAM><![CDATA[OK]]></REPONSE></REPONSES>";
 		assertTrue("OK", mObserverFactory.setAuthentification("admin", "admin"));
@@ -163,6 +163,6 @@ public class ObserverFactoryUnit extends TestCase {
 		assertEquals(
 				"param OK",
 				"<REQUETE extension='common' action='authentification'><PARAM name='login'><![CDATA[admin]]></PARAM><PARAM name='pass'><![CDATA[admin]]></PARAM></REQUETE>",
-				mHttpTransport.XmlParam);
+				mHttpTransport.XmlParam.get("XMLinput"));
 	}
 }

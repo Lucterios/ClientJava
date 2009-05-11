@@ -82,12 +82,13 @@ public class ObserverStub extends ObserverAbstract {
 
 	public boolean mClose = false;
 
-	public void close() {
+	public void close(boolean aMustRefreshParent) {
 		mClose = true;
 		if (mGUIFrame != null)
 			mGUIFrame.setVisible(false);
 		if (mGUIDialog != null)
 			mGUIDialog.setVisible(false);
+		super.close(aMustRefreshParent);
 	}
 
 	static public Map mParameters = new TreeMap();

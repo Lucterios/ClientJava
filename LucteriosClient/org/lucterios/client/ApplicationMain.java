@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -41,6 +40,7 @@ import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.ActionLocal;
+import org.lucterios.client.application.ApplicationDescription;
 import org.lucterios.client.application.Connection;
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.WindowGenerator;
@@ -108,11 +108,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	static private int NB_WIND_MENU = 4;
 
-	private String mVersion;
-	private String mServerVersion;
-	private String mCopyRigth;
-	private String mLogoIconName;
-	private Image mLogoIcon;
+	private ApplicationDescription mDescription;
 
 	private Action mMenuAction;
 	private Action mStatusAction;
@@ -515,8 +511,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	public void terminatToolBar() {
 		mToolNavigator.setVisible(true);
-		mToolNavigator.setApplication(getTitle(), Singletons.Transport()
-				.getIcon(mLogoIconName));
+		mToolNavigator.setApplication(getTitle(), mDescription.getLogoIcon());
 		mToolNavigator.setMainMenuBar(menuBar);
 		mFormList.assignShortCut(mToolNavigator);
 		mConnectionInfoAction.actionPerformed(null);
@@ -541,8 +536,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				mContentMenuAction);
 	}
 
-	private String mTitle = "";
-
 	private void formWindowOpened(java.awt.event.WindowEvent evt) {
 		mShowStatus = true;
 		refreshMainFrame();
@@ -550,7 +543,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
 		AboutBox about_dlg = new AboutBox(this);
-		about_dlg.show(mTitle, mCopyRigth, mLogoIcon, mVersion, mServerVersion);
+		about_dlg.show(mDescription);
 	}
 
 	private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -709,38 +702,29 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mConnectionInfoOwnerObserber.setContext(context);	
 	}
 	
-	public void setValue(String aTitle, String aSubTitle, String aVersion,
-			String aServerVersion, String aCopyRigth, String aLogoName,
+	public void setValue(ApplicationDescription aDescription, String aSubTitle, 
 			String aLogin, String aRealName) {
 		refreshConnectionInfoOwnerObs();
-		mLogoIconName = aLogoName;
-		ImageIcon img=Singletons.Transport().getIcon(mLogoIconName);
-		if (img!=null) 
-			mLogoIcon = img.getImage();
-		else
-			mLogoIcon = null;
-		setIconImage(mLogoIcon);
-		mTitle = aTitle;
+		mDescription=aDescription;
+		//new ApplicationDescription(aTitle,aCopyRigth,aLogoName,aVersion,aServerVersion);
+		setIconImage(mDescription.getLogoImage());
 		String sub_title = aSubTitle;
 		if (!sub_title.equals( "" ))
-			setTitle(mTitle + " - " + sub_title);
+			setTitle(mDescription.getTitle() + " - " + sub_title);
 		else
-			setTitle(mTitle);
+			setTitle(mDescription.getTitle());
 		Server server=LogonBox.getLastServer();
 		mConnectionLogo.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("resources/connection"+server.ConnectionMode+".png")));
 		mLogName.setText(aRealName);
 		mServer.setText(aLogin + "@" + server.ServerName);
-		mVersion = aVersion;
-		mServerVersion = aServerVersion;
-		mCopyRigth = aCopyRigth;
-
+		mDescription.setlogin(aLogin + "@" + server.HostName+"/"+server.Directory+":"+server.HostPort);
 		checkUpgrade();
 	}
 
 	private void checkUpgrade() {
 		Update up = new Update(Singletons.Transport());
 		if (up.isArchiveMostRecent(Constants.Version())) {
-			String text = mTitle + " - version " + Constants.Version();
+			String text = mDescription.getTitle() + " - version " + Constants.Version();
 			text += "\n\nLa version " + up.getVersion() + " est disponible.";
 			text += "\nVoulez-vous la télécharger?";
 			if (JOptionPane.showConfirmDialog(this, text, "Mise à jours",
@@ -748,14 +732,14 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				WaitingWindow ww = new WaitingWindow(
 						"Téléchargement de la nouvelle version.<br>Veuillez patienter.");
 				try {
-					up.runDownloadAndExtract(mTitle);
+					up.runDownloadAndExtract(mDescription.getTitle());
 				} finally {
 					ww.dispose();
 				}
 			}
 		}
 
-		if (!Constants.CheckCoreVersion(mServerVersion))
+		if (!Constants.CheckCoreVersion(mDescription.getServerVersion()))
 			JOptionPane
 					.showMessageDialog(
 							this,
@@ -801,7 +785,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	private void ExitConnection() {
-		if (!Constants.CheckVersionInferiorEgual(mServerVersion, 0, 12))
+		if (!Constants.CheckVersionInferiorEgual(mDescription.getServerVersion(), 0, 12))
 			mExitAction.runAction(new TreeMap());
 	}
 
