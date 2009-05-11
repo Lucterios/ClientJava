@@ -45,7 +45,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	public interface InfoDescription {
-		void sendSupport(String mComplement);
+		void sendSupport(String aTitle,String aComplement);
 	}
 	
 	public static final int FAILURE=0;
@@ -189,18 +189,32 @@ public class ExceptionDlg extends javax.swing.JDialog {
         PnlExtra.setName("PnlExtra");
     }
 
+    protected String removeHTMLHeader(String aText) {
+    	String resValue=aText.trim();
+    	resValue=Tools.replace(resValue,"<html>","");
+    	resValue=Tools.replace(resValue,"</html>","");
+    	resValue=Tools.replace(resValue,"<head>","");
+    	resValue=Tools.replace(resValue,"</head>","");
+    	resValue=Tools.replace(resValue,"<body>","");
+    	resValue=Tools.replace(resValue,"</body>","");
+    	resValue=Tools.replace(resValue,"<br><br>","<br>");
+    	return resValue.trim();
+    }
+    
     protected void sendSupport() {
     	if (mInfoDescription!=null) {
-    		String complement=lbl_message.getText().trim() + "\n";
+    		String complement="Décrivez le plus précisément possible, comment vous avez obtenu ce problème.<br>Merci de votre aide." +
+    				"<br><br>_______________________________________________________________<br><br>";
+    		complement+=removeHTMLHeader(lbl_message.getText());
     		if (edExtra!=null)
-    			complement+=edExtra.getText().trim() + "\n";
+    			complement+=removeHTMLHeader(edExtra.getText()) + "<br><br>";
     		if (txtReponse!=null)
-    			complement+=txtReponse.getText().trim() + "\n";
+    			complement+=Tools.HTMLEntityEncode(txtReponse.getText()) + "<br><br>";
     		if (txtRequette!=null)
-    			complement+=txtRequette.getText().trim() + "\n";
+    			complement+=Tools.HTMLEntityEncode(txtRequette.getText()) + "<br><br>";
     		if (txtStack!=null)
-    			complement+=txtStack.getText().trim() + "\n";
-    		mInfoDescription.sendSupport(complement);
+    			complement+=removeHTMLHeader(txtStack.getText()) + "<br>";
+    		mInfoDescription.sendSupport("Rapport de bogue",complement);
     	}
 	}
 

@@ -120,7 +120,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		supportBtn.setText("Ecrire au support");
 		supportBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent aEvent) {
-				mDescription.sendSupport("");
+				mDescription.sendSupport("demande de support","Décrivez le plus précisément possible votre problème." +
+	    				"<br><br>_______________________________________________________________<br>");
 			}
 		});
 		getContentPane().add(supportBtn, getConstraints(0, 6, new Insets(5, 5, 10, 10), 2, 1));
@@ -175,7 +176,7 @@ public class AboutBox extends JDialog implements MouseListener {
 		text.setFocusable(false);
 		text.setContentType("text/html");
 		text.setBackground(this.getBackground());
-		text.setText(mDescription.getHTML());
+		text.setText(mDescription.getHTML(null));
 
 		config.getContentPane().add(text,getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 1));
 
