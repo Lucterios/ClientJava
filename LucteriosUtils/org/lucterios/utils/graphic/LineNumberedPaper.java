@@ -178,13 +178,13 @@ public class LineNumberedPaper extends JTextPane implements KeyListener
 		{	
 			return;
 		}
-		Set newForwardKeys = new HashSet(1);
+		Set<AWTKeyStroke> newForwardKeys = new HashSet<AWTKeyStroke>(1);
 		newForwardKeys.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB,0));
 		this.setFocusTraversalKeys(
 			KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
 			Collections.unmodifiableSet(newForwardKeys)
 		);
-		Set newBackwardKeys = new HashSet(1);
+		Set<AWTKeyStroke> newBackwardKeys = new HashSet<AWTKeyStroke>(1);
 		newBackwardKeys.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB,KeyEvent.SHIFT_MASK+KeyEvent.SHIFT_DOWN_MASK));
 		this.setFocusTraversalKeys(
 			KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,

@@ -175,9 +175,9 @@ public class LucteriosDocumentParser {
 		return text;
 	}
 
-	private ArrayList getRunsByPara(SimpleParsing aItem,Run aModel)
+	private ArrayList<Run> getRunsByPara(SimpleParsing aItem,Run aModel)
 	{
-		ArrayList list=new ArrayList();
+		ArrayList<Run> list=new ArrayList<Run>();
 		Run new_model=new Run("",aModel);
 		if (aItem.getTagName().equalsIgnoreCase("b"))
 			new_model.bold=true;

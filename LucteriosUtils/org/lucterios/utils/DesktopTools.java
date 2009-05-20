@@ -34,8 +34,8 @@ public class DesktopTools {
 	    public ProcessExitDetector(String[] aArgs) throws LucteriosException {
     		String cmd="";
 	    	try{
-	    		for(int idx=0;idx<aArgs.length;idx++)
-	    			cmd+=aArgs[idx]+" ";
+	    		for(String arg:aArgs)
+	    			cmd+=arg+" ";
 	    		process = Runtime.getRuntime().exec(aArgs);
 	    		start();
 				System.out.println("Commande '"+cmd+"' lancée");

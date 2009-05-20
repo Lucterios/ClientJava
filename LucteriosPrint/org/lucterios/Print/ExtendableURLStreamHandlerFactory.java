@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class ExtendableURLStreamHandlerFactory implements URLStreamHandlerFactory {
 	
-	private HashMap protocol2Handler = new HashMap();
+	private HashMap<String,URLStreamHandler> protocol2Handler = new HashMap<String, URLStreamHandler>();
 
 	private static ExtendableURLStreamHandlerFactory instance=null;
 

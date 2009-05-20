@@ -20,16 +20,15 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
 
 public class CmpLabelform extends Cmponent {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JEditorPane cmp_text;
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		return tree_map;
 	}
 

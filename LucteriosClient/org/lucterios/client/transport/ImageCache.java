@@ -6,13 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
 
 public class ImageCache {
@@ -22,7 +22,7 @@ public class ImageCache {
 	private static final String SUFIX_FOR_DUMMY="%DUMMY";
 	private static final long TIME_PERINITY=1000*60*60*24*15; // 15j en millisecondes
 	private static final long TIME_PERINITY_DUMMY=1000*60*60*12; // 12h en millisecondes
-	private static ArrayList mMiniImages=new ArrayList();
+	private static StringList mMiniImages=new StringList();
 	
 	public static void clearMiniImages(){
 		mMiniImages.clear();

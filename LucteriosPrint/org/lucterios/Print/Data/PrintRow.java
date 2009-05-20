@@ -22,6 +22,8 @@ package org.lucterios.Print.Data;
 
 import java.util.*;
 
+import org.lucterios.utils.StringList;
+
 public class PrintRow extends PrintAbstract
 {
     public PrintVector cell;
@@ -55,9 +57,9 @@ public class PrintRow extends PrintAbstract
         return data_path;
     }
 
-    public ArrayList getDataList()
+    public StringList getDataList()
     {
-        ArrayList data_list=Owner.getDataList();
+    	StringList data_list=Owner.getDataList();
         if (data.length()>0)
             data_list.addAll(extractDataList(data_list,getDataPath()));
         return data_list;

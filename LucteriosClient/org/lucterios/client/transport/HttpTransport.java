@@ -21,10 +21,10 @@
 package org.lucterios.client.transport;
 
 import java.net.URL;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public interface HttpTransport {
@@ -50,9 +50,9 @@ public interface HttpTransport {
 
 	public void closeConnection();
 
-	public String transfertXMLFromServer(Map aParams) throws LucteriosException;
+	public String transfertXMLFromServer(MapContext aParams) throws LucteriosException;
 
-	public String transfertFileFromServerString(String aWebFile, Map aParams)
+	public String transfertFileFromServerString(String aWebFile, MapContext aParams)
 			throws LucteriosException;
 
 	public ImageIcon getIcon(String aIconName,int aSize);

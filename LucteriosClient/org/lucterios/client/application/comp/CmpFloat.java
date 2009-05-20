@@ -20,14 +20,13 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 
 import javax.swing.*;
 
 import javax.swing.text.*;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.SpinEdit;
 
@@ -147,8 +146,8 @@ public class CmpFloat extends CmpAbstractEvent {
 			getCmpFloat().setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		if (mIsInteger)
 			tree_map.put(getName(), new Long(getCmpInt().getNumber())
 					.toString());

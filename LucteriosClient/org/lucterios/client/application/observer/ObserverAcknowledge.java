@@ -20,8 +20,6 @@
 
 package org.lucterios.client.application.observer;
 
-import java.util.*;
-
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.presentation.ObserverAbstract;
@@ -69,8 +67,8 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		throw new LucteriosException("Not in Dialog");
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
-		Map requete = new TreeMap();
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+		MapContext requete = new MapContext();
 		requete.putAll(mContext);
 		return requete;
 	}

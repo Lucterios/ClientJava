@@ -11,7 +11,7 @@ import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class RequirementProcesses implements ExternalProcess.ProcessNotification,ApplicationTerminate {
 	
-	private ArrayList mProcessList=new ArrayList(); 
+	private ArrayList<ExternalProcess> mProcessList=new ArrayList<ExternalProcess>(); 
 
 	public final static String CONF_FILE_NAME = "RequirementProcesses.xml";
 	
@@ -44,10 +44,10 @@ public class RequirementProcesses implements ExternalProcess.ProcessNotification
 		Logging.getInstance().writeLog("RequirementProcesses", "OS Name="+os_name+" - OS Archi="+os_arch, 1);
 		SimpleParsing root = new SimpleParsing();
 		if (root.parse(aConfigText)) {
-			SimpleParsing[] plateform=root.getSubTag("PLATFORM");
-			for(int index=0;index<plateform.length;index++)
-				if (os_name.equals(plateform[index].getAttribut("name")) && os_arch.equals(plateform[index].getAttribut("archi")))
-					manageArchi(plateform[index]);
+			SimpleParsing[] plateforms=root.getSubTag("PLATFORM");
+			for(SimpleParsing plateform:plateforms)
+				if (os_name.equals(plateform.getAttribut("name")) && os_arch.equals(plateform.getAttribut("archi")))
+					manageArchi(plateform);
 		}
 	}
 	
@@ -68,8 +68,7 @@ public class RequirementProcesses implements ExternalProcess.ProcessNotification
 	}	
 	
 	public void exit() {
-		for(int index=0;index<mProcessList.size();index++){
-			ExternalProcess proc=(ExternalProcess)mProcessList.get(index);
+		for(ExternalProcess proc:mProcessList){
 			proc.Terminate();
 		}
 	}

@@ -20,14 +20,13 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.*;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpTime extends CmpAbstractEvent {
@@ -52,14 +51,14 @@ public class CmpTime extends CmpAbstractEvent {
 		spe_minute.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
+	public MapContext getRequete(String aActionIdent) {
 		String time_hour = new Long(spe_hour.getNumber()).toString();
 		if (time_hour.length() == 1)
 			time_hour = "0" + time_hour;
 		String time_min = new Long(spe_minute.getNumber()).toString();
 		if (time_min.length() == 1)
 			time_min = "0" + time_min;
-		TreeMap tree_map = new TreeMap();
+		MapContext tree_map = new MapContext();
 		tree_map.put(getName(), time_hour + ":" + time_min);
 		return tree_map;
 	}

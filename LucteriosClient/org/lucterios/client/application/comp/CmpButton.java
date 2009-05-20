@@ -23,10 +23,9 @@ package org.lucterios.client.application.comp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.lucterios.client.application.Button;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpButton extends CmpAbstractEvent {
@@ -41,8 +40,8 @@ public class CmpButton extends CmpAbstractEvent {
 		super();
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		return tree_map;
 	}
 

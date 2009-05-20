@@ -21,11 +21,11 @@
 package org.lucterios.client.utils;
 
 import java.awt.Container;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -41,12 +41,12 @@ public class FormList implements Form.NotifyFrameList {
 		javax.swing.Action mActionListener = null;
 	}
 
-	private Vector mList;
-	private Map mShortCut;
+	private ArrayList<Form> mList;
+	private Map<String,ShortCut> mShortCutDico;
 
 	public FormList() {
-		mList = new Vector();
-		mShortCut = new TreeMap();
+		mList = new ArrayList<Form>();
+		mShortCutDico = new TreeMap<String,ShortCut>();
 	}
 
 	public void clear() {
@@ -54,7 +54,7 @@ public class FormList implements Form.NotifyFrameList {
 	}
 
 	public void clearShortCut() {
-		mShortCut.clear();
+		mShortCutDico.clear();
 		Tools.postOrderGC();
 	}
 
@@ -64,11 +64,11 @@ public class FormList implements Form.NotifyFrameList {
 		short_cut.mActionListener = aActionListener;
 		short_cut.mActionName = aActionName;
 		short_cut.mShortCut = aShortCut;
-		mShortCut.put(aActionName, short_cut);
+		mShortCutDico.put(aActionName, short_cut);
 	}
 
 	public void assignShortCut(Container aComp) {
-		Set entrees = mShortCut.entrySet();
+		Set entrees = mShortCutDico.entrySet();
 		Iterator iterateur = entrees.iterator();
 		while (iterateur.hasNext()) {
 			Map.Entry entree = (Map.Entry) iterateur.next();
@@ -123,7 +123,7 @@ public class FormList implements Form.NotifyFrameList {
 	}
 
 	public Form get(int index) {
-		return (Form) mList.get(index);
+		return mList.get(index);
 	}
 
 	private Form mFormSelected = null;

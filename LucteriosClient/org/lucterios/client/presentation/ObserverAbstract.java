@@ -20,8 +20,7 @@
 
 package org.lucterios.client.presentation;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
@@ -69,9 +68,9 @@ public abstract class ObserverAbstract implements Observer {
 		String resValue=getClass().getName()+"["+mExtension+"->"+mAction+"]";
 		String resParam="";
 		if (mContext!=null) {
-			Object[] keys=mContext.keySet().toArray();
-			for(int index=0;index<keys.length;index++){
-				resParam+="'"+keys[index]+"'='"+mContext.get(keys[index])+"',";
+			Set<String> keys=mContext.keySet();
+			for(String key:keys){
+				resParam+="'"+key+"'='"+mContext.get(key)+"',";
 			}
 		}
 		return resValue+"("+resParam+")";
@@ -127,13 +126,13 @@ public abstract class ObserverAbstract implements Observer {
 		mTitle = aCaption;
 	}
 
-	protected Map mContext = null;
+	protected MapContext mContext = null;
 
-	public void setContext(Map aContext) {
+	public void setContext(MapContext aContext) {
 		mContext = aContext;
 	}
 
-	public Map getContext() {
+	public MapContext getContext() {
 		return mContext;
 	}
 
@@ -183,8 +182,8 @@ public abstract class ObserverAbstract implements Observer {
 		}
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
-		return new TreeMap();
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+		return new MapContext();
 	}
 
 	public void refresh() throws LucteriosException {

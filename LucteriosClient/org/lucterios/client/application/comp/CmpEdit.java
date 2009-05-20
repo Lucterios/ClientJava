@@ -20,7 +20,6 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
 import java.util.regex.Pattern;
 
 import java.awt.*;
@@ -29,6 +28,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.text.Caret;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpEdit extends CmpAbstractEvent implements KeyListener {
@@ -52,8 +52,8 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 		cmp_text.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		tree_map.put(getName(), cmp_text.getText());
 		return tree_map;
 	}

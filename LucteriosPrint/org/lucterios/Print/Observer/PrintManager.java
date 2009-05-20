@@ -42,10 +42,10 @@ public class PrintManager
     {
         mPrintPage=new PrintPage();
         mCurrent=null;
-        mPrintObservers=new ArrayList();
+        mPrintObservers=new ArrayList<PrintObserverAbstract>();
     }
 
-    private ArrayList mPrintObservers;
+    private ArrayList<PrintObserverAbstract> mPrintObservers;
     public void clearObservers()
     {
         mPrintObservers.clear();

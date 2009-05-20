@@ -22,12 +22,11 @@ package org.lucterios.client.application.comp;
 
 import java.awt.Dimension;
 import java.lang.ref.WeakReference;
-import java.util.*;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -39,13 +38,13 @@ public class CmpImage extends Cmponent {
 	private String mType="";
 	private String mVal="";
 	
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		return tree_map;
 	}
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
-		mXmlItem = new WeakReference(aXmlItem);
+		mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
 		refreshComponent();
 	}
 	

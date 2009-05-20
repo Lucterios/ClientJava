@@ -84,7 +84,7 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
 			else if (((PrintVector)nodeValue).name.equalsIgnoreCase("Lignes"))
 			    icon = new ImageIcon(Resources.class.getResource("rows.png"));
 			else
-				icon = new ImageIcon(Resources.class.getResource("ArrayList.png"));
+				icon = new ImageIcon(Resources.class.getResource("vector.png"));
 			return icon;
 		}
 

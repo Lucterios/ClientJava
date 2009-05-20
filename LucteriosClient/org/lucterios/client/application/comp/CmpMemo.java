@@ -20,8 +20,6 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.UnsupportedEncodingException;
@@ -33,6 +31,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
@@ -66,8 +65,8 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		cmp_text.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		String out_text = cmp_text.getText().trim();
 		if (mEncode)
 			try {

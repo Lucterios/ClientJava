@@ -27,6 +27,7 @@ import java.awt.*;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -108,8 +109,8 @@ public class CmpSelect extends CmpAbstractEvent {
 			cmp_cnbb.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		ItemObj sel_item = (ItemObj) cmp_cnbb.getSelectedItem();
 		if (sel_item != null)
 			tree_map.put(getName(), sel_item.mID);
@@ -128,6 +129,7 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	private ItemObj InitialItem = null;
 
+	@SuppressWarnings("unchecked")
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
 		cmp_cnbb.removeActionListener(this);

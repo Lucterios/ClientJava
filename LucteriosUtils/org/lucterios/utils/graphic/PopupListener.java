@@ -43,8 +43,8 @@ public class PopupListener extends MouseAdapter
     protected RedoAction redoAction;
     protected UndoManager undo = new UndoManager();
     
-    private Hashtable commands=null;
-    private Hashtable menuItems=null;
+    private Hashtable<Object,Action> commands=null;
+    private Hashtable<String,JMenuItem> menuItems=null;
 
 	class UndoHandler implements UndoableEditListener {
 
@@ -154,8 +154,8 @@ public class PopupListener extends MouseAdapter
     }
     
     private void init(){
-		menuItems = new Hashtable();
-		commands = new Hashtable();
+		menuItems = new Hashtable<String,JMenuItem>();
+		commands = new Hashtable<Object,Action>();
 	    undoAction=new UndoAction();
 	    redoAction=new RedoAction();
     }

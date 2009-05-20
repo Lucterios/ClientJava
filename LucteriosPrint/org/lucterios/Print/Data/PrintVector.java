@@ -25,12 +25,12 @@ import java.util.*;
 public class PrintVector extends PrintAbstract
 {
     public String name="";
-    private ArrayList containers;
+    protected ArrayList<PrintAbstract> containers;
 
     public PrintVector(String aName)
     {
         super();
-        containers=new ArrayList();
+        containers=new ArrayList<PrintAbstract>();
         name=aName;
     }
 
@@ -76,7 +76,7 @@ public class PrintVector extends PrintAbstract
     public PrintAbstract get(int index)
     {
         if ((index>=0) && (index<containers.size()))
-            return (PrintAbstract)containers.get(index);
+            return containers.get(index);
         else
             return null;
     }
@@ -89,9 +89,7 @@ public class PrintVector extends PrintAbstract
     public String writeArrayList(String aName)
     {
         String xml_childs="";
-        for(int val_idx=0;val_idx<size();val_idx++)
-        {
-            PrintAbstract obj=get(val_idx);
+        for(PrintAbstract obj:containers) {
             xml_childs=xml_childs+obj.write(aName);
         }
         return xml_childs;
@@ -100,9 +98,7 @@ public class PrintVector extends PrintAbstract
     protected String write_text()
     {
         String xml_childs="";
-        for(int val_idx=0;val_idx<size();val_idx++)
-        {
-            PrintAbstract obj=get(val_idx);
+        for(PrintAbstract obj:containers) {
             xml_childs=xml_childs+obj.write(name);
         }
         return xml_childs;

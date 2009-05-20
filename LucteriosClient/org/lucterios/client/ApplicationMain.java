@@ -57,6 +57,7 @@ import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
@@ -705,7 +706,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	private void refreshConnectionInfoOwnerObs() {
-		TreeMap context=new TreeMap();
+		MapContext context=new MapContext();
 		context.put("ses", Singletons.Transport().getSession());
 		context.put("info", "true");
 		mConnectionInfoOwnerObserber.setContext(context);	

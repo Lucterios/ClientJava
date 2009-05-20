@@ -31,14 +31,14 @@ public class TimeLabel extends Label implements Runnable {
 			Date current_date = new Date();
 			String message=java.text.DateFormat.getDateTimeInstance().format(current_date);
 			setText(message);
-			for(int act_index=0;act_index<mActionListeners.size();act_index++) {
-				((ActionListener)mActionListeners.get(act_index)).actionPerformed(null);
+			for(ActionListener listener:mActionListeners) {
+				listener.actionPerformed(null);
 			}
 			repaint();
 		}
 	}
 
-	private ArrayList mActionListeners=new ArrayList(); 
+	private ArrayList<ActionListener> mActionListeners=new ArrayList<ActionListener>(); 
 	public void addActionListener(ActionListener alistener){
 		mActionListeners.add(alistener);
 	}

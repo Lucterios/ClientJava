@@ -4,6 +4,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
+import org.lucterios.utils.protocols.data.DataURLConnection;
+
 public class DataURLStreamHandler extends URLStreamHandler {
 
 	public final static String PROTOCOL="data";

@@ -25,13 +25,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public class ObserverFactoryImpl implements ObserverFactory {
 	private HttpTransport mTransport = null;
-	static private Map mObservers = new TreeMap();
+	static private Map<String,Class> mObservers = new TreeMap<String, Class>();
 
 	public ObserverFactoryImpl() {
 		super();
@@ -56,7 +57,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	public boolean setAuthentification(String aLogin, String aPassWord)
 			throws LucteriosException {
 		boolean res = false;
-		Map param = new TreeMap();
+		MapContext param = new MapContext();
 		param.put("login", aLogin);
 		param.put("pass", aPassWord);
 		Observer aut = callAction("common", "authentification", param, null);
@@ -85,8 +86,8 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	}
 
 	private String m_XMLParameters="";
-	protected Map convertParameters(String aExtension, String aAction, Map aParam) {
-		Map result=new TreeMap();
+	protected MapContext convertParameters(String aExtension, String aAction, Map aParam) {
+		MapContext result=new MapContext();
 		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='" + aAction + "'>";
 
 		for (Iterator iterator = aParam.entrySet().iterator(); iterator
@@ -104,8 +105,8 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return result;
 	}
 
-	private Map getContext(SimpleParsing aReponse) {
-		Map context = new TreeMap();
+	private MapContext getContext(SimpleParsing aReponse) {
+		MapContext context = new MapContext();
 		SimpleParsing xmlcontext = aReponse.getFirstSubTag("CONTEXT");
 		if (xmlcontext != null) {
 			SimpleParsing xmlparams[] = xmlcontext.getSubTag("PARAM");

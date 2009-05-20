@@ -20,9 +20,9 @@
 
 package org.lucterios.client.presentation;
 
-import java.util.Map;
 import java.util.TreeMap;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.transport.HttpTransportStub;
 import org.lucterios.utils.LucteriosException;
 
@@ -78,7 +78,7 @@ public class ObserverFactoryUnit extends TestCase {
 		ObserverStub obs = new ObserverStub();
 		obs.setSource("CORE", "printmodel_APAS_reinit");
 		obs.setContent(null);
-		obs.mContext = new TreeMap();
+		obs.mContext = new MapContext();
 		obs.mContext.clear();
 		obs.mContext.put("print_model", "107");
 		obs.mContext.put("CONFIRME", "YES");
@@ -107,7 +107,7 @@ public class ObserverFactoryUnit extends TestCase {
 	public void testCallActionWithParam() throws LucteriosException {
 		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
 
-		Map params = new TreeMap();
+		MapContext params = new MapContext();
 		params.put("print_model", "107");
 		params.put("CONFIRME", "YES");
 		Observer obs = mObserverFactory.callAction("CORE",

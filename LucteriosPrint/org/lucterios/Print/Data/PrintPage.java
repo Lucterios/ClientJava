@@ -20,8 +20,9 @@
 
 package org.lucterios.Print.Data;
 
-import java.util.*;
 import java.io.*;
+
+import org.lucterios.utils.StringList;
 import org.w3c.dom.*;
 import org.apache.xerces.parsers.DOMParser;
 
@@ -80,10 +81,10 @@ public class PrintPage extends PrintAbstract
         mDataList.clear();
     }
 
-    ArrayList mDataList=new ArrayList();
-    public ArrayList getDataList()
+    StringList mDataList=new StringList();
+    public StringList getDataList()
     {
-        return new ArrayList(mDataList);
+        return (StringList) mDataList.clone();
     }
 
     public String getDataPath()

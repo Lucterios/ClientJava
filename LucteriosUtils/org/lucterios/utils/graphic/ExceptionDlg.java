@@ -398,8 +398,8 @@ public class ExceptionDlg extends javax.swing.JDialog {
         err_dlg.setMessage(Tools.convertLuctoriosFormatToHtml(aMessage),aType);
         String stack_text="";
         String[] stack_texts=aStack.split("\\{\\[newline\\]\\}");
-        for(int index=0;index<stack_texts.length;index++)
-            stack_text+=formatStack(stack_texts[index])+"\n";
+        for(String stacktext:stack_texts)
+            stack_text+=formatStack(stacktext)+"\n";
         stack_text=stack_text.replace('|','\t');
         err_dlg.addStack(stack_text);
         if ((aType==FAILURE) || (aType==CRITIC))

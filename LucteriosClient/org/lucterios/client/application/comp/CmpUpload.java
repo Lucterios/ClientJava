@@ -25,9 +25,6 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -35,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.EncodeBase64FromInputStream;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -94,8 +92,8 @@ public class CmpUpload extends CmpAbstractEvent {
 		return content;
 	}
 	
-	public Map getRequete(String aActionIdent) throws LucteriosException {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) throws LucteriosException {
+		MapContext tree_map = new MapContext();;
 		if (txt_FileName.getText().length()>0) {
 			File file = new File(txt_FileName.getText());
 			tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile,m_maxsize));

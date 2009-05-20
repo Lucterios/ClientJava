@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -39,12 +40,7 @@ public class ZipMangerUnit extends TestCase {
 
 	public void testSimple() throws Exception
 	{
-		String TEXT="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-		BufferedWriter out = new BufferedWriter(new FileWriter(mDataFile));
-		for(int i=0;i<100;i++)
-			out.write(TEXT+'\n');
-		out.flush();
-        out.close();		
+		String text=writeTextFile(mDataFile);		
 		mZipManager.compressSimpleFile(mDataFile);
 		mDataFile.delete();
 		mZipManager.extractFirstFile(mDataFile);
@@ -52,12 +48,25 @@ public class ZipMangerUnit extends TestCase {
 	    String line = null; 
 	    int num=0;
 	    while ((line = input.readLine()) != null)
-	    	assertEquals("Line #"+num++,TEXT,line);
+	    	assertEquals("Line #"+num++,text,line);
 	    input.close();
+	}
+
+	private String writeTextFile(File aFile) throws IOException {
+		String TEXT="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+		if (aFile.exists())
+			aFile.delete();
+		BufferedWriter out = new BufferedWriter(new FileWriter(aFile));
+		for(int i=0;i<100;i++)
+			out.write(TEXT+'\n');
+		out.flush();
+        out.close();
+        return TEXT;
 	}
 	
 	public void testComplexe() throws Exception {
 		File example_File=new File("examples.txt");
+		writeTextFile(example_File);		
 		mZipManager.compressSimpleFile(example_File);
 		mDataFile.delete();
 		mZipManager.extractFirstFile(mDataFile);

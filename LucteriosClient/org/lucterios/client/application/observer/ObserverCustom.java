@@ -20,8 +20,6 @@
 
 package org.lucterios.client.application.observer;
 
-import java.util.*;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -259,9 +257,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		}
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 		if (!aCheckNull || checkCompoundEmpty()) {
-			Map requete = new TreeMap();
+			MapContext requete = new MapContext();
 			if (mGUIContainer != null) {
 				requete.putAll(mContext);
 				for (int cmp_idx = 0; cmp_idx < mCustomManager

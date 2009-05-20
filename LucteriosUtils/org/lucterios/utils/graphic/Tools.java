@@ -40,15 +40,11 @@ public class Tools {
     {
         int wbtn=0;
         int hbtn=0;
-        for(int index=0;index<btns.length;index++)
-        {
-            javax.swing.JButton btn=btns[index];
+        for(javax.swing.JButton btn:btns) {
             wbtn=Math.max(wbtn,btn.getPreferredSize().width);
             hbtn=Math.max(hbtn,btn.getPreferredSize().height);
         }
-        for(int index=0;index<btns.length;index++)
-        {
-            javax.swing.JButton btn=btns[index];
+        for(javax.swing.JButton btn:btns) {
             btn.setPreferredSize(new java.awt.Dimension(wbtn,hbtn));
             btn.setMaximumSize(new java.awt.Dimension(wbtn,hbtn));
             btn.setMinimumSize(new java.awt.Dimension(wbtn,hbtn));

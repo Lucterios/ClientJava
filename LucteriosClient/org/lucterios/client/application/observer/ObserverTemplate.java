@@ -21,8 +21,6 @@
 package org.lucterios.client.application.observer;
 
 import java.net.URL;
-import java.util.*;
-
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -89,8 +87,8 @@ public class ObserverTemplate extends ObserverAbstract {
 		}
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
-		Map attrib = mContext;
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+		MapContext attrib = mContext;
 		attrib.put("model_id", new Integer(mModelId));
 		attrib.put("title", getModelTitle());
 		attrib.put("model", getStyle());

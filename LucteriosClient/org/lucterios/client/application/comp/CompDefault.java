@@ -21,11 +21,10 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.Dimension;
-import java.util.*;
-
 import javax.swing.JPanel;
 
 import org.lucterios.client.presentation.Observer;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
 public class CompDefault extends Cmponent {
@@ -40,8 +39,8 @@ public class CompDefault extends Cmponent {
 		mComponentName = aComponentName;
 	}
 
-	public Map getRequete(String aActionIdent) {
-		return new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		return new MapContext();
 	}
 
 	protected void initComponent() {

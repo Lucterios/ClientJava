@@ -20,10 +20,9 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpPasswd extends CmpAbstractEvent {
@@ -45,8 +44,8 @@ public class CmpPasswd extends CmpAbstractEvent {
 		cmp_text.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		tree_map.put(getName(), new String(cmp_text.getPassword()));
 		return tree_map;
 	}

@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.utils.SimpleParsing;
+import org.lucterios.utils.StringDico;
 
 import sbrunner.gui.tableView.AbstractTableViewModel;
 import sbrunner.gui.tableView.TableViewColumn;
@@ -92,7 +93,7 @@ public class CmpTableModel extends AbstractTableViewModel {
 			return false;
 		}
 
-		private TreeMap mIconCache=new TreeMap();
+		private TreeMap<String,Icon> mIconCache=new TreeMap<String, Icon>();
 		public Object getValue(Object row) {
 			String valuetxt = ((GridRow) row).GetCell(mHeaderId);
 			try {
@@ -181,7 +182,7 @@ public class CmpTableModel extends AbstractTableViewModel {
 			return mId;
 		}
 
-		private TreeMap mCells = new TreeMap();
+		private StringDico mCells = new StringDico();
 
 		public String GetCell(String colName) {
 			if (mCells.containsKey(colName))

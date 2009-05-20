@@ -22,7 +22,7 @@ public class ToolButtonCollection extends ToolButton implements Runnable {
 	private ChangeAction mOwner;
 	private ToolButtonCollection mParent;
 	private ToolButton mButton = null;
-	private ArrayList mSubActions = new ArrayList();
+	private ArrayList<ToolButton> mSubActions = new ArrayList<ToolButton>();
 
 	ToolButtonCollection(ChangeAction aOwner, ToolButtonCollection aParent,
 			org.lucterios.client.application.Menu aMenu) {

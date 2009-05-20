@@ -25,10 +25,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
-
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionImpl;
+import org.lucterios.client.application.Action.ActionList;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -43,7 +42,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 
 	protected Action mEventAction = null;
 
-	public void fillActions(ArrayList atns) {
+	public void fillActions(ActionList atns) {
 		if (mEventAction != null)
 			atns.add(mEventAction);
 	}

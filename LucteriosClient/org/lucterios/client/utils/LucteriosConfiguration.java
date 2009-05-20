@@ -61,7 +61,7 @@ public class LucteriosConfiguration extends
 		}
 	}
 
-	private Vector mServers;
+	private ArrayList<Server> mServers;
 
 	public Server newServer(String aServerName, String aHostName,
 			int aHostPort, String aDirectory,int aConnectionMode) {
@@ -69,7 +69,7 @@ public class LucteriosConfiguration extends
 	}
 
 	public LucteriosConfiguration() throws IOException {
-		mServers = new Vector();
+		mServers = new ArrayList<Server>();
 		if (new java.io.File(CONF_FILE_NAME).exists())
 			read();
 	}
@@ -83,7 +83,7 @@ public class LucteriosConfiguration extends
 	}
 
 	public Server GetServer(int index) {
-		return (Server) mServers.get(index);
+		return mServers.get(index);
 	}
 
 	public void SetServer(int index, Server server) {
@@ -92,7 +92,7 @@ public class LucteriosConfiguration extends
 
 	public void DeleteServer(int index) {
 		if ((index >= 0) && (index < mServers.size()))
-			mServers.removeElementAt(index);
+			mServers.remove(index);
 	}
 
 	public void AddServer(Server aServer) {
@@ -165,8 +165,8 @@ public class LucteriosConfiguration extends
 		file_conf.close();
 	}
 
-	public Vector getServers() {
-		Vector servers = new Vector();
+	public Vector<Server> getServers() {
+		Vector<Server> servers = new Vector<Server>();
 		for (int index = 0; index < ServerCount(); index++) {
 			Server serv = GetServer(index);
 			servers.add(serv);
@@ -220,7 +220,7 @@ public class LucteriosConfiguration extends
 		}
 	}
 
-	public Class getColumnClass(int c) {
+	public Class<?> getColumnClass(int c) {
 		return getValueAt(0, c).getClass();
 	}
 }

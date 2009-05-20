@@ -21,8 +21,7 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.GridBagConstraints;
-import java.util.*;
-
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.WebLabel;
 
@@ -30,8 +29,8 @@ public class CmpHyperLink extends Cmponent {
 	private static final long serialVersionUID = 1L;
 	private WebLabel cmp_text;
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		return tree_map;
 	}
 

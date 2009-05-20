@@ -33,6 +33,7 @@ import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.Button;
 import org.lucterios.client.application.comp.CmpTableModel.GridRow;
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -80,8 +81,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		cmp_tbl.requestFocus();
 	}
 
-	public Map getRequete(String aActionIdent) {
-		Map tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		if ((mSelectMode != ActionConstantes.SELECT_NONE)
 				&& (cmp_tbl.getSelectedRowCount() > 0)) {
 			String[] id_list = getListIds();
@@ -101,8 +102,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		return tree_map;
 	}
 
-	private Map getRequeteForSelectRow(String[] id_list, Action current_action) {
-		TreeMap tree_map = new TreeMap();
+	private MapContext getRequeteForSelectRow(String[] id_list, Action current_action) {
+		MapContext tree_map = new MapContext();
 		switch (current_action.getSelect()) {
 		case ActionConstantes.SELECT_SINGLE:
 			tree_map.put(getName(), id_list[0]);
@@ -113,9 +114,9 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				ids += ";" + id_list[idx];
 			tree_map.put(getName(), ids);
 			break;
-			default: 
-				//TODO: Implement 'default' statement
-				break;
+		default: 
+			assert false;
+			break;
 		}
 		return tree_map;
 	}
@@ -226,9 +227,9 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				case ActionConstantes.SELECT_MULTI:
 					btn.setEnabled(nb_select > 0);
 					break;
-					default: 
-						//TODO: Implement 'default' statement
-						break;
+				default: 
+					assert false;
+					break;
 				}
 			}
 		}
@@ -264,8 +265,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		case ActionConstantes.SELECT_MULTI:
 			cmp_tbl.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			break;
-		default: 
-			//TODO: Implement 'default' statement
+		default:
+			assert false;
 			break;
 		}
 		scr_pnl.setPreferredSize(new Dimension(1,1));
@@ -280,7 +281,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 		cmp_tbl.idealColumnSize();
 	}
 	
-	public void fillActions(ArrayList atns) {
+	public void fillActions(ArrayList<Action> atns) {
 		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
 			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx)))
 				atns.add(((Button) pnl_Btn.getComponent(btn_idx)).mAction);

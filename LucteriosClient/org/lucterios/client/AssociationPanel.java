@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -16,6 +15,7 @@ import javax.swing.table.TableModel;
 
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.StringDico;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.Tools;
 
@@ -211,7 +211,7 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 	
 	private JDialog mOwnerFrame;
 	private Image mFontImg;
-	private TreeMap mExtAssociation;
+	private StringDico mExtAssociation;
 
 	private javax.swing.JScrollPane scr_pnl;
 	private javax.swing.JTable cmp_tbl;
@@ -229,7 +229,7 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 		Setup();
 	}
 
-	public TreeMap getExtAssociation() {
+	public StringDico getExtAssociation() {
 		return mExtAssociation;
 	}
 
@@ -385,7 +385,7 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
-	public Class getColumnClass(int columnIndex) {
+	public Class<?> getColumnClass(int columnIndex) {
 		return String.class;
 	}
 

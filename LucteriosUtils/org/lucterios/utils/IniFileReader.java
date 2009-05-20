@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.TreeMap;
 
 public class IniFileReader {
 	
@@ -63,9 +62,9 @@ public class IniFileReader {
 		return value;
 	}
 	
-	public TreeMap getValuesSection(String category) 
+	public StringDico getValuesSection(String category) 
 	{
-		TreeMap values = new TreeMap();
+		StringDico values = new StringDico();
 		if (buffer_reader!=null)
 		try {	
 			buffer_reader.mark(5*1024);

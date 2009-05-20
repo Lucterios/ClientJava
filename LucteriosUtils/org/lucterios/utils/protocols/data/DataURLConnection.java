@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.lucterios.utils.DecodeBase64ToInputStream;
+import org.lucterios.utils.StringList;
 
 public class DataURLConnection extends URLConnection {
 
@@ -15,7 +16,7 @@ public class DataURLConnection extends URLConnection {
 	private boolean connected = false;
 	private String data;
 	private String mediaType;
-	private HashMap headerFields = new HashMap();
+	private Map<String, java.util.List<String>> headerFields = new TreeMap<String, java.util.List<String>>();
 
 	public DataURLConnection(URL url) {
 	    super(url);
@@ -42,16 +43,18 @@ public class DataURLConnection extends URLConnection {
 	    if (mediaType==null || mediaType.length()==0)
 	    	mediaType="text/plain";
 	
-	    headerFields.put("content-type", mediaType);
+	    StringList media_list=new StringList();
+	    media_list.add(mediaType);
+	    headerFields.put("content-type",media_list);
 	}
 
 
 	public String getHeaderField(String name) {
-		return (String) headerFields.get(name);
+		return headerFields.get(name).get(0);
 	}
 
 
-	public Map getHeaderFields() {
+	public Map<String, java.util.List<String>> getHeaderFields() {
 		return headerFields;
 	}
 

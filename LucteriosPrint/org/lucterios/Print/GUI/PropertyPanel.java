@@ -98,9 +98,8 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         String[] cmp_names=splitName(cmpName);
         Object temp_value=mCurrent;
         try{
-            for(int i=0;i<(cmp_names.length-1);i++)
-            {
-                field=temp_value.getClass().getField(cmp_names[i]);
+        	for(int i=0;i<(cmp_names.length-1);i++) {
+        		field=temp_value.getClass().getField(cmp_names[i]);
                 temp_value=field.get(temp_value);
             }
             field=temp_value.getClass().getField(cmp_names[(cmp_names.length-1)]);
@@ -192,9 +191,8 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         java.lang.reflect.Field field=null;
         Object temp_value=mCurrent;
         try{
-            for(int i=0;i<cmp_names.length;i++)
-            {
-                field=temp_value.getClass().getField(cmp_names[i]);
+            for(String cmp_name:cmp_names) {
+                field=temp_value.getClass().getField(cmp_name);
                 temp_value=field.get(temp_value);
             }
         }catch(java.lang.NoSuchFieldException fe){field=null;System.out.println("Error "+fe);}

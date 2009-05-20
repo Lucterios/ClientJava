@@ -20,15 +20,15 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 
 import javax.swing.*;
 
+import org.lucterios.client.application.Action.ActionList;
 import org.lucterios.client.presentation.Observer;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing; // import
@@ -47,8 +47,8 @@ public abstract class Cmponent extends JPanel {
 	protected JPanel mOwnerPanel;
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
-	protected WeakReference mXmlItem;
-	protected WeakReference mObsCustom;
+	protected WeakReference<SimpleParsing> mXmlItem;
+	protected WeakReference<Observer> mObsCustom;
 	public String Description;
 	public String JavaScript;
 	public double mWeightx;
@@ -86,7 +86,7 @@ public abstract class Cmponent extends JPanel {
 		mObsCustom=null;
 	}
 
-	public void fillActions(ArrayList atns) {
+	public void fillActions(ActionList atns) {
 
 	}
 
@@ -101,10 +101,10 @@ public abstract class Cmponent extends JPanel {
 	protected boolean mEnabled = true;
 
 	protected SimpleParsing getXmlItem(){
-		return (SimpleParsing)mXmlItem.get();
+		return mXmlItem.get();
 	}
 	protected Observer getObsCustom(){
-		return (Observer)mObsCustom.get();
+		return mObsCustom.get();
 	}
 	
 	
@@ -116,8 +116,8 @@ public abstract class Cmponent extends JPanel {
 	public void init(JPanel aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
 		mOwnerPanel = aOwnerPanel;
-		mObsCustom = new WeakReference(aObsCustom);
-		mXmlItem = new WeakReference(aXmlItem);
+		mObsCustom = new WeakReference<Observer>(aObsCustom);
+		mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
 		setName(aXmlItem.getAttribut("name"));
 		Description = aXmlItem.getAttribut("description");
 		initComponent();
@@ -166,7 +166,7 @@ public abstract class Cmponent extends JPanel {
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
 		if (mFirstRefresh || !mXmlItem.equals(aXmlItem)) {
-			mXmlItem = new WeakReference(aXmlItem);
+			mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
 			refreshComponent();
 			mFirstRefresh = false;
 		}
@@ -228,7 +228,7 @@ public abstract class Cmponent extends JPanel {
 		}
 	}
 
-	public abstract Map getRequete(String aActionIdent) throws LucteriosException;
+	public abstract MapContext getRequete(String aActionIdent) throws LucteriosException;
 
 	protected abstract void initComponent();
 

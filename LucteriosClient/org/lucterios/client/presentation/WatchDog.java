@@ -22,8 +22,8 @@ package org.lucterios.client.presentation;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 
@@ -37,7 +37,7 @@ public class WatchDog extends TimerTask {
 
 	public void run() {
 		try {
-			mHttpTransport.transfertXMLFromServer(new TreeMap());
+			mHttpTransport.transfertXMLFromServer(new MapContext());
 		} catch (LucteriosException e) {
 		}
 	}

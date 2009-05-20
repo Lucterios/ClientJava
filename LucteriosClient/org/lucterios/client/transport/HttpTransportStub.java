@@ -21,11 +21,10 @@
 package org.lucterios.client.transport;
 
 import java.net.URL;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class HttpTransportStub implements HttpTransport {
@@ -89,11 +88,11 @@ public class HttpTransportStub implements HttpTransport {
 		return IconName;
 	}
 
-	public Map XmlParam = new TreeMap();
+	public MapContext XmlParam = new MapContext();
 	public String XmlReceved = "";
 	public LucteriosException NextException = null;
 
-	public String transfertXMLFromServer(Map aXmlParam)
+	public String transfertXMLFromServer(MapContext aXmlParam)
 			throws LucteriosException {
 		XmlParam = aXmlParam;
 		if (NextException != null)
@@ -101,7 +100,7 @@ public class HttpTransportStub implements HttpTransport {
 		return XmlReceved;
 	}
 
-	public String transfertFileFromServerString(String aWebFile, Map aParams)
+	public String transfertFileFromServerString(String aWebFile, MapContext aParams)
 			throws LucteriosException {
 		XmlParam.put("WebFile",aWebFile);
 		return XmlReceved;

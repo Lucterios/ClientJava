@@ -27,9 +27,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
@@ -41,6 +39,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.protocol.Protocol;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
@@ -164,7 +163,7 @@ public class HttpTransportImpl implements HttpTransport {
 				try {
 					try {
 						Logging.getInstance().writeLog("### TELECHARGEMENT ###",aIconName,2);
-						InputStream reponse = transfertFileFromServer(aIconName, new TreeMap());
+						InputStream reponse = transfertFileFromServer(aIconName, new MapContext());
 						icon_result=imageCache.addImage(aIconName, reponse);
 					} catch (LucteriosException e) {
 						imageCache.addDummy(aIconName);
@@ -202,7 +201,7 @@ public class HttpTransportImpl implements HttpTransport {
 		header = null;
 	}
 
-	private InputStream transfertFileFromServer(String aWebFile, Map aParams)
+	private InputStream transfertFileFromServer(String aWebFile, MapContext aParams)
 			throws LucteriosException {
 		downloadFinished();
 		java.net.URL path_url = getUrl(aWebFile);
@@ -265,19 +264,19 @@ public class HttpTransportImpl implements HttpTransport {
 		}
 	}
 
-	private String getMethodByParameters(Map aParams, java.net.URL aPathUrl) throws FileNotFoundException {
+	private String getMethodByParameters(MapContext aParams, java.net.URL aPathUrl) throws FileNotFoundException {
 		String param_txt = "";
 		method = new PostMethod(aPathUrl.toString());
 		if (aParams != null) {
-			Set keys = aParams.keySet();
-			Part[] parts = new Part[keys.size()]; 
-			for (int data_idx = 0; data_idx < keys.size(); data_idx++) {
-				String key = (String) keys.toArray()[data_idx];
+			Set<String> keys = aParams.keySet();
+			Part[] parts = new Part[keys.size()];
+			int data_idx=0;
+			for (String key:keys) {
 				Object obj=aParams.get(key);
 				if (File.class.isInstance(obj))
-					parts[data_idx]=new FilePart(key,(File)obj);
+					parts[data_idx++]=new FilePart(key,(File)obj);
 				else
-					parts[data_idx]=new StringPart(key,obj.toString()); 
+					parts[data_idx++]=new StringPart(key,obj.toString());		
 				param_txt += obj.toString();
 			}
 			method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
@@ -331,7 +330,7 @@ public class HttpTransportImpl implements HttpTransport {
 		return size;
 	}
 	
-	public String transfertFileFromServerString(String aWebFile, Map aParams)
+	public String transfertFileFromServerString(String aWebFile, MapContext aParams)
 			throws LucteriosException {
 		String input_reponse = null;
 		synchronized (mSynchronizedObj) {
@@ -372,7 +371,7 @@ public class HttpTransportImpl implements HttpTransport {
 
 	protected Object mSynchronizedObj = new Object();
 
-	public String transfertXMLFromServer(Map aXmlParam) throws LucteriosException {
+	public String transfertXMLFromServer(MapContext aXmlParam) throws LucteriosException {
 		String data = "";
 		synchronized (mSynchronizedObj) {
 			String xml_param = "<?xml version='1.0' encoding='" + ENCODE

@@ -20,9 +20,6 @@
 
 package org.lucterios.client.presentation;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
@@ -91,12 +88,12 @@ public class ObserverStub extends ObserverAbstract {
 		super.close(aMustRefreshParent);
 	}
 
-	static public Map mParameters = new TreeMap();
+	static public MapContext mParameters = new MapContext();
 	static public String LastActionId = "";
 	static public int LastSelect = ActionConstantes.SELECT_NONE;
 	static public boolean LastCheckNull = false;
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
 		LastActionId = aActionId;
 		LastSelect = aSelect;
 		LastCheckNull = aCheckNull;

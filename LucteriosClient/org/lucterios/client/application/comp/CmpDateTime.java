@@ -3,12 +3,12 @@ package org.lucterios.client.application.comp;
 import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.lucterios.client.presentation.Observer;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -45,8 +45,8 @@ public class CmpDateTime extends CmpAbstractEvent {
 		return time.hasChanged() || date.hasChanged();
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		Map map_date=date.getRequete(aActionIdent);
 		String text=(String)map_date.get(date.getName());
 		text+=" ";		

@@ -20,10 +20,9 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
 import java.awt.*;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpCheck extends CmpAbstractEvent {
@@ -47,8 +46,8 @@ public class CmpCheck extends CmpAbstractEvent {
 		cmp_Check.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		if (cmp_Check.isSelected())
 			tree_map.put(getName(), "o");
 		else

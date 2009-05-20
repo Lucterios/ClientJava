@@ -2,11 +2,11 @@ package org.lucterios.client.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.lucterios.utils.StringList;
 import org.lucterios.utils.graphic.MyDateSelectorPanel;
 
 public class DatePickerSimple extends JDialog {
@@ -32,8 +32,8 @@ public class DatePickerSimple extends JDialog {
 		return selector;
 	}
 	
-	public static ArrayList getMonthList(){
-		ArrayList month_list = new ArrayList();
+	public static StringList getMonthList(){
+		StringList month_list = new StringList();
 		month_list.add("Janvier");
 		month_list.add("Février");
 		month_list.add("Mars");

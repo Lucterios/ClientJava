@@ -1,13 +1,12 @@
 package org.lucterios.client;
 
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 import org.lucterios.client.application.Action;
+import org.lucterios.client.application.Action.ActionList;
 import org.lucterios.utils.graphic.Tools;
 
 public class ToolBar extends JToolBar {
@@ -19,12 +18,12 @@ public class ToolBar extends JToolBar {
 
 	private boolean mAdded;
 
-	private ArrayList mActions;
+	private ActionList mActions;
 
 	public ToolBar() {
 		super(HORIZONTAL);
 		setFloatable(false);
-		mActions = new ArrayList();
+		mActions = new ActionList();
 	}
 
 	public void addAction(Action aNewAction) {

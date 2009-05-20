@@ -22,6 +22,8 @@ package org.lucterios.Print.Data;
 
 import java.util.*;
 
+import org.lucterios.utils.StringList;
+
 public class PrintArea extends PrintVector
 {
     public double extent=0;
@@ -59,9 +61,9 @@ public class PrintArea extends PrintVector
         return data_path;
     }
 
-    public ArrayList getDataList()
+    public StringList getDataList()
     {
-        ArrayList data_list=Owner.getDataList();
+    	StringList data_list=Owner.getDataList();
         if (data.length()>0)
             data_list.addAll(extractDataList(data_list,getDataPath()));
         return data_list;
@@ -70,7 +72,7 @@ public class PrintArea extends PrintVector
     public String toString()
     {
         if (name.equalsIgnoreCase("before"))
-            return "En-t�te";
+            return "En-tête";
         else if (name.equalsIgnoreCase("after"))
             return "Pied de page";
         if (name.equalsIgnoreCase("start"))
@@ -101,9 +103,8 @@ public class PrintArea extends PrintVector
     protected String write_text()
     {
         String xml_childs="";
-        for(int c_idx=0;c_idx<size();c_idx++)
+        for(PrintAbstract obj:containers)
         {
-            PrintAbstract obj=get(c_idx);
             if (PrintText.class.isInstance(obj))
                 xml_childs=xml_childs+obj.write("text");
             if (PrintImage.class.isInstance(obj))

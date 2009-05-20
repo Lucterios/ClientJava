@@ -20,11 +20,9 @@
 
 package org.lucterios.client.transport;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.swing.ImageIcon;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 import junit.framework.TestCase;
@@ -37,8 +35,8 @@ public class HttpTranportUnit extends TestCase {
 		http_transport = new HttpTransportImpl();
 	}
 	
-	private Map getParam(String aText){
-		Map result=new TreeMap();
+	private MapContext getParam(String aText){
+		MapContext result=new MapContext();
 		result.put(HttpTransport.POST_VARIABLE,aText);
 		return result;
 	}

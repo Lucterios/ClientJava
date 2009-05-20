@@ -21,6 +21,7 @@
 package org.lucterios.client.application;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -31,6 +32,10 @@ import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.utils.SimpleParsing;
 
 public interface Action extends ActionListener, javax.swing.Action {
+	
+	@SuppressWarnings("serial")
+	public class ActionList extends ArrayList<Action> {}
+	
 	public void initialize(Observer aOwner, ObserverFactory aFactory,
 			SimpleParsing aXml);
 

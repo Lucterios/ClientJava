@@ -26,6 +26,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.utils.DatePickerSimple;
 import org.lucterios.utils.LucteriosException;
 
@@ -58,9 +59,9 @@ public class CmpDate extends CmpAbstractEvent {
 		edit_date.setEnabled(aEnabled);
 	}
 
-	public Map getRequete(String aActionIdent) {
+	public MapContext getRequete(String aActionIdent) {
 		fillData();
-		TreeMap tree_map = new TreeMap();
+		MapContext tree_map = new MapContext();
 		String date_text = "";
 		date_text = date_text + DatePickerSimple.convertIntToStr(spe_year.getNumber(), 4);
 		date_text = date_text + "-"

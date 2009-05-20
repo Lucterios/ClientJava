@@ -90,14 +90,15 @@ public class WaitingWindow extends JWindow
         main.add(image, BorderLayout.CENTER);
 
         String[] lines=mText.split("<br>");
-        for(int index=0;index<lines.length;index++) {
+        int index=0;
+        for(String line:lines) {
 	        JLabel text = new JLabel();
 	        text.setBackground(BACKGROUND_COLOR);
 	        text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-	        text.setText(lines[index]);
+	        text.setText(line);
 	        GridBagConstraints cnt=new GridBagConstraints();
 	        cnt.gridx=0;
-	        cnt.gridy=index;
+	        cnt.gridy=index++;
 	        image.add(text, cnt);
         }
         

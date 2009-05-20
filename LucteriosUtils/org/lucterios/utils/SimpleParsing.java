@@ -43,10 +43,10 @@ public class SimpleParsing extends DefaultHandler
 	public final static String XML_ENCODING="<?xml version='1.0' encoding='ISO-8859-1'?>";
 
 	private SimpleParsing mParent;
-	private TreeMap mAttrs=new TreeMap();
+	private StringDico mAttrs=new StringDico();
 	private String mSimpleName=EMPTY_NAME;
-	private ArrayList mTexts=new ArrayList();
-	private ArrayList mFields=new ArrayList();
+	private StringList mTexts=new StringList();
+	private ArrayList<SimpleParsing> mFields=new ArrayList<SimpleParsing>();
 
 	private SimpleParsing(SimpleParsing aParent) 
 	{

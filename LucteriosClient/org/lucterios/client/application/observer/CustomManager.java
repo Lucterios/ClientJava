@@ -51,7 +51,7 @@ public class CustomManager extends JAdvancePanel {
 
 	public static int CustomManagerCount=0;
 	
-	static public Map ListComponents = new TreeMap();
+	static public Map<String,Class> ListComponents = new TreeMap<String, Class>();
 
 	static public boolean initalize() throws IOException {
 		ListComponents.put("LABELFORM", CmpLabelform.class);
@@ -77,13 +77,13 @@ public class CustomManager extends JAdvancePanel {
 		return true;
 	}
 
-	private WeakReference mObserver;
+	private WeakReference<Observer> mObserver;
 	private Observer getObserver(){
-		return (Observer)mObserver.get();
+		return mObserver.get();
 	}
 
-	public ArrayList mComposants = new ArrayList();
-	public ArrayList mCmponents = new ArrayList();
+	public ArrayList<SimpleParsing> mComposants = new ArrayList<SimpleParsing>();
+	public ArrayList<Cmponent> mCmponents = new ArrayList<Cmponent>();
 	public String[] mCompNames = new String[0];
 	private static final String CST_TABPANE = "TAB";
 	private JTabbedPane PnlTab = null;
@@ -96,7 +96,7 @@ public class CustomManager extends JAdvancePanel {
 		setLayout(new GridBagLayout());
 		setFontImage(Toolkit.getDefaultToolkit().getImage(
 				this.getClass().getResource("ObserverFont.jpg")), TEXTURE);
-		mObserver = new WeakReference(aObserver);
+		mObserver = new WeakReference<Observer>(aObserver);
 		mCmponents.clear();
 		mComposants.clear();
 	}
@@ -152,7 +152,7 @@ public class CustomManager extends JAdvancePanel {
 	}
 
 	public Cmponent getCmponents(int aIndex) {
-		return (Cmponent) mCmponents.get(aIndex);
+		return mCmponents.get(aIndex);
 	}
 
 	public Cmponent getCmponentName(String aName) {
@@ -330,8 +330,7 @@ public class CustomManager extends JAdvancePanel {
 
 	private void addNewComponent(int aComponentIdx) throws LucteriosException {
 		Cmponent comp;
-		SimpleParsing value_obj = (SimpleParsing) mComposants
-				.get(aComponentIdx);
+		SimpleParsing value_obj = mComposants.get(aComponentIdx);
 
 		int tag_num = 1;
 		if (PnlTab != null)

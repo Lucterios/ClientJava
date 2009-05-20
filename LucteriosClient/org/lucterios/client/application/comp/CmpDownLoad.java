@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -18,6 +16,7 @@ import javax.swing.JPanel;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.presentation.FileDownload;
 import org.lucterios.client.presentation.FileDownload.FileDownloadCallBack;
+import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.FileMonitoring;
 import org.lucterios.utils.LucteriosException;
@@ -77,8 +76,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		return false;
 	}
 
-	public Map getRequete(String aActionIdent) {
-		TreeMap tree_map = new TreeMap();
+	public MapContext getRequete(String aActionIdent) {
+		MapContext tree_map = new MapContext();
 		return tree_map;
 	}
 
@@ -209,8 +208,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	public void fileModified() {
 		if (JOptionPane.showConfirmDialog(this,"Le fichier a été modifié.\nVoulez vous le ré-injecter dans l'application?","Extraction", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 			mEventAction.setOwner(new ObserverAcknowledge(){
-				public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
-					Map requete = new TreeMap();
+				public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+					MapContext requete = new MapContext();
 					requete.putAll(getObsCustom().getContext());
 					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile,m_maxsize));
 					if (m_isCompress) 

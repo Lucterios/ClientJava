@@ -22,12 +22,14 @@ package org.lucterios.Print.Data;
 
 import java.util.*;
 
+import org.lucterios.utils.StringDico;
+import org.lucterios.utils.StringList;
 import org.w3c.dom.NodeList;
 
 public abstract class PrintAbstract
 {
-    protected TreeMap ReadProperty=new TreeMap();
-    protected ArrayList NoAttributProperty=new ArrayList();
+    protected StringDico ReadProperty=new StringDico();
+    protected StringList NoAttributProperty=new StringList();
     protected PrintAbstract Owner=null;
 
     public void setOwner(PrintAbstract aOwner)
@@ -80,12 +82,11 @@ public abstract class PrintAbstract
 	}
     
     
-    protected ArrayList extractDataList(ArrayList aDataList,String DataPath)
+    protected StringList extractDataList(StringList aDataList,String DataPath)
     {
-        ArrayList data_list=new ArrayList();
-        for(int data_idx=0;data_idx<aDataList.size();data_idx++)
+    	StringList data_list=new StringList();
+        for(String current_path:aDataList)
         {
-            String current_path=(String)aDataList.get(data_idx);
             if (current_path.length()>DataPath.length())
             {
                 String sub_current_path=current_path.substring(0,DataPath.length());
@@ -96,13 +97,13 @@ public abstract class PrintAbstract
         return data_list;
     }
     
-    public ArrayList getDataList()
+    public StringList getDataList()
     {
         if (Owner!=null)
             return Owner.getDataList();
         else
         {
-            ArrayList data_list=new ArrayList();
+        	StringList data_list=new StringList();
             data_list.add("");
             return data_list;
         }
@@ -114,9 +115,8 @@ public abstract class PrintAbstract
     {
         String xml_attributes="";
         java.lang.reflect.Field[] fields=this.getClass().getFields();
-        for(int f_idx=0;f_idx<fields.length;f_idx++)
+        for(java.lang.reflect.Field field:fields)
         {
-            java.lang.reflect.Field field=fields[f_idx];
             String field_name=field.getName().toLowerCase();
             if (!NoAttributProperty.contains(field_name))
             try
@@ -142,9 +142,8 @@ public abstract class PrintAbstract
         String xml_childs=write_text();
         String xml_attributes=write_attrib();
         java.lang.reflect.Field[] fields=this.getClass().getFields();
-        for(int f_idx=0;f_idx<fields.length;f_idx++)
+        for(java.lang.reflect.Field field:fields)
         {
-            java.lang.reflect.Field field=fields[f_idx];
             String field_name=field.getName().toLowerCase();
             if (!NoAttributProperty.contains(field_name))
             try
@@ -185,9 +184,8 @@ public abstract class PrintAbstract
     {
         this.init();
         java.lang.reflect.Field[] fields=this.getClass().getFields();
-        for(int f_idx=0;f_idx<fields.length;f_idx++)
+        for(java.lang.reflect.Field field:fields)
         {
-            java.lang.reflect.Field field=fields[f_idx];
             String field_name=field.getName().toLowerCase();
             if (aXmlItem.hasAttribute(field_name))
             {

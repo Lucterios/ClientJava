@@ -21,10 +21,10 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.Component;
-import java.util.ArrayList;
 
 import javax.swing.UIManager;
 
+import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
 
 public class LabelFormRenderer extends javax.swing.JEditorPane implements
@@ -37,7 +37,7 @@ public class LabelFormRenderer extends javax.swing.JEditorPane implements
 		setContentType("text/html");
 	}
 
-	ArrayList cell_check = new ArrayList();
+	StringList cell_check = new StringList();
 
 	public void clearTag() {
 		cell_check.clear();

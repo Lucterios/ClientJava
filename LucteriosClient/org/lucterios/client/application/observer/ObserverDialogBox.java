@@ -25,8 +25,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-import java.util.*;
-
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -178,7 +176,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 		mGUIDialog.setVisible(true);
 	}
 
-	public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
 		return mContext;
 	}
 

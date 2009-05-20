@@ -20,7 +20,7 @@
 
 package org.lucterios.client.presentation;
 
-import java.util.Map;
+import java.util.TreeMap;
 
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
@@ -29,6 +29,10 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public interface Observer extends NotifyFrameObserver {
+	
+	@SuppressWarnings("serial")
+	public class MapContext extends TreeMap<String,Object> {}
+	
 	public String getObserverName();
 
 	public void setParent(Observer aParent);
@@ -41,9 +45,9 @@ public interface Observer extends NotifyFrameObserver {
 
 	public String getSourceAction();
 
-	public void setContext(Map aContext);
+	public void setContext(MapContext aContext);
 
-	public Map getContext();
+	public MapContext getContext();
 
 	public void setContent(SimpleParsing aContent);
 
@@ -73,7 +77,7 @@ public interface Observer extends NotifyFrameObserver {
 
 	public void refresh() throws LucteriosException;
 
-	public Map getParameters(String aActionId, int aUnique, boolean aCheckNull) throws LucteriosException;
+	public MapContext getParameters(String aActionId, int aUnique, boolean aCheckNull) throws LucteriosException;
 
 	public void setNameComponentFocused(String aNameComponentFocused);
 }
