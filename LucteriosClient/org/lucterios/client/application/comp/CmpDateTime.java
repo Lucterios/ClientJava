@@ -91,7 +91,7 @@ public class CmpDateTime extends CmpAbstractEvent {
 	
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String date_time = mXmlItem.getText().trim();
+		String date_time = getXmlItem().getText().trim();
 		String[] date_times = date_time.split(" ");
 		if (date_times.length > 1)	
 			date.setValue("<DATE>"+date_times[0]+"</DATE>");
@@ -107,7 +107,7 @@ public class CmpDateTime extends CmpAbstractEvent {
 			if ((new_Cmponent_focused != null) && !new_Cmponent_focused.getName().equals(getName())) {
 				date.removeFocusListener(this);
 				time.removeFocusListener(this);
-				mObsCustom.setNameComponentFocused(new_Cmponent_focused.getName());
+				getObsCustom().setNameComponentFocused(new_Cmponent_focused.getName());
 				mEventAction.actionPerformed(null);
 			}
 		}

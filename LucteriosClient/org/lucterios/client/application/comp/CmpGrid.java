@@ -247,7 +247,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 
 	protected void refreshComponent() {
 		mPageRefreshAction = new ActionImpl();
-		mPageRefreshAction.initialize(mObsCustom,Singletons.Factory(), "",mObsCustom.getSourceExtension(), mObsCustom.getSourceAction());
+		mPageRefreshAction.initialize(getObsCustom(),Singletons.Factory(), "",getObsCustom().getSourceExtension(), getObsCustom().getSourceAction());
 		mPageRefreshAction.setFormType(ActionConstantes.FORM_REFRESH);
 		mPageRefreshAction.setClose(false);
 		mPageRefreshAction.setSelect(ActionConstantes.SELECT_NONE);
@@ -273,7 +273,7 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 
 	public void initialize() throws LucteriosException {
 		action();
-		cmp_tbl_Model.setText(mXmlItem);
+		cmp_tbl_Model.setText(getXmlItem());
 		cmp_tbl.setModel(cmp_tbl_Model);
 		selectChange();
 		cmp_tbl.setAutoResizeMode(TableView.AUTO_RESIZE_OFF);
@@ -288,8 +288,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 
 	public void initBtn() {
 		pnl_Btn.removeAll();
-		SimpleParsing xml_item = mXmlItem.getFirstSubTag("ACTIONS");
-		int nb = Button.fillPanelByButton(pnl_Btn, this.mObsCustom, Singletons
+		SimpleParsing xml_item = getXmlItem().getFirstSubTag("ACTIONS");
+		int nb = Button.fillPanelByButton(pnl_Btn, this.getObsCustom(), Singletons
 				.Factory(), xml_item, false);
 		mActions = new Action[nb];
 
@@ -303,8 +303,8 @@ public class CmpGrid extends Cmponent implements IRowSelectCaller,
 				btn.mAction.setCheckNull(false);
 				mActions[action_idx++] = btn.mAction;
 			}
-		mPageMax=mXmlItem.getAttributInt("PageMax", 0);
-		mPageNum=mXmlItem.getAttributInt("PageNum", 0);
+		mPageMax=getXmlItem().getAttributInt("PageMax", 0);
+		mPageNum=getXmlItem().getAttributInt("PageNum", 0);
 		pnl_Pages.removeAll();
 		if (mPageMax>1) {
 			pnl_Pages.setVisible(nb==0);

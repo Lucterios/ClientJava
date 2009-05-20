@@ -54,7 +54,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 		SimpleParsing xml_item;
 		mEventAction = null;
 
-		SimpleParsing xml_actions = mXmlItem.getFirstSubTag("ACTIONS");
+		SimpleParsing xml_actions = getXmlItem().getFirstSubTag("ACTIONS");
 		if (xml_actions != null) {
 			xml_items = xml_actions.getSubTag("ACTION");
 			if (xml_items != null) {
@@ -62,7 +62,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 						&& (action_idx < xml_items.length); action_idx++) {
 					xml_item = xml_items[action_idx];
 					mEventAction = new ActionImpl();
-					mEventAction.initialize(mObsCustom, Singletons.Factory(),
+					mEventAction.initialize(getObsCustom(), Singletons.Factory(),
 							xml_item);
 					mEventAction.setCheckNull(false);
 				}
@@ -73,7 +73,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 	protected abstract boolean hasChanged();
 
 	public void focusGained(FocusEvent aEvent) {
-		mObsCustom.setNameComponentFocused(getName());
+		getObsCustom().setNameComponentFocused(getName());
 	}
 
 	private boolean focuslosted = false;
@@ -90,7 +90,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 			Cmponent new_Cmponent_focused = getParentOfControle(aEvent
 					.getOppositeComponent());
 			if (new_Cmponent_focused != null) {
-				mObsCustom.setNameComponentFocused(new_Cmponent_focused
+				getObsCustom().setNameComponentFocused(new_Cmponent_focused
 						.getName());
 				System.out.printf("edit:New focus Component(edit):%s:%s\n",
 						new Object[] {
@@ -118,7 +118,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 					comp.removeFocusListener(this);
 					Cmponent new_Cmponent_focused = getParentOfControle(comp);
 					if (new_Cmponent_focused != null) {
-						mObsCustom.setNameComponentFocused(new_Cmponent_focused
+						getObsCustom().setNameComponentFocused(new_Cmponent_focused
 								.getName());
 						System.out.printf("edit:New focus Component(edit):%s:%s\n",
 								new Object[] {

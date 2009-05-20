@@ -42,7 +42,7 @@ public class ImageCache {
 		return CACHE_DIR+"/"+val;
 	}
 
-	public boolean isInCache(String aIconName)
+	public boolean isInCache(String aIconName,int aSize)
 	{
 		try {
 			String cache_file_name=getCacheFileName(aIconName);
@@ -54,7 +54,10 @@ public class ImageCache {
 					return true;
 				else {
 					long size;
-					size = mTransport.getFileLength(aIconName);
+					if (aSize==0)
+						size = mTransport.getFileLength(aIconName);
+					else
+						size = aSize;
 					return (file_size==size);
 				}
 			}

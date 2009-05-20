@@ -51,8 +51,8 @@ public class CmpHyperLink extends Cmponent {
 	}
 
 	protected void refreshComponent() {
-		String val = mXmlItem.getText();
-		String url = mXmlItem.getCDataOfFirstTag("LINK");
+		String val = getXmlItem().getText();
+		String url = getXmlItem().getCDataOfFirstTag("LINK");
 		val = Tools.convertLuctoriosFormatToHtml(val);
 		cmp_text.setURL(url, val);
 	}

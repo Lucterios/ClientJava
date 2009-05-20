@@ -186,10 +186,10 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		double min_val = mXmlItem.getAttributDouble("min", Double.MIN_VALUE);
-		double max_val = mXmlItem.getAttributDouble("max", Double.MAX_VALUE);
-		int prec_val = mXmlItem.getAttributInt("prec", 2);
-		double val = mXmlItem.getCDataDouble(min_val);
+		double min_val = getXmlItem().getAttributDouble("min", Double.MIN_VALUE);
+		double max_val = getXmlItem().getAttributDouble("max", Double.MAX_VALUE);
+		int prec_val = getXmlItem().getAttributInt("prec", 2);
+		double val = getXmlItem().getCDataDouble(min_val);
 		mIsInteger = (prec_val == 0);
 		if (mIsInteger) {
 			getCmpInt().init(Math.round(val), Math.round(min_val),
@@ -203,7 +203,7 @@ public class CmpFloat extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getText();
+		String init_value = getXmlItem().getText();
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}

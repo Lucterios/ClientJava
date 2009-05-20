@@ -55,7 +55,7 @@ public class FormList implements Form.NotifyFrameList {
 
 	public void clearShortCut() {
 		mShortCut.clear();
-		Tools.clearGC();
+		Tools.postOrderGC();
 	}
 
 	public void newShortCut(String aActionName, KeyStroke aShortCut,

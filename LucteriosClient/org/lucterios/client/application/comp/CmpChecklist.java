@@ -128,14 +128,14 @@ public class CmpChecklist extends CmpAbstractEvent implements
 	
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		mSimple = (mXmlItem.getAttributInt("simple", 0) != 0);
+		mSimple = (getXmlItem().getAttributInt("simple", 0) != 0);
 		ArrayList ItemObjs = new ArrayList();
 		int[] indices = null;
 		cmp_list.removeAll();
 		try {
 			SimpleParsing[] xml_items;
 
-			xml_items = mXmlItem.getSubTag("CASE");
+			xml_items = getXmlItem().getSubTag("CASE");
 
 			int nb_selected = 0;
 			boolean[] sel_itx = new boolean[xml_items.length];

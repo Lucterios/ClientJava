@@ -161,8 +161,8 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		super.refreshComponent();
 		cmp_text.getDocument().removeUndoableEditListener(
 				popupListener.getUndo());
-		String in_text = mXmlItem.getText().trim();
-		mEncode = (mXmlItem.getAttributInt("Encode", 0) != 0);
+		String in_text = getXmlItem().getText().trim();
+		mEncode = (getXmlItem().getAttributInt("Encode", 0) != 0);
 		if (mEncode)
 			try {
 				in_text = java.net.URLDecoder.decode(in_text.trim(), ENCODE);
@@ -173,16 +173,16 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		else
 			in_text = Tools.replace(in_text, "{[newline]}", "\n");
 		cmp_text.setText(in_text);
-		cmp_text.setStringSize(mXmlItem.getAttributInt("stringSize", 0));
-		cmp_text.setFirstLine(mXmlItem.getAttributInt("FirstLine", -1));
+		cmp_text.setStringSize(getXmlItem().getAttributInt("stringSize", 0));
+		cmp_text.setFirstLine(getXmlItem().getAttributInt("FirstLine", -1));
 		Dimension dim = cmp_text.getPreferredSize();
 		scrl_txt.setSize(dim.width, Math.max(500, dim.height * 2));
 		cmp_text.addFocusListener(this);
 		cmp_text.getDocument().addUndoableEditListener(popupListener.getUndo());
 		popupListener.resetUndoManager();
-		fillSubMenu(mXmlItem.getSubTag("SUBMENU"));
+		fillSubMenu(getXmlItem().getSubTag("SUBMENU"));
 		SubMenu.setVisible(SubMenu.getMenuComponentCount() > 0);
-		Tools.clearGC();
+		Tools.postOrderGC();
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -213,7 +213,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(mXmlItem.getText().trim());
+		return !cmp_text.getText().equals(getXmlItem().getText().trim());
 	}
 
 }

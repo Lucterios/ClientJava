@@ -73,13 +73,13 @@ public class CmpText extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		cmp_text.setText(mXmlItem.getText().trim());
+		cmp_text.setText(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(25, dim));
 		dim = cmp_text.getColumns();
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(mXmlItem.getText().trim());
+		return !cmp_text.getText().equals(getXmlItem().getText().trim());
 	}
 }

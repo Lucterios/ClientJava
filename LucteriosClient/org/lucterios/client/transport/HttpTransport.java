@@ -55,7 +55,7 @@ public interface HttpTransport {
 	public String transfertFileFromServerString(String aWebFile, Map aParams)
 			throws LucteriosException;
 
-	public ImageIcon getIcon(String aIconName);
+	public ImageIcon getIcon(String aIconName,int aSize);
 
 	public void saveFiles(String aServerFileName, String aLocalFileName)
 			throws LucteriosException;

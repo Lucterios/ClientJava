@@ -155,9 +155,9 @@ public class HttpTransportImpl implements HttpTransport {
 			return null;
 	}
 
-	public ImageIcon getIcon(String aIconName)  {
+	public ImageIcon getIcon(String aIconName,int aSize)  {
 		if ((aIconName != null) && (aIconName.length() > 0)) {
-			if (imageCache.isInCache(aIconName))
+			if (imageCache.isInCache(aIconName,aSize))
 				return imageCache.getImage(aIconName);
 			else {
 				ImageIcon icon_result = null;

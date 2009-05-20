@@ -81,13 +81,13 @@ public class HttpTranportUnit extends TestCase {
 
 	public void testImage() {
 		http_transport.connectToServer("localhost", "lucterios", 80, false);
-		ImageIcon null_icon = http_transport.getIcon(null);
+		ImageIcon null_icon = http_transport.getIcon(null,0);
 		assertTrue("Null icon", null_icon == null);
 
-		ImageIcon empty_icon = http_transport.getIcon("");
+		ImageIcon empty_icon = http_transport.getIcon("",0);
 		assertTrue("Empty icon", empty_icon == null);
 
-		ImageIcon add_icon = http_transport.getIcon("images/add.png");
+		ImageIcon add_icon = http_transport.getIcon("images/add.png",0);
 		assertTrue("Add icon", add_icon != null);
 		assertEquals("Add Height", 22, add_icon.getIconHeight());
 		assertEquals("Add Width", 22, add_icon.getIconWidth());

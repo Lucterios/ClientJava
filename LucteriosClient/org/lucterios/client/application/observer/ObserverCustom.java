@@ -342,14 +342,19 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 					mCustomManager.getCmponents(cmp_idx).close();
 			closed = true;
 			mCustomManager.close();
+			if (mGUIContainer!=null) {
+				mGUIContainer.removeAll();
+				mGUIContainer=null;
+			}
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			if (mGUIFrame != null)
 				mGUIFrame.dispose();
+			mCustomManager = null;
 			mGUIDialog = null;
 			mGUIFrame = null;
 			super.close(aMustRefreshParent);
-			Tools.clearGC();
+			Tools.postOrderGC();
 		}
 	}
 

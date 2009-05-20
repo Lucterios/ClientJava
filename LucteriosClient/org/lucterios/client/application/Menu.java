@@ -58,13 +58,15 @@ public class Menu extends JMenu {
 	}
 
 	private String mIcon;
+	private int mSizeIcon;
 	public String mDescription;
 
-	Menu(String atext, String aIcon, String aDescription, SimpleParsing[] aXml,
+	Menu(String atext, String aIcon,int aSizeIcon, String aDescription, SimpleParsing[] aXml,
 			Observer aOwner, ObserverFactory aFactory, boolean aMainMenu) {
 		super();
 		int pos;
 		mIcon = aIcon;
+		mSizeIcon = aSizeIcon;
 		mDescription = aDescription;
 		pos = atext.indexOf(ActionImpl.MNEMONIC_CHAR);
 		if (pos != -1)
@@ -76,7 +78,7 @@ public class Menu extends JMenu {
 
 		if (!aMainMenu && (mIcon.length() > 0)) {
 			this.setIcon(Tools.resizeIcon(
-					Singletons.Transport().getIcon(mIcon), 24, true));
+					Singletons.Transport().getIcon(mIcon,mSizeIcon), 24, true));
 		} else
 			this.setIcon(null);
 
@@ -91,8 +93,8 @@ public class Menu extends JMenu {
 			SimpleParsing[] sub_xml_menus = aXml[menu_idx].getSubTag("MENU");
 			JMenuItem new_menu = null;
 			if (sub_xml_menus.length > 0)
-				new_menu = new Menu(aXml[menu_idx].getText(), aXml[menu_idx]
-						.getAttribut("icon"), help_text, sub_xml_menus, aOwner,
+				new_menu = new Menu(aXml[menu_idx].getText(), aXml[menu_idx].getAttribut("icon"),
+						aXml[menu_idx].getAttributInt("sizeicon",0), help_text, sub_xml_menus, aOwner,
 						aFactory, false);
 			else {
 				ActionImpl act = new ActionImpl();
@@ -112,7 +114,7 @@ public class Menu extends JMenu {
 	}
 
 	public ImageIcon getMenuIcon() {
-		return Singletons.Transport().getIcon(mIcon);
+		return Singletons.Transport().getIcon(mIcon,mSizeIcon);
 	}
 
 	static public ToolBar mToolBar = null;
@@ -168,7 +170,8 @@ public class Menu extends JMenu {
 					.getSubTag("MENU");
 			if (sub_xml_menus.length > 0)
 				new_menu = new Menu(xml_menus[menu_idx].getText(),
-						xml_menus[menu_idx].getAttribut("icon"), help_text,
+						xml_menus[menu_idx].getAttribut("icon"), 
+						xml_menus[menu_idx].getAttributInt("sizeicon",0),help_text,
 						sub_xml_menus, aOwner, aFactory, true);
 			else {
 				ActionImpl act = new ActionImpl();

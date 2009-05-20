@@ -137,22 +137,22 @@ public class ObserverDialogBox extends ObserverAbstract {
 			switch (mType) {
 			case 2: {
 				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/confirm.png"));
+						"images/confirm.png",0));
 				break;
 			}
 			case 3: {
 				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/warning.png"));
+						"images/warning.png",0));
 				break;
 			}
 			case 4: {
 				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/error.png"));
+						"images/error.png",0));
 				break;
 			}
 			default: {
 				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/info.png"));
+						"images/info.png",0));
 				break;
 			}
 			}
@@ -192,10 +192,14 @@ public class ObserverDialogBox extends ObserverAbstract {
 	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
+			if (mGUIContainer!=null) {
+				mGUIContainer.removeAll();
+				mGUIContainer=null;
+			}
 			if (mGUIDialog != null)
 				mGUIDialog.dispose();
 			super.close(aMustRefreshParent);
-			Tools.clearGC();
+			Tools.postOrderGC();
 		}
 	}
 

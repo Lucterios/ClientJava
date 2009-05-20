@@ -114,7 +114,7 @@ public class CmpTime extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String[] times = mXmlItem.getText().trim().split(":");
+		String[] times = getXmlItem().getText().trim().split(":");
 		if (times.length == 3) {
 			spe_hour.setNumber(Integer.parseInt(times[0]));
 			spe_minute.setNumber(Integer.parseInt(times[1]));
@@ -131,7 +131,7 @@ public class CmpTime extends CmpAbstractEvent {
 					&& !new_Cmponent_focused.getName().equals(getName())) {
 				spe_hour.removeFocusListener(this);
 				spe_minute.removeFocusListener(this);
-				mObsCustom.setNameComponentFocused(new_Cmponent_focused
+				getObsCustom().setNameComponentFocused(new_Cmponent_focused
 						.getName());
 				mEventAction.actionPerformed(null);
 			}
@@ -139,7 +139,7 @@ public class CmpTime extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getText().trim();
+		String init_value = getXmlItem().getText().trim();
 		;
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);

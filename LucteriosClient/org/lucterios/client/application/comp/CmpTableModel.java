@@ -111,7 +111,7 @@ public class CmpTableModel extends AbstractTableViewModel {
 					else if (mIconCache.containsKey(valuetxt))
 						new_icon = (Icon)mIconCache.get(valuetxt);
 					else {
-						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt);
+						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt,0);
 						if (new_icon==null)
 							new_icon = NullImage;
 						mIconCache.put(valuetxt, new_icon);

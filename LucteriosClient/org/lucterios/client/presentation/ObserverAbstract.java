@@ -35,14 +35,15 @@ import org.lucterios.utils.graphic.ExceptionDlg;
 public abstract class ObserverAbstract implements Observer {
 	protected Action mCloseAction = null;
 	
-	//public static ArrayList ObserverCount=new ArrayList();
+	public static int ObserverCount=0;
 	
 	public ObserverAbstract() {
 		super();
+		ObserverCount++;
 	}
 	
 	protected void finalize() throws Throwable{
-		//ObserverCount.remove(this.toString());
+		ObserverCount--;
 		super.finalize();
 	}
 
@@ -129,9 +130,7 @@ public abstract class ObserverAbstract implements Observer {
 	protected Map mContext = null;
 
 	public void setContext(Map aContext) {
-		//ObserverCount.remove(this.toString());
 		mContext = aContext;
-		//ObserverCount.add(this.toString());
 	}
 
 	public Map getContext() {

@@ -36,7 +36,7 @@ public class ApplicationDescription implements InfoDescription {
 
 	private void setLogoIconName(String aLogoIconName) {
 		this.mLogoIconName = aLogoIconName;
-		ImageIcon img=Singletons.Transport().getIcon(mLogoIconName);
+		ImageIcon img=Singletons.Transport().getIcon(mLogoIconName,0);
 		if (img!=null) 
 			mLogoIcon=img.getImage();
 		else

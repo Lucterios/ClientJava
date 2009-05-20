@@ -79,9 +79,9 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		m_RegularExpression = mXmlItem.getCDataOfFirstTag("REG_EXPR");
-		m_StringSize = mXmlItem.getAttributInt("stringSize", 0);
-		cmp_text.setText(mXmlItem.getText().trim());
+		m_RegularExpression = getXmlItem().getCDataOfFirstTag("REG_EXPR");
+		m_StringSize = getXmlItem().getAttributInt("stringSize", 0);
+		cmp_text.setText(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
 		dim = cmp_text.getColumns();
@@ -89,7 +89,7 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(mXmlItem.getText().trim());
+		return !cmp_text.getText().equals(getXmlItem().getText().trim());
 	}
 
 	public void keyPressed(KeyEvent e) {

@@ -134,12 +134,12 @@ public class CmpSelect extends CmpAbstractEvent {
 		cmp_cnbb.removeFocusListener(this);
 		ItemObj sel_item = null;
 		SimpleParsing[] xml_items;
-		xml_items = mXmlItem.getSubTag("CASE");
+		xml_items = getXmlItem().getSubTag("CASE");
 		m_comboModel.clear();
 		try {
-			String id = mXmlItem.getText().trim();
+			String id = getXmlItem().getText().trim();
 			String tmp = "[";
-			xml_items = mXmlItem.getSubTag("CASE");
+			xml_items = getXmlItem().getSubTag("CASE");
 			for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
 				SimpleParsing case_item = xml_items[case_idx];
 				ItemObj item_obj = new ItemObj(case_item.getText(), case_item

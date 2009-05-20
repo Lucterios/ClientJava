@@ -176,7 +176,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String date = mXmlItem.getText().trim();
+		String date = getXmlItem().getText().trim();
 		String[] dates = date.split("-");
 		if (dates.length == 3) {
 			spe_year.setNumber(Integer.parseInt(dates[0]));
@@ -205,7 +205,7 @@ public class CmpDate extends CmpAbstractEvent {
 				cmp_month.removeFocusListener(this);
 				spe_year.removeFocusListener(this);
 				edit_date.removeFocusListener(this);
-				mObsCustom.setNameComponentFocused(new_Cmponent_focused
+				getObsCustom().setNameComponentFocused(new_Cmponent_focused
 						.getName());
 				mEventAction.actionPerformed(null);
 			}
@@ -213,7 +213,7 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected boolean hasChanged() {
-		String init_value = mXmlItem.getText().trim();
+		String init_value = getXmlItem().getText().trim();
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}

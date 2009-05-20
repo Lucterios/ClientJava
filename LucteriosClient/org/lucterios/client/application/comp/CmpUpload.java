@@ -159,10 +159,10 @@ public class CmpUpload extends CmpAbstractEvent {
 		file_dlg.setAccessory(new ImagePreview(file_dlg));
 		file_dlg.setFileFilter(new FilesFilter(filters,"Fichier à télécharger"));
 		int returnVal;
-		if (this.mObsCustom.getGUIDialog() != null)
-			returnVal = file_dlg.showOpenDialog(this.mObsCustom.getGUIDialog());
+		if (this.getObsCustom().getGUIDialog() != null)
+			returnVal = file_dlg.showOpenDialog(this.getObsCustom().getGUIDialog());
 		else
-			returnVal = file_dlg.showOpenDialog(this.mObsCustom.getGUIFrame());
+			returnVal = file_dlg.showOpenDialog(this.getObsCustom().getGUIFrame());
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    	java.io.File file_exp = file_dlg.getSelectedFile();
 	    	CurrentDirectory=file_exp.getParentFile();
@@ -174,11 +174,11 @@ public class CmpUpload extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0);
-		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
-		m_maxsize=mXmlItem.getAttributInt("maxsize",1048576);;
-		lbl_message.setText(mXmlItem.getText().trim());
-		SimpleParsing[] filer_list = mXmlItem.getSubTag("FILTER");
+		m_isCompress=(getXmlItem().getAttributInt("Compress",0)!=0);
+		m_isHttpFile=(getXmlItem().getAttributInt("HttpFile",0)!=0);
+		m_maxsize=getXmlItem().getAttributInt("maxsize",1048576);;
+		lbl_message.setText(getXmlItem().getText().trim());
+		SimpleParsing[] filer_list = getXmlItem().getSubTag("FILTER");
 		filters = new String[filer_list.length];
 		for (int index = 0; index < filer_list.length; index++)
 			filters[index] = filer_list[index].getText();

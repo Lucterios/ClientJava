@@ -21,6 +21,7 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.Dimension;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 import javax.swing.ImageIcon;
@@ -44,7 +45,7 @@ public class CmpImage extends Cmponent {
 	}
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
-		mXmlItem = aXmlItem;
+		mXmlItem = new WeakReference(aXmlItem);
 		refreshComponent();
 	}
 	
@@ -59,17 +60,17 @@ public class CmpImage extends Cmponent {
 	}
 
 	protected void refreshComponent() {
-		mType = mXmlItem.getCDataOfFirstTag("TYPE");
-		mVal = mXmlItem.getText();
-		int height=mXmlItem.getAttributInt("height",0);
-		int width=mXmlItem.getAttributInt("width",0);
+		mType = getXmlItem().getCDataOfFirstTag("TYPE");
+		mVal = getXmlItem().getText();
+		int height=getXmlItem().getAttributInt("height",0);
+		int width=getXmlItem().getAttributInt("width",0);
 		cmp_text.setPreferredSize(new Dimension(width,height));
 	}
 	
 	public void initialize() throws LucteriosException {
 		ImageIcon image;
 		if (mType.equals( "" ))
-			image = Singletons.Transport().getIcon(mVal);
+			image = Singletons.Transport().getIcon(mVal,0);
 		else {
 			DecodeBase64ToInputStream decoder = new DecodeBase64ToInputStream(mVal);
 			image = new ImageIcon(decoder.readData());

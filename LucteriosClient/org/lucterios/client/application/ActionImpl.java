@@ -52,6 +52,7 @@ public class ActionImpl implements Action {
 	private String mExtension = "";
 	private String mAction = "";
 	private String mIcon = "";
+	private int mSizeIcon = 0;
 	private KeyStroke mKeyStroke = null;
 
 	private int mFormType = ActionConstantes.FORM_NOMODAL;
@@ -74,6 +75,7 @@ public class ActionImpl implements Action {
 		mClose = (aXml.getAttributInt("close", 1) != 0);
 		mSelect = aXml.getAttributInt("unique", ActionConstantes.SELECT_NONE);
 		mIcon = aXml.getAttribut("icon");
+		mSizeIcon = aXml.getAttributInt("sizeicon",0);
 		String key_stroke = aXml.getAttribut("shortcut");
 		if (!key_stroke.equals( "" ))
 			mKeyStroke = KeyStroke.getKeyStroke(key_stroke);
@@ -130,7 +132,7 @@ public class ActionImpl implements Action {
 	}
 
 	public ImageIcon getIcon() {
-		return Singletons.Transport().getIcon(mIcon);
+		return Singletons.Transport().getIcon(mIcon,mSizeIcon);
 	}
 
 	public KeyStroke getKeyStroke() {

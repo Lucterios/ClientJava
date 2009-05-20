@@ -60,7 +60,7 @@ public class CompDefault extends Cmponent {
 	protected void refreshComponent() {
 		String value = "";
 		value = value + "ComponentName=" + mComponentName + "\n";
-		value = value + "XmlItem=" + mXmlItem + "\n";
+		value = value + "XmlItem=" + getXmlItem() + "\n";
 		lbl_result.setText(value);
 	}
 

@@ -24,6 +24,7 @@ import java.util.*;
 
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 
 import javax.swing.*;
 
@@ -46,8 +47,8 @@ public abstract class Cmponent extends JPanel {
 	protected JPanel mOwnerPanel;
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
-	protected SimpleParsing mXmlItem;
-	protected Observer mObsCustom;
+	protected WeakReference mXmlItem;
+	protected WeakReference mObsCustom;
 	public String Description;
 	public String JavaScript;
 	public double mWeightx;
@@ -72,7 +73,7 @@ public abstract class Cmponent extends JPanel {
 		setOpaque(false);
 		setFocusable(false);
 	}
-	
+
 	protected void finalize() throws Throwable{
 		CmponentCount--;
 		super.finalize();
@@ -99,6 +100,14 @@ public abstract class Cmponent extends JPanel {
 
 	protected boolean mEnabled = true;
 
+	protected SimpleParsing getXmlItem(){
+		return (SimpleParsing)mXmlItem.get();
+	}
+	protected Observer getObsCustom(){
+		return (Observer)mObsCustom.get();
+	}
+	
+	
 	public void setEnabled(boolean aEnabled) {
 		super.setEnabled(aEnabled);
 		mEnabled = aEnabled;
@@ -107,8 +116,8 @@ public abstract class Cmponent extends JPanel {
 	public void init(JPanel aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
 		mOwnerPanel = aOwnerPanel;
-		mObsCustom = aObsCustom;
-		mXmlItem = aXmlItem;
+		mObsCustom = new WeakReference(aObsCustom);
+		mXmlItem = new WeakReference(aXmlItem);
 		setName(aXmlItem.getAttribut("name"));
 		Description = aXmlItem.getAttribut("description");
 		initComponent();
@@ -157,7 +166,7 @@ public abstract class Cmponent extends JPanel {
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
 		if (mFirstRefresh || !mXmlItem.equals(aXmlItem)) {
-			mXmlItem = aXmlItem;
+			mXmlItem = new WeakReference(aXmlItem);
 			refreshComponent();
 			mFirstRefresh = false;
 		}

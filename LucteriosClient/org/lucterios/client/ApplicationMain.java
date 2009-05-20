@@ -21,6 +21,7 @@
 package org.lucterios.client;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
@@ -46,10 +47,13 @@ import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.WindowGenerator;
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.application.Menu.ToolBar;
+import org.lucterios.client.application.comp.Cmponent;
+import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.presentation.Observer;
+import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
@@ -63,7 +67,9 @@ import org.lucterios.client.utils.Form.NotifyFrameChange;
 import org.lucterios.client.utils.LookAndFeelMenuItem.LookAndFeelCallBack;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.MemoryJauge;
 import org.lucterios.utils.graphic.ProgressPanel;
@@ -398,7 +404,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mStatBarPnl.add(mMemoryJauge, cnt);
 		
 		mTimeValue.addActionListener(mMemoryJauge);
-/*		mTimeValue.addActionListener(new ActionListener(){
+		mTimeValue.addActionListener(Tools.createOrderGCAction());
+		mTimeValue.addActionListener(new ActionListener(){
 			private int count=0;
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -406,12 +413,14 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				if (count>15) {
 					count=0;
 					Logging.getInstance().writeLog("### PROFILE ###",
-							" Observer=" + ObserverAbstract.ObserverCount + " - Cmponent="+Cmponent.CmponentCount, 2);					
+							" Observer=" + ObserverAbstract.ObserverCount + "\n" +
+							" Cmponent="+Cmponent.CmponentCount+"\n"+
+							" CustomManager="+CustomManager.CustomManagerCount, 2);					
 				}
 				
 			}
 			
-		});*/
+		});
 		mTimeValue.start();
 	}
 

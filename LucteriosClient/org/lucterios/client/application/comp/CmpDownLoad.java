@@ -136,15 +136,15 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		m_LocalFile=null;
 		btn_open.setEnabled(false);
 		btn_save.setEnabled(false); 
-		m_isCompress=(mXmlItem.getAttributInt("Compress",0)!=0); 
-		m_isHttpFile=(mXmlItem.getAttributInt("HttpFile",0)!=0);
-		m_maxsize=mXmlItem.getAttributInt("maxsize",1048576);;
-		m_FileName=mXmlItem.getText();
+		m_isCompress=(getXmlItem().getAttributInt("Compress",0)!=0); 
+		m_isHttpFile=(getXmlItem().getAttributInt("HttpFile",0)!=0);
+		m_maxsize=getXmlItem().getAttributInt("maxsize",1048576);;
+		m_FileName=getXmlItem().getText();
 		String message=m_FileName;
 		if (mEventAction==null)
 			message+="(en lecture-seul)";
 		lbl_message.setText("<CENTER>"+message+"</CENTER>");
-		SimpleParsing filename=mXmlItem.getFirstSubTag("FILENAME");
+		SimpleParsing filename=getXmlItem().getFirstSubTag("FILENAME");
 		if (filename!=null)
 			m_FileToDownload=filename.getText();
 		else
@@ -179,10 +179,10 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		file_dlg.setAccessory(new ImagePreview(file_dlg));
 		file_dlg.setFileFilter(new FilesFilter(new String[]{".*"},"Fichier à sauver"));
 		int returnVal;
-		if (this.mObsCustom.getGUIDialog() != null)
-			returnVal = file_dlg.showSaveDialog(this.mObsCustom.getGUIDialog());
+		if (this.getObsCustom().getGUIDialog() != null)
+			returnVal = file_dlg.showSaveDialog(this.getObsCustom().getGUIDialog());
 		else
-			returnVal = file_dlg.showSaveDialog(this.mObsCustom.getGUIFrame());
+			returnVal = file_dlg.showSaveDialog(this.getObsCustom().getGUIFrame());
 	    if (m_LocalFile.exists() && (returnVal == JFileChooser.APPROVE_OPTION)) {
 	    	java.io.File file_exp = file_dlg.getSelectedFile();
 	    	CurrentDirectory=file_exp.getParentFile();
@@ -211,7 +211,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 			mEventAction.setOwner(new ObserverAcknowledge(){
 				public Map getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
 					Map requete = new TreeMap();
-					requete.putAll(mObsCustom.getContext());
+					requete.putAll(getObsCustom().getContext());
 					requete.put(getName(), CmpUpload.getFileContentBase64(m_LocalFile,m_isCompress,m_isHttpFile,m_maxsize));
 					if (m_isCompress) 
 						requete.put(getName()+CmpUpload.SUFFIX_FILE_NAME,m_LocalFile.getName());

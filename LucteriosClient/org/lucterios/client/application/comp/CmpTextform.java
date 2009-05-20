@@ -83,12 +83,12 @@ public class CmpTextform extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		String val = mXmlItem.getText().trim();
+		String val = getXmlItem().getText().trim();
 		cmp_text.load(val);
 	}
 
 	protected boolean hasChanged() {
-		String val = mXmlItem.getText().trim();
+		String val = getXmlItem().getText().trim();
 		return !cmp_text.save().equals(val);
 	}
 }

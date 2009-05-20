@@ -85,7 +85,7 @@ public class HttpTransportStub implements HttpTransport {
 
 	public ImageIcon IconName = null;
 
-	public ImageIcon getIcon(String aIconName) {
+	public ImageIcon getIcon(String aIconName,int aSize) {
 		return IconName;
 	}
 

@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class CustomManager extends JAdvancePanel {
 
 	private static final long serialVersionUID = 1L;
 
+	public static int CustomManagerCount=0;
+	
 	static public Map ListComponents = new TreeMap();
 
 	static public boolean initalize() throws IOException {
@@ -74,7 +77,10 @@ public class CustomManager extends JAdvancePanel {
 		return true;
 	}
 
-	private Observer mObserver;
+	private WeakReference mObserver;
+	private Observer getObserver(){
+		return (Observer)mObserver.get();
+	}
 
 	public ArrayList mComposants = new ArrayList();
 	public ArrayList mCmponents = new ArrayList();
@@ -84,19 +90,26 @@ public class CustomManager extends JAdvancePanel {
 
 	public CustomManager(Observer aObserver) {
 		super();
+		CustomManagerCount++;
 		setName("pnl_Cst");
 		setFocusable(false);
 		setLayout(new GridBagLayout());
 		setFontImage(Toolkit.getDefaultToolkit().getImage(
 				this.getClass().getResource("ObserverFont.jpg")), TEXTURE);
-		mObserver = aObserver;
+		mObserver = new WeakReference(aObserver);
 		mCmponents.clear();
 		mComposants.clear();
+	}
+	
+	protected void finalize() throws Throwable{
+		CustomManagerCount--;
+		super.finalize();
 	}
 
 	protected void clear() {
 		mCmponents.clear();
 		mComposants.clear();
+		PnlTab = null;
 	}
 
 	public void close() {
@@ -345,7 +358,7 @@ public class CustomManager extends JAdvancePanel {
 			if (comp == null) {
 				comp = createComponent(value_obj.getTagName(), value_obj
 						.getAttribut("name"));
-				comp.init(current_panel, mObserver, value_obj);
+				comp.init(current_panel, getObserver(), value_obj);
 			}
 			comp.setValue(value_obj);
 			mCmponents.add(comp);
