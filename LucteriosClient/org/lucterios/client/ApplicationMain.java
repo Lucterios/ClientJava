@@ -21,7 +21,7 @@
 package org.lucterios.client;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
@@ -47,13 +47,13 @@ import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.WindowGenerator;
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.application.Menu.ToolBar;
-import org.lucterios.client.application.comp.Cmponent;
-import org.lucterios.client.application.observer.CustomManager;
+//import org.lucterios.client.application.comp.Cmponent;
+//import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverAbstract;
+//import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
@@ -68,7 +68,7 @@ import org.lucterios.client.utils.Form.NotifyFrameChange;
 import org.lucterios.client.utils.LookAndFeelMenuItem.LookAndFeelCallBack;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
-import org.lucterios.utils.Logging;
+//import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -309,8 +309,12 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.gridx = 0;
 		cnt.gridy = 0;
 		cnt.weightx = 1;
-		cnt.weighty = 1;
+		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
+		Dimension size=mToolBar.getPreferredSize();
+		mToolBar.setMinimumSize(new Dimension(0,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
+		mToolBar.setPreferredSize(new Dimension(size.width,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
+		mToolBar.setMaximumSize(new Dimension(Integer.MAX_VALUE,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
 		getContentPane().add(mToolBar, cnt);
 
 		mProgressPanelTop = new ProgressPanel(true);
@@ -406,7 +410,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.addActionListener(Tools.createOrderGCAction());
-		mTimeValue.addActionListener(new ActionListener(){
+/*		mTimeValue.addActionListener(new ActionListener(){
 			private int count=0;
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -421,7 +425,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				
 			}
 			
-		});
+		});*/
 		mTimeValue.start();
 	}
 

@@ -68,7 +68,10 @@ public class ApplicationDescription implements InfoDescription {
 	}
 
 	public ImageIcon getLogoIcon() {
-		return new ImageIcon(mLogoIcon);
+		if (mLogoIcon!=null)
+			return new ImageIcon(mLogoIcon);
+		else
+			return null;
 	}
 
 	public void setlogin(String aLogin) {

@@ -24,7 +24,7 @@ $extention_name="java";
 $extention_description="Client générique pour toutes applications compatible Lucterios.{[newline]}Nécessite une machine virtuel Java (voir http://www.java.com).";
 $extention_appli="";
 $extention_famille="client";
-$extention_titre="interface graphique Lucterios";
+$extention_titre="Interface graphique Lucterios";
 $extension_libre=true;
 
 $version_max=X;

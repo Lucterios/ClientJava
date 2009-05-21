@@ -15,6 +15,7 @@ public class ToolBar extends JToolBar {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final int ICON_SIZE=16;
 
 	private boolean mAdded;
 
@@ -44,7 +45,7 @@ public class ToolBar extends JToolBar {
 					addSeparator();
 			}
 		for (int idx = 0; idx < mActions.size(); idx++)
-			newAction((Action) mActions.get(idx), null);
+			newAction(mActions.get(idx), null);
 	}
 
 	private void parseSubMenu(org.lucterios.client.application.Menu aMenu) {
@@ -79,7 +80,7 @@ public class ToolBar extends JToolBar {
 		key_string += Tools.getKeyString(aKey);
 		button.setToolTipText(key_string);
 		button.addActionListener(aAction);
-		button.setIcon(Tools.resizeIcon(aAction.getIcon(), 16, true));
+		button.setIcon(Tools.resizeIcon(aAction.getIcon(), ICON_SIZE, true));
 		add(button);
 		mAdded = true;
 	}

@@ -208,22 +208,16 @@ public abstract class Cmponent extends JPanel {
 				try {
 					Scriptable scope = cx.initStandardObjects();
 					Object wrappedCurrent = Context.javaToJS(this, scope);
-					ScriptableObject.putProperty(scope, "current",
-							wrappedCurrent);
-					Object wrappedParent = Context.javaToJS(mObsCustom, scope);
-					ScriptableObject
-							.putProperty(scope, "parent", wrappedParent);
-					Object result = cx.evaluateString(scope, JavaScript,
-							"<js>", 1, null);
-					Logging.getInstance().writeLog(
-							"<== JavaScript '" + getName() + "' <==",
-							Context.toString(result), 2);
+					ScriptableObject.putProperty(scope, "current", wrappedCurrent);
+					Object wrappedParent = Context.javaToJS(mObsCustom.get(), scope);
+					ScriptableObject.putProperty(scope, "parent", wrappedParent);
+					Object result = cx.evaluateString(scope, JavaScript, "<js>", 1, null);
+					Logging.getInstance().writeLog("<== JavaScript '" + getName() + "' <==", Context.toString(result), 2);
 				} finally {
 					Context.exit();
 				}
 			} catch (EcmaError e) {
-				throw new LucteriosException("Erreur dans un script",
-						JavaScript, "", e);
+				throw new LucteriosException("Erreur dans un script", JavaScript, "", e);
 			}
 		}
 	}

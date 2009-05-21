@@ -165,7 +165,7 @@ public class HttpTransportImpl implements HttpTransport {
 						Logging.getInstance().writeLog("### TELECHARGEMENT ###",aIconName,2);
 						InputStream reponse = transfertFileFromServer(aIconName, new MapContext());
 						icon_result=imageCache.addImage(aIconName, reponse);
-					} catch (LucteriosException e) {
+					} catch (Exception e) {
 						imageCache.addDummy(aIconName);
 						e.printStackTrace();
 					}
