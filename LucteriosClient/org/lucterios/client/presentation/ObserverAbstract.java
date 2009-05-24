@@ -100,6 +100,7 @@ public abstract class ObserverAbstract implements Observer {
 							xml_item);
 					mCloseAction.setCheckNull(false);
 					mCloseAction.setClose(true);
+					mCloseAction.setUsedContext(true);
 				}
 			}
 		}

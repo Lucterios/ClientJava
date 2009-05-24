@@ -60,9 +60,11 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void setContent(SimpleParsing aContent) {
 		super.setContent(aContent);
-		SimpleParsing xml_component = mContent.getFirstSubTag("COMPONENTS");
-		mCustomManager.init(xml_component);
-		mActions = mContent.getFirstSubTag("ACTIONS");
+		if (mCustomManager!=null) {
+			SimpleParsing xml_component = mContent.getFirstSubTag("COMPONENTS");
+			mCustomManager.init(xml_component);
+			mActions = mContent.getFirstSubTag("ACTIONS");
+		}
 	}
 
 	public String getObserverName() {
@@ -83,25 +85,27 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	private void getfocusToMainCmponent() {
 		synchronized (mSynchronizedObj) {
-			mGUIContainer.setFocusable(false);
-			if (mGUIFrame != null)
-				mGUIFrame.requestFocus();
-			if (mGUIDialog != null)
-				mGUIDialog.requestFocus();
-			Cmponent new_Cmponent_focused = null;
-			if (mNameComponentFocused != null)
-				new_Cmponent_focused = mCustomManager
-						.getCmponentName(mNameComponentFocused);
-			else
-				new_Cmponent_focused = mCustomManager
-						.getFirstCmponentFocusabled();
-			if (new_Cmponent_focused != null) {
-				System.out.printf(
-						"focusManagement:request focus Cmponent:%s\n",
-						new Object[] { new_Cmponent_focused.getName() });
-				new_Cmponent_focused.requestFocus();
-			} else
-				System.out.print("focusManagement:no request focus Cmponent\n");
+			if (mGUIContainer!=null) {
+				mGUIContainer.setFocusable(false);
+				if (mGUIFrame != null)
+					mGUIFrame.requestFocus();
+				if (mGUIDialog != null)
+					mGUIDialog.requestFocus();
+				Cmponent new_Cmponent_focused = null;
+				if (mNameComponentFocused != null)
+					new_Cmponent_focused = mCustomManager
+							.getCmponentName(mNameComponentFocused);
+				else
+					new_Cmponent_focused = mCustomManager
+							.getFirstCmponentFocusabled();
+				if (new_Cmponent_focused != null) {
+					System.out.printf(
+							"focusManagement:request focus Cmponent:%s\n",
+							new Object[] { new_Cmponent_focused.getName() });
+					new_Cmponent_focused.requestFocus();
+				} else
+					System.out.print("focusManagement:no request focus Cmponent\n");
+			}
 		}
 	}
 

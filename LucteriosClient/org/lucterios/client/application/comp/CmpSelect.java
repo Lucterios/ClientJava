@@ -156,7 +156,11 @@ public class CmpSelect extends CmpAbstractEvent {
 			throw new LucteriosException("Erreur de selection", e);
 		}
 
+		remove(cmp_cnbb);
+		cmp_cnbb = new javax.swing.JComboBox();
+		cmp_cnbb.setName("cmp_cnbb");
 		cmp_cnbb.setModel(m_comboModel);
+		add(cmp_cnbb, java.awt.BorderLayout.CENTER);
 		if (m_comboModel.size() == 0)
 			cmp_cnbb.setSelectedIndex(-1);
 		else
