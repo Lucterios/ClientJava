@@ -25,8 +25,8 @@ import org.lucterios.client.application.comp.CmpDate;
 import org.lucterios.client.application.comp.CmpDateTime;
 import org.lucterios.client.application.comp.CmpDownLoad;
 import org.lucterios.client.application.comp.CmpEdit;
+import org.lucterios.client.application.comp.CmpFastGrid;
 import org.lucterios.client.application.comp.CmpFloat;
-import org.lucterios.client.application.comp.CmpGrid;
 import org.lucterios.client.application.comp.CmpHyperLink;
 import org.lucterios.client.application.comp.CmpImage;
 import org.lucterios.client.application.comp.CmpLabelform;
@@ -57,7 +57,7 @@ public class CustomManager extends JAdvancePanel {
 		ListComponents.put("LABELFORM", CmpLabelform.class);
 		ListComponents.put("LABEL", CmpLabelform.class);
 		ListComponents.put("IMAGE", CmpImage.class);
-		ListComponents.put("GRID", CmpGrid.class);
+		ListComponents.put("GRID", CmpFastGrid.class);
 		ListComponents.put("BUTTON", CmpButton.class);
 		ListComponents.put("CHECK", CmpCheck.class);
 		ListComponents.put("CHECKLIST", CmpChecklist.class);
@@ -82,7 +82,7 @@ public class CustomManager extends JAdvancePanel {
 		return mObserver.get();
 	}
 
-	public ArrayList<SimpleParsing> mComposants = new ArrayList<SimpleParsing>();
+	public ArrayList<WeakReference<SimpleParsing>> mComposants = new ArrayList<WeakReference<SimpleParsing>>();
 	public ArrayList<Cmponent> mCmponents = new ArrayList<Cmponent>();
 	public String[] mCompNames = new String[0];
 	private static final String CST_TABPANE = "TAB";
@@ -122,7 +122,7 @@ public class CustomManager extends JAdvancePanel {
 		mCompNames = new String[aXmlComponent.getTagCount()];
 		for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
 			SimpleParsing component = aXmlComponent.getSubTag(index);
-			mComposants.add(component);
+			mComposants.add(new WeakReference<SimpleParsing>(component));
 			mCompNames[index] = component.getAttribut("name");
 		}
 	}
@@ -330,7 +330,7 @@ public class CustomManager extends JAdvancePanel {
 
 	private void addNewComponent(int aComponentIdx) throws LucteriosException {
 		Cmponent comp;
-		SimpleParsing value_obj = mComposants.get(aComponentIdx);
+		SimpleParsing value_obj = mComposants.get(aComponentIdx).get();
 
 		int tag_num = 1;
 		if (PnlTab != null)
