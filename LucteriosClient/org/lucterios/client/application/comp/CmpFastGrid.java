@@ -27,6 +27,7 @@ import java.awt.*;
 
 import javax.swing.Icon;
 import javax.swing.JTable;
+import javax.swing.table.JTableHeader;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
@@ -173,6 +174,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		cmp_tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 		cmp_tbl.setName("cmp_tbl");
 		cmp_tbl.setRowSelectionAllowed(true);
+		cmp_tbl.setDefaultRenderer(Boolean.class, new CheckFormRenderer());
 		cmp_tbl.setDefaultRenderer(String.class, mLabelForm);
 		cmp_tbl.setDefaultRenderer(Icon.class, mImageForm);
 		javax.swing.ListSelectionModel rowSM = cmp_tbl.getSelectionModel();
@@ -180,7 +182,6 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		cmp_tbl.addMouseListener(this);
 		cmp_tbl_Model = new CmpFastTableModel();
 
-		pnl_Grid.add(cmp_tbl.getTableHeader(), java.awt.BorderLayout.PAGE_START);
 		pnl_Grid.add(cmp_tbl, java.awt.BorderLayout.CENTER);
 	}
 
@@ -191,6 +192,12 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		pnl_Grid.setLayout(new java.awt.BorderLayout());
 		initTableView();
 		scr_pnl = new javax.swing.JScrollPane(pnl_Grid);
+		scr_pnl.setColumnHeader(null);
+		JTableHeader th=cmp_tbl.getTableHeader();
+		th.setPreferredSize(new Dimension(th.getWidth(),25));
+		Font old=th.getFont();
+		th.setFont(new Font(old.getName(),old.getStyle()+Font.BOLD,old.getSize()));
+		scr_pnl.setColumnHeaderView(th);
 		add(scr_pnl, java.awt.BorderLayout.CENTER);
 
 		pnl_Btn = new javax.swing.JPanel();

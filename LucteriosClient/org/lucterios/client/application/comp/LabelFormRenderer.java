@@ -20,9 +20,11 @@
 
 package org.lucterios.client.application.comp;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.UIManager;
+import javax.swing.table.TableColumn;
 
 import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
@@ -51,13 +53,22 @@ public class LabelFormRenderer extends javax.swing.JEditorPane implements
 			val = val.substring(0, val.length() - 4).trim();
 		setText(val);
 		if (isSelected)
-			setBackground(UIManager.getColor("controlShadow"));
-		else
-			setBackground(UIManager.getColor("controlHighlight"));
+			setBackground(UIManager.getColor("Table.selectionBackground"));
+		else {
+		    if((row % 2)!=0)	    	
+		    	setBackground(Color.WHITE);  
+		    else  
+		    	setBackground(new Color(220,220,220));
+		}
 		if (cell_check.indexOf(row + "-" + column) == -1) {
 			int cell_height = Math.max(jTable.getRowHeight(row),
 					(int) getPreferredSize().getHeight());
 			jTable.setRowHeight(row, cell_height);
+
+			TableColumn colonne = jTable.getColumnModel().getColumn(column);
+			int col_width=colonne.getPreferredWidth();
+			if (col_width<getPreferredSize().getWidth())
+				colonne.setPreferredWidth((int)getPreferredSize().getWidth());
 			cell_check.add(row + "-" + column);
 		}
 		return this;
