@@ -176,6 +176,8 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		cmp_tbl.setRowSelectionAllowed(true);
 		cmp_tbl.setDefaultRenderer(Boolean.class, new CheckFormRenderer());
 		cmp_tbl.setDefaultRenderer(String.class, mLabelForm);
+		cmp_tbl.setDefaultRenderer(Integer.class, mLabelForm);
+		cmp_tbl.setDefaultRenderer(Double.class, mLabelForm);
 		cmp_tbl.setDefaultRenderer(Icon.class, mImageForm);
 		javax.swing.ListSelectionModel rowSM = cmp_tbl.getSelectionModel();
 		rowSM.addListSelectionListener(this);

@@ -48,9 +48,15 @@ public class LabelFormRenderer extends javax.swing.JEditorPane implements
 	public Component getTableCellRendererComponent(javax.swing.JTable jTable,
 			Object obj, boolean isSelected, boolean hasFocus, int row,
 			int column) {
-		String val = Tools.convertLuctoriosFormatToHtml((String) obj);
-		while (val.endsWith("<br>"))
-			val = val.substring(0, val.length() - 4).trim();
+		String val;
+		if ((obj instanceof Double) || (obj instanceof Integer)) {
+			val = "<DIV align='right'>"+obj.toString()+"</DIV>";			
+		}
+		else {
+			val = Tools.convertLuctoriosFormatToHtml(obj.toString());
+			while (val.endsWith("<br>"))
+				val = val.substring(0, val.length() - 4).trim();
+		}
 		setText(val);
 		if (isSelected)
 			setBackground(UIManager.getColor("Table.selectionBackground"));
