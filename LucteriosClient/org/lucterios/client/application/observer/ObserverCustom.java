@@ -26,7 +26,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-import java.lang.ref.WeakReference;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,8 +46,8 @@ import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class ObserverCustom extends ObserverAbstract implements Runnable {
-	public WeakReference<SimpleParsing> mActions;
-	public WeakReference<CustomManager> mCustomManager;
+	public SimpleParsing mActions;
+	public CustomManager mCustomManager;
 	private JScrollPane mScrollbar = null;
 	private Button mDefaultBtn = null;
 
@@ -56,7 +55,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public ObserverCustom() {
 		super();
-		mCustomManager = new WeakReference<CustomManager>(new CustomManager(this));
+		mCustomManager = new CustomManager(this);
 	}
 
 	public void setContent(SimpleParsing aContent) {
@@ -64,16 +63,16 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		if (mCustomManager!=null) {
 			SimpleParsing xml_component = mContent.getFirstSubTag("COMPONENTS");
 			getCustomManager().init(xml_component);
-			mActions = new WeakReference<SimpleParsing>(mContent.getFirstSubTag("ACTIONS"));
+			mActions = mContent.getFirstSubTag("ACTIONS");
 		}
 	}
 
 	private CustomManager getCustomManager() {
 		CustomManager resValue;
-		resValue=mCustomManager.get();
+		resValue=mCustomManager;
 		if (resValue==null) {
 			resValue=new CustomManager(this);
-			mCustomManager = new WeakReference<CustomManager>(resValue);
+			mCustomManager = resValue;
 		}
 		return resValue;
 	}
@@ -156,7 +155,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 					mGUIContainer.remove(mPnlBtn);
 				}
 				mGUIContainer.add(mPnlBtn, BorderLayout.PAGE_END);
-				Button.fillPanelByButton(mPnlBtn, this, Singletons.Factory(),mActions.get(), true);
+				Button.fillPanelByButton(mPnlBtn, this, Singletons.Factory(),mActions, true);
 				mDefaultBtn = null;
 				for (int btn_idx = 0; (mDefaultBtn == null)
 						&& (btn_idx < mPnlBtn.getComponentCount()); btn_idx++)
@@ -363,6 +362,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			mGUIFrame = null;
 			mScrollbar= null;
 			mDefaultBtn= null;
+			mActions= null;
 			super.close(aMustRefreshParent);
 			Tools.postOrderGC();
 		}

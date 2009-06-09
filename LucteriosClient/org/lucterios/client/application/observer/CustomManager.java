@@ -82,7 +82,7 @@ public class CustomManager extends JAdvancePanel {
 		return mObserver.get();
 	}
 
-	public ArrayList<WeakReference<SimpleParsing>> mComposants = new ArrayList<WeakReference<SimpleParsing>>();
+	public ArrayList<SimpleParsing> mComposants = new ArrayList<SimpleParsing>();
 	public ArrayList<Cmponent> mCmponents = new ArrayList<Cmponent>();
 	public String[] mCompNames = new String[0];
 	private static final String CST_TABPANE = "TAB";
@@ -122,7 +122,7 @@ public class CustomManager extends JAdvancePanel {
 		mCompNames = new String[aXmlComponent.getTagCount()];
 		for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
 			SimpleParsing component = aXmlComponent.getSubTag(index);
-			mComposants.add(new WeakReference<SimpleParsing>(component));
+			mComposants.add(component);
 			mCompNames[index] = component.getAttribut("name");
 		}
 	}
@@ -330,7 +330,7 @@ public class CustomManager extends JAdvancePanel {
 
 	private void addNewComponent(int aComponentIdx) throws LucteriosException {
 		Cmponent comp;
-		SimpleParsing value_obj = mComposants.get(aComponentIdx).get();
+		SimpleParsing value_obj = mComposants.get(aComponentIdx);
 
 		int tag_num = 1;
 		if (PnlTab != null)

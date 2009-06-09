@@ -20,6 +20,7 @@
 
 package org.lucterios.client.presentation;
 
+import java.lang.ref.WeakReference;
 import java.util.Set;
 
 import org.lucterios.client.application.Action;
@@ -46,14 +47,17 @@ public abstract class ObserverAbstract implements Observer {
 		super.finalize();
 	}
 
-	protected Observer mParent = null;
+	protected WeakReference<Observer> mParent = null;
 
 	public void setParent(Observer aParent) {
-		mParent = aParent;
+		mParent = new WeakReference<Observer>(aParent);
 	}
 
 	public Observer getParent() {
-		return mParent;
+		if (mParent!=null)
+			return mParent.get();
+		else
+			return null;
 	}
 
 	protected String mExtension = "";
@@ -174,9 +178,12 @@ public abstract class ObserverAbstract implements Observer {
 			closed = true;
 			if (mCloseAction != null)
 				mCloseAction.actionPerformed(null);
+			mCloseAction = null;
 			try {
-				if (aMustRefreshParent && (getParent() != null))
-					getParent().refresh();
+				Observer parent=getParent();
+				if (aMustRefreshParent && (parent != null))
+					parent.refresh();
+				parent=null;
 			} catch (LucteriosException e) {
 				ExceptionDlg.throwException(e);
 			}
@@ -195,5 +202,6 @@ public abstract class ObserverAbstract implements Observer {
 		refresh.setClose(false);
 		refresh.setUsedContext(true);
 		refresh.actionPerformed(null);
+		refresh=null;
 	}
 }

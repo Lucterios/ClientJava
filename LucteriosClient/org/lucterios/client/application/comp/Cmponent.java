@@ -44,7 +44,6 @@ public abstract class Cmponent extends JPanel {
 
 	public static int CmponentCount=0;
 	
-	protected JPanel mOwnerPanel;
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
 	protected WeakReference<SimpleParsing> mXmlItem;
@@ -80,7 +79,6 @@ public abstract class Cmponent extends JPanel {
 	}
 		
 	public void close() {
-		mOwnerPanel=null;
 		mGdbConp=null;
 		mXmlItem=null;
 		mObsCustom=null;
@@ -115,7 +113,6 @@ public abstract class Cmponent extends JPanel {
 
 	public void init(JPanel aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
-		mOwnerPanel = aOwnerPanel;
 		mObsCustom = new WeakReference<Observer>(aObsCustom);
 		mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
 		setName(aXmlItem.getAttribut("name"));
@@ -130,7 +127,7 @@ public abstract class Cmponent extends JPanel {
 		VMin = aXmlItem.getAttributInt("VMin", 0);
 		HMax = aXmlItem.getAttributInt("HMax", Integer.MAX_VALUE);
 		VMax = aXmlItem.getAttributInt("VMax", Integer.MAX_VALUE);
-		if (mOwnerPanel!=null) {
+		if (aOwnerPanel!=null) {
 			mGdbConp.gridx = X;
 			mGdbConp.gridy = Y;
 			mGdbConp.gridwidth = W;
@@ -209,7 +206,7 @@ public abstract class Cmponent extends JPanel {
 					Scriptable scope = cx.initStandardObjects();
 					Object wrappedCurrent = Context.javaToJS(this, scope);
 					ScriptableObject.putProperty(scope, "current", wrappedCurrent);
-					Object wrappedParent = Context.javaToJS(mObsCustom.get(), scope);
+					Object wrappedParent = Context.javaToJS(getObsCustom(), scope);
 					ScriptableObject.putProperty(scope, "parent", wrappedParent);
 					Object result = cx.evaluateString(scope, JavaScript, "<js>", 1, null);
 					Logging.getInstance().writeLog("<== JavaScript '" + getName() + "' <==", Context.toString(result), 2);
