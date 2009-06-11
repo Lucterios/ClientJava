@@ -14,7 +14,7 @@
 		<antcall target="build" />
 		<antcall target="package" />
 		<antcall target="doc" />
-		<antcall target="tests" />
+		<!-- antcall target="tests" / -->
 	</target>		
 
 	<target name="init">
