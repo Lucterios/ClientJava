@@ -8,8 +8,7 @@
 	<property name="projet.version.release" value="4"/>
 
 	<target name="all">
-		<buildnumber />
-		<property name="projet.version.build" value="${build.number}"/>
+		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
