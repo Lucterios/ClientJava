@@ -13,7 +13,7 @@
 	</path>
  
 	<target name="tests" >
-		<junit fork="yes" printsummary="no" haltonfailure="no">
+		<junit fork="yes" printsummary="off" haltonfailure="off">
 			<jvmarg value="-Djava.awt.headless=true"/>
 			<batchtest fork="yes" todir="${projet.bin.dir}" >
 				<fileset dir="${projet.bin.dir}">
