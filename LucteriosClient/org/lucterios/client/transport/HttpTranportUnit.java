@@ -127,7 +127,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActionsSecurity() throws LucteriosException {
-		http_transport.connectToServer("localhost", "Lucterios", 433, true);
+		http_transport.connectToServer("localhost", "lucterios", 433, true);
 		String xml_retour;
 		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
