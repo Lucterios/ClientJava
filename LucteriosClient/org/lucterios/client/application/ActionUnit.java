@@ -94,11 +94,11 @@ public class ActionUnit extends TestCase {
 
 	public void testMenu() {
 		SimpleParsing action = new SimpleParsing();
-		action.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardées]]></MENU>");
+		action.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardees]]></MENU>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("ID", "Im_pressionsauvegardees", mAction.getID());
-		assertEquals("Titre", "Impression sauvegardées", mAction.getTitle());
+		assertEquals("Titre", "Impression sauvegardees", mAction.getTitle());
 		assertEquals("Mnemonic", 'p', mAction.getMnemonic());
 		assertEquals("Extension", "CORE", mAction.getExtension());
 		assertEquals("Action", "finalreport_APAS_list", mAction.getAction());

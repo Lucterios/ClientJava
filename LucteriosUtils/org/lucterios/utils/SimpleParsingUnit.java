@@ -77,8 +77,8 @@ public class SimpleParsingUnit extends TestCase
 	
 	public void testConfigure()
 	{
-		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><CONFIG><TITLE>Système Pitet</TITLE><PROXY></PROXY><PROXY_PORT>0</PROXY_PORT><SERVER name='local' host='localhost' port='80' dir='FFSS/'/><SERVER name='Fixe' host='82.225.46.111' port='80' dir='FFSS/'/><SERVER name='apas' host='apas.reali-soft.com' port='80' dir='/'/><SERVER name='ffss' host='ffss.reali-soft.com' port='80' dir='/'/><SERVER name='sss' host='82.233.108.66' port='80' dir='FFSS/'/></CONFIG>"));
-		assertEquals("title","Système Pitet",mParsing.getCDataOfFirstTag("TITLE"));
+		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><CONFIG><TITLE>Systeme Pitet</TITLE><PROXY></PROXY><PROXY_PORT>0</PROXY_PORT><SERVER name='local' host='localhost' port='80' dir='FFSS/'/><SERVER name='Fixe' host='82.225.46.111' port='80' dir='FFSS/'/><SERVER name='apas' host='apas.reali-soft.com' port='80' dir='/'/><SERVER name='ffss' host='ffss.reali-soft.com' port='80' dir='/'/><SERVER name='sss' host='82.233.108.66' port='80' dir='FFSS/'/></CONFIG>"));
+		assertEquals("title","Systeme Pitet",mParsing.getCDataOfFirstTag("TITLE"));
 		assertEquals("proxy","",mParsing.getCDataOfFirstTag("PROXY"));
 		assertEquals("proxy_port","0",mParsing.getCDataOfFirstTag("PROXY_PORT"));
         SimpleParsing[] servers=mParsing.getSubTag("SERVER");
@@ -87,7 +87,7 @@ public class SimpleParsingUnit extends TestCase
 	
 	public void testComplexe()
 	{
-		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>"));
+		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>"));
 		assertEquals("Tag","REPONSES",mParsing.getTagName());
 		
 		SimpleParsing[] sub_rep=mParsing.getSubTag("REPONSE");
@@ -108,7 +108,7 @@ public class SimpleParsingUnit extends TestCase
 		SimpleParsing[] sub_text=sub_rep[0].getSubTag("TEXT");
 		assertEquals("SubTag D",1,sub_text.length);
 		assertEquals("Attr f","2",sub_text[0].getAttribut("type"));
-		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text[0].getText());
+		assertEquals("CData 3","Etes-vous sure de reinitialiser ce modele?",sub_text[0].getText());
 		
 		SimpleParsing sub_actions=sub_rep[0].getFirstSubTag("ACTIONS");		
 		SimpleParsing[] sub_action=sub_actions.getSubTag("ACTION");
@@ -125,7 +125,7 @@ public class SimpleParsingUnit extends TestCase
 
 	public void testSubTagNames()
 	{
-		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sûre de réinitialiser ce modèle?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>"));
+		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>"));
 
 		SimpleParsing sub_rep=mParsing.getFirstSubTag("REPONSE");
 		String[] tag_names=sub_rep.getTagNames();
@@ -136,12 +136,12 @@ public class SimpleParsingUnit extends TestCase
 
 		SimpleParsing sub_text=sub_rep.getSubTag(1);	
 		assertEquals("Attr f","2",sub_text.getAttribut("type"));
-		assertEquals("CData 3","Etes-vous sûre de réinitialiser ce modèle?",sub_text.getText());
+		assertEquals("CData 3","Etes-vous sure de reinitialiser ce modele?",sub_text.getText());
 	}
 	
 	public void testMenu()
 	{
-		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Menu' source_extension='CORE' source_action='menu'><CONTEXT></CONTEXT><MENUS>	<MENU id='Ad_ministration' extension='CORE' modal='0'>		<![CDATA[Ad_ministration]]>		<MENU id='_Changerdemotdepasse' extension='CORE' action='users_APAS_changerpassword' modal='1'>			<![CDATA[_Changer de mot de passe]]>        </MENU>        <MENU id='_Avance' extension='CORE'>         	<![CDATA[_Avancé]]>         	<MENU id='_Parametres' extension='CORE' action='extension_params_APAS_list'>         		<![CDATA[_Paramètres]]>			</MENU>			<MENU id='Autorisationd`acces_reseau' extension='CORE' action='access_APAS_list'>				<![CDATA[Autorisation d`acces _réseau]]>			</MENU>			<MENU id='_Session' extension='CORE' action='sessions_APAS_list'>				<![CDATA[_Session]]>			</MENU>        </MENU>    </MENU></MENUS></REPONSE></REPONSES>"));
+		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Menu' source_extension='CORE' source_action='menu'><CONTEXT></CONTEXT><MENUS>	<MENU id='Ad_ministration' extension='CORE' modal='0'>		<![CDATA[Ad_ministration]]>		<MENU id='_Changerdemotdepasse' extension='CORE' action='users_APAS_changerpassword' modal='1'>			<![CDATA[_Changer de mot de passe]]>        </MENU>        <MENU id='_Avance' extension='CORE'>         	<![CDATA[_Avance]]>         	<MENU id='_Parametres' extension='CORE' action='extension_params_APAS_list'>         		<![CDATA[_Parametres]]>			</MENU>			<MENU id='Autorisationd`acces_reseau' extension='CORE' action='access_APAS_list'>				<![CDATA[Autorisation d`acces _reseau]]>			</MENU>			<MENU id='_Session' extension='CORE' action='sessions_APAS_list'>				<![CDATA[_Session]]>			</MENU>        </MENU>    </MENU></MENUS></REPONSE></REPONSES>"));
 		
 		SimpleParsing rep=mParsing.getFirstSubTag("REPONSE");		
 		SimpleParsing menus=rep.getFirstSubTag("MENUS");		
@@ -153,12 +153,12 @@ public class SimpleParsingUnit extends TestCase
 		SimpleParsing[] menu2=menu1[0].getSubTag("MENU");		
 		assertEquals("menu2",2,menu2.length);		
 		assertEquals("menu2 titre0","_Changer de mot de passe",menu2[0].getText());
-		assertEquals("menu2 titre1","_Avancé",menu2[1].getText());
+		assertEquals("menu2 titre1","_Avance",menu2[1].getText());
 		
 		SimpleParsing[] menu3=menu2[1].getSubTag("MENU");		
 		assertEquals("menu3",3,menu3.length);		
-		assertEquals("menu3 titre0","_Paramètres",menu3[0].getText());
-		assertEquals("menu3 titre1","Autorisation d`acces _réseau",menu3[1].getText());
+		assertEquals("menu3 titre0","_Parametres",menu3[0].getText());
+		assertEquals("menu3 titre1","Autorisation d`acces _reseau",menu3[1].getText());
 		assertEquals("menu3 titre2","_Session",menu3[2].getText());
 	}
 
@@ -198,8 +198,8 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("B","abc"+myspace+"def"+myspace+"ghi"+myspace+"jkl",mParsing.getText(0));
 		assertEquals("C","",mParsing.getText(1));
 		
-		assertTrue("D",mParsing.parse("<P><![CDATA[é\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}]]></P>"));
-		assertEquals("E","é\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}",mParsing.getText(0));
+		assertTrue("D",mParsing.parse("<P><![CDATA[e\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}]]></P>"));
+		assertEquals("E","e\"'(-è_çà)=*ù!:,?./§%µ£+°0987654321¹~#|`\\^@;<>[]{}",mParsing.getText(0));
 	}
 	
 }
