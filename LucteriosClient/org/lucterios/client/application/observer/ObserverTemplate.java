@@ -30,6 +30,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.lang.ref.WeakReference;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -111,7 +112,7 @@ public class ObserverTemplate extends ObserverAbstract {
 	}
 
 	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
-		mGUIDialog = aGUI;
+		mGUIDialog = new WeakReference<Dialog>(aGUI);
 		aGUI.setTitle(aTitle);
 		aGUI.getContentPane().setLayout(new java.awt.BorderLayout());
 		GridBagConstraints gridBagConstraints;
@@ -220,7 +221,7 @@ public class ObserverTemplate extends ObserverAbstract {
 
 	public void preview() {
 		try {
-			mGUIDialog
+			getGUIDialog()
 					.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			try {
 				URL url = Singletons.Transport().getUrl();
@@ -230,10 +231,10 @@ public class ObserverTemplate extends ObserverAbstract {
 				String print_pre_fop = model.toXap(mDataXML, "");
 				FopGenerator fop_generator = new FopGenerator(print_pre_fop,
 						"Previsualisation", false);
-				fop_generator.SelectPrintMedia(null, mGUIDialog,
+				fop_generator.SelectPrintMedia(null, getGUIDialog(),
 						SelectPrintDlg.MODE_PREVIEW, null);
 			} finally {
-				mGUIDialog.setCursor(Cursor.getDefaultCursor());
+				getGUIDialog().setCursor(Cursor.getDefaultCursor());
 			}
 		} catch (LucteriosException e) {
 			ExceptionDlg.throwException(e);
@@ -272,8 +273,8 @@ public class ObserverTemplate extends ObserverAbstract {
 		if (!closed) {
 			closed = true;
 			super.close(aMustRefreshParent);
-			if (mGUIDialog != null)
-				mGUIDialog.dispose();
+			if (getGUIDialog() != null)
+				getGUIDialog().dispose();
 			org.lucterios.utils.Tools.postOrderGC();
 		}
 	}

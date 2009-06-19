@@ -20,6 +20,7 @@
 
 package org.lucterios.client.presentation;
 
+import java.lang.ref.WeakReference;
 import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
@@ -55,19 +56,19 @@ public class ObserverStub extends ObserverAbstract {
 	public void show(String aTitle) {
 		mShow = true;
 		mTitle = aTitle;
-		if (mGUIFrame != null)
-			mGUIFrame.setVisible(true);
-		if (mGUIDialog != null)
-			mGUIDialog.setVisible(true);
+		if (getGUIFrame() != null)
+			getGUIFrame().setVisible(true);
+		if (getGUIDialog() != null)
+			getGUIDialog().setVisible(true);
 	}
 
 	public void show(String aTitle, Form aGUI) {
-		mGUIFrame = aGUI;
+		mGUIFrame = new WeakReference<Form>(aGUI);
 		show(aTitle);
 	}
 
 	public void show(String aTitle, Dialog aGUI) {
-		mGUIDialog = aGUI;
+		mGUIDialog = new WeakReference<Dialog>(aGUI);
 		show(aTitle);
 	}
 
@@ -81,10 +82,10 @@ public class ObserverStub extends ObserverAbstract {
 
 	public void close(boolean aMustRefreshParent) {
 		mClose = true;
-		if (mGUIFrame != null)
-			mGUIFrame.setVisible(false);
-		if (mGUIDialog != null)
-			mGUIDialog.setVisible(false);
+		if (getGUIFrame() != null)
+			getGUIFrame().setVisible(false);
+		if (getGUIDialog() != null)
+			getGUIDialog().setVisible(false);
 		super.close(aMustRefreshParent);
 	}
 

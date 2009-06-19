@@ -88,6 +88,9 @@ public class Form extends JFrame {
 		}
 		if (mNotifyFrameList != null)
 			mNotifyFrameList.removeFrame(this);
+        mNotifyFrameList = null;
+        mNotifyFrameChange = null;
+        mFrameControle = null;
 	}
 
 	public void Change() {

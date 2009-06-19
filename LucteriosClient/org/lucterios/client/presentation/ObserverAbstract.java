@@ -92,22 +92,24 @@ public abstract class ObserverAbstract implements Observer {
 
 	public void setContent(SimpleParsing aContent) {
 		mContent = aContent;
-		SimpleParsing xml_item_close = mContent.getFirstSubTag("CLOSE_ACTION");
-		if (xml_item_close != null) {
-			SimpleParsing[] xml_items = xml_item_close.getSubTag("ACTION");
-			if (xml_items != null) {
-				for (int action_idx = 0; (mCloseAction == null)
-						&& (action_idx < xml_items.length); action_idx++) {
-					SimpleParsing xml_item = xml_items[action_idx];
-					mCloseAction = new ActionImpl();
-					mCloseAction.initialize(this, Singletons.Factory(),
-							xml_item);
-					mCloseAction.setCheckNull(false);
-					mCloseAction.setClose(true);
-					mCloseAction.setUsedContext(true);
-				}
-			}
-		}
+        if (mContent!=null) {
+            SimpleParsing xml_item_close = mContent.getFirstSubTag("CLOSE_ACTION");
+            if (xml_item_close != null) {
+                SimpleParsing[] xml_items = xml_item_close.getSubTag("ACTION");
+                if (xml_items != null) {
+                    for (int action_idx = 0; (mCloseAction == null)
+                            && (action_idx < xml_items.length); action_idx++) {
+                        SimpleParsing xml_item = xml_items[action_idx];
+                        mCloseAction = new ActionImpl();
+                        mCloseAction.initialize(this, Singletons.Factory(),
+                                xml_item);
+                        mCloseAction.setCheckNull(false);
+                        mCloseAction.setClose(true);
+                        mCloseAction.setUsedContext(true);
+                    }
+                }
+            }
+        }
 	}
 
 	public SimpleParsing getContent() {
@@ -115,12 +117,15 @@ public abstract class ObserverAbstract implements Observer {
 	}
 
 	public String getContentText(){
-		String content = mContent.getSubContent();
-		int pos = content.indexOf("<CONTEXT/>");
-		if (pos == -1)
-			pos = content.indexOf("</CONTEXT>");
-		if (pos != -1)
-			content = content.substring(pos + 10);
+		String content = "";
+        if (mContent!=null) {
+            content = mContent.getSubContent();
+            int pos = content.indexOf("<CONTEXT/>");
+            if (pos == -1)
+                pos = content.indexOf("</CONTEXT>");
+            if (pos != -1)
+                content = content.substring(pos + 10);
+        }
 		return content;
 	}
 	
@@ -152,15 +157,21 @@ public abstract class ObserverAbstract implements Observer {
 			mTitle = aTitle;
 	}
 
-	protected Form mGUIFrame = null;
-	protected Dialog mGUIDialog = null;
+	protected WeakReference<Form> mGUIFrame = null;
+	protected WeakReference<Dialog> mGUIDialog = null;
 
 	public Form getGUIFrame() {
-		return mGUIFrame;
+        if (mGUIFrame!=null)
+            return mGUIFrame.get();
+        else
+            return null;
 	}
 
 	public Dialog getGUIDialog() {
-		return mGUIDialog;
+        if (mGUIDialog!=null)
+            return mGUIDialog.get();
+        else
+            return null;
 	}
 
 	public void setActive(boolean aIsActive) {

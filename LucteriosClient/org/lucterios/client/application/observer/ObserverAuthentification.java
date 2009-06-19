@@ -49,6 +49,7 @@ public class ObserverAuthentification extends ObserverAbstract {
 			Singletons.Transport().setSession("");
 			LogonBox logon_box = new LogonBox();
 			logon_box.logon(cdate);
+            logon_box.dispose();
 		} else if (mConnection != null) {
 			SimpleParsing xml_connection = mContent.getFirstSubTag("CONNECTION");
 			ApplicationDescription desc=new ApplicationDescription(xml_connection.getCDataOfFirstTag("TITLE"),

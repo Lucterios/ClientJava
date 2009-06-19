@@ -109,6 +109,8 @@ public class CustomManager extends JAdvancePanel {
 	protected void clear() {
 		mCmponents.clear();
 		mComposants.clear();
+        if (PnlTab != null)
+            PnlTab.removeChangeListener(ChangeTab);
 		PnlTab = null;
 	}
 
@@ -246,6 +248,7 @@ public class CustomManager extends JAdvancePanel {
 		repaint();
 		if (PnlTab != null)
 			PnlTab.setSelectedIndex(tabActif);
+        mComposants.clear();
 	}
 
 	private void removeComponentNotUsed() {

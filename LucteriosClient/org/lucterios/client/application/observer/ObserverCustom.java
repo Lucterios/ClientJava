@@ -27,6 +27,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 
+import java.lang.ref.WeakReference;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -97,10 +98,10 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		synchronized (mSynchronizedObj) {
 			if (mGUIContainer!=null) {
 				mGUIContainer.setFocusable(false);
-				if (mGUIFrame != null)
-					mGUIFrame.requestFocus();
-				if (mGUIDialog != null)
-					mGUIDialog.requestFocus();
+				if (getGUIFrame() != null)
+					getGUIFrame().requestFocus();
+				if (getGUIDialog() != null)
+					getGUIDialog().requestFocus();
 				Cmponent new_Cmponent_focused = null;
 				if (mNameComponentFocused != null)
 					new_Cmponent_focused = getCustomManager().getCmponentName(mNameComponentFocused);
@@ -166,6 +167,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 				java.awt.Dimension size = mGUIContainer.getSize();
 				mGUIContainer.setSize(size);
 			}
+            super.setContent(null);
 		}
 	}
 
@@ -177,10 +179,10 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			JScrollBar hori = mScrollbar.getHorizontalScrollBar();
 			hori.setValue(hori.getMinimum());
 		}
-		if (mGUIDialog != null)
-			mGUIDialog.toFront();
-		if (mGUIFrame != null)
-			mGUIFrame.toFront();
+		if (getGUIDialog() != null)
+			getGUIDialog().toFront();
+		if (getGUIFrame() != null)
+			getGUIFrame().toFront();
 		getfocusToMainCmponent();
 		setActive(true);
 		if ((mCustomManager!=null) && (getCustomManager()!=null)) {
@@ -195,30 +197,30 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		try {
 			if (mGUIContainer != null)
 				fillPanel();
-			if (mGUIFrame != null) {
+			if (getGUIFrame() != null) {
 				if (aTitle != null)
-					mGUIFrame.setTitle(getTitle());
-				mGUIFrame.getRootPane().setDefaultButton(mDefaultBtn);
-				java.awt.Dimension size = mGUIFrame.getSize();
-				java.awt.Dimension pref_size = mGUIFrame.getPreferredSize();
-				mGUIFrame.setPreferredSize(size);
-				mGUIFrame.pack();
-				mGUIFrame.setPreferredSize(pref_size);
-				mGUIFrame.setSize(size);
-				mGUIFrame.Change();
-				mGUIFrame.toFront();
+					getGUIFrame().setTitle(getTitle());
+				getGUIFrame().getRootPane().setDefaultButton(mDefaultBtn);
+				java.awt.Dimension size = getGUIFrame().getSize();
+				java.awt.Dimension pref_size = getGUIFrame().getPreferredSize();
+				getGUIFrame().setPreferredSize(size);
+				getGUIFrame().pack();
+				getGUIFrame().setPreferredSize(pref_size);
+				getGUIFrame().setSize(size);
+				getGUIFrame().Change();
+				getGUIFrame().toFront();
 			}
-			if (mGUIDialog != null) {
+			if (getGUIDialog() != null) {
 				if (aTitle != null)
-					mGUIDialog.setTitle(getTitle());
-				mGUIDialog.getRootPane().setDefaultButton(mDefaultBtn);
-				java.awt.Dimension size = mGUIDialog.getSize();
-				java.awt.Dimension pref_size = mGUIDialog.getPreferredSize();
-				mGUIDialog.setPreferredSize(size);
-				mGUIDialog.pack();
-				mGUIDialog.setPreferredSize(pref_size);
-				mGUIDialog.setSize(size);
-				mGUIDialog.toFront();
+					getGUIDialog().setTitle(getTitle());
+				getGUIDialog().getRootPane().setDefaultButton(mDefaultBtn);
+				java.awt.Dimension size = getGUIDialog().getSize();
+				java.awt.Dimension pref_size = getGUIDialog().getPreferredSize();
+				getGUIDialog().setPreferredSize(size);
+				getGUIDialog().pack();
+				getGUIDialog().setPreferredSize(pref_size);
+				getGUIDialog().setSize(size);
+				getGUIDialog().toFront();
 			}
 		} finally {
 			setNameComponentFocused(old_name_component_focused);
@@ -229,41 +231,41 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void show(String aTitle, Form aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIFrame = aGUI;
-		if (mGUIFrame != null) {
-			mGUIContainer = mGUIFrame.getContentPane();
+		mGUIFrame=new WeakReference<Form>(aGUI);
+		if (getGUIFrame() != null) {
+			mGUIContainer = getGUIFrame().getContentPane();
 			if (aTitle != null)
-				mGUIFrame.setTitle(getTitle());
+				getGUIFrame().setTitle(getTitle());
 			fillPanel();
-			mGUIFrame.getRootPane().setDefaultButton(mDefaultBtn);
-			mGUIFrame.setNotifyFrameObserver(this);
-			java.awt.Dimension size = mGUIFrame.getSize();
-			mGUIFrame.pack();
-			mGUIFrame.setSize(size);
-			mGUIFrame.setVisible(true);
-			mGUIFrame.Change();
+			getGUIFrame().getRootPane().setDefaultButton(mDefaultBtn);
+			getGUIFrame().setNotifyFrameObserver(this);
+			java.awt.Dimension size = getGUIFrame().getSize();
+			getGUIFrame().pack();
+			getGUIFrame().setSize(size);
+			getGUIFrame().setVisible(true);
+			getGUIFrame().Change();
 			SwingUtilities.invokeLater(this);
 		}
 	}
 
 	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIDialog = aGUI;
-		if (mGUIDialog != null) {
-			mGUIContainer = mGUIDialog.getContentPane();
+		mGUIDialog = new WeakReference<Dialog>(aGUI);
+		if (getGUIDialog() != null) {
+			mGUIContainer = getGUIDialog().getContentPane();
 			if (aTitle != null)
-				mGUIDialog.setTitle(getTitle());
+				getGUIDialog().setTitle(getTitle());
 			fillPanel();
-			mGUIDialog.getRootPane().setDefaultButton(mDefaultBtn);
-			mGUIDialog.setNotifyFrameClose(this);
-			mGUIDialog.pack();
+			getGUIDialog().getRootPane().setDefaultButton(mDefaultBtn);
+			getGUIDialog().setNotifyFrameClose(this);
+			getGUIDialog().pack();
 			Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-			Dimension dialog = mGUIDialog.getSize();
-			mGUIDialog.setLocation((screen.width - dialog.width) / 2,
+			Dimension dialog = getGUIDialog().getSize();
+			getGUIDialog().setLocation((screen.width - dialog.width) / 2,
 					(screen.height - dialog.height) / 2);
-			mGUIDialog.setSize((int)(dialog.width*1.05), (int)(dialog.height*1.05));
+			getGUIDialog().setSize((int)(dialog.width*1.05), (int)(dialog.height*1.05));
 			SwingUtilities.invokeLater(this);
-			mGUIDialog.setVisible(true);
+			getGUIDialog().setVisible(true);
 		}
 	}
 
@@ -314,10 +316,10 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void setActive(boolean aIsActive) {
 		synchronized (mSynchronizedObj) {
-			if (mGUIDialog != null)
-				mGUIDialog.setActive(aIsActive);
-			if (mGUIFrame != null)
-				mGUIFrame.setActive(aIsActive);
+			if (getGUIDialog() != null)
+				getGUIDialog().setActive(aIsActive);
+			if (getGUIFrame() != null)
+				getGUIFrame().setActive(aIsActive);
 			if (mGUIContainer != null) {
 				mGUIContainer.setEnabled(aIsActive);
 				for (int cmp_idx = 0; cmp_idx < getCustomManager()
@@ -353,13 +355,11 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 				mGUIContainer.removeAll();
 				mGUIContainer=null;
 			}
-			if (mGUIDialog != null)
-				mGUIDialog.dispose();
-			if (mGUIFrame != null)
-				mGUIFrame.dispose();
+			if (getGUIDialog() != null)
+				getGUIDialog().dispose();
+			if (getGUIFrame() != null)
+				getGUIFrame().dispose();
 			mCustomManager = null;
-			mGUIDialog = null;
-			mGUIFrame = null;
 			mScrollbar= null;
 			mDefaultBtn= null;
 			mActions= null;

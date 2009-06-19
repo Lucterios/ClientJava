@@ -101,6 +101,8 @@ public class Dialog extends JDialog {
 			mNotifyFrameClose.close(true);
 			mNotifyFrameClose = null;
 		}
+        mNotifyFrameClose = null;
+        mFrameControle = null;
 	}
 
 	public void refresh() {

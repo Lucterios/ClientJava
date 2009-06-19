@@ -584,6 +584,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			throwException(e);
 			disconnectSession();
 		}
+        logon_box.dispose();
 		mShowStatus = false;
 		refreshMainFrame();
 	}

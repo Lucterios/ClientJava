@@ -25,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.lang.ref.WeakReference;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -67,9 +68,9 @@ public class ObserverDialogBox extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
-		if ((mGUIDialog != null) && (mGUIContainer != null)) {
+		if ((getGUIDialog() != null) && (mGUIContainer != null)) {
 			if (aTitle != null)
-				mGUIDialog.setTitle(getTitle());
+				getGUIDialog().setTitle(getTitle());
 			mGUIContainer.removeAll();
 			mGUIContainer.setLayout(new GridBagLayout());
 
@@ -106,7 +107,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 			lbl_message.setEditable(false);
 			lbl_message.setFocusable(false);
 			lbl_message.setContentType("text/html");
-			// lbl_message.setBackground(mGUIDialog.getBackground());
+			// lbl_message.setBackground(getGUIDialog().getBackground());
 			gdbConstr_lbl.gridx = 1;
 			gdbConstr_lbl.gridy = 0;
 			gdbConstr_lbl.gridwidth = GridBagConstraints.REMAINDER;
@@ -164,16 +165,16 @@ public class ObserverDialogBox extends ObserverAbstract {
 	}
 
 	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
-		mGUIDialog = aGUI;
+		mGUIDialog = new WeakReference<Dialog>(aGUI);
 		mGUIContainer = aGUI.getContentPane();
 		show(aTitle);
-		mGUIDialog.setNotifyFrameClose(this);
-		mGUIDialog.pack();
+		getGUIDialog().setNotifyFrameClose(this);
+		getGUIDialog().pack();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		mGUIDialog.setLocation((screen.width - mGUIDialog.getSize().width) / 2,
-				(screen.height - mGUIDialog.getSize().height) / 2);
-		mGUIDialog.setResizable(false);
-		mGUIDialog.setVisible(true);
+		getGUIDialog().setLocation((screen.width - getGUIDialog().getSize().width) / 2,
+				(screen.height - getGUIDialog().getSize().height) / 2);
+		getGUIDialog().setResizable(false);
+		getGUIDialog().setVisible(true);
 	}
 
 	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
@@ -181,7 +182,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 	}
 
 	public void setActive(boolean aIsActive) {
-		mGUIDialog.setActive(aIsActive);
+		getGUIDialog().setActive(aIsActive);
 		mPnlBtn.setEnabled(aIsActive);
 	}
 
@@ -194,8 +195,8 @@ public class ObserverDialogBox extends ObserverAbstract {
 				mGUIContainer.removeAll();
 				mGUIContainer=null;
 			}
-			if (mGUIDialog != null)
-				mGUIDialog.dispose();
+			if (getGUIDialog() != null)
+				getGUIDialog().dispose();
 			super.close(aMustRefreshParent);
 			Tools.postOrderGC();
 		}

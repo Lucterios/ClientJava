@@ -79,6 +79,7 @@ class Main {
 						LogonBox logon_box = new LogonBox();
 						logon_box.mActionSetUp = run_setup_dlg;
 						logon_box.logon("");
+                        logon_box.dispose();
 					} catch (LucteriosException e) {
 						ExceptionDlg.throwException(e);
 					}
