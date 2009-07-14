@@ -56,6 +56,7 @@ public class DemoPrint extends JFrame
     private JButton btn_in;
     private JButton btn_out;
     private JButton btn_preview;
+    private JCheckBox cb_WithText;
     private File mOutFile=null;
     
     public DemoPrint()
@@ -142,6 +143,14 @@ public class DemoPrint extends JFrame
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnl_bnt.add(btn_preview, gridBagConstraints);
+
+        cb_WithText=new JCheckBox();
+        cb_WithText.setText("With text export ?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth=3;
+        pnl_bnt.add(cb_WithText, gridBagConstraints);
         
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -185,7 +194,7 @@ public class DemoPrint extends JFrame
     		model.Run();
     		String print_pre_fop=model.toXap(XmlDataEditor.getText(),"");
     		FopGenerator fop_generator=new FopGenerator(print_pre_fop,"Exemple",false);
-    		fop_generator.SelectPrintMedia(this,null,SelectPrintDlg.MODE_NONE,null);
+    		fop_generator.SelectPrintMedia(this,null,SelectPrintDlg.MODE_NONE,cb_WithText.isSelected(),null,null);
 
     		if (mOutFile!=null) 
 			try {
@@ -222,7 +231,7 @@ public class DemoPrint extends JFrame
     	{
 			InputStream is_result = new FileInputStream(new File(args[0]));
     		FopGenerator fop_generator=new FopGenerator(Tools.parseISToString(is_result),"Exemple",false);
-    		fop_generator.SelectPrintMedia(null,null,SelectPrintDlg.MODE_NONE,null);
+    		fop_generator.SelectPrintMedia(null,null,SelectPrintDlg.MODE_NONE,true,null,null);
 		} catch (Exception e) {
     		ExceptionDlg.throwException(e);
 		} else {

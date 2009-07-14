@@ -36,46 +36,55 @@ public class SelectPrintDlg extends JDialog
 	public static final int MODE_NONE = 0;
 	public static final int MODE_PRINT = 1;
 	public static final int MODE_PREVIEW = 2;
-	public static final int MODE_EXPORT = 3;
+	public static final int MODE_EXPORT_PDF = 3;
+	public static final int MODE_EXPORT_CSV = 4;
 	public static Image FontImage=null; 
 	
 	private javax.swing.ButtonGroup btgrp;
 	private javax.swing.JButton btn_Ok;
 	private javax.swing.JButton btn_Cancel;
-	private javax.swing.JButton btn_select;
+	private javax.swing.JButton btn_select_pdf;
+	private javax.swing.JButton btn_select_csv;
 	private javax.swing.JPanel pnl_btn;
 	private javax.swing.JRadioButton rb_print;
 	private javax.swing.JRadioButton rb_preview;
-	private javax.swing.JRadioButton rb_export;
-	private javax.swing.JTextField txt_FileName;
+	private javax.swing.JRadioButton rb_export_pdf;
+	private javax.swing.JTextField txt_FileName_pdf;
+	private javax.swing.JRadioButton rb_export_csv;
+	private javax.swing.JTextField txt_FileName_csv;
 	private javax.swing.JLabel lbl_message;
 	private JFrame m_ownerF=null;
 	private JDialog m_ownerD=null;
 
 	private JAdvancePanel m_MainPanel;
 	
-	public SelectPrintDlg()
+	private boolean mWithExportText=false;
+	
+	public SelectPrintDlg(boolean aWithExportText)
 	{
 		super();
+		mWithExportText=aWithExportText;
 		setModal(true);
 		initPrintDlg();
 	}
 	
-	public SelectPrintDlg(javax.swing.JDialog aOwnerD)
+	public SelectPrintDlg(javax.swing.JDialog aOwnerD,boolean aWithExportText)
 	{
 		super(aOwnerD, true);
+		mWithExportText=aWithExportText;
 		m_ownerD=aOwnerD;
 		initPrintDlg();
 	}
 	
-	public SelectPrintDlg(javax.swing.JFrame aOwnerF)
+	public SelectPrintDlg(javax.swing.JFrame aOwnerF,boolean aWithExportText)
 	{
 		super(aOwnerF, true);
+		mWithExportText=aWithExportText;
 		m_ownerF=aOwnerF;
 		initPrintDlg();
 	}
 
-    public static String getDefaultPDFFileName(String aTitle)
+    public static String getDefaultFileName(String aTitle,String aExtFile)
     {
 		String homeDir = System.getProperty("user.home");
 		java.io.File home_dir=new java.io.File(homeDir);
@@ -84,24 +93,29 @@ public class SelectPrintDlg extends JDialog
 		if (new java.io.File(homeDir+"/Bureau").exists())
 			home_dir=new java.io.File(homeDir+"/Bureau");
 		String title=Tools.getFileNameWithoutForgottenChar(aTitle);
-		java.io.File file_exp=new java.io.File(home_dir,title+".pdf");
+		java.io.File file_exp=new java.io.File(home_dir,title+aExtFile);
 		return file_exp.getAbsolutePath();
     }
 
-    public static java.io.File getSelectedPDFFileName(String aInitFileName,JFrame aOwnerF,JDialog aOwnerD) 
+    public static java.io.File getSelectedFileName(String aInitFileName,JFrame aOwnerF,JDialog aOwnerD,String aExtFile) 
 	{
 		java.io.File file_name=new java.io.File(aInitFileName);
 		JFileChooser file_dlg;
 		file_dlg = new JFileChooser(file_name.getParent());
 		file_dlg.setSelectedFile(file_name);
-		file_dlg.setFileFilter(new PDFFilter());
+		file_dlg.setFileFilter(new ExtensionFilter(aExtFile));
 		int returnVal;
 		if (aOwnerD!=null)
 			returnVal = file_dlg.showSaveDialog(aOwnerD);
 		else
 			returnVal = file_dlg.showSaveDialog(aOwnerF);
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
-	    	return file_dlg.getSelectedFile();
+	    	java.io.File select=file_dlg.getSelectedFile();
+	    	if (select.getName().toLowerCase().endsWith(aExtFile))
+	    		return select;
+	    	else {
+	    		return new java.io.File(select.getAbsolutePath()+aExtFile);
+	    	}
 	    }
 	    return null;
 	}
@@ -124,15 +138,18 @@ public class SelectPrintDlg extends JDialog
 
 		btgrp = new javax.swing.ButtonGroup();
 		lbl_message = new javax.swing.JLabel();
-		txt_FileName = new javax.swing.JTextField();
+		txt_FileName_pdf = new javax.swing.JTextField();
+		txt_FileName_csv = new javax.swing.JTextField();
 		pnl_btn = new javax.swing.JPanel();
 		btn_Cancel = new javax.swing.JButton();
 		btn_Ok = new javax.swing.JButton();
-		btn_select = new javax.swing.JButton();
+		btn_select_pdf = new javax.swing.JButton();
+		btn_select_csv = new javax.swing.JButton();
 		rb_print = new javax.swing.JRadioButton();
 		rb_preview = new javax.swing.JRadioButton();
-		rb_export = new javax.swing.JRadioButton();
-	
+		rb_export_pdf = new javax.swing.JRadioButton();
+		rb_export_csv = new javax.swing.JRadioButton();
+		
 		m_MainPanel.setLayout(new java.awt.GridBagLayout());
 	
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -149,15 +166,25 @@ public class SelectPrintDlg extends JDialog
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
 		m_MainPanel.add(lbl_message, gridBagConstraints);
 	
-		txt_FileName.setEnabled(false);
-		txt_FileName.setMinimumSize(new java.awt.Dimension(250, 19));
-		txt_FileName.setPreferredSize(new java.awt.Dimension(250, 19));
+		txt_FileName_pdf.setEnabled(false);
+		txt_FileName_pdf.setMinimumSize(new java.awt.Dimension(250, 19));
+		txt_FileName_pdf.setPreferredSize(new java.awt.Dimension(250, 19));
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 3;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		m_MainPanel.add(txt_FileName, gridBagConstraints);
-	
+		m_MainPanel.add(txt_FileName_pdf, gridBagConstraints);
+
+		txt_FileName_csv.setEnabled(false);
+		txt_FileName_csv.setVisible(mWithExportText);
+		txt_FileName_csv.setMinimumSize(new java.awt.Dimension(250, 19));
+		txt_FileName_csv.setPreferredSize(new java.awt.Dimension(250, 19));
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		m_MainPanel.add(txt_FileName_csv, gridBagConstraints);
+
 		pnl_btn.setLayout(new java.awt.GridBagLayout());
 	
 		btn_Cancel.setMnemonic('a');
@@ -199,12 +226,12 @@ public class SelectPrintDlg extends JDialog
 	
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
+		gridBagConstraints.gridy = 5;
 		gridBagConstraints.gridwidth = 3;
 		m_MainPanel.add(pnl_btn, gridBagConstraints);
 	
-		btn_select.setText("...");
-		btn_select.addActionListener(new java.awt.event.ActionListener() {
+		btn_select_pdf.setText("...");
+		btn_select_pdf.addActionListener(new java.awt.event.ActionListener() {
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
 			btn_selectActionPerformed(evt);
 		}
@@ -212,8 +239,20 @@ public class SelectPrintDlg extends JDialog
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 2;
 		gridBagConstraints.gridy = 3;
-		m_MainPanel.add(btn_select, gridBagConstraints);
+		m_MainPanel.add(btn_select_pdf, gridBagConstraints);
 	
+		btn_select_csv.setText("...");
+		btn_select_csv.setVisible(mWithExportText);
+		btn_select_csv.addActionListener(new java.awt.event.ActionListener() {
+		public void actionPerformed(java.awt.event.ActionEvent evt) {
+			btn_selectActionPerformed(evt);
+		}
+		});		
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 4;
+		m_MainPanel.add(btn_select_csv, gridBagConstraints);
+		
 		btgrp.add(rb_print);
 		rb_print.setMnemonic('i');
 		rb_print.setSelected(true);
@@ -237,23 +276,47 @@ public class SelectPrintDlg extends JDialog
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
 		m_MainPanel.add(rb_preview, gridBagConstraints);
 	
-		btgrp.add(rb_export);
-		rb_export.setMnemonic('e');
-		rb_export.setText("Export PDF");
-		rb_export.setOpaque(false);
+		btgrp.add(rb_export_pdf);
+		rb_export_pdf.setMnemonic('e');
+		rb_export_pdf.setText("Export PDF");
+		rb_export_pdf.setOpaque(false);
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 3;
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-		m_MainPanel.add(rb_export, gridBagConstraints);				
+		m_MainPanel.add(rb_export_pdf, gridBagConstraints);				
+
+		btgrp.add(rb_export_csv);
+		rb_export_csv.setMnemonic('c');
+		rb_export_csv.setText("Export CSV");
+		rb_export_csv.setOpaque(false);
+		rb_export_csv.setVisible(mWithExportText);
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		m_MainPanel.add(rb_export_csv, gridBagConstraints);				
 	}
 	
 	private void btn_selectActionPerformed(java.awt.event.ActionEvent evt) 
 	{
-		java.io.File file_exp=getSelectedPDFFileName(txt_FileName.getText(),m_ownerF,m_ownerD);
-		if (file_exp!=null) {
-			txt_FileName.setText(file_exp.getAbsolutePath());		
-			rb_export.setSelected(true);
+		java.io.File file_exp;
+		if (evt.getSource() instanceof JButton) {
+			JButton btn=(JButton)evt.getSource();
+			if (btn==btn_select_pdf) {			
+				file_exp=getSelectedFileName(txt_FileName_pdf.getText(),m_ownerF,m_ownerD,ExtensionFilter.EXTENSION_EXPORT_PDF);
+				if (file_exp!=null) {
+					txt_FileName_pdf.setText(file_exp.getAbsolutePath());		
+					rb_export_pdf.setSelected(true);
+				}
+			}
+			if (btn==btn_select_csv) {
+   			    file_exp=getSelectedFileName(txt_FileName_csv.getText(),m_ownerF,m_ownerD,ExtensionFilter.EXTENSION_EXPORT_CSV);
+				if (file_exp!=null) {
+					txt_FileName_csv.setText(file_exp.getAbsolutePath());		
+					rb_export_csv.setSelected(true);
+				}
+			}
 		}
 	}
 	
@@ -263,8 +326,10 @@ public class SelectPrintDlg extends JDialog
 			mChose=MODE_PRINT;
 		else if (rb_preview.isSelected())
 			mChose=MODE_PREVIEW;
-		else if (rb_export.isSelected())
-			mChose=MODE_EXPORT;
+		else if (rb_export_pdf.isSelected())
+			mChose=MODE_EXPORT_PDF;
+		else if (rb_export_csv.isSelected())
+			mChose=MODE_EXPORT_CSV;
 		else 			
 			mChose=MODE_NONE;
 		dispose();
@@ -276,16 +341,28 @@ public class SelectPrintDlg extends JDialog
 		dispose();
 	}
 
-	public String getExportFile()
+	public String getExportFile(int aType)
 	{
-		return txt_FileName.getText();
+		switch(aType) {
+			case  SelectPrintDlg.MODE_EXPORT_PDF:
+			{
+				return txt_FileName_pdf.getText();
+			}
+			case  SelectPrintDlg.MODE_EXPORT_CSV:
+			{
+				return txt_FileName_csv.getText();
+			}
+			default:
+				return "";
+		}
 	}
 
 	private int mChose=MODE_NONE;
 	
 	public int getChose()
 	{
-		txt_FileName.setText(getDefaultPDFFileName(mTitle));
+		txt_FileName_pdf.setText(getDefaultFileName(mTitle,ExtensionFilter.EXTENSION_EXPORT_PDF));
+		txt_FileName_csv.setText(getDefaultFileName(mTitle,ExtensionFilter.EXTENSION_EXPORT_CSV));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);       		
 		pack();

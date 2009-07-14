@@ -37,6 +37,7 @@ public class ObserverPrint extends ObserverAbstract {
 	String title = "";
 	int type = 0;
 	int mode = SelectPrintDlg.MODE_NONE;
+	boolean withTextExport=false;
 
 	public String getObserverName() {
 		return "Core.Print";
@@ -51,6 +52,7 @@ public class ObserverPrint extends ObserverAbstract {
 			title = fo_elements.getAttribut("title");
 			type = fo_elements.getAttributInt("type", 0);
 			mode = fo_elements.getAttributInt("mode", SelectPrintDlg.MODE_NONE);
+			withTextExport = (fo_elements.getAttributInt("withTextExport", 0)!=0);
 			xml_content = fo_elements.getText();
 		}
 	}
@@ -78,7 +80,7 @@ public class ObserverPrint extends ObserverAbstract {
 			owner_frame = getGUIFrame();
 		}
 		FopGenerator generator = new FopGenerator(xml_content, title, type == 0);
-		generator.SelectPrintMedia(owner_frame, owner_dialog, mode, null);
+		generator.SelectPrintMedia(owner_frame, owner_dialog, mode,withTextExport, null, null);
 	}
 
 	public void show(String aTitle, Form new_frame) throws LucteriosException {

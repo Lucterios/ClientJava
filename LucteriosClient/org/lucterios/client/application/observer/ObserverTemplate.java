@@ -231,8 +231,7 @@ public class ObserverTemplate extends ObserverAbstract {
 				String print_pre_fop = model.toXap(mDataXML, "");
 				FopGenerator fop_generator = new FopGenerator(print_pre_fop,
 						"Previsualisation", false);
-				fop_generator.SelectPrintMedia(null, getGUIDialog(),
-						SelectPrintDlg.MODE_PREVIEW, null);
+				fop_generator.SelectPrintMedia(null, getGUIDialog(), SelectPrintDlg.MODE_PREVIEW,false, null, null);
 			} finally {
 				getGUIDialog().setCursor(Cursor.getDefaultCursor());
 			}

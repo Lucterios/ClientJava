@@ -69,10 +69,14 @@ public class Update {
 	private int mVersionBuild;
 
 	private int getValue(String[] versions, int num) {
-		if (num < versions.length)
-			return Integer.parseInt(versions[num].trim());
-		else
-			return 0;
+		try {
+			if (num < versions.length)
+				return Integer.parseInt(versions[num].trim());
+			else
+				return 0;
+		} catch(Exception e){
+			return 0;			
+		}
 	}
 
 	public void readVersion() {

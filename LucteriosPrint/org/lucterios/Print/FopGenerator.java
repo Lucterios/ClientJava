@@ -25,10 +25,10 @@ import java.awt.Toolkit;
 import java.awt.print.*;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -68,17 +68,19 @@ public class FopGenerator
 		}
 	};
 
+	protected String mXMLContent=null;
 	protected String mFoContent=null;
 	protected String mTitle="";
 	
 	public FopGenerator(String xmlContent,String title,boolean fopFormat) throws LucteriosException
 	{
+		mXMLContent=xmlContent;
 		if (fopFormat)
 			mFoContent=xmlContent;
 		else
 		{
 			String xsl_lucterios=Tools.parseISToString(getClass().getResourceAsStream("resources/LucteriosPrintStyleForFo.xsl"));
-			mFoContent=ModelConverter.TransformXsl(xmlContent,xsl_lucterios);
+			mFoContent=ModelConverter.TransformXsl(mXMLContent,xsl_lucterios,true);
 		}
 		mTitle=title;
 	}
@@ -126,25 +128,51 @@ public class FopGenerator
 		}
 	}
 	
-	public void savePDF(File aPdfFile,JFrame aOwnerF,JDialog aOwnerD) throws LucteriosException 
+	public void saveFilePDF(File aPdfFile,JFrame aOwnerF,JDialog aOwnerD) throws LucteriosException 
 	{		
 		if (aPdfFile==null)
 		{
-			aPdfFile=SelectPrintDlg.getSelectedPDFFileName(SelectPrintDlg.getDefaultPDFFileName(mTitle),aOwnerF,aOwnerD);
+			aPdfFile=SelectPrintDlg.getSelectedFileName(SelectPrintDlg.getDefaultFileName(mTitle,ExtensionFilter.EXTENSION_EXPORT_PDF),aOwnerF,aOwnerD,ExtensionFilter.EXTENSION_EXPORT_PDF);
 			if (aPdfFile==null)
 				return;
 		}
 		try {
+			if (aPdfFile.exists())
+				aPdfFile.delete();
 		    FopFactory fopFactory = FopFactory.newInstance();
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
             OutputStream out = new FileOutputStream(aPdfFile);
-            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
+            Fop fop= fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(); // identity transformer
             Source src = new StreamSource(getSource());
             Result res = new SAXResult(fop.getDefaultHandler());
             transformer.transform(src, res);
 			
+		} catch (Exception e) {
+			throw new LucteriosException("Erreur de sauvegarde","",Tools.HTMLEntityEncode(mFoContent),e);
+		}
+	}		
+
+	public void saveFileCSV(File aCSVFile,JFrame aOwnerF,JDialog aOwnerD) throws LucteriosException 
+	{		
+		if (aCSVFile==null)
+		{
+			aCSVFile=SelectPrintDlg.getSelectedFileName(SelectPrintDlg.getDefaultFileName(mTitle,ExtensionFilter.EXTENSION_EXPORT_CSV),aOwnerF,aOwnerD,ExtensionFilter.EXTENSION_EXPORT_CSV);
+			if (aCSVFile==null)
+				return;
+		}
+		try {
+			if (aCSVFile.exists())
+				aCSVFile.delete();
+			String xsl_lucterios=Tools.parseISToString(getClass().getResourceAsStream("resources/ConvertxlpToCSV.xsl"));
+			String source_content=mXMLContent.replace('\t',' ');
+
+			String cvs_content=ModelConverter.TransformXsl(source_content,xsl_lucterios,false);
+			
+			FileWriter writer=new FileWriter(aCSVFile);
+			writer.write(cvs_content.replace('\t',' '));
+			writer.close();
 		} catch (Exception e) {
 			throw new LucteriosException("Erreur de sauvegarde","",Tools.HTMLEntityEncode(mFoContent),e);
 		}
@@ -178,7 +206,7 @@ public class FopGenerator
             }
 	}
 
-	public void SelectPrintMedia(JFrame aOwnerF,JDialog aOwnerD,int aMode,File aPDFFile) throws LucteriosException
+	public void SelectPrintMedia(JFrame aOwnerF,JDialog aOwnerD,int aMode,boolean aWithExportText,File aPDFFile,File aCSVFile) throws LucteriosException
 	{
 		if (mFoContent!=null)
 		{
@@ -205,22 +233,29 @@ public class FopGenerator
 					dlg.setVisible(true);
 					break;
 				}
-				case  SelectPrintDlg.MODE_EXPORT:
+				case  SelectPrintDlg.MODE_EXPORT_PDF:
 				{
-		    		savePDF(aPDFFile,aOwnerF,aOwnerD);
+		    		saveFilePDF(aPDFFile,aOwnerF,aOwnerD);
+					break;
+				}
+				case  SelectPrintDlg.MODE_EXPORT_CSV:
+				{
+		    		saveFileCSV(aCSVFile,aOwnerF,aOwnerD);
 					break;
 				}
 				default:
 				{
-					org.lucterios.Print.SelectPrintDlg print_dlg=new org.lucterios.Print.SelectPrintDlg();
+					org.lucterios.Print.SelectPrintDlg print_dlg=null;
+					if ((aOwnerD==null) && (aOwnerF==null))
+						print_dlg=new org.lucterios.Print.SelectPrintDlg(aWithExportText);
 					if (aOwnerD!=null)
-						print_dlg=new org.lucterios.Print.SelectPrintDlg(aOwnerD);
+						print_dlg=new org.lucterios.Print.SelectPrintDlg(aOwnerD,aWithExportText);
 					else if (aOwnerF!=null)
-						print_dlg=new org.lucterios.Print.SelectPrintDlg(aOwnerF);
+						print_dlg=new org.lucterios.Print.SelectPrintDlg(aOwnerF,aWithExportText);
 					print_dlg.setTitle(mTitle);
 					int new_mode=print_dlg.getChose();
 					if (new_mode!=SelectPrintDlg.MODE_NONE)
-						SelectPrintMedia(aOwnerF,aOwnerD,new_mode,new File(print_dlg.getExportFile()));
+						SelectPrintMedia(aOwnerF,aOwnerD,new_mode,aWithExportText,new File(print_dlg.getExportFile(SelectPrintDlg.MODE_EXPORT_PDF)),new File(print_dlg.getExportFile(SelectPrintDlg.MODE_EXPORT_CSV)));
 				}
 					break;
 			}			

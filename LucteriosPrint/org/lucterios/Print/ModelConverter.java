@@ -26,6 +26,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -90,23 +91,33 @@ public class ModelConverter
 		return true;
 	}
 
-	static public String TransformXsl(String aXmldata,String aXsldata) throws LucteriosException
+	static public String TransformXsl(String aXmldata,String aXsldata,boolean addProperties) throws LucteriosException
 	{
 		try {
-		    TransformerFactory factory = TransformerFactory.newInstance();
+			StringWriter str_wrt=new StringWriter();
+
+			TransformerFactory factory = TransformerFactory.newInstance();
 		    Transformer analyseur = factory.newTransformer();
 
 		    DOMResult xml = new DOMResult();
 		    analyseur.transform(new StreamSource(new StringReader(aXmldata)), xml);
 
 		    Transformer xslt = factory.newTransformer(new StreamSource(new StringReader(aXsldata)));
-		    DOMResult out = new DOMResult();
+		    Result out;
+		    if (addProperties) {
+		    	out = new DOMResult();
+		    }
+		    else {
+		    	out=new StreamResult(str_wrt);
+		    	xslt.setOutputProperty(OutputKeys.METHOD, "text");
+		    }
 		    xslt.transform(new DOMSource(xml.getNode()), out);
 
-		    analyseur.setOutputProperty(OutputKeys.INDENT, "yes");
-		    analyseur.setOutputProperty(OutputKeys.ENCODING, "iso-8859-1");
-			StringWriter str_wrt=new StringWriter();
-		    analyseur.transform(new DOMSource(out.getNode()),new StreamResult(str_wrt));
+		    if (addProperties){
+			    analyseur.setOutputProperty(OutputKeys.INDENT, "yes");
+			    analyseur.setOutputProperty(OutputKeys.ENCODING, "iso-8859-1");
+			    analyseur.transform(new DOMSource(((DOMResult)out).getNode()),new StreamResult(str_wrt));
+		    }
 			return str_wrt.getBuffer().toString();
 		} catch (TransformerConfigurationException e) {
 			throw new LucteriosException("Erreur de transformation",e);
@@ -117,7 +128,7 @@ public class ModelConverter
 
 	public String toXap(String aXmldata,String aXmlresultfile) throws LucteriosException
 	{
-		String Xap=TransformXsl(aXmldata,m_Model);
+		String Xap=TransformXsl(aXmldata,m_Model,true);
 		Xap=convertLuctoriosFormatToFop(Xap);
 		if (!aXmlresultfile.equals( "" ))
 			Save(aXmlresultfile,Xap);
@@ -304,7 +315,7 @@ public class ModelConverter
 				}
 				else
 				{
-					new_text=aAddbegin+aLoopingBegin+m_Model.substring(pos,len)+aAddend;
+					new_text=aAddbegin+aLoopingBegin+m_Model.substring(pos,pos+len)+aAddend;
 				}
 				m_Model=m_Model.substring(0,pos)+new_text+m_Model.substring(pos+len);
 				start=pos+new_text.length();

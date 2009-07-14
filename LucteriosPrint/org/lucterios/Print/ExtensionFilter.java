@@ -22,8 +22,22 @@ package org.lucterios.Print;
 
 import java.io.File;
 
-public class PDFFilter extends javax.swing.filechooser.FileFilter
+public class ExtensionFilter extends javax.swing.filechooser.FileFilter
 {
+	public static final String EXTENSION_EXPORT_PDF = ".pdf";
+	public static final String EXTENSION_EXPORT_CSV = ".csv";
+
+	private String FExtensionFile;
+	
+	public ExtensionFilter(String aExtensionFile){
+		super();
+		assert aExtensionFile!=null;
+		assert aExtensionFile.length()>0;
+		FExtensionFile=aExtensionFile.toLowerCase();
+		if (FExtensionFile.charAt(0)!='.')
+			FExtensionFile='.'+FExtensionFile;
+	}
+	
 	public boolean accept(File aFile) {
 		if (aFile.isDirectory())
 			return true;
@@ -31,13 +45,13 @@ public class PDFFilter extends javax.swing.filechooser.FileFilter
 		if (name.length()>4)
 		{
 			String ext=name.substring(name.length()-4).toLowerCase();
-			return ".pdf".equals( ext );
+			return FExtensionFile.equals( ext );
 		}
 		else
 			return false;
 	}
 
 	public String getDescription() {
-		return "Fichier PDF";
+		return "Fichier "+FExtensionFile.substring(1).toUpperCase();
 	}
 }
