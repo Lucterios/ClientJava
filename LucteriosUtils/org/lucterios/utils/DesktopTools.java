@@ -193,23 +193,23 @@ public class DesktopTools {
 				throw new LucteriosException("Impossible de trouver un navigateur Web."); 
 			return browser;
 		} catch (IOException e) {
-			throw new LucteriosException("Browser web non trouvé",e);
+			throw new LucteriosException("Navigateur web non trouvé",e);
 		} 
 	}
 
 	private String searchMailerFromUnix()
 			throws InterruptedException,  LucteriosException {
-		String[] browsers = {"xdg-open","thunderbird", "mozilla", "kmail", "opera", "netscape" }; 
+		String[] browsers = {"thunderbird", "xdg-open", "kmail", "evolution", "mozilla", "opera", "netscape" }; 
 		String browser = null; 
 		try {
 			for (int count = 0; count < browsers.length && browser == null; count++)
 			if (Runtime.getRuntime().exec( new String[] {"which", browsers[count]}).waitFor() == 0)
 				browser = browsers[count]; 
 			if (browser == null) 
-				throw new LucteriosException("Impossible de trouver un editeur courriel."); 
+				throw new LucteriosException("Impossible de trouver un gestionnaire de courriels."); 
 			return browser;
 		} catch (IOException e) {
-			throw new LucteriosException("Gestionnaire de courriel non trouvé",e);
+			throw new LucteriosException("Gestionnaire de courriels non trouvé",e);
 		} 
 	}
 	
