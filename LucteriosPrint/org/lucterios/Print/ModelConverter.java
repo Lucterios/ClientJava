@@ -109,7 +109,7 @@ public class ModelConverter
 		    }
 		    else {
 		    	out=new StreamResult(str_wrt);
-		    	xslt.setOutputProperty(OutputKeys.METHOD, "text");
+			    xslt.setOutputProperty(OutputKeys.METHOD, "text");
 		    }
 		    xslt.transform(new DOMSource(xml.getNode()), out);
 

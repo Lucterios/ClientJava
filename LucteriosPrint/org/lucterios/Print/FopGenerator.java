@@ -23,12 +23,15 @@ package org.lucterios.Print;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.print.*;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -166,11 +169,11 @@ public class FopGenerator
 			if (aCSVFile.exists())
 				aCSVFile.delete();
 			String xsl_lucterios=Tools.parseISToString(getClass().getResourceAsStream("resources/ConvertxlpToCSV.xsl"));
-			String source_content=mXMLContent.replace('\t',' ');
+			String source_content=Tools.replace(mXMLContent.replace('\t',' '),"<br/>"," ");
 
 			String cvs_content=ModelConverter.TransformXsl(source_content,xsl_lucterios,false);
 			
-			FileWriter writer=new FileWriter(aCSVFile);
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aCSVFile),"iso-8859-1"));
 			writer.write(cvs_content.replace('\t',' '));
 			writer.close();
 		} catch (Exception e) {
