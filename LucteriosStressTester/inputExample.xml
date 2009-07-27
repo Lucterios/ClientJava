@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+	<server>http://projets.lucterios.org:80/asso</server>
+	<user>admin</user>
+	<password>admin</password>
+	
+	<!--- CORE -->
+	<action id="1">
+		<name>CORE.menu</name>
+	</action>
+	<action id="2">
+		<name>CORE.status</name>
+	</action>
+	<action id="5">
+		<name>CORE.configuration</name>
+	</action>
+	<action id="6">
+		<name>CORE.extension::reload</name>
+	</action>
+
+	<!--- Contact -->
+	<action id="10">
+		<name>org_lucterios_contacts.personneMorale::Fiche</name>
+		<param name="personneMorale">
+			<![CDATA[1]]>
+		</param>
+	</action>
+	<action id="1000">
+		<name>CORE.UNLOCK</name>
+		<param name="ORIGINE">
+			<![CDATA[personneMorale_APAS_Fiche]]>
+		</param>
+		<param name="TABLE_NAME">
+			<![CDATA[org_lucterios_contacts_personneMorale]]>
+		</param>
+		<param name="RECORD_ID">
+			<![CDATA[1]]>
+		</param>
+	</action>
+
+	<!--- Membre -->
+	<action id="20">
+		<name>fr_sdlibre_membres.adherents::listannee</name>
+		<param name="equipe">
+			<![CDATA[0]]>
+		</param>
+		<param name="age">
+			<![CDATA[0]]>
+		</param>
+		<param name="activite">
+			<![CDATA[0]]>
+		</param>
+	</action>
+	<action id="21">
+		<name>fr_sdlibre_membres.adherents::print</name>
+		<param name="document">
+			<![CDATA[1]]>
+		</param>
+		<param name="equipe">
+			<![CDATA[0]]>
+		</param>
+		<param name="age">
+			<![CDATA[0]]>
+		</param>
+		<param name="activite">
+			<![CDATA[0]]>
+		</param>
+	</action>
+	<action id="22">
+		<name>fr_sdlibre_membres.statsSurAdherents</name>
+	</action>
+	<action id="23">
+		<name>fr_sdlibre_membres.affichStatsSurAdherent</name>
+		<param name="saison">
+			<![CDATA[101]]>
+		</param>		
+	</action>
+	<action id="24">
+		<name>fr_sdlibre_membres.adherents::Fiche</name>
+		<param name="membre">
+			<![CDATA[105]]>
+		</param>
+	</action>
+	<action id="1000">
+		<name>CORE.UNLOCK</name>
+		<param name="ORIGINE">
+			<![CDATA[adherents_APAS_Fiche]]>
+		</param>
+		<param name="TABLE_NAME">
+			<![CDATA[fr_sdlibre_membres_adherents]]>
+		</param>
+		<param name="RECORD_ID">
+			<![CDATA[105]]>
+		</param>
+	</action>
+	<action id="24">
+		<name>fr_sdlibre_membres.adherents::Fiche</name>
+		<param name="membre">
+			<![CDATA[103]]>
+		</param>
+	</action>
+	<action id="1000">
+		<name>CORE.UNLOCK</name>
+		<param name="ORIGINE">
+			<![CDATA[adherents_APAS_Fiche]]>
+		</param>
+		<param name="TABLE_NAME">
+			<![CDATA[fr_sdlibre_membres_adherents]]>
+		</param>
+		<param name="RECORD_ID">
+			<![CDATA[103]]>
+		</param>
+	</action>
+	<action id="24">
+		<name>fr_sdlibre_membres.adherents::Fiche</name>
+		<param name="membre">
+			<![CDATA[107]]>
+		</param>
+	</action>
+	<action id="1000">
+		<name>CORE.UNLOCK</name>
+		<param name="ORIGINE">
+			<![CDATA[adherents_APAS_Fiche]]>
+		</param>
+		<param name="TABLE_NAME">
+			<![CDATA[fr_sdlibre_membres_adherents]]>
+		</param>
+		<param name="RECORD_ID">
+			<![CDATA[107]]>
+		</param>
+	</action>
+
+	<!--- Compta -->
+	<action id="30">
+		<name>fr_sdlibre_compta.Exercices::List</name>
+	</action>	
+	<action id="31">
+		<name>fr_sdlibre_compta.Exercices::imprimerAct</name>
+		<param name="document">
+			<![CDATA[0]]>
+		</param>
+	</action>
+
+	<action id="32">
+		<name>fr_sdlibre_compta.Plan::List</name>
+		<param name="classe">
+			<![CDATA[4]]>
+		</param>
+	</action>
+	<action id="32">
+		<name>fr_sdlibre_compta.Plan::List</name>
+		<param name="classe">
+			<![CDATA[5]]>
+		</param>
+	</action>
+	<action id="32">
+		<name>fr_sdlibre_compta.Plan::List</name>
+		<param name="classe">
+			<![CDATA[6]]>
+		</param>
+	</action>
+	<action id="32">
+		<name>fr_sdlibre_compta.Plan::List</name>
+		<param name="classe">
+			<![CDATA[7]]>
+		</param>
+	</action>
+	
+	<action id="33">
+		<name>fr_sdlibre_compta.Tiers::List</name>
+	</action>
+	<action id="24">
+		<name>fr_sdlibre_compta.Tiers::Fiche</name>
+		<param name="tiers">
+			<![CDATA[101]]>
+		</param>
+	</action>
+	<action id="1000">
+		<name>CORE.UNLOCK</name>
+		<param name="ORIGINE">
+			<![CDATA[Tiers_APAS_Fiche]]>
+		</param>
+		<param name="TABLE_NAME">
+			<![CDATA[fr_sdlibre_compta_Tiers]]>
+		</param>
+		<param name="RECORD_ID">
+			<![CDATA[101]]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[0]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['o']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['o']]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[1]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['n']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['n']]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[2]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['n']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['n']]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[3]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['n']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['n']]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[4]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['n']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['n']]>
+		</param>
+	</action>
+	<action id="26">
+		<name>fr_sdlibre_compta.Ecriture::List</name>
+		<param name="journal">
+			<![CDATA[5]]>
+		</param>
+		<param name="rappro">
+			<![CDATA['n']]>
+		</param>
+		<param name="pointage">
+			<![CDATA['n']]>
+		</param>
+	</action>
+	
+</test>
