@@ -1,0 +1,75 @@
+<project name="LucteriosStressTester" default="build" basedir=".">
+	
+	<property name="projet.sources.dir" value="${ant.project.name}/org"/>
+	<property name="projet.bin.dir" value="${ant.project.name}"/>
+	<property name="projet.doc.dir" value="${ant.project.name}/doc"/>
+	<property name="projet.lib.dir" value="lib"/>
+
+	<path id="projet.classpath">
+		<fileset dir="${projet.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir=".">
+			<include name="LucteriosClient.jar"/>
+		</fileset>
+		<pathelement location="${projet.bin.dir}" />
+	</path>
+ 
+	<target name="tests" >
+		<junit fork="yes" printsummary="no" haltonfailure="no">
+			<jvmarg value="-Djava.awt.headless=true"/>
+			<batchtest fork="yes" todir="${projet.bin.dir}" >
+				<fileset dir="${projet.bin.dir}">
+					<include name="**/AllTests.class" />
+				</fileset>
+			</batchtest>
+			<formatter type="xml" />
+			<classpath>
+				<fileset dir="${projet.lib.dir}">
+					<include name="*.jar"/>
+				</fileset>
+				<pathelement location="${projet.bin.dir}/${ant.project.name}.jar" />
+			</classpath>
+		</junit>
+	</target>
+
+	<target name="build" depends="clear,compile,packaging" />
+	
+	<target name="clear">
+		<delete dir="${projet.doc.dir}" /> 
+		<delete file="${projet.bin.dir}/${ant.project.name}.jar" /> 
+		<delete>
+			<fileset dir="${projet.bin.dir}" includes="TEST*.xml" />
+		</delete>
+		<delete>
+			<fileset dir="${projet.sources.dir}" includes="**/*.class" />
+		</delete>
+	</target>
+	 
+	 <target name="compile" description="Compilation des classes">
+		<javac srcdir="${projet.sources.dir}"
+			destdir="${projet.bin.dir}"
+			target="1.5"
+			source="1.5"
+			debug="off"
+			optimize="on" 
+			deprecation="off">
+			<classpath refid="projet.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="packaging">
+		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" />
+	</target>
+	
+	<target name="javadoc">
+		<delete dir="${projet.doc.dir}" /> 
+		<mkdir dir="${projet.doc.dir}" /> 
+		<javadoc sourcepath="${projet.sources.dir}" destdir="${projet.doc.dir}" >
+			<fileset dir="${projet.sources.dir}" defaultexcludes="yes">
+				<include name="**/*.java" />				
+			</fileset>
+		</javadoc>
+	</target> 
+		
+</project>
