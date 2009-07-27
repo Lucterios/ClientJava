@@ -4,14 +4,15 @@
 	<property name="projet.lpk.dir" value="bin"/>
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="0"/>
-	<property name="projet.version.min" value="97"/>
-	<property name="projet.version.release" value="2"/>
+	<property name="projet.version.min" value="98"/>
+	<property name="projet.version.release" value="1"/>
 
 	<target name="all">
 		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
+		<antcall target="javadoc" />
 		<antcall target="doc" />
 		<antcall target="tests" />
 	</target>		
@@ -38,6 +39,15 @@
 		<ant antfile="Print_build.xml" target="clear"/>
 		<ant antfile="Client_build.xml" target="clear"/>
 		<ant antfile="Update_build.xml" target="clear"/>
+		<ant antfile="StressTester_build.xml" target="clear"/>
+	</target>	
+
+	<target name="javadoc">
+		<ant antfile="Utils_build.xml" target="javadoc"/>
+		<ant antfile="Print_build.xml" target="javadoc"/>
+		<ant antfile="Client_build.xml" target="javadoc"/>
+		<ant antfile="Update_build.xml" target="javadoc"/>
+		<ant antfile="StressTester_build.xml" target="javadoc"/>
 	</target>	
 
 	<target name="build">
@@ -49,6 +59,8 @@
 		<copy file="LucteriosClient/LucteriosClient.jar" todir="." overwrite="true"/>
 		<ant antfile="Update_build.xml" target="build"/>
 		<copy file="LucteriosUpdate/LucteriosUpdate.jar" todir="." overwrite="true"/>
+		<ant antfile="StressTester_build.xml" target="build"/>
+		<copy file="LucteriosStressTester/LucteriosStressTester.jar" todir="." overwrite="true"/>
 	</target>	
 
 	<target name="package">
@@ -80,6 +92,9 @@
 			<fileset dir="." includes="LucteriosLogo.ico"/>
 		</tar>
 		<gzip src="JavaClient.tar" destfile="${projet.lpk.dir}/java_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
+		
+		<copy file="LucteriosStressTester/LucteriosStressTester.jar" todir="${projet.lpk.dir}" overwrite="true"/>
+		<copy file="LucteriosStressTester/inputExample.xml" todir="${projet.lpk.dir}" overwrite="true"/>
  	</target>		
 	
 	<target name="doc">
@@ -109,6 +124,12 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
+		<mkdir dir="doc/LucteriosStressTester" />
+		<copy todir="doc/LucteriosStressTester">
+			<fileset dir="LucteriosStressTester/doc">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 		<zip destfile="${projet.lpk.dir}/JavaClientDoc.zip" basedir="doc" />
 	</target>	
 
@@ -117,6 +138,7 @@
 		<ant antfile="Print_build.xml" target="tests"/>
 		<ant antfile="Client_build.xml" target="tests"/>
 		<ant antfile="Update_build.xml" target="tests"/>
+		<ant antfile="Update_build.xml" target="build"/>
  		<copy todir="${projet.test.dir}">
 			<fileset dir="LucteriosUtils">
 				<include name="TEST*.xml"/>

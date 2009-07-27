@@ -30,7 +30,7 @@
 		</junit>
 	</target>
 
-	<target name="build" depends="clear,compile,packaging,javadoc" />
+	<target name="build" depends="clear,compile,packaging" />
 	
 	<target name="clear">
 		<delete dir="${projet.doc.dir}" /> 

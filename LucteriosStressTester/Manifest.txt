@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Created-By: Lucterios
+Main-class: org.lucterios.stressTester.Main
+Class-Path: lib/LucteriosUtils.jar LucteriosClient.jar
+
+Name: LucteriosStressTester
+Specification-Title: LucteriosStressTester
+Specification-Version: 0.40
+Specification-Vendor: Lucterios.org
+Implementation-Title: LucteriosStressTester
+Implementation-Version: 2009-07-27-A
+Implementation-Vendor: Lucterios.org
