@@ -196,7 +196,6 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		scr_pnl = new javax.swing.JScrollPane(pnl_Grid);
 		scr_pnl.setColumnHeader(null);
 		JTableHeader th=cmp_tbl.getTableHeader();
-		th.setPreferredSize(new Dimension(th.getWidth(),25));
 		Font old=th.getFont();
 		th.setFont(new Font(old.getName(),old.getStyle()+Font.BOLD,old.getSize()));
 		scr_pnl.setColumnHeaderView(th);
