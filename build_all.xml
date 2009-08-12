@@ -3,9 +3,9 @@
 	<property name="projet.lib.dir" value="lib"/>
 	<property name="projet.lpk.dir" value="bin"/>
 	<property name="projet.test.dir" value="test-results"/>
-	<property name="projet.version.max" value="0"/>
-	<property name="projet.version.min" value="98"/>
-	<property name="projet.version.release" value="2"/>
+	<property name="projet.version.max" value="1"/>
+	<property name="projet.version.min" value="0"/>
+	<property name="projet.version.release" value="1"/>
 
 	<target name="all">
 		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
