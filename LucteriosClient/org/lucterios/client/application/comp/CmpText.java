@@ -24,10 +24,12 @@ import java.awt.*;
 
 import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.graphic.PopupListener;
 
 public class CmpText extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JTextField cmp_text;
+	private PopupListener popupListener;
 
 	public CmpText() {
 		super();
@@ -68,6 +70,11 @@ public class CmpText extends CmpAbstractEvent {
 		cmp_text.setName("cmp_text");
 		cmp_text.addFocusListener(this);
 		add(cmp_text, java.awt.BorderLayout.CENTER);
+		
+		popupListener = new PopupListener();
+		popupListener.setActions(cmp_text.getActions());
+		popupListener.addEditionMenu(true);
+		cmp_text.addMouseListener(popupListener);	
 	}
 
 	protected void refreshComponent() throws LucteriosException {

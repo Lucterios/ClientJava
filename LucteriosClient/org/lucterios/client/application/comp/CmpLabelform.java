@@ -27,6 +27,10 @@ public class CmpLabelform extends Cmponent {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JEditorPane cmp_text;
 
+	public boolean isFocusable() {
+		return false;
+	}
+	
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
 		return tree_map;

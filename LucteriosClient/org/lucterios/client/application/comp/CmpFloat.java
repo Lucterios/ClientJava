@@ -20,110 +20,25 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
-
-import javax.swing.*;
-
-import javax.swing.text.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 
 import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.graphic.FloatField;
 import org.lucterios.utils.graphic.SpinEdit;
 
 public class CmpFloat extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 
-	class FloatField extends JTextField {
-		private static final long serialVersionUID = 1L;
-		double mMinVal = Double.MIN_VALUE;
-		double mMaxVal = Double.MAX_VALUE;
-		int mPrecVal = 2;
-
-		public FloatField() {
-			super();
-			addFocusListener(new java.awt.event.FocusAdapter() {
-				public void focusLost(java.awt.event.FocusEvent evt) {
-					setText(convertValue(getValue()));
-				}
-			});
-		}
-
-		private String convertValue(double init_value) {
-			double Val_r = Math.min(mMaxVal, Math.max(mMinVal,init_value));
-			long val_i = Math.round(Val_r * Math.pow(10, mPrecVal));
-			String val = new Double(val_i / Math.pow(10, mPrecVal)).toString();
-			int pos = val.indexOf(".");
-			if (pos != -1) {
-				if (mPrecVal > 0)
-					val = val.substring(0, Math.min(pos + mPrecVal + 1, val
-							.length()));
-				else
-					val = val.substring(0, pos);
-			}
-			return val;
-		}
-
-		public void setRange(double aMinVal, double aMaxVal, int aPrecVal) {
-			mMinVal = aMinVal;
-			mMaxVal = aMaxVal;
-			mPrecVal = Math.max(0, aPrecVal);
-		}
-
-		public void setValue(double aVal) {
-			setText(convertValue(aVal));
-		}
-
-		protected double getValue(String aValue) {
-			try {
-				return new Double(aValue).doubleValue();
-			} catch (NumberFormatException e) {
-				return mMinVal;
-			}
-		}
-
-		public double getValue() {
-			return getValue(getText());
-		}
-
-		protected Document createDefaultModel() {
-			return new FloatCaseDocument(this);
-		}
-
-		class FloatCaseDocument extends PlainDocument {
-			private static final long serialVersionUID = 1L;
-			private FloatField mFltFld;
-
-			public FloatCaseDocument(FloatField aFltFld) {
-				mFltFld = aFltFld;
-			}
-
-			public void insertString(int offs, String str, AttributeSet a)
-					throws BadLocationException {
-				if (str == null) {
-					return;
-				}
-				boolean is_numeric = true;
-				boolean has_point = (mFltFld.getText().indexOf(".") != -1);
-				char[] chars = str.toCharArray();
-				for (int i = 0; (i < chars.length) && is_numeric; i++) {
-					if ((chars[i] >= '0') && (chars[i] <= '9'))
-						is_numeric = true;
-					else {
-						if (chars[i] == '.')
-							is_numeric = (!has_point);
-						else
-							is_numeric = false;
-					}
-				}
-				if (is_numeric)
-					super.insertString(offs, new String(str), a);
-			}
-		}
-	}
-
 	private FloatField cmp_float;
+
 	private SpinEdit cmp_int;
+
 	private boolean mIsInteger = false;
+
 
 	public CmpFloat() {
 		super();
@@ -164,11 +79,12 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	protected FloatField getCmpFloat() {
 		if (cmp_float == null) {
+			removeAll();
 			cmp_float = new FloatField();
+			cmp_float.setName("cmp_float");
 			cmp_float.setEditable(true);
 			cmp_float.setText("");
 			cmp_float.setFocusable(true);
-			cmp_float.setName("cmp_text");
 			add(cmp_float);
 		}
 		return cmp_float;
@@ -176,7 +92,9 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	protected SpinEdit getCmpInt() {
 		if (cmp_int == null) {
+			removeAll();
 			cmp_int = new SpinEdit();
+			cmp_int.setName("cmp_int");
 			cmp_int.setPreferredSize(new Dimension(20, 20));
 			add(cmp_int);
 		}
@@ -185,8 +103,10 @@ public class CmpFloat extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		double min_val = getXmlItem().getAttributDouble("min", Double.MIN_VALUE);
-		double max_val = getXmlItem().getAttributDouble("max", Double.MAX_VALUE);
+		double min_val = getXmlItem()
+				.getAttributDouble("min", Double.MIN_VALUE);
+		double max_val = getXmlItem()
+				.getAttributDouble("max", Double.MAX_VALUE);
 		int prec_val = getXmlItem().getAttributInt("prec", 2);
 		double val = getXmlItem().getCDataDouble(min_val);
 		mIsInteger = (prec_val == 0);

@@ -42,27 +42,30 @@ public class FloatField extends JTextField
             {
                 setText(convertValue(getValue()));
             }
-        });			
+        });	
+		PopupListener popupListener = new PopupListener();
+		popupListener.setActions(getActions());
+		popupListener.addEditionMenu(true);
+		addMouseListener(popupListener);	        
     }
 
     private String convertValue(double init_value)
     {
-        double Val_r=(double)Math.min(mMaxVal,Math.max(mMinVal,init_value));
-        long val_i=Math.round(Val_r*Math.pow(10,mPrecVal));
-        String val=new Double(val_i/Math.pow(10,mPrecVal)).toString();
-        int pos=val.indexOf(".");
-        if (pos!=-1)
-        {
-            if (val.length()<=(pos+mPrecVal+1))
-                while (val.length()<(pos+mPrecVal+1))
-                    val=val+"0";
-            else
-                if (mPrecVal>0)
-                    val=val.substring(0,pos+mPrecVal+1);
-                else
-                    val=val.substring(0,pos);
-        }
-        return val;
+        double Val_r = (double) Math
+				.min(mMaxVal, Math.max(mMinVal, init_value));
+		long val_i = Math.round(Val_r * Math.pow(10, mPrecVal));
+		String val = new Double(val_i / Math.pow(10, mPrecVal)).toString();
+		int pos = val.indexOf(".");
+		if (pos != -1) {
+			if (val.length() <= (pos + mPrecVal + 1))
+				while (val.length() < (pos + mPrecVal + 1))
+					val = val + "0";
+			else if (mPrecVal > 0)
+				val = val.substring(0, pos + mPrecVal + 1);
+			else
+				val = val.substring(0, pos);
+		}
+		return val;
     }
     
     public void setRange(double aMinVal,double aMaxVal,int aPrecVal)

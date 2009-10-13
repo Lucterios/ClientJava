@@ -30,12 +30,14 @@ import javax.swing.text.Caret;
 
 import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.graphic.PopupListener;
 
 public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JTextField cmp_text;
 	private String m_RegularExpression = "";
 	private int m_StringSize = 0;
+	private PopupListener popupListener;
 
 	public CmpEdit() {
 		super();
@@ -75,6 +77,11 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 		cmp_text.setName(getName());
 		cmp_text.addKeyListener(this);
 		add(cmp_text, java.awt.BorderLayout.CENTER);
+
+		popupListener = new PopupListener();
+		popupListener.setActions(cmp_text.getActions());
+		popupListener.addEditionMenu(true);
+		cmp_text.addMouseListener(popupListener);
 	}
 
 	protected void refreshComponent() throws LucteriosException {

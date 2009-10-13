@@ -150,6 +150,7 @@ public class PopupListener extends MouseAdapter
     public PopupListener() 
     {
     	mPopupMenu = new JPopupMenu();
+    	mPopupMenu.setFocusable(false);
         init();
     }
     

@@ -96,13 +96,20 @@ public abstract class Cmponent extends JPanel {
 		requestFocus();
 	}
 
+	public boolean isFocusable() {
+		return true;
+	}
+	
 	protected boolean mEnabled = true;
 
 	protected SimpleParsing getXmlItem(){
 		return mXmlItem.get();
 	}
 	protected Observer getObsCustom(){
-		return mObsCustom.get();
+		if (mObsCustom!=null)
+			return mObsCustom.get();
+		else
+			return null;
 	}
 	
 	

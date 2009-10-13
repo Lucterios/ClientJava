@@ -49,9 +49,9 @@ public class CustomManager extends JAdvancePanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public static int CustomManagerCount=0;
-	
-	static public Map<String,Class> ListComponents = new TreeMap<String, Class>();
+	public static int CustomManagerCount = 0;
+
+	static public Map<String, Class> ListComponents = new TreeMap<String, Class>();
 
 	static public boolean initalize() throws IOException {
 		ListComponents.put("LABELFORM", CmpLabelform.class);
@@ -78,14 +78,19 @@ public class CustomManager extends JAdvancePanel {
 	}
 
 	private WeakReference<Observer> mObserver;
-	private Observer getObserver(){
+
+	private Observer getObserver() {
 		return mObserver.get();
 	}
 
 	public ArrayList<SimpleParsing> mComposants = new ArrayList<SimpleParsing>();
+
 	public ArrayList<Cmponent> mCmponents = new ArrayList<Cmponent>();
+
 	public String[] mCompNames = new String[0];
+
 	private static final String CST_TABPANE = "TAB";
+
 	private JTabbedPane PnlTab = null;
 
 	public CustomManager(Observer aObserver) {
@@ -100,8 +105,8 @@ public class CustomManager extends JAdvancePanel {
 		mCmponents.clear();
 		mComposants.clear();
 	}
-	
-	protected void finalize() throws Throwable{
+
+	protected void finalize() throws Throwable {
 		CustomManagerCount--;
 		super.finalize();
 	}
@@ -109,8 +114,8 @@ public class CustomManager extends JAdvancePanel {
 	protected void clear() {
 		mCmponents.clear();
 		mComposants.clear();
-        if (PnlTab != null)
-            PnlTab.removeChangeListener(ChangeTab);
+		if (PnlTab != null)
+			PnlTab.removeChangeListener(ChangeTab);
 		PnlTab = null;
 	}
 
@@ -118,7 +123,7 @@ public class CustomManager extends JAdvancePanel {
 		clear();
 		mObserver = null;
 	}
-	
+
 	public void init(SimpleParsing aXmlComponent) {
 		clear();
 		mCompNames = new String[aXmlComponent.getTagCount()];
@@ -130,6 +135,7 @@ public class CustomManager extends JAdvancePanel {
 	}
 
 	private int tabActif = 0;
+
 	private ChangeListener ChangeTab = new ChangeListener() {
 		public void stateChanged(ChangeEvent e) {
 			tabActif = PnlTab.getSelectedIndex();
@@ -248,7 +254,7 @@ public class CustomManager extends JAdvancePanel {
 		repaint();
 		if (PnlTab != null)
 			PnlTab.setSelectedIndex(tabActif);
-        mComposants.clear();
+		mComposants.clear();
 	}
 
 	private void removeComponentNotUsed() {
@@ -339,7 +345,7 @@ public class CustomManager extends JAdvancePanel {
 		if (PnlTab != null)
 			tag_num = (PnlTab.getTabCount() + 1);
 		tag_num = value_obj.getAttributInt("tab", tag_num);
-		if (CST_TABPANE.equals( value_obj.getTagName() )) {
+		if (CST_TABPANE.equals(value_obj.getTagName())) {
 			if (PnlTab == null) {
 				PnlTab = new javax.swing.JTabbedPane();
 				PnlTab.setOpaque(false);
@@ -375,7 +381,7 @@ public class CustomManager extends JAdvancePanel {
 			ExceptionDlg.throwException(e);
 		}
 	}
-	
+
 	public void runJavaScripts() {
 		try {
 			for (int index = 0; index < getCmponentCount(); index++)
@@ -384,11 +390,11 @@ public class CustomManager extends JAdvancePanel {
 			ExceptionDlg.throwException(e);
 		}
 	}
-	
+
 	public Cmponent getFirstCmponentFocusabled() {
 		for (int index = 0; index < getCmponentCount(); index++)
-			if (getCmponents(0).isFocusable())
-				return getCmponents(0);
+			if (getCmponents(index).isFocusable())
+				return getCmponents(index);
 		return null;
 	}
 

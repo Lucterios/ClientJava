@@ -25,10 +25,12 @@ import java.awt.*;
 import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.LucteriosEditor;
+import org.lucterios.utils.graphic.PopupListener;
 
 public class CmpTextform extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 	private LucteriosEditor cmp_text;
+	private PopupListener popupListener;
 
 	public CmpTextform() {
 		super();
@@ -67,6 +69,11 @@ public class CmpTextform extends CmpAbstractEvent {
 		cmp_text.addFocusListener(this);
 		cmp_text.addStandardPopupMenu(false);
 		add(cmp_text, java.awt.BorderLayout.CENTER);
+
+		popupListener = new PopupListener();
+		popupListener.setActions(cmp_text.getActions());
+		popupListener.addEditionMenu(true);
+		cmp_text.addMouseListener(popupListener);	
 	}
 
 	String replaceString(String aText, String aOrg, String aRes) {
