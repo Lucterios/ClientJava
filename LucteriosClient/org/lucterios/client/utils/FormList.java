@@ -113,7 +113,6 @@ public class FormList implements Form.NotifyFrameList {
 	}
 
 	public void removeFrame(Form aForm) {
-		aForm.setNotifyFrameList(null);
 		mList.remove(aForm);
 		System.gc();
 	}

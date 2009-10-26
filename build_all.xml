@@ -5,7 +5,7 @@
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="1"/>
 	<property name="projet.version.min" value="0"/>
-	<property name="projet.version.release" value="2"/>
+	<property name="projet.version.release" value="3"/>
 
 	<target name="all">
 		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>

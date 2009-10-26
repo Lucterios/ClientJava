@@ -71,7 +71,6 @@ public class Form extends JFrame {
 
 			public void windowClosed(WindowEvent e) {
 				Close();
-				Change();
 			}
 		});
 	}
@@ -86,9 +85,11 @@ public class Form extends JFrame {
 			mNotifyFrameObserver.close(true);
 			mNotifyFrameObserver = null;
 		}
-		if (mNotifyFrameList != null)
+		if (mNotifyFrameList != null) {
 			mNotifyFrameList.removeFrame(this);
-        mNotifyFrameList = null;
+			mNotifyFrameList = null;
+		}
+		Change();
         mNotifyFrameChange = null;
         mFrameControle = null;
 	}

@@ -24,13 +24,17 @@ function getConfigFile()
 {
 	global $extention_titre;
 	global $extention_appli;
+	$server_name=$_SERVER["SERVER_NAME"];
+	$server_port=$_SERVER["SERVER_PORT"];
+
 	$http_referer=$_SERVER["HTTP_REFERER"];
 	$pos=strpos($http_referer,'://');
 	$protocol=substr($http_referer,0,$pos);
-	$protocol=($protocol='')?'http':$protocol;
-	$mode=($protocol=='https')?1:0;		
-	$server_name=$_SERVER["SERVER_NAME"];
-	$server_port=$_SERVER["SERVER_PORT"];
+	if ($protocol=='')
+		$mode=($server_port==443)?1:0;
+	else
+		$mode=($protocol=='https')?1:0;		
+
 	$server_dir=$_SERVER["PHP_SELF"];
 	if ($server_dir[0]=='/')
 		$server_dir=substr($server_dir,1);
