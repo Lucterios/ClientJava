@@ -28,15 +28,15 @@ import javax.swing.table.TableColumn;
 
 import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.HtmlLabel;
 
-public class LabelFormRenderer extends javax.swing.JEditorPane implements
+public class LabelFormRenderer extends HtmlLabel implements
 		javax.swing.table.TableCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	public LabelFormRenderer() {
 		setEditable(false);
 		setFocusable(true);
-		setContentType("text/html");
 	}
 
 	StringList cell_check = new StringList();

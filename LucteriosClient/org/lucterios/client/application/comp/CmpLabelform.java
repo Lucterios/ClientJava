@@ -22,10 +22,11 @@ package org.lucterios.client.application.comp;
 
 import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.HtmlLabel;
 
 public class CmpLabelform extends Cmponent {
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JEditorPane cmp_text;
+	private HtmlLabel cmp_text;
 
 	public boolean isFocusable() {
 		return false;
@@ -38,13 +39,12 @@ public class CmpLabelform extends Cmponent {
 
 	protected void initComponent() {
 		setLayout(new java.awt.BorderLayout());
-		cmp_text = new javax.swing.JEditorPane();
+		cmp_text = new HtmlLabel();
 		cmp_text.setEditable(false);
 		cmp_text.setOpaque(this.isOpaque());
 		cmp_text.setText("");
 		cmp_text.setFocusable(false);
 		cmp_text.setName("cmp_text");
-		cmp_text.setContentType("text/html");
 		cmp_text.setBackground(this.getBackground());
 		add(cmp_text, java.awt.BorderLayout.CENTER);
 	}

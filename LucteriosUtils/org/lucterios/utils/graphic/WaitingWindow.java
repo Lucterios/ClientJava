@@ -27,7 +27,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -76,10 +75,10 @@ public class WaitingWindow extends JWindow
         getContentPane().add(main, BorderLayout.NORTH);
 		
 		
-        JEditorPane title = new JEditorPane();
-        title.setBackground(BACKGROUND_COLOR);
+        HtmlLabel title = new HtmlLabel();
         title.setEditable(false);
-        title.setContentType("text/html");
+        title.setFocusable(false);        
+        title.setBackground(BACKGROUND_COLOR);
         title.setText("<center><b>"+mTitle+"</b></center>");
         main.add(title, BorderLayout.NORTH);
 

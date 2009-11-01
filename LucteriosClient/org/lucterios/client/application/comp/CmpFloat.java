@@ -25,7 +25,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
 import org.lucterios.client.presentation.Observer.MapContext;
-import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.FloatField;
 import org.lucterios.utils.graphic.SpinEdit;

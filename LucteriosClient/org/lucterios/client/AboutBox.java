@@ -106,8 +106,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		JEditorPane lucterios = new JEditorPane();
 		lucterios.setEditable(false);
 		lucterios.setFocusable(false);
-		lucterios.setContentType("text/html");
 		lucterios.setBackground(this.getBackground());
+		lucterios.setContentType("text/html");
 		getContentPane().add(lucterios, getConstraints(0, 4, null, 2, 1));
 		lucterios
 				.setText("<font size='-1'><center><i>Outil de gestion presonnalisé sous licence GPL</i></center></font>");
@@ -174,8 +174,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		JEditorPane text = new JEditorPane();
 		text.setEditable(false);
 		text.setFocusable(false);
-		text.setContentType("text/html");
 		text.setBackground(this.getBackground());
+		text.setContentType("text/html");
 		text.setText(mDescription.getHTML(null));
 
 		config.getContentPane().add(text,getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 1));

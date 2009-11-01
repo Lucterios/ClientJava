@@ -34,10 +34,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.HtmlLabel;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class ToolButton extends JAdvancePanel implements ActionListener,
@@ -106,8 +106,8 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 	}
 
 	JLabel mPunaise = null;
-	JEditorPane mtext = null;
-	JEditorPane mdescription = null;
+	HtmlLabel mtext = null;
+	HtmlLabel mdescription = null;
 	boolean mSmall = false;
 
 	private void initial(boolean aSmall, String aToolTip) {
@@ -143,10 +143,9 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 			setPreferredSize(new Dimension(ToolsPanel.SIZE_SMALL,
 					ToolsPanel.SIZE_SMALL));
 		} else {
-			mtext = new JEditorPane();
+			mtext = new HtmlLabel();
 			mtext.setForeground(ToolsPanel.FORE_GROUND);
 			mtext.setEditable(false);
-			mtext.setContentType("text/html");
 			mtext.setAlignmentY(0.5f);
 			setToolTipNotEmpty(aToolTip, mtext);
 			mtext.setOpaque(false);
@@ -168,11 +167,10 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 			addMouseListenerByComponent(mtext);
 
 			if (mDescription.length() != 0) {
-				mdescription = new JEditorPane();
+				mdescription = new HtmlLabel();
 				mdescription.setForeground(ToolsPanel.FORE_GROUND);
 				mdescription.setEditable(false);
 				mdescription.setAlignmentY(0.75f);
-				mdescription.setContentType("text/html");
 				if (mActionListener != null)
 					mdescription.setText("<font size=3>" + mDescription
 							+ "</font>");

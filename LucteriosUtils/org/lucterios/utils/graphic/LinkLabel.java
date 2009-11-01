@@ -25,9 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JEditorPane;
-
-public class LinkLabel extends JEditorPane {
+public class LinkLabel extends HtmlLabel {
 
 	/**
 	 * 
@@ -58,9 +56,8 @@ public class LinkLabel extends JEditorPane {
 	
 	protected void initial()
 	{
-		setEditable(false);
-		setFocusable(false);
-		setContentType("text/html");
+        setEditable(false);
+        setFocusable(false);        
 		addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent event)
 			{

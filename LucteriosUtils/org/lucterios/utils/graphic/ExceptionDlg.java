@@ -90,8 +90,8 @@ public class ExceptionDlg extends javax.swing.JDialog {
     private javax.swing.JButton btn_exit;
     private javax.swing.JButton btn_send;
     private javax.swing.JLabel lbl_img;
-    private javax.swing.JEditorPane edExtra;
-    private javax.swing.JEditorPane lbl_message;
+    private HtmlLabel edExtra;
+    private HtmlLabel lbl_message;
     private javax.swing.JTextArea txtReponse;
     private javax.swing.JTextArea txtRequette;
     private javax.swing.JTextArea txtStack;
@@ -102,7 +102,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
 
         PnlMain = new javax.swing.JPanel();
         lbl_img = new javax.swing.JLabel();
-        lbl_message = new javax.swing.JEditorPane();
+        lbl_message = new HtmlLabel();
         btn_more = new javax.swing.JToggleButton();
 
         PnlExtra = new javax.swing.JTabbedPane();
@@ -122,8 +122,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
         PnlMain.add(lbl_img, gridBagConstraints);
 
         lbl_message.setEditable(false);
-        lbl_message.setContentType("text/html");
-        lbl_message.setFocusable(false);
+        lbl_message.setFocusable(false);        
         lbl_message.setBackground(getContentPane().getBackground());
         lbl_message.setName("lbl_message");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -275,10 +274,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
     	if (aText.length()>0)
     	{
 		    Extra = new javax.swing.JScrollPane();
-		    edExtra = new javax.swing.JEditorPane();
-		    edExtra.setEditable(false);
-		    edExtra.setFocusable(true);
-		    edExtra.setContentType("text/html");
+		    edExtra = new HtmlLabel();
 		    Extra.setViewportView(edExtra);
 		    PnlExtra.addTab("Extra", Extra);
 	        edExtra.setText(aText);

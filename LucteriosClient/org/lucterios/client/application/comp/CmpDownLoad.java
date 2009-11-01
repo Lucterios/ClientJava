@@ -8,7 +8,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,6 +23,7 @@ import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.FileMonitoring.MonitoringCallback;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.FilesFilter;
+import org.lucterios.utils.graphic.HtmlLabel;
 import org.lucterios.utils.graphic.ImagePreview;
 import org.lucterios.utils.graphic.Tools;
 
@@ -37,7 +37,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 	private static File CurrentDirectory=null;
 	
 	private JPanel pnl_Btn;
-	private JEditorPane lbl_message;
+	private HtmlLabel lbl_message;
 	private JButton btn_open;
 	private JButton btn_save;
 	
@@ -89,9 +89,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 		pnl_Btn.setLayout(new GridBagLayout());
 		add(pnl_Btn, java.awt.BorderLayout.CENTER);
 
-		lbl_message = new JEditorPane();
+		lbl_message = new HtmlLabel();
 		lbl_message.setEditable(false);
-		lbl_message.setContentType("text/html");
 		lbl_message.setAlignmentY(0.5f);
 		lbl_message.setOpaque(false);
 		gridBagConstraints = new java.awt.GridBagConstraints();

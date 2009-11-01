@@ -35,6 +35,7 @@ import javax.swing.*;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.utils.graphic.HtmlLabel;
 
 /**
  *
@@ -48,7 +49,7 @@ public class DemoPrint extends JFrame
 	private static final long serialVersionUID = 1L;
 	private MainPrintPanel newContentPane;
     private JScrollPane scrCode;
-    private JEditorPane CodeEditor;
+    private HtmlLabel CodeEditor;
     private JEditorPane XmlDataEditor;
 
     private JPanel pnl_main;
@@ -85,8 +86,7 @@ public class DemoPrint extends JFrame
         pnl_main.add(newContentPane, gridBagConstraints);
 
 
-        CodeEditor=new JEditorPane();
-        CodeEditor.setContentType("text/plain");
+        CodeEditor=new HtmlLabel();
         CodeEditor.setText("");
         scrCode=new JScrollPane();
         scrCode.setViewportView(CodeEditor);

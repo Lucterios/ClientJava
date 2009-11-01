@@ -26,7 +26,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.lang.ref.WeakReference;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -40,6 +39,7 @@ import org.lucterios.client.utils.Form;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.HtmlLabel;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class ObserverDialogBox extends ObserverAbstract {
@@ -82,11 +82,11 @@ public class ObserverDialogBox extends ObserverAbstract {
 
 			JLabel lbl_img;
 			GridBagConstraints gdbConstr_Img;
-			JEditorPane lbl_message;
+			HtmlLabel lbl_message;
 			GridBagConstraints gdbConstr_lbl;
 			GridBagConstraints gdbConstr_pnl;
 			lbl_img = new JLabel();
-			lbl_message = new JEditorPane();
+			lbl_message = new HtmlLabel();
 			mPnlBtn = new JPanel();
 			mPnlBtn.setOpaque(false);
 			gdbConstr_Img = new GridBagConstraints();
@@ -106,7 +106,6 @@ public class ObserverDialogBox extends ObserverAbstract {
 			lbl_message.setOpaque(false);
 			lbl_message.setEditable(false);
 			lbl_message.setFocusable(false);
-			lbl_message.setContentType("text/html");
 			// lbl_message.setBackground(getGUIDialog().getBackground());
 			gdbConstr_lbl.gridx = 1;
 			gdbConstr_lbl.gridy = 0;

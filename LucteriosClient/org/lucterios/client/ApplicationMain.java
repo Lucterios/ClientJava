@@ -23,6 +23,7 @@ package org.lucterios.client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
@@ -35,6 +36,9 @@ import javax.swing.JSeparator;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 import org.lucterios.client.ToolsPanel.RefreshButtonPanel;
 import org.lucterios.client.application.Action;
@@ -72,6 +76,7 @@ import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.utils.graphic.HtmlLabel;
 import org.lucterios.utils.graphic.MemoryJauge;
 import org.lucterios.utils.graphic.ProgressPanel;
 import org.lucterios.utils.graphic.WaitingWindow;
@@ -137,7 +142,9 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private ProgressPanel mProgressPanelBottom;
 
 	public ApplicationMain() {
-		super();
+		super();		
+		changeFontSize(0.9f);		
+	
 		setVisible(false);
 		initialize();
 		initAction();
@@ -153,6 +160,24 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mToolNavigator.setMainMenuBar(menuBar);
 		pack();
 		reorganize();
+	}
+
+	private void changeFontSize(float scale) {
+		HtmlLabel.SizeFactor = scale;
+		UIDefaults defaults = UIManager.getDefaults();
+		Enumeration keys = defaults.keys();
+		while(keys.hasMoreElements()) {
+		  Object key = keys.nextElement();
+		  Object value = defaults.get(key);
+		  if(value != null && value instanceof Font) {
+		     UIManager.put(key, null);
+		     Font font = UIManager.getFont(key);
+		     if(font != null) {
+		    	 float size = font.getSize2D();
+		         UIManager.put(key, new FontUIResource(font.deriveFont(size * scale)));
+		     }
+		  }
+		}
 	}
 
 	public ActionListener getRunSetupDialog() {
@@ -682,8 +707,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			mFormList.get(frame_idx).setLocation(
 					globale_area.x + (frame_idx + 1) * OFFSET,
 					globale_area.y + (frame_idx + 1) * OFFSET);
-			mFormList.get(frame_idx).setSize(4 * (globale_area.width) / 5,
-					4 * (globale_area.height) / 5);
+			mFormList.get(frame_idx).setSize(9 * (globale_area.width) / 10,
+					9 * (globale_area.height) / 10);
 			mFormList.get(frame_idx).setSelected(false);
 		}
 		if (nb > 0)
@@ -775,8 +800,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		int nb = mFormList.count() - 1;
 		frame.setLocation(globale_area.x + (nb + 1) * OFFSET, globale_area.y
 				+ (nb + 1) * OFFSET);
-		frame.setSize(4 * (globale_area.width) / 5,
-				4 * (globale_area.height) / 5);
+		frame.setSize(9 * (globale_area.width) / 10,
+				9 * (globale_area.height) / 10);
 		frame.setIconImage(this.getIconImage());
 		return frame;
 	}
