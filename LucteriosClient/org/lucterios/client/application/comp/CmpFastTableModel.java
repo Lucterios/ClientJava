@@ -171,8 +171,8 @@ public class CmpFastTableModel extends AbstractTableModel {
 	public void setText(SimpleParsing aXmlItem) {
 		mHeaderXml = aXmlItem.getSubTag("HEADER");
 		mContentXml = aXmlItem.getSubTag("RECORD");
-		mGridColomn = new GridColomn[mHeaderXml.length];
-		mGridRow = new GridRow[mContentXml.length];
+		mGridColomn = new GridColomn[getColumnCount()];
+		mGridRow = new GridRow[getRowCount()];
 	}
 
 	public GridColomn getColumnObject(int columnIndex) {
@@ -185,7 +185,10 @@ public class CmpFastTableModel extends AbstractTableModel {
 	}
 
 	public int getColumnCount() {
-		return mHeaderXml.length;
+		if (mHeaderXml!=null)
+			return mHeaderXml.length;
+		else
+			return 0;
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
@@ -206,7 +209,10 @@ public class CmpFastTableModel extends AbstractTableModel {
 	}
 	
 	public int getRowCount() {
-		return mContentXml.length;
+		if (mContentXml!=null)
+			return mContentXml.length;
+		else
+			return 0;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
