@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -24,6 +24,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
@@ -188,7 +189,7 @@ public class SelectPrintDlg extends JDialog
 		pnl_btn.setLayout(new java.awt.GridBagLayout());
 	
 		btn_Cancel.setMnemonic('a');
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(SelectPrintDlg.class.getResource("resources/cancel.png")));
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(Resources.class.getResource("cancel.png")));
 		btn_Cancel.setText("Annuler");
 	        btn_Cancel.addActionListener(new java.awt.event.ActionListener() 
 		{
@@ -206,7 +207,7 @@ public class SelectPrintDlg extends JDialog
 	
 		btn_Ok.setMnemonic('o');
 		btn_Ok.setText("OK");
-        btn_Ok.setIcon(new javax.swing.ImageIcon(SelectPrintDlg.class.getResource("resources/ok.png")));
+        btn_Ok.setIcon(new javax.swing.ImageIcon(Resources.class.getResource("ok.png")));
 		btn_Ok.addActionListener(new java.awt.event.ActionListener() 
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

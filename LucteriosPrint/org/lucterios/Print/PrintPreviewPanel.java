@@ -37,6 +37,7 @@ import org.apache.fop.render.awt.viewer.PreviewPanel;
 import org.apache.fop.render.awt.viewer.Renderable;
 import org.apache.fop.render.awt.viewer.Translator;
 import org.lucterios.Print.FopGenerator.ClosePreview;
+import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class PrintPreviewPanel extends JAdvancePanel 
@@ -222,7 +223,7 @@ public class PrintPreviewPanel extends JAdvancePanel
         toolBar.add(scale);
 		if (mClosePreview!=null){
 	        toolBar.addSeparator();
-	        Action act=new AbstractAction("Quitter",new ImageIcon(PrintPreviewPanel.class.getResource("resources/exit.png")))
+	        Action act=new AbstractAction("Quitter",new ImageIcon(Resources.class.getResource("exit.png")))
 			{
 	            /**
 				 * 

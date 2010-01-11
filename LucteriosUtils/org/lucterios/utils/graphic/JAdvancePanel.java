@@ -33,7 +33,9 @@ public class JAdvancePanel extends JPanel {
 
 	private int mMode=NONE;
 	private BufferedImage mFontImage=null;
+	private Image mImage=null;
 	public void setFontImage(Image aImage,int aMode) {
+		mImage=aImage;
 		if (aImage!=null) {
 			aImage = new ImageIcon(aImage).getImage();
 			mFontImage = new BufferedImage( aImage.getWidth(null), aImage.getHeight(null), BufferedImage.TYPE_INT_RGB); 
@@ -49,7 +51,10 @@ public class JAdvancePanel extends JPanel {
 			mMode=NONE;
 		}			
 	}
-
+	public Image getFontImage() {
+		return mImage;
+	}
+	
 	public static final int NONE = 0;
 	public static final int CENTRE = 1;
 	public static final int TEXTURE = 2;

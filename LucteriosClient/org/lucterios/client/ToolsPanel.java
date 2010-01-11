@@ -40,16 +40,13 @@ import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionLocal;
-import org.lucterios.client.application.Menu.FrameControle;
+import org.lucterios.client.gui.RefreshButtonPanel;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.NavigatorBar;
 
 public class ToolsPanel extends JAdvancePanel implements Runnable,
 		ActionListener, ToolButtonCollection.ChangeAction {
-	public interface RefreshButtonPanel extends FrameControle {
-		void reorganize();
-	}
 
 	public static final int SIZE_SMALL = 50;
 	public static final int SIZEX = 320;

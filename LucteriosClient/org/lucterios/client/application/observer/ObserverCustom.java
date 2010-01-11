@@ -120,6 +120,14 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	Container mGUIContainer = null;
 
+	public Container getGUIContainer() {
+		return mGUIContainer;
+	}
+
+	public void setGUIContainer(Container container) {
+		mGUIContainer = container;
+	}
+
 	private void fillPanel() throws LucteriosException {
 		synchronized (mSynchronizedObj) {
 			if (mGUIContainer != null) {
@@ -165,7 +173,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 				getCustomManager().fillComponents();
 				java.awt.Dimension size = mGUIContainer.getSize();
-				mGUIContainer.setSize(size);
+				mGUIContainer.setSize(size);				
 			}
             super.setContent(null);
 		}
@@ -185,6 +193,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			getGUIFrame().toFront();
 		getfocusToMainCmponent();
 		setActive(true);
+		mGUIContainer.setVisible(true);
 		if ((mCustomManager!=null) && (getCustomManager()!=null)) {
 			getCustomManager().initialComponents();
 			getCustomManager().runJavaScripts();		

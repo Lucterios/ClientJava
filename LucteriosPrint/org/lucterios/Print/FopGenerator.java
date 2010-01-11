@@ -48,6 +48,7 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.render.awt.AWTRenderer;
 import org.apache.fop.render.print.PrintRenderer;
+import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.JAdvancePanel;
@@ -81,7 +82,7 @@ public class FopGenerator
 			mFoContent=xmlContent;
 		else
 		{
-			String xsl_lucterios=Tools.parseISToString(getClass().getResourceAsStream("resources/LucteriosPrintStyleForFo.xsl"));
+			String xsl_lucterios=Tools.parseISToString(Resources.class.getResourceAsStream("LucteriosPrintStyleForFo.xsl"));
 			mFoContent=ModelConverter.TransformXsl(mXMLContent,xsl_lucterios,true);
 		}
 		mTitle=title;
@@ -167,7 +168,7 @@ public class FopGenerator
 		try {
 			if (aCSVFile.exists())
 				aCSVFile.delete();
-			String xsl_lucterios=Tools.parseISToString(getClass().getResourceAsStream("resources/ConvertxlpToCSV.xsl"));
+			String xsl_lucterios=Tools.parseISToString(Resources.class.getResourceAsStream("ConvertxlpToCSV.xsl"));
 			String source_content=Tools.replace(mXMLContent.replace('\t',' '),"<br/>"," ");
 
 			String cvs_content=ModelConverter.TransformXsl(source_content,xsl_lucterios,false);

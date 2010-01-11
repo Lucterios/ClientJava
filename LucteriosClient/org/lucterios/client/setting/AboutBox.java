@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -38,6 +38,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.lucterios.client.application.ApplicationDescription;
+import org.lucterios.client.resources.Resources;
 import org.lucterios.utils.graphic.WebLabel;
 
 public class AboutBox extends JDialog implements MouseListener {
@@ -99,8 +100,7 @@ public class AboutBox extends JDialog implements MouseListener {
 		getContentPane().add(mCopyRigthLbl,
 				getConstraints(0, 2, new Insets(0, 10, 0, 0), 2, 1));
 
-		JLabel lucterios_logo = new JLabel(new javax.swing.ImageIcon(getClass()
-				.getResource("resources/LucteriosImage.gif")));
+		JLabel lucterios_logo = new JLabel(new javax.swing.ImageIcon(Resources.class.getResource("LucteriosImage.gif")));
 		getContentPane().add(lucterios_logo, getConstraints(0, 3, null, 2, 1));
 
 		JEditorPane lucterios = new JEditorPane();

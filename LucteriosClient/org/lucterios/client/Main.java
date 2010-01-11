@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.resources.Resources;
 import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
@@ -35,6 +36,7 @@ import org.lucterios.client.application.observer.ObserverException;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.application.observer.ObserverPrint;
 import org.lucterios.client.application.observer.ObserverTemplate;
+import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -71,7 +73,7 @@ class Main {
 					Logging.getInstance().setDebugLevel(args[0]);
 				main = new ApplicationMain();
 				main.setIconImage(Toolkit.getDefaultToolkit().getImage(
-						main.getClass().getResource("resources/connect.png")));
+						Resources.class.getResource("connect.png")));
 				ActionListener run_setup_dlg = main.getRunSetupDialog();
 				ObserverAuthentification.mConnection = main;
 				while ("".equals( Singletons.Transport().getSession() ))

@@ -1,4 +1,4 @@
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.awt.*;
 
@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.lucterios.client.resources.Resources;
 import org.lucterios.client.utils.LucteriosConfiguration;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.graphic.JAdvancePanel;
@@ -81,11 +82,9 @@ public class ConfigurationPanel extends JAdvancePanel {
 
 			btn_AddNew = new javax.swing.JButton();
 			btn_ExitNew = new javax.swing.JButton();
-			btn_AddNew.setIcon(new ImageIcon(this.getClass().getResource(
-					"resources/ok.png")));
+			btn_AddNew.setIcon(new ImageIcon(Resources.class.getResource("ok.png")));
 			btn_ExitNew = new javax.swing.JButton();
-			btn_ExitNew.setIcon(new ImageIcon(this.getClass().getResource(
-					"resources/cancel.png")));
+			btn_ExitNew.setIcon(new ImageIcon(Resources.class.getResource("cancel.png")));
 			pnl_btn.setLayout(new java.awt.GridBagLayout());
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setText("OK");

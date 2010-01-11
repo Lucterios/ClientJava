@@ -18,18 +18,17 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.io.InputStream;
 
+import org.lucterios.client.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 
 public class Constants {
 	public static final String Version() {
-		Constants c = new Constants();
-		InputStream is = c.getClass().getResourceAsStream(
-				"resources/version.txt");
+		InputStream is = Resources.class.getResourceAsStream("version.txt");
 		try {
 			return Tools.parseISToString(is).replace(' ', '.');
 		} catch (LucteriosException e) {
@@ -38,7 +37,7 @@ public class Constants {
 	}
 
 	public static final int CoreMainVersion = 1;
-	public static final int CoreSubVersion = 0;
+	public static final int CoreSubVersion = 1;
 
 	public static boolean CheckVersionInferiorEgual(String aCoreVersion,
 			int aMainVersion, int aSubVersion) {

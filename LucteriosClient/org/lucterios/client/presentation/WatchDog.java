@@ -28,7 +28,12 @@ import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 
 public class WatchDog extends TimerTask {
-	final static public int WATCH_DOG_TIME = 12 * 60 * 1000;
+
+	public interface WatchDogRefresher{
+		public void refreshClient() throws LucteriosException;
+	}
+
+	final static public int WATCH_DOG_TIME = 5 * 60 * 1000;
 	private HttpTransport mHttpTransport;
 
 	private WatchDog(HttpTransport aHttpTransport) {
@@ -36,13 +41,30 @@ public class WatchDog extends TimerTask {
 	}
 
 	public void run() {
-		try {
-			mHttpTransport.transfertXMLFromServer(new MapContext());
-		} catch (LucteriosException e) {
+		if (mTimer != null) {
+			synchronized (mTimer) {
+				try {
+					if (mWatchDogRefresher!=null)
+						mWatchDogRefresher.refreshClient();
+					else
+						mHttpTransport.transfertXMLFromServer(new MapContext());
+				} catch (LucteriosException e) {
+				}
+			}
 		}
 	}
 
 	static private Timer mTimer = null;
+
+	static private WatchDogRefresher mWatchDogRefresher=null;
+
+	public static void setWatchDogRefresher(WatchDogRefresher watchDogRefresher) {
+		if (mTimer != null) {
+			synchronized (mTimer) {
+				mWatchDogRefresher = watchDogRefresher;
+			}
+		}
+	}
 
 	static public void runWatchDog(HttpTransport aHttpTransport) {
 		if (aHttpTransport != null) {

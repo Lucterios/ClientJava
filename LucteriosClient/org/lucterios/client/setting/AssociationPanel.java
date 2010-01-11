@@ -1,4 +1,4 @@
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,6 +14,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.resources.Resources;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.StringDico;
 import org.lucterios.utils.graphic.JAdvancePanel;
@@ -77,11 +78,9 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 
 			btn_AddNew = new javax.swing.JButton();
 			btn_ExitNew = new javax.swing.JButton();
-			btn_AddNew.setIcon(new ImageIcon(this.getClass().getResource(
-					"resources/ok.png")));
+			btn_AddNew.setIcon(new ImageIcon(Resources.class.getResource("ok.png")));
 			btn_ExitNew = new javax.swing.JButton();
-			btn_ExitNew.setIcon(new ImageIcon(this.getClass().getResource(
-					"resources/cancel.png")));
+			btn_ExitNew.setIcon(new ImageIcon(Resources.class.getResource("cancel.png")));
 			pnl_btn.setLayout(new java.awt.GridBagLayout());
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setText("OK");

@@ -32,6 +32,7 @@ import java.io.OutputStream;
 
 import javax.swing.*;
 
+import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -69,7 +70,7 @@ public class DemoPrint extends JFrame
         pnl_main.setLayout(new java.awt.GridBagLayout());
         java.awt.GridBagConstraints gridBagConstraints;
 
-        Image font_img=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("resources/MainFont.jpg"));
+        Image font_img=Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
         SelectPrintDlg.FontImage=font_img;
         newContentPane = new MainPrintPanel();
         newContentPane.setFontImage(font_img,MainPrintPanel.TEXTURE);

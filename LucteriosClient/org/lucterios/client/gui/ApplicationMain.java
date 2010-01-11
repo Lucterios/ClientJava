@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.client.gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,9 +40,7 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
-import org.lucterios.client.ToolsPanel.RefreshButtonPanel;
 import org.lucterios.client.application.Action;
-import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.application.ApplicationDescription;
@@ -62,6 +60,11 @@ import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
 import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.client.resources.Resources;
+import org.lucterios.client.setting.AboutBox;
+import org.lucterios.client.setting.Constants;
+import org.lucterios.client.setting.SetupDialog;
+import org.lucterios.client.setting.Update;
 import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
@@ -97,7 +100,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private JMenuItem closeWinItem;
 	private JMenuItem aboutMenuItem;
 	private JMenuItem contentMenuItem;
-	private JMenuItem summaryMenuItem;
 	private JMenuItem exitMenuItem;
 	private JMenuItem setupMenuItem;
 	private JMenuItem disconnectMenuItem;
@@ -113,8 +115,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private TimeLabel mTimeValue;
 	private MemoryJauge mMemoryJauge;
 	private JPanel mStatBarPnl;
-	private ToolsPanel mToolNavigator;
-	private org.lucterios.client.ToolBar mToolBar;
+	private MainPanel mToolNavigator;
+	private org.lucterios.client.gui.ToolBar mToolBar;
 
 	private FormList mFormList;
 
@@ -123,7 +125,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private ApplicationDescription mDescription;
 
 	private Action mMenuAction;
-	private Action mStatusAction;
 	private Action mConnectionInfoAction;
 	private Observer mConnectionInfoOwnerObserber;
 	private Action mExitAction;
@@ -149,11 +150,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		initialize();
 		initAction();
 		initMenu();
-		mToolNavigator.setCoinAction(mQuitAction, ToolsPanel.BOTTOM_RIGHT);
-		mToolNavigator.setCoinAction(mDisconnectAction, ToolsPanel.BOTTOM_LEFT);
-		mToolNavigator.setCoinAction(mContentMenuAction, ToolsPanel.TOP_RIGHT);
-		mToolNavigator.setCoinAction(mToolNavigator.getReturnAction(),
-				ToolsPanel.TOP_LEFT);
 		mToolNavigator.clearTools();
 		ActionLocal.mFrameControle = this;
 		Menu.mToolBar = this;
@@ -195,14 +191,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mMenuAction = new ActionImpl();
 		mMenuAction.initialize(null, fact, "Menu", "CORE", "menu");
 
-		mStatusAction = new ActionImpl();
-		mStatusAction.initialize(null, fact, "Résumé", "CORE", "status");
-		mStatusAction.setFormType(ActionConstantes.FORM_MODAL);
-		mStatusAction.setKeyStroke(KeyStroke.getKeyStroke(
-				java.awt.event.KeyEvent.VK_S,
-				java.awt.event.InputEvent.ALT_MASK
-						+ java.awt.event.InputEvent.CTRL_MASK));
-
 		mExitAction = new ActionImpl();
 		mExitAction.initialize(null, fact, "Exit", "CORE", "exitConnection");
 
@@ -211,8 +199,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mConnectionInfoAction.initialize(mConnectionInfoOwnerObserber, fact, "CnxInfo", "common", "authentification");
 		
 		mDisconnectAction = new ActionLocal("Déconnecter", 'd',
-				new javax.swing.ImageIcon(getClass().getResource(
-						"resources/disconnected.png")), new AbstractAction() {
+				new javax.swing.ImageIcon(Resources.class.getResource("disconnected.png")), new AbstractAction() {
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,12 +210,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 								+ java.awt.event.InputEvent.CTRL_MASK));
 
 		mSetupAction = new ActionLocal("Configurer...", 'c',
-				new javax.swing.ImageIcon(getClass().getResource(
-						"resources/configure.png")), getRunSetupDialog(), null);
+				new javax.swing.ImageIcon(Resources.class.getResource("configure.png")), getRunSetupDialog(), null);
 
 		mQuitAction = new ActionLocal("Quitter", 'q',
-				new javax.swing.ImageIcon(getClass().getResource(
-						"resources/exit.png")), new AbstractAction() {
+				new javax.swing.ImageIcon(Resources.class.getResource("exit.png")), new AbstractAction() {
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,7 +267,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						mShowStatus = false;
 						refreshMainFrame();
 					}
 				}, javax.swing.KeyStroke.getKeyStroke(
@@ -291,8 +275,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 								+ java.awt.event.InputEvent.ALT_MASK));
 
 		mContentMenuAction = new ActionLocal("Aide", 'a',
-				new javax.swing.ImageIcon(getClass().getResource(
-						"resources/help.png")), new AbstractAction() {
+				new javax.swing.ImageIcon(Resources.class.getResource("help.png")), new AbstractAction() {
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,7 +312,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints cnt;
 
-		mToolBar = new org.lucterios.client.ToolBar();
+		mToolBar = new org.lucterios.client.gui.ToolBar();
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 0;
@@ -337,9 +320,9 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
 		Dimension size=mToolBar.getPreferredSize();
-		mToolBar.setMinimumSize(new Dimension(0,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
-		mToolBar.setPreferredSize(new Dimension(size.width,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
-		mToolBar.setMaximumSize(new Dimension(Integer.MAX_VALUE,(int)(org.lucterios.client.ToolBar.ICON_SIZE*1.8)));
+		mToolBar.setMinimumSize(new Dimension(0,(int)(org.lucterios.client.gui.ToolBar.ICON_SIZE*1.8)));
+		mToolBar.setPreferredSize(new Dimension(size.width,(int)(org.lucterios.client.gui.ToolBar.ICON_SIZE*1.8)));
+		mToolBar.setMaximumSize(new Dimension(Integer.MAX_VALUE,(int)(org.lucterios.client.gui.ToolBar.ICON_SIZE*1.8)));
 		getContentPane().add(mToolBar, cnt);
 
 		mProgressPanelTop = new ProgressPanel(true);
@@ -353,7 +336,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.fill = GridBagConstraints.BOTH;
 		getContentPane().add(mProgressPanelTop, cnt);
 
-		mToolNavigator = new ToolsPanel(this);
+		mToolNavigator = new MainPanel(this);
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 2;
@@ -466,10 +449,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		fileMenu.setText("Fichier");
 		fileMenu.setMnemonic('f');
 
-		summaryMenuItem = new org.lucterios.client.application.MenuItem(
-				mStatusAction, "");
-		fileMenu.add(summaryMenuItem);
-
 		fileMenu.addSeparator();
 
 		disconnectMenuItem = new org.lucterios.client.application.MenuItem(
@@ -550,21 +529,16 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mFormList.newShortCut(aActionName, aShortCut, aActionListener);
 	}
 
-	private boolean mShowStatus = false;
-
 	public void terminatToolBar() {
 		mToolNavigator.setVisible(true);
-		mToolNavigator.setApplication(getTitle(), mDescription.getLogoIcon());
 		mToolNavigator.setMainMenuBar(menuBar);
 		mFormList.assignShortCut(mToolNavigator);
 		mConnectionInfoAction.actionPerformed(null);
-		if (mShowStatus)
-			showStatus();
 		terminateShortCut();
+		setActive(true);
 	}
 
 	private void terminateShortCut() {
-		newShortCut("resumer", mStatusAction.getKeyStroke(), mStatusAction);
 		newShortCut("disconnect", mDisconnectAction.getKeyStroke(),
 				mDisconnectAction);
 		newShortCut("exit", mQuitAction.getKeyStroke(), mQuitAction);
@@ -580,7 +554,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	private void formWindowOpened(java.awt.event.WindowEvent evt) {
-		mShowStatus = true;
 		refreshMainFrame();
 	}
 
@@ -599,6 +572,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	private void disconnectSession() {
 		WatchDog.runWatchDog(null);
+		WatchDog.setWatchDogRefresher(null);
 		ExitConnection();
 		LogonBox logon_box = new LogonBox();
 		logon_box.mActionSetUp = getRunSetupDialog();
@@ -610,7 +584,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			disconnectSession();
 		}
         logon_box.dispose();
-		mShowStatus = false;
 		refreshMainFrame();
 	}
 
@@ -636,10 +609,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			mFormList.get(frame_idx).refresh();
 		reorganize();
 		toFront();
-	}
-
-	public void showStatus() {
-		mStatusAction.actionPerformed(null);
 	}
 
 	public void refreshIntFrame() {
@@ -750,7 +719,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			String aLogin, String aRealName) {
 		refreshConnectionInfoOwnerObs();
 		mDescription=aDescription;
-		//new ApplicationDescription(aTitle,aCopyRigth,aLogoName,aVersion,aServerVersion);
 		setIconImage(mDescription.getLogoImage());
 		String sub_title = aSubTitle;
 		if (!sub_title.equals( "" ))
@@ -758,7 +726,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		else
 			setTitle(mDescription.getTitle());
 		Server server=LogonBox.getLastServer();
-		mConnectionLogo.setIcon(new javax.swing.ImageIcon(this.getClass().getResource("resources/connection"+server.ConnectionMode+".png")));
+		mConnectionLogo.setIcon(new javax.swing.ImageIcon(Resources.class.getResource("connection"+server.ConnectionMode+".png")));
 		mLogName.setText(aRealName);
 		mServer.setText(aLogin + "@" + server.ServerName);
 		mDescription.setlogin(aLogin + "@" + server.HostName+"/"+server.Directory+":"+server.HostPort);

@@ -5,8 +5,8 @@ import java.net.URLEncoder;
 
 import javax.swing.ImageIcon;
 
-import org.lucterios.client.Constants;
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.setting.Constants;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;

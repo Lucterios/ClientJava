@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.client.setting;
 
 import java.awt.*;
 import java.io.File;
@@ -33,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.filechooser.FileFilter;
 
 import org.lucterios.client.presentation.Singletons;
+import org.lucterios.client.resources.Resources;
 import org.lucterios.client.utils.LucteriosConfiguration;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -63,8 +64,7 @@ public class SetupDialog extends JDialog {
 
 	public SetupDialog(JFrame aFrame, LucteriosConfiguration aConf) {
 		super(aFrame);
-		mFontImg = Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("resources/MainFont.jpg"));
+		mFontImg = Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
 		mConf = aConf;
 		Init();
 		InitSubPanel();
@@ -132,7 +132,7 @@ public class SetupDialog extends JDialog {
 				btn_OkActionPerformed(evt);
 			}
 		});
-		btn_Ok.setIcon(new ImageIcon(getClass().getResource("resources/ok.png")));
+		btn_Ok.setIcon(new ImageIcon(Resources.class.getResource("ok.png")));
 		pnl_btn.add(btn_Ok, getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 0));
 		
 		btn_Cancel.setMnemonic('n');
@@ -142,7 +142,7 @@ public class SetupDialog extends JDialog {
 				btn_CancelActionPerformed(evt);
 			}
 		});
-		btn_Cancel.setIcon(new ImageIcon(getClass().getResource("resources/cancel.png")));
+		btn_Cancel.setIcon(new ImageIcon(Resources.class.getResource("cancel.png")));
 		pnl_btn.add(btn_Cancel, getCnt(1, 0, 1, 1, GridBagConstraints.BOTH, 0));
 
 		btn_import.setMnemonic('o');
@@ -152,7 +152,7 @@ public class SetupDialog extends JDialog {
 				btn_importActionPerformed(evt);
 			}
 		});
-		btn_import.setIcon(new ImageIcon(getClass().getResource("resources/import.png")));
+		btn_import.setIcon(new ImageIcon(Resources.class.getResource("import.png")));
 		pnl_btn.add(btn_import, getCnt(2, 0, 1, 1, GridBagConstraints.BOTH, 0));
 
 		getContentPane().add(pnl_btn,getCnt(0, 4, 4, 1, GridBagConstraints.BOTH, 1));

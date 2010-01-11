@@ -1,4 +1,4 @@
-package org.lucterios.client;
+package org.lucterios.client.gui;
 
 import javax.swing.JButton;
 import javax.swing.JMenuBar;

@@ -71,8 +71,10 @@ public class ObserverFactoryImpl implements ObserverFactory {
 					mTransport.setSession(session);
 					if (!session.equals( "" ))
 						WatchDog.runWatchDog(mTransport);
-					else
+					else {
 						WatchDog.runWatchDog(null);
+						WatchDog.setWatchDogRefresher(null);
+					}
 				}
 			}
 			aut.show("");

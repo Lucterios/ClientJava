@@ -75,10 +75,10 @@ public class Menu extends JMenu {
 		while ((pos = new_text.indexOf(ActionImpl.MNEMONIC_CHAR)) != -1)
 			new_text = new_text.substring(0, pos) + new_text.substring(pos + 1);
 		this.setText(new_text);
+		this.setVisible(new_text.length()>0);
 
 		if (!aMainMenu && (mIcon.length() > 0)) {
-			this.setIcon(Tools.resizeIcon(
-					Singletons.Transport().getIcon(mIcon,mSizeIcon), 24, true));
+			this.setIcon(Tools.resizeIcon(Singletons.Transport().getIcon(mIcon,mSizeIcon), 24, true));
 		} else
 			this.setIcon(null);
 
@@ -131,8 +131,7 @@ public class Menu extends JMenu {
 				menu_bar.remove(menu_bar.getMenu(menu_idx));
 			} else {
 				String menu_name = menu_bar.getMenu(menu_idx).getName();
-				if ((menu_name != null)
-						&& (("helpMenu".equals( menu_name ) || "windowsMenu".equals( menu_name )))) {
+				if ((menu_name != null) && (("helpMenu".equals( menu_name ) || "windowsMenu".equals( menu_name )))) {
 					if (extra_menu_idx == -1)
 						extra_menu_idx = menu_idx;
 					extra_menu_nb++;
@@ -140,8 +139,7 @@ public class Menu extends JMenu {
 				menu_idx++;
 			}
 		}
-		fillMenuBar(aOwner, aFactory, aXml, menu_bar, extra_menu_idx,
-				extra_menu_nb);
+		fillMenuBar(aOwner, aFactory, aXml, menu_bar, extra_menu_idx, extra_menu_nb);
 		aJPOwner.refreshSize();
 		if (mToolBar != null) {
 			SwingUtilities.invokeLater(new Runnable(){
