@@ -150,10 +150,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		initialize();
 		initAction();
 		initMenu();
-		mToolNavigator.clearTools();
 		ActionLocal.mFrameControle = this;
 		Menu.mToolBar = this;
-		mToolNavigator.setMainMenuBar(menuBar);
 		pack();
 		reorganize();
 	}
@@ -529,6 +527,11 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mFormList.newShortCut(aActionName, aShortCut, aActionListener);
 	}
 
+	public void initialToolBar() {
+		setActive(false);
+		mToolNavigator.clearTools();
+	}
+	
 	public void terminatToolBar() {
 		mToolNavigator.setVisible(true);
 		mToolNavigator.setMainMenuBar(menuBar);
@@ -600,7 +603,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	public void refreshMainFrame() {
 		ImageCache.clearMiniImages();
-		mToolNavigator.clearTools();
 		setActive(false);
 		ObserverMenu.Main = this;
 		mFormList.clearShortCut();

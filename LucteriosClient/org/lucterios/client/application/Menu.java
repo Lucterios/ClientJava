@@ -43,6 +43,8 @@ public class Menu extends JMenu {
 	final static public String ENCODE = "UTF-8";
 
 	public interface ToolBar {
+		public void initialToolBar();
+		
 		public void newShortCut(String aActionName, KeyStroke aShortCut,
 				javax.swing.Action aActionListener);
 
@@ -121,6 +123,9 @@ public class Menu extends JMenu {
 
 	static public void fillMenuInFrame(FrameControle aJPOwner, Observer aOwner,
 			ObserverFactory aFactory, SimpleParsing aXml) {
+		if (mToolBar != null) {
+			mToolBar.initialToolBar();
+		}		
 		JMenuBar menu_bar = aJPOwner.getJMenuBar();
 		int extra_menu_idx = -1;
 		int extra_menu_nb = 0;

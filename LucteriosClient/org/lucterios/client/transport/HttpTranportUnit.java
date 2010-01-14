@@ -92,7 +92,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActions() throws LucteriosException {
-		http_transport.connectToServer("localhost", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
 		String xml_retour;
 		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
@@ -121,13 +121,13 @@ public class HttpTranportUnit extends TestCase {
 		System.out.println("3eme reponse:" + xml_retour);
 		assertTrue("3eme reponse size", 128 <= xml_retour.length());
 		assertEquals(
-				"3eme reponse",
+				"3eme reponse:"+xml_retour.substring(0, 256),
 				"<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Menu' source_extension='CORE' source_action='menu'>",
 				xml_retour.substring(0, 128));
 	}
 
 	public void testActionsSecurity() throws LucteriosException {
-		http_transport.connectToServer("localhost", "lucterios", 433, true);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 433, true);
 		String xml_retour;
 		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
