@@ -37,6 +37,7 @@ import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.application.observer.ObserverPrint;
 import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
+import org.lucterios.client.gui.ThemeMenu;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -59,6 +60,7 @@ class Main {
 	public static void main(String args[]) {
 		try {
 			Singletons.initalize();
+			ThemeMenu.initializedTheme();
 			Singletons.AppTerminate=new RequirementProcesses();
 			ApplicationMain main;
 			WaitingWindow ww = new WaitingWindow(

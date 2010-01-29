@@ -81,6 +81,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 		split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		split.setLeftComponent(mToogleManager);
 		split.setRightComponent(mtabs);
+		split.setOneTouchExpandable(true);
 		GridBagConstraints cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 0;

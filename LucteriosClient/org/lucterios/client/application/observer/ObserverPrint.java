@@ -21,23 +21,42 @@
 package org.lucterios.client.application.observer;
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
+import org.lucterios.Print.ExtensionFilter;
 import org.lucterios.Print.FopGenerator;
 import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
+import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
+import org.lucterios.utils.DecodeBase64ToInputStream;
+import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
+import org.lucterios.utils.Tools;
 
 public class ObserverPrint extends ObserverAbstract {
+	public final static int PRINT_TYPE_FOP = 0;
+
+	public final static int PRINT_TYPE_XML = 1;
+
+	public final static int PRINT_TYPE_BIN = 2;
+
 	String xml_content = null;
+
 	String title = "";
+
 	int type = 0;
+
 	int mode = SelectPrintDlg.MODE_NONE;
-	boolean withTextExport=false;
+
+	boolean withTextExport = false;
 
 	public String getObserverName() {
 		return "Core.Print";
@@ -51,8 +70,9 @@ public class ObserverPrint extends ObserverAbstract {
 		if (fo_elements != null) {
 			title = fo_elements.getAttribut("title");
 			type = fo_elements.getAttributInt("type", 0);
-			mode = fo_elements.getAttributInt("mode", SelectPrintDlg.MODE_NONE);
-			withTextExport = (fo_elements.getAttributInt("withTextExport", 0)!=0);
+			mode = fo_elements.getAttributInt("mode",
+					SelectPrintDlg.MODE_PREVIEW);
+			withTextExport = (fo_elements.getAttributInt("withTextExport", 0) != 0);
 			xml_content = fo_elements.getText();
 		}
 	}
@@ -79,8 +99,65 @@ public class ObserverPrint extends ObserverAbstract {
 			owner_dialog = getGUIDialog();
 			owner_frame = getGUIFrame();
 		}
-		FopGenerator generator = new FopGenerator(xml_content, title, type == 0);
-		generator.SelectPrintMedia(owner_frame, owner_dialog, mode,withTextExport, null, null);
+		if (type == PRINT_TYPE_BIN) {
+			openOrSavePrintReport(owner_dialog, owner_frame);
+		} else {
+			FopGenerator generator = new FopGenerator(xml_content, title,
+					type == PRINT_TYPE_FOP);
+			generator.SelectPrintMedia(owner_frame, owner_dialog, mode,
+					withTextExport, null, null);
+		}
+	}
+
+	private void openOrSavePrintReport(Dialog owner_dialog, Form owner_frame)
+			throws LucteriosException {
+		try {
+			InputStream print_stream = new DecodeBase64ToInputStream(
+					xml_content);
+			switch (mode) {
+			case SelectPrintDlg.MODE_EXPORT_PDF: {
+				File pdf_file = SelectPrintDlg.getSelectedFileName(
+						SelectPrintDlg.getDefaultFileName(title,
+								ExtensionFilter.EXTENSION_EXPORT_PDF),
+						owner_frame, owner_dialog,
+						ExtensionFilter.EXTENSION_EXPORT_PDF);
+				saveFile(pdf_file, print_stream);
+				break;
+			}
+			case SelectPrintDlg.MODE_EXPORT_CSV: {
+				File csv_file = SelectPrintDlg.getSelectedFileName(
+						SelectPrintDlg.getDefaultFileName(title,
+								ExtensionFilter.EXTENSION_EXPORT_CSV),
+						owner_frame, owner_dialog,
+						ExtensionFilter.EXTENSION_EXPORT_CSV);
+				saveFile(csv_file, print_stream);
+				break;
+			}
+			default:
+				File pdf_file = new File(Singletons.TEMP_DIR, Tools
+						.getFileNameWithoutForgottenChar(title)
+						+ ExtensionFilter.EXTENSION_EXPORT_PDF);
+				saveFile(pdf_file, print_stream);
+				DesktopTools.instance().launch(
+						pdf_file.toURI().toURL().toString());
+				break;
+			}
+		} catch (Exception e) {
+			throw new LucteriosException("Echec de l'impression:"+e.getMessage(), e);
+		}
+	}
+
+	private void saveFile(File fileName, InputStream is) throws IOException {
+		FileOutputStream fos = new FileOutputStream(fileName);
+		try {
+			byte[] buf = new byte[8192];
+			int len;
+			while ((len = is.read(buf)) >= 0) {
+				fos.write(buf, 0, len);
+			}
+		} finally {
+			fos.close();
+		}
 	}
 
 	public void show(String aTitle, Form new_frame) throws LucteriosException {

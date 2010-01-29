@@ -2,6 +2,7 @@ package org.lucterios.utils.graphic;
 
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 
 public class HtmlLabel extends JEditorPane {
@@ -21,6 +22,7 @@ public class HtmlLabel extends JEditorPane {
 		Font df=new Font(null);
 		mFontSize=(int) (SizeFactor*df.getSize()+0.5f);
 		setText("");
+		setBorder(BorderFactory.createEmptyBorder());
 	}
 	
 	public void setText(String aText){

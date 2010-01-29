@@ -79,7 +79,7 @@ public class DesktopTools {
 	
 	private Insets current_insets=null;
 	
-	private IniFileReader m_ApplicationsSettingFile=null;
+	private IniFileManager m_ApplicationsSettingFile=null;
 	
 	private DesktopTools() {
 		super();
@@ -92,7 +92,7 @@ public class DesktopTools {
 		return mInstance;
 	}
 	
-	public void initApplicationsSetting(IniFileReader aApplicationsSettingFile) {
+	public void initApplicationsSetting(IniFileManager aApplicationsSettingFile) {
 		m_ApplicationsSettingFile=aApplicationsSettingFile;
 	}
 
@@ -126,9 +126,10 @@ public class DesktopTools {
 		int dot_pos=aUrl.lastIndexOf('.');
 		String ext=aUrl.substring(dot_pos+1);
 		String applic="";
-		if (m_ApplicationsSettingFile!=null)
+		if (m_ApplicationsSettingFile!=null) {
 			applic=m_ApplicationsSettingFile.getValueSection(ASSOCIATION_SECTION,ext);
-		if (applic!=null) {
+		}
+		if ((applic!=null) && !applic.isEmpty()) {
 			String[] args=new String[] {applic, aUrl};				
 			new ProcessExitDetector(args);			
 		} 

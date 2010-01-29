@@ -2,13 +2,8 @@ package org.lucterios.utils.graphic;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class JAdvancePanel extends JPanel {
@@ -31,11 +26,11 @@ public class JAdvancePanel extends JPanel {
 	   }
 	}
 
-	private int mMode=NONE;
-	private BufferedImage mFontImage=null;
-	private Image mImage=null;
+	//private int mMode=NONE;
+	//private BufferedImage mFontImage=null;
+	//private Image mImage=null;
 	public void setFontImage(Image aImage,int aMode) {
-		mImage=aImage;
+/*		mImage=aImage;
 		if (aImage!=null) {
 			aImage = new ImageIcon(aImage).getImage();
 			mFontImage = new BufferedImage( aImage.getWidth(null), aImage.getHeight(null), BufferedImage.TYPE_INT_RGB); 
@@ -49,10 +44,11 @@ public class JAdvancePanel extends JPanel {
 		else {
 			mFontImage = null;
 			mMode=NONE;
-		}			
+		}*/			
 	}
 	public Image getFontImage() {
-		return mImage;
+		return null;
+		//return mImage;
 	}
 	
 	public static final int NONE = 0;
@@ -60,7 +56,7 @@ public class JAdvancePanel extends JPanel {
 	public static final int TEXTURE = 2;
 	public static final int STRETCH = 3;
 	
-	public void paintComponent(Graphics g)
+/*	public void paintComponent(Graphics g)
 	{	
 		switch( mMode )
 		{	
@@ -84,7 +80,7 @@ public class JAdvancePanel extends JPanel {
 				super.paintComponents(g);
 				break;				
 		}
-	}
+	}*/
 
 	public int Tag=0;
 

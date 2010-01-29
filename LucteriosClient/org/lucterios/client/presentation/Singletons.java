@@ -27,7 +27,7 @@ import org.lucterios.client.transport.HttpTransport;
 import org.lucterios.client.transport.HttpTransportImpl;
 import org.lucterios.client.utils.LucteriosConfiguration;
 import org.lucterios.utils.DesktopTools;
-import org.lucterios.utils.IniFileReader;
+import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.Tools;
 
 public class Singletons {
@@ -39,7 +39,7 @@ public class Singletons {
 		void exit();
 	}
 
-	static public IniFileReader LucteriosSettingFile=null;
+	static public IniFileManager LucteriosSettingFile=null;
 	
 	static public ApplicationTerminate AppTerminate=null;
 	
@@ -79,7 +79,7 @@ public class Singletons {
 	}
 
 	static public void loadSetting() throws IOException {
-		LucteriosSettingFile=new IniFileReader(LUCTERIOS_CONFIG);
+		LucteriosSettingFile=new IniFileManager(LUCTERIOS_CONFIG);
 		DesktopTools.instance().initApplicationsSetting(LucteriosSettingFile);
 	}
 	

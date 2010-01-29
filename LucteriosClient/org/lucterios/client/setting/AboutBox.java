@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -79,6 +80,7 @@ public class AboutBox extends JDialog implements MouseListener {
 				getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 2));
 
 		mTitleLbl = new JEditorPane();
+		mTitleLbl.setBorder(BorderFactory.createEmptyBorder());
 		mTitleLbl.setEditable(false);
 		mTitleLbl.setFocusable(false);
 		mTitleLbl.setContentType("text/html");
@@ -86,6 +88,7 @@ public class AboutBox extends JDialog implements MouseListener {
 		getContentPane().add(mTitleLbl, getConstraints(1, 0, null, 1, 1));
 
 		mVersionLbl = new JEditorPane();
+		mVersionLbl.setBorder(BorderFactory.createEmptyBorder());
 		mVersionLbl.setEditable(false);
 		mVersionLbl.setFocusable(false);
 		mVersionLbl.setContentType("text/html");
@@ -93,6 +96,7 @@ public class AboutBox extends JDialog implements MouseListener {
 		getContentPane().add(mVersionLbl, getConstraints(1, 1, null, 1, 1));
 
 		mCopyRigthLbl = new JEditorPane();
+		mCopyRigthLbl.setBorder(BorderFactory.createEmptyBorder());
 		mCopyRigthLbl.setEditable(false);
 		mCopyRigthLbl.setFocusable(false);
 		mCopyRigthLbl.setContentType("text/html");
@@ -104,6 +108,7 @@ public class AboutBox extends JDialog implements MouseListener {
 		getContentPane().add(lucterios_logo, getConstraints(0, 3, null, 2, 1));
 
 		JEditorPane lucterios = new JEditorPane();
+		lucterios.setBorder(BorderFactory.createEmptyBorder());
 		lucterios.setEditable(false);
 		lucterios.setFocusable(false);
 		lucterios.setBackground(this.getBackground());

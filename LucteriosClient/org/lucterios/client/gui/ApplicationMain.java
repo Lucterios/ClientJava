@@ -54,6 +54,7 @@ import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverMenu;
+import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.presentation.Observer;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverFactory;
@@ -69,10 +70,8 @@ import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.client.utils.FormList;
-import org.lucterios.client.utils.LookAndFeelMenuItem;
 import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.client.utils.Form.NotifyFrameChange;
-import org.lucterios.client.utils.LookAndFeelMenuItem.LookAndFeelCallBack;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.Logging;
@@ -494,21 +493,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		contentMenuItem = new org.lucterios.client.application.MenuItem(
 				mContentMenuAction, "");
 		helpMenu.add(contentMenuItem);
-
-		JMenu LookFeelMenuItem = new JMenu("Style");
-		javax.swing.ButtonGroup bg = new javax.swing.ButtonGroup();
-
-		javax.swing.UIManager.LookAndFeelInfo[] info = javax.swing.UIManager
-				.getInstalledLookAndFeels();
-		for (int key_index = 0; key_index < info.length; key_index++) {
-			javax.swing.JRadioButtonMenuItem item = new LookAndFeelMenuItem(
-					info[key_index].getName(), info[key_index].getClassName(),
-					this);
-			bg.add(item);
-			LookFeelMenuItem.add(item);
-		}
-		helpMenu.add(LookFeelMenuItem);
-
+		helpMenu.add(ThemeMenu.getThemeMenu(this));
+		
 		aboutMenuItem = new org.lucterios.client.application.MenuItem(
 				mAboutAction, "");
 		helpMenu.add(aboutMenuItem);
@@ -667,10 +653,9 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	public void reorganize() {
 		mToolBar.refresh(menuBar);
-		Rectangle globale_area = getArea();
+		this.setExtendedState(this.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 
-		setLocation(globale_area.x, globale_area.y);
-		setSize(new Dimension(globale_area.width, globale_area.height));
+		Rectangle globale_area = getArea();
 		mStatBarPnl.setMaximumSize(mStatBarPnl.getSize());
 		mStatBarPnl.setMinimumSize(mStatBarPnl.getSize());
 		int nb = mFormList.count();

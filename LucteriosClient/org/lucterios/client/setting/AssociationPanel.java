@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -366,6 +367,14 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 		refreshGrid();
 		javax.swing.JButton[] btns_1 = { btn_Mod, btn_Del, btn_Add };
 		Tools.calculBtnSize(btns_1);
+	}
+
+	public void Save() throws IOException {
+		Singletons.LucteriosSettingFile.clearSection(DesktopTools.ASSOCIATION_SECTION);
+		for(int idx=0;idx<getRowCount();idx++) {			
+			Singletons.LucteriosSettingFile.setValueSection(DesktopTools.ASSOCIATION_SECTION, getKey(idx), (String)getValueAt(idx,1));
+		}
+		Singletons.LucteriosSettingFile.save();		
 	}
 	
 	private void refreshGrid() {

@@ -22,7 +22,6 @@ package org.lucterios.client.setting;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -35,7 +34,6 @@ import javax.swing.filechooser.FileFilter;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.resources.Resources;
 import org.lucterios.client.utils.LucteriosConfiguration;
-import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.Tools;
@@ -219,19 +217,8 @@ public class SetupDialog extends JDialog {
 			mConf.TitreDefault = txt_Title.getText().trim();
 			mConf.ProxyAdress = conf_pnl.getProxyAddr();
 			mConf.ProxyPort = conf_pnl.getProxyPort();
-			mConf.write();
-
-			FileWriter file_conf = new FileWriter(Singletons.LUCTERIOS_CONFIG);
-			file_conf.write("["+DesktopTools.ASSOCIATION_SECTION+"]\n");
-			for(int idx=0;idx<asso_pnl.getRowCount();idx++) {			
-				file_conf.write(asso_pnl.getKey(idx));
-				file_conf.write("=");
-				file_conf.write((String)asso_pnl.getValueAt(idx,1));
-				file_conf.write("\n");
-			}
-			file_conf.flush();
-			file_conf.close();
-			
+			mConf.write();	
+			asso_pnl.Save();
 			dispose();
 			Singletons.loadSetting();
 		} catch (java.io.IOException ioe) {
