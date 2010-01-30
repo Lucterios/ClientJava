@@ -129,7 +129,7 @@ public class DesktopTools {
 		if (m_ApplicationsSettingFile!=null) {
 			applic=m_ApplicationsSettingFile.getValueSection(ASSOCIATION_SECTION,ext);
 		}
-		if ((applic!=null) && !applic.isEmpty()) {
+		if ((applic!=null) && (applic.length()>0)) {
 			String[] args=new String[] {applic, aUrl};				
 			new ProcessExitDetector(args);			
 		} 
