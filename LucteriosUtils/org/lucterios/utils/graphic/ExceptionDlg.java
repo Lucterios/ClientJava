@@ -101,7 +101,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
 	
     public ExceptionDlg() 
     {
-    	super();
+    	super(JFrame.getFrames().length>0?Frame.getFrames()[0]:null);
         java.awt.GridBagConstraints gridBagConstraints;
 
         PnlMain = new javax.swing.JPanel();
@@ -113,7 +113,6 @@ public class ExceptionDlg extends javax.swing.JDialog {
 
         getContentPane().add(PnlMain, java.awt.BorderLayout.CENTER);
         getContentPane().add(PnlExtra, java.awt.BorderLayout.SOUTH);
-        setIconImage(JFrame.getFrames().length>0?Frame.getFrames()[0].getIconImage():null);
         setTitle("Erreur");
         setModal(true);
         PnlMain.setLayout(new java.awt.GridBagLayout());
