@@ -22,12 +22,15 @@ package org.lucterios.utils.graphic;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.lucterios.utils.LucteriosException;
@@ -98,6 +101,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
 	
     public ExceptionDlg() 
     {
+    	super();
         java.awt.GridBagConstraints gridBagConstraints;
 
         PnlMain = new javax.swing.JPanel();
@@ -109,6 +113,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
 
         getContentPane().add(PnlMain, java.awt.BorderLayout.CENTER);
         getContentPane().add(PnlExtra, java.awt.BorderLayout.SOUTH);
+        setIconImage(JFrame.getFrames().length>0?Frame.getFrames()[0].getIconImage():null);
         setTitle("Erreur");
         setModal(true);
         PnlMain.setLayout(new java.awt.GridBagLayout());
@@ -116,6 +121,7 @@ public class ExceptionDlg extends javax.swing.JDialog {
         PnlMain.setName("PnlMain");
         lbl_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("resources/error.png")));
         lbl_img.setName("lbl_img");
+        lbl_img.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -124,13 +130,18 @@ public class ExceptionDlg extends javax.swing.JDialog {
         lbl_message.setEditable(false);
         lbl_message.setFocusable(false);        
         lbl_message.setBackground(getContentPane().getBackground());
+        lbl_message.setAlignmentX(0.5f);
+        lbl_message.setAlignmentY(0.5f);
+        lbl_message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        lbl_message.setMinimumSize(new Dimension(100,40));
+        lbl_message.setPreferredSize(new Dimension(100,40));
         lbl_message.setName("lbl_message");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.0;
-        gridBagConstraints.weighty = 0.0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         PnlMain.add(lbl_message, gridBagConstraints);
 
         JPanel PnlBtn = new javax.swing.JPanel();

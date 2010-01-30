@@ -57,7 +57,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	RefreshButtonPanel mRefreshButtonPanel;
 
-	private JTabbedPane mtabs;
+	private JTabbedPane mtabs=null;
 
 	private ToogleManager mToogleManager;
 
@@ -74,13 +74,10 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createLineBorder(FORE_GROUND));
 		setBackground(BACK_GROUND);
-		mtabs = new JTabbedPane();
-		mtabs.addComponentListener(this);
 		mToogleManager = new ToogleManager(getFontImage());
 		split = new JSplitPane();
 		split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		split.setLeftComponent(mToogleManager);
-		split.setRightComponent(mtabs);
 		split.setOneTouchExpandable(true);
 		GridBagConstraints cnt = new GridBagConstraints();
 		cnt.gridx = 0;
@@ -89,9 +86,25 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 		cnt.weighty = 1;
 		cnt.fill = GridBagConstraints.BOTH;
 		add(split, cnt);
-		mtabs.addMouseListener(this);
+		addTabs();
 	}
 
+	private void addTabs() {
+		if (mtabs==null) {
+			mtabs = new JTabbedPane();
+			mtabs.addComponentListener(this);
+			split.setRightComponent(mtabs);
+			mtabs.addMouseListener(this);
+		}
+	}
+
+	private void clearTabs() {
+		split.setRightComponent(null);
+		if (mtabs!=null)
+			mtabs.removeAll();
+		mtabs=null;
+	}
+	
 	public void clearTools() {
 		if (mDividerLocation != -1)
 			mDividerLocation = (1.0 * split.getDividerLocation())
@@ -100,7 +113,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 			mDividerLocation = 0.25;
 		split.setVisible(false);
 		split.setDividerLocation(0);
-		mtabs.removeAll();
+		clearTabs();
 		mToogleManager.clear();
 	}
 
@@ -115,6 +128,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	public void setMainMenuBar(JMenuBar aMenuBar) {
 		repaint();
+		addTabs();
 		for (int index = 0; (aMenuBar != null)
 				&& (index < aMenuBar.getMenuCount()); index++)
 			if (Menu.class.isInstance(aMenuBar.getMenu(index))) {
@@ -130,6 +144,9 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 					mToogleManager.addMenu(current_menu);
 				}
 			}
+		if (mtabs.getTabCount()==0) {
+			clearTabs();
+		}
 		SwingUtilities.invokeLater(this);
 		mRefreshButtonPanel.reorganize();
 	}
