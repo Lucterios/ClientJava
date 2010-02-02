@@ -446,8 +446,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		fileMenu.setText("Fichier");
 		fileMenu.setMnemonic('f');
 
-		fileMenu.addSeparator();
-
 		disconnectMenuItem = new org.lucterios.client.application.MenuItem(
 				mDisconnectAction, "");
 		fileMenu.add(disconnectMenuItem);
@@ -455,6 +453,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		setupMenuItem = new org.lucterios.client.application.MenuItem(
 				mSetupAction, "");
 		fileMenu.add(setupMenuItem);
+
+		fileMenu.addSeparator();
 
 		exitMenuItem = new org.lucterios.client.application.MenuItem(
 				mQuitAction, "");
