@@ -323,6 +323,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		getContentPane().add(mToolBar, cnt);
 
 		mProgressPanelTop = new ProgressPanel(true);
+		mProgressPanelTop.setMinimumSize(new Dimension(PROGRESS_SIZE,
+				PROGRESS_SIZE));
 		mProgressPanelTop.setPreferredSize(new Dimension(PROGRESS_SIZE,
 				PROGRESS_SIZE));
 		cnt = new GridBagConstraints();
@@ -343,6 +345,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		getContentPane().add(mToolNavigator, cnt);
 
 		mProgressPanelBottom = new ProgressPanel(false);
+		mProgressPanelBottom.setMinimumSize(new Dimension(PROGRESS_SIZE,
+				PROGRESS_SIZE));
 		mProgressPanelBottom.setPreferredSize(new Dimension(PROGRESS_SIZE,
 				PROGRESS_SIZE));
 		cnt = new GridBagConstraints();

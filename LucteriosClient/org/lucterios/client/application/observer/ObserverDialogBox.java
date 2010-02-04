@@ -26,6 +26,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.lang.ref.WeakReference;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -94,6 +96,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 			gdbConstr_pnl = new GridBagConstraints();
 
 			lbl_img.setOpaque(false);
+			lbl_img.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			lbl_img.setHorizontalAlignment(SwingConstants.CENTER);
 			lbl_img.setHorizontalTextPosition(SwingConstants.CENTER);
 			gdbConstr_Img.gridx = 0;
@@ -103,6 +106,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 			gdbConstr_lbl.gridwidth = 1;
 			main_Pnl.add(lbl_img, gdbConstr_Img);
 
+			lbl_message.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
 			lbl_message.setOpaque(false);
 			lbl_message.setEditable(false);
 			lbl_message.setFocusable(false);

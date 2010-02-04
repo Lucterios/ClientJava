@@ -56,7 +56,19 @@
 	</target>
 	
 	<target name="packaging">
-		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" />
+		<manifest file="${projet.bin.dir}/Manifest.txt">
+			<attribute name="Created-By" value="Lucterios"/>
+			<attribute name="Class-Path" value="commons-codec-1.3.jar Date_selector.jar junit.jar" />
+			<section name="LucteriosUtils">
+				<attribute name="Specification-Title" value="LucteriosUtils"/>
+				<attribute name="Specification-Version" value="${projet.version.max}.${projet.version.min}"/>
+				<attribute name="Specification-Vendor" value="lucterios.org"/>
+				<attribute name="Implementation-Title" value="LucteriosUtils"/>
+				<attribute name="Implementation-Version" value="${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="lucterios.org"/>
+			</section>
+		</manifest>		
+		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" excludes='.svn' />
 	</target>
 	
 	<target name="javadoc">

@@ -1,5 +1,6 @@
 package org.lucterios.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,10 +12,10 @@ public class IniFileManager extends Properties {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String IniFileName;
+	private File IniFileName;
 
 	public IniFileManager(String aIniFileName) throws IOException {
-		IniFileName=aIniFileName;
+		IniFileName=new File(aIniFileName);
 		load();
 	}
 	
@@ -25,7 +26,8 @@ public class IniFileManager extends Properties {
 	
 	private void load() throws IOException{
 		clear();
-		load(new FileInputStream(IniFileName));
+		if (IniFileName.isFile())
+			load(new FileInputStream(IniFileName));
 	}
 	
 	public int getValueSectionInt(String category, String component,int defaultValue) {

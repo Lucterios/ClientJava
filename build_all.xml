@@ -5,7 +5,10 @@
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="1"/>
 	<property name="projet.version.min" value="1"/>
-	<property name="projet.version.release" value="3"/>
+	<property name="projet.version.release" value="4"/>
+	<tstamp>
+		<format property="TODAY" pattern="dd-MM-yyyy"/>
+	</tstamp>
 
 	<target name="all">
 		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
@@ -17,6 +20,13 @@
 		<antcall target="tests" />
 	</target>		
 
+	<target name="compile">
+		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
+		<antcall target="init" />
+		<antcall target="build" />
+		<antcall target="package" />
+	</target>		
+	
 	<target name="init">
 		<property name="projet.version.build" value="1"/>
 		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
@@ -35,6 +45,14 @@
 	</target>	
 	
 	<target name="clear">
+		<delete dir="bin"/>
+		<delete dir="doc"/>
+		<delete dir="subdir"/>
+		<delete dir="test-results"/>
+		<delete dir=".LucteriosCache"/>
+		<delete dir=".LucteriosTemp"/>
+		<delete file=".LucteriosSetting"/>
+		<delete file="LucteriosClient.conf"/>
 		<ant antfile="Utils_build.xml" target="clear"/>
 		<ant antfile="Print_build.xml" target="clear"/>
 		<ant antfile="Client_build.xml" target="clear"/>

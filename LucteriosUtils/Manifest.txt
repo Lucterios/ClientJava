@@ -1,12 +1,13 @@
 Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.0
 Created-By: Lucterios
-Main-class: org.lucterios.Client.Main
-Class-Path: batik-all-1.7.jar commons-codec-1.3.jar Date_selector.jar junit.jar
+Class-Path: commons-codec-1.3.jar Date_selector.jar junit.jar
 
 Name: LucteriosUtils
 Specification-Title: LucteriosUtils
-Specification-Version: 0.35
-Specification-Vendor: Lucterios.org
+Specification-Version: 1.1
+Specification-Vendor: lucterios.org
 Implementation-Title: LucteriosUtils
-Implementation-Version: 2008-02-20-A
-Implementation-Vendor: Lucterios.org
+Implementation-Version: 1.1.3.${env.BUILD_NUMBER} 04-02-2010
+Implementation-Vendor: lucterios.org
+

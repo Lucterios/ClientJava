@@ -4,7 +4,7 @@
 	<property name="projet.bin.dir" value="${ant.project.name}"/>
 	<property name="projet.doc.dir" value="${ant.project.name}/doc"/>
 	<property name="projet.lib.dir" value="lib"/>
-
+	
 	<path id="projet.classpath">
 		<fileset dir="${projet.lib.dir}">
 			<include name="*.jar"/>
@@ -56,7 +56,15 @@
 	</target>
 	
 	<target name="packaging">
-		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" />
+		<copy file="${projet.bin.dir}/Manifest.tmp" tofile="${projet.bin.dir}/Manifest.txt" overwrite="true"/>
+		<echo file="${projet.bin.dir}/Manifest.txt" append='true'>Name: LucteriosClient
+Specification-Title: LucteriosClient
+Specification-Version: ${projet.version.max}.${projet.version.min}
+Specification-Vendor: lucterios.org
+Implementation-Title: LucteriosClient
+Implementation-Version: ${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build} ${TODAY}
+Implementation-Vendor: lucterios.org</echo>
+<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt"  excludes='.svn'/>
 	</target>
 	
 	<target name="javadoc">

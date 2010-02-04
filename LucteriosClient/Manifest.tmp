@@ -3,10 +3,3 @@ Created-By: Lucterios
 Main-class: org.lucterios.client.Main
 Class-Path: lib/commons-codec-1.3.jar lib/commons-httpclient-3.1.jar lib/contrib.jar lib/junit.jar lib/js.jar  lib/LucteriosUtils.jar lib/LucteriosPrint.jar lib/PgsLookAndFeel.jar
 
-Name: LucteriosClient
-Specification-Title: LucteriosClient
-Specification-Version: 1.1
-Specification-Vendor: lucterios.org
-Implementation-Title: LucteriosClient
-Implementation-Version: 1.1.3.${env.BUILD_NUMBER} 04-02-2010
-Implementation-Vendor: lucterios.org

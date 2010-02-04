@@ -1,12 +1,14 @@
 Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.0
 Created-By: Lucterios
-Main-class: org.lucterios.stressTester.Main
+Main-Class: org.lucterios.stressTester.Main
 Class-Path: lib/LucteriosUtils.jar LucteriosClient.jar
 
 Name: LucteriosStressTester
 Specification-Title: LucteriosStressTester
-Specification-Version: 0.40
-Specification-Vendor: Lucterios.org
+Specification-Version: 1.1
+Specification-Vendor: lucterios.org
 Implementation-Title: LucteriosStressTester
-Implementation-Version: 2009-07-27-A
-Implementation-Vendor: Lucterios.org
+Implementation-Version: 1.1.3.${env.BUILD_NUMBER} 04-02-2010
+Implementation-Vendor: lucterios.org
+
