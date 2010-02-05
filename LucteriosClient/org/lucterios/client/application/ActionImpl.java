@@ -41,24 +41,38 @@ import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class ActionImpl implements Action {
-	static public WindowGenerator mWindowGenerator=null;
+	static public WindowGenerator mWindowGenerator = null;
+
 	public final static char MNEMONIC_CHAR = '_';
 
 	private Observer mOwner = null;
+
 	private ObserverFactory mFactory = null;
+
 	private String mID = "";
+
 	private String mTitle;
+
 	private char mMnemonic = 0;
+
 	private String mExtension = "";
+
 	private String mAction = "";
+
 	private String mIcon = "";
+
 	private int mSizeIcon = 0;
+
 	private KeyStroke mKeyStroke = null;
 
 	private int mFormType = ActionConstantes.FORM_NOMODAL;
+
 	private boolean mClose = true;
+
 	private int mSelect = ActionConstantes.SELECT_NONE;
+
 	private boolean mCheckNull = true;
+
 	private boolean mUsedContext = false;
 
 	public ActionImpl() {
@@ -69,15 +83,15 @@ public class ActionImpl implements Action {
 			SimpleParsing aXml) {
 		initialize(aOwner, aFactory, aXml.getText(), aXml
 				.getAttribut("extension"), aXml.getAttribut("action"));
-		if (!aXml.getAttribut("id").equals( "" ))
+		if (!aXml.getAttribut("id").equals(""))
 			mID = aXml.getAttribut("id");
 		mFormType = aXml.getAttributInt("modal", ActionConstantes.FORM_NOMODAL);
 		mClose = (aXml.getAttributInt("close", 1) != 0);
 		mSelect = aXml.getAttributInt("unique", ActionConstantes.SELECT_NONE);
 		mIcon = aXml.getAttribut("icon");
-		mSizeIcon = aXml.getAttributInt("sizeicon",0);
+		mSizeIcon = aXml.getAttributInt("sizeicon", 0);
 		String key_stroke = aXml.getAttribut("shortcut");
-		if (!key_stroke.equals( "" ))
+		if (!key_stroke.equals(""))
 			mKeyStroke = KeyStroke.getKeyStroke(key_stroke);
 		else
 			mKeyStroke = null;
@@ -132,7 +146,7 @@ public class ActionImpl implements Action {
 	}
 
 	public ImageIcon getIcon() {
-		return Singletons.Transport().getIcon(mIcon,mSizeIcon);
+		return Singletons.Transport().getIcon(mIcon, mSizeIcon);
 	}
 
 	public KeyStroke getKeyStroke() {
@@ -184,14 +198,15 @@ public class ActionImpl implements Action {
 	}
 
 	public void showObserver(Observer aObs) {
-		Logging.getInstance().writeLog("@@@ showObserver @@@","BEGIN",2);
+		Logging.getInstance().writeLog("@@@ showObserver @@@", "BEGIN", 2);
 		aObs.eventForEnabled(true);
 		try {
 			try {
 				Dialog owner_dialog = null;
 				Form owner_frame = null;
 				int form_type = getFormType(aObs);
-				if ((mOwner != null) && (form_type != ActionConstantes.FORM_REFRESH)) {
+				if ((mOwner != null)
+						&& (form_type != ActionConstantes.FORM_REFRESH)) {
 					if (mClose) {
 						if (mOwner.getParent() != null) {
 							owner_dialog = mOwner.getParent().getGUIDialog();
@@ -209,7 +224,7 @@ public class ActionImpl implements Action {
 		} finally {
 			aObs.eventForEnabled(false);
 		}
-		Logging.getInstance().writeLog("@@@ showObserver @@@","END",2);
+		Logging.getInstance().writeLog("@@@ showObserver @@@", "END", 2);
 	}
 
 	private int getFormType(Observer aObs) {
@@ -220,7 +235,7 @@ public class ActionImpl implements Action {
 		return form_type;
 	}
 
-	private void showObserver(Observer aObs,final Dialog owner_dialog,
+	private void showObserver(Observer aObs, final Dialog owner_dialog,
 			final Form owner_frame, int form_type) throws LucteriosException {
 		Dialog new_dialog = null;
 		Form new_frame = null;
@@ -244,9 +259,9 @@ public class ActionImpl implements Action {
 				new_dialog = null;
 				new_frame = null;
 				break;
-			default: 
-					//TODO: Implement 'default' statement
-					break;
+			default:
+				// TODO: Implement 'default' statement
+				break;
 			}
 		}
 
@@ -260,7 +275,7 @@ public class ActionImpl implements Action {
 
 	public void runAction(Map aParam) {
 		try {
-			Logging.getInstance().writeLog("@@@ runAction @@@","BEGIN",2);
+			Logging.getInstance().writeLog("@@@ runAction @@@", "BEGIN", 2);
 			Observer old_observrer = null;
 			if (mFormType == ActionConstantes.FORM_REFRESH)
 				old_observrer = getOwner();
@@ -289,7 +304,7 @@ public class ActionImpl implements Action {
 				}
 			});
 		}
-		Logging.getInstance().writeLog("@@@ runAction @@@","END",2);
+		Logging.getInstance().writeLog("@@@ runAction @@@", "END", 2);
 	}
 
 	private Map getParameters() throws LucteriosException {
@@ -307,7 +322,7 @@ public class ActionImpl implements Action {
 	private boolean mustPerforme() {
 		if (!mEnabled)
 			return false;
-		if ("".equals( mExtension ) || "".equals( mAction )) {
+		if ("".equals(mExtension) || "".equals(mAction)) {
 			if ((mOwner != null) && (mClose))
 				mOwner.close(true);
 			return false;
@@ -318,29 +333,30 @@ public class ActionImpl implements Action {
 	public void actionPerformed(ActionEvent aEvent) {
 		if (mustPerforme())
 			try {
-			final Map param = getParameters();
-			if (param != null) {
-				if (mOwner != null) {
-					if (mClose)
+				final Map param = getParameters();
+				if (param != null) {
+					if ((mOwner != null) && (mClose)) {
 						mOwner.close(false);
-					else
+					} 
+					if (mOwner != null) {
 						mOwner.setActive(false);
-				}
-				Thread thd = new Thread() {
-					public void run() {
-						try {
-							runAction(param);
-						} finally {
-							if (mOwner != null)
-								mOwner.setActive(true);
-						}
 					}
-				};
-				thd.start();
+					Thread thd = new Thread() {
+						public void run() {
+							try {
+								runAction(param);
+							} finally {
+								if (mOwner != null) {
+									mOwner.setActive(true);
+								}
+							}
+						}
+					};
+					thd.start();
+				}
+			} catch (LucteriosException e) {
+				ExceptionDlg.throwException(e);
 			}
-		} catch (LucteriosException e) {
-			ExceptionDlg.throwException(e);
-		}
 	}
 
 	private boolean mEnabled = true;

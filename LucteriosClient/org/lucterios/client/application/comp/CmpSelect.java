@@ -25,6 +25,7 @@ import java.util.*;
 import java.awt.*;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListDataListener;
 
 import org.lucterios.client.presentation.Observer.MapContext;
@@ -32,7 +33,20 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public class CmpSelect extends CmpAbstractEvent {
-	class ItemList extends ArrayList implements ComboBoxModel {
+	class ItemObj {
+		public String mText;
+		public String mID;
+
+		public ItemObj(String aText, String aID) {
+			mText = aText.trim();
+			mID = aID.trim();
+		}
+
+		public String toString() {
+			return mText;
+		}
+	}
+	class ItemList extends ArrayList<ItemObj> implements ComboBoxModel {
 
 		/**
 		 * 
@@ -67,33 +81,19 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	}
 
-	class ItemObj {
-		public String mText;
-		public String mID;
-
-		public ItemObj(String aText, String aID) {
-			mText = aText.trim();
-			mID = aID.trim();
-		}
-
-		public String toString() {
-			return mText;
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JComboBox cmp_cnbb = null;
-	private ItemList m_comboModel;
+	private DefaultComboBoxModel m_comboModel;
 
 	public CmpSelect() {
 		super();
 		mFill = GridBagConstraints.HORIZONTAL;
-		m_comboModel = new ItemList();
-		m_comboModel.clear();
+		m_comboModel = new DefaultComboBoxModel();
+		m_comboModel.removeAllElements();
 	}
 
 	public void close() {
-		m_comboModel.clear();
+		m_comboModel.removeAllElements();
 		m_comboModel=null;
 		cmp_cnbb = null;
 		super.close();
@@ -129,7 +129,6 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	private ItemObj InitialItem = null;
 
-	@SuppressWarnings("unchecked")
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
 		cmp_cnbb.removeActionListener(this);
@@ -137,7 +136,7 @@ public class CmpSelect extends CmpAbstractEvent {
 		ItemObj sel_item = null;
 		SimpleParsing[] xml_items;
 		xml_items = getXmlItem().getSubTag("CASE");
-		m_comboModel.clear();
+		m_comboModel.removeAllElements();
 		try {
 			String id = getXmlItem().getText().trim();
 			String tmp = "[";
@@ -148,20 +147,15 @@ public class CmpSelect extends CmpAbstractEvent {
 						.getAttribut("id"));
 				if (item_obj.mID.equals(id))
 					sel_item = item_obj;
-				m_comboModel.add(item_obj);
+				m_comboModel.addElement(item_obj);
 				tmp = tmp + " id=" + item_obj.mID + " val=" + item_obj.mText;
 			}
 			tmp = tmp + "]";
 		} catch (Exception e) {
 			throw new LucteriosException("Erreur de selection", e);
 		}
-
-		remove(cmp_cnbb);
-		cmp_cnbb = new javax.swing.JComboBox();
-		cmp_cnbb.setName("cmp_cnbb");
 		cmp_cnbb.setModel(m_comboModel);
-		add(cmp_cnbb, java.awt.BorderLayout.CENTER);
-		if (m_comboModel.size() == 0)
+		if (m_comboModel.getSize() == 0)
 			cmp_cnbb.setSelectedIndex(-1);
 		else
 			cmp_cnbb.setSelectedIndex(0);

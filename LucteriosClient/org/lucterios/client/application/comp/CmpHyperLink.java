@@ -21,13 +21,25 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenuItem;
+
 import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.PopupListener;
 import org.lucterios.utils.graphic.WebLabel;
 
-public class CmpHyperLink extends Cmponent {
+public class CmpHyperLink extends Cmponent implements ClipboardOwner {
 	private static final long serialVersionUID = 1L;
 	private WebLabel cmp_text;
+	private PopupListener popupListener;
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
@@ -47,12 +59,34 @@ public class CmpHyperLink extends Cmponent {
 		cnt.weightx = 0;
 		cnt.weighty = 0;
 		add(cmp_text, cnt);
+
+		popupListener = new PopupListener();
+		popupListener.setActions(cmp_text.getActions());
+		JMenuItem mi = new JMenuItem("Copier");
+		mi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				copyToClipboard();
+			}
+		});
+		popupListener.getPopup().add(mi);
+		cmp_text.addMouseListener(popupListener);
 	}
 
+	private void copyToClipboard() {
+		String value_to_copy=cmp_text.getToolTipText();
+		if (value_to_copy.startsWith("mailto:"))
+				value_to_copy=value_to_copy.substring(7);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(new StringSelection(value_to_copy), this );
+		System.out.print("COPY:"+value_to_copy);
+	}		
+	
 	protected void refreshComponent() {
 		String val = getXmlItem().getText();
 		String url = getXmlItem().getCDataOfFirstTag("LINK");
 		val = Tools.convertLuctoriosFormatToHtml(val);
 		cmp_text.setURL(url, val);
 	}
+
+	public void lostOwnership(Clipboard arg0, Transferable arg1) {}
 }

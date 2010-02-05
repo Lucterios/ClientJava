@@ -349,6 +349,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 						}
 				}
 			}
+			if (getParent() != null) {
+				getParent().setActive(aIsActive);
+			}
 		}
 	}
 

@@ -175,7 +175,9 @@ public abstract class ObserverAbstract implements Observer {
 	}
 
 	public void setActive(boolean aIsActive) {
-
+		if (getParent() != null) {
+			getParent().setActive(aIsActive);
+		}
 	}
 
 	public void eventForEnabled(boolean aBefore) {

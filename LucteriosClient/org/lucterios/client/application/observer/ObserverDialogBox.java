@@ -187,6 +187,9 @@ public class ObserverDialogBox extends ObserverAbstract {
 	public void setActive(boolean aIsActive) {
 		getGUIDialog().setActive(aIsActive);
 		mPnlBtn.setEnabled(aIsActive);
+		if (getParent() != null) {
+			getParent().setActive(aIsActive);
+		}
 	}
 
 	boolean closed = false;
