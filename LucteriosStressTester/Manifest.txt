@@ -9,6 +9,6 @@ Specification-Title: LucteriosStressTester
 Specification-Version: 1.1
 Specification-Vendor: lucterios.org
 Implementation-Title: LucteriosStressTester
-Implementation-Version: 1.1.3.${env.BUILD_NUMBER} 04-02-2010
+Implementation-Version: 1.1.4.${env.BUILD_NUMBER} 05-02-2010
 Implementation-Vendor: lucterios.org
 

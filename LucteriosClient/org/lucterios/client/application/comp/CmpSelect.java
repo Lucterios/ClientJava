@@ -93,7 +93,8 @@ public class CmpSelect extends CmpAbstractEvent {
 	}
 
 	public void close() {
-		m_comboModel.removeAllElements();
+		if (m_comboModel!=null)
+			m_comboModel.removeAllElements();
 		m_comboModel=null;
 		cmp_cnbb = null;
 		super.close();
@@ -169,6 +170,9 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	protected boolean hasChanged() {
 		ItemObj sel_item = (ItemObj) cmp_cnbb.getSelectedItem();
-		return !InitialItem.mID.equals( sel_item.mID );
+		if (sel_item!=null)
+			return !InitialItem.mID.equals( sel_item.mID );
+		else
+			return false;
 	}
 }

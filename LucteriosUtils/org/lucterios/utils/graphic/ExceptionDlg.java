@@ -81,6 +81,8 @@ public class ExceptionDlg extends javax.swing.JDialog {
     	{
     		throwException(e);
     	}
+    	
+    	show(GRAVE, "Données vérouillées par un autre utilisateur.{[newline]}Veuillez réessayer ulterieurement.","", "");
     }
     
     private javax.swing.JScrollPane Extra;
@@ -132,8 +134,6 @@ public class ExceptionDlg extends javax.swing.JDialog {
         lbl_message.setAlignmentX(0.5f);
         lbl_message.setAlignmentY(0.5f);
         lbl_message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        lbl_message.setMinimumSize(new Dimension(100,40));
-        lbl_message.setPreferredSize(new Dimension(100,40));
         lbl_message.setName("lbl_message");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
