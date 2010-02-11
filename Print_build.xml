@@ -59,7 +59,7 @@
 		<manifest file="${projet.bin.dir}/Manifest.txt">
 			<attribute name="Created-By" value="Lucterios"/>
 			<attribute name="Main-Class" value="org.lucterios.Print.DemoPrint"/>
-			<attribute name="Class-Path" value="avalon-framework-4.2.0.jar batik-all-1.7.jar commons-logging-1.0.4.jar fop.jar xercesImpl-2.7.1.jar LucteriosUtils.jar" />
+			<attribute name="Class-Path" value="commons-logging-1.0.4.jar xercesImpl-2.7.1.jar LucteriosUtils.jar" />
 			<section name="LucteriosPrint">
 				<attribute name="Specification-Title" value="LucteriosPrint"/>
 				<attribute name="Specification-Version" value="${projet.version.max}.${projet.version.min}"/>
