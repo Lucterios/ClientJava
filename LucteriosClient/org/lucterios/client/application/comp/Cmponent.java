@@ -46,7 +46,7 @@ public abstract class Cmponent extends JPanel {
 	
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
-	protected WeakReference<SimpleParsing> mXmlItem;
+	protected SimpleParsing mXmlItem;
 	protected WeakReference<Observer> mObsCustom;
 	public String Description;
 	public String JavaScript;
@@ -103,7 +103,7 @@ public abstract class Cmponent extends JPanel {
 	protected boolean mEnabled = true;
 
 	protected SimpleParsing getXmlItem(){
-		return mXmlItem.get();
+		return mXmlItem;
 	}
 	protected Observer getObsCustom(){
 		if (mObsCustom!=null)
@@ -121,7 +121,7 @@ public abstract class Cmponent extends JPanel {
 	public void init(JPanel aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
 		mObsCustom = new WeakReference<Observer>(aObsCustom);
-		mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
+		mXmlItem = aXmlItem;
 		setName(aXmlItem.getAttribut("name"));
 		Description = aXmlItem.getAttribut("description");
 		initComponent();
@@ -170,7 +170,7 @@ public abstract class Cmponent extends JPanel {
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
 		if (mFirstRefresh || !mXmlItem.equals(aXmlItem)) {
-			mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
+			mXmlItem = aXmlItem;
 			refreshComponent();
 			mFirstRefresh = false;
 		}
@@ -188,7 +188,11 @@ public abstract class Cmponent extends JPanel {
 
 	public String getValue() {
 		try {
-			return getRequete("").get(getName()).toString();
+			Object val=getRequete("").get(getName());
+			if (val!=null)
+				return val.toString();
+			else
+				return "";
 		} catch (LucteriosException e) {
 			ExceptionDlg.throwException(e);
 			return "";

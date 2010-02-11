@@ -20,15 +20,11 @@
 
 package org.lucterios.client.application.observer;
 
-import java.net.URL;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import java.lang.ref.WeakReference;
 import javax.swing.JButton;
@@ -38,10 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.lucterios.Print.FopGenerator;
 import org.lucterios.Print.MainPrintPanel;
-import org.lucterios.Print.ModelConverter;
-import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.client.application.Button;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
@@ -50,7 +43,6 @@ import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.Tools;
 
 public class ObserverTemplate extends ObserverAbstract {
@@ -176,31 +168,11 @@ public class ObserverTemplate extends ObserverAbstract {
 						+ "</ACTIONS>");
 		Button.fillPanelByButton(pnl_Btn, this, Singletons.Factory(), act,true);
 
-		JButton btn_preview = new JButton();
-		btn_preview.setText("Previsualisation");
-		btn_preview.setMnemonic('P');
-		btn_preview.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				preview();
-			}
-		});
-		GridBagConstraints gdbConstr_btn = new GridBagConstraints();
-		gdbConstr_btn.gridx = 2;
-		gdbConstr_btn.gridy = 0;
-		gdbConstr_btn.gridwidth = 1;
-		gdbConstr_btn.gridheight = 1;
-		gdbConstr_btn.fill = GridBagConstraints.NONE;
-		gdbConstr_btn.anchor = GridBagConstraints.CENTER;
-		gdbConstr_btn.weightx = 1.0;
-		gdbConstr_btn.weighty = 0.0;
-		gdbConstr_btn.insets = new Insets(10, 0, 10, 0);
-		pnl_Btn.add(btn_preview, gdbConstr_btn);
-		JButton[] btns = new JButton[3];
+		JButton[] btns = new JButton[2];
 		int index = 0;
 		for (int idx = 0; idx < pnl_Btn.getComponentCount(); idx++)
 			if (JButton.class.isInstance(pnl_Btn.getComponent(idx)))
 				btns[index++] = (JButton) pnl_Btn.getComponent(idx);
-		btns[2] = btn_preview;
 		Tools.calculBtnSize(btns);
 
 		show(aTitle);
@@ -217,27 +189,6 @@ public class ObserverTemplate extends ObserverAbstract {
 				(screen.height - aGUI.getSize().height) / 2);
 		aGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		aGUI.setVisible(true);
-	}
-
-	public void preview() {
-		try {
-			getGUIDialog()
-					.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			try {
-				URL url = Singletons.Transport().getUrl();
-				ModelConverter model = new ModelConverter(getStyle(), url
-						.toString());
-				model.Run();
-				String print_pre_fop = model.toXap(mDataXML, "");
-				FopGenerator fop_generator = new FopGenerator(print_pre_fop,
-						"Previsualisation", false);
-				fop_generator.SelectPrintMedia(null, getGUIDialog(), SelectPrintDlg.MODE_PREVIEW,false, null, null);
-			} finally {
-				getGUIDialog().setCursor(Cursor.getDefaultCursor());
-			}
-		} catch (LucteriosException e) {
-			ExceptionDlg.throwException(e);
-		}
 	}
 
 	private String mDataXML = "";

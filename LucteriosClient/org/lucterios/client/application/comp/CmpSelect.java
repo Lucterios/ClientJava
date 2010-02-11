@@ -112,11 +112,13 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
-		ItemObj sel_item = (ItemObj) cmp_cnbb.getSelectedItem();
-		if (sel_item != null)
-			tree_map.put(getName(), sel_item.mID);
-		else
-			tree_map.put(getName(), "");
+		if (cmp_cnbb != null) {
+			ItemObj sel_item = (ItemObj) cmp_cnbb.getSelectedItem();
+			if (sel_item != null)
+				tree_map.put(getName(), sel_item.mID);
+			else
+				tree_map.put(getName(), "");
+		}
 		return tree_map;
 	}
 

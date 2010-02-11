@@ -19,15 +19,19 @@ public class HtmlLabel extends JEditorPane {
 	public HtmlLabel(){
 		super();
 		setContentType("text/html");
-		Font df=new Font(null);
-		mFontSize=(int) (SizeFactor*df.getSize()+0.5f);
+		changeRatio(SizeFactor);
 		setText("");
 		setBorder(BorderFactory.createEmptyBorder());
 	}
-	
-	public void setText(String aText){
-		super.setText(String.format("<font style='font-size:%d;'>%s</font>",mFontSize,aText));
+
+	public void changeRatio(float ratio){
+		Font df=new Font(null);
+		mFontSize=(int) (ratio*df.getSize()+0.5f);
 	}
+	
+	/*public void setText(String aText){
+		super.setText(String.format("<font style='font-size:%d;'>%s</font>",mFontSize,aText));
+	}*/
 
 	public int getFontSize(){
 		return mFontSize;

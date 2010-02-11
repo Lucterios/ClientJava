@@ -26,11 +26,14 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.LucteriosException;
@@ -57,9 +60,7 @@ public class DemoPrint extends JFrame
     private JPanel pnl_bnt;
     private JButton btn_in;
     private JButton btn_out;
-    private JButton btn_preview;
     private JCheckBox cb_WithText;
-    private File mOutFile=null;
     
     public DemoPrint()
     {
@@ -131,20 +132,6 @@ public class DemoPrint extends JFrame
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnl_bnt.add(btn_out, gridBagConstraints);
 
-        btn_preview=new JButton();
-        btn_preview.setText("Preview");
-        btn_preview.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) 
-            {
-            	btn_preview_actionPerformed(e);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnl_bnt.add(btn_preview, gridBagConstraints);
-
         cb_WithText=new JCheckBox();
         cb_WithText.setText("With text export ?");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -186,29 +173,6 @@ public class DemoPrint extends JFrame
         CodeEditor.setText(newContentPane.getManager().getPage().Save());
     }
     
-    public void btn_preview_actionPerformed(java.awt.event.ActionEvent event) 
-    {
-    	try 
-    	{
-    		String print_xml=CodeEditor.getText();
-    		ModelConverter model=new ModelConverter(print_xml,"");
-    		model.Run();
-    		String print_pre_fop=model.toXap(XmlDataEditor.getText(),"");
-    		FopGenerator fop_generator=new FopGenerator(print_pre_fop,"Exemple",false);
-    		fop_generator.SelectPrintMedia(this,null,SelectPrintDlg.MODE_NONE,cb_WithText.isSelected(),null,null);
-
-    		if (mOutFile!=null) 
-			try {
-				OutputStream out_file = new FileOutputStream(mOutFile);
-				out_file.write(print_pre_fop.getBytes());
-				out_file.close();
-			} catch(Exception e) {}
-
-		} catch (LucteriosException e) {
-    		ExceptionDlg.throwException(e);
-		}
-    }
-
     public void btn_in_actionPerformed(java.awt.event.ActionEvent e) 
     {
         try
@@ -227,22 +191,14 @@ public class DemoPrint extends JFrame
 
     public static void main(String args[])
     {
-        if (args.length==1)
-    	try 
-    	{
-			InputStream is_result = new FileInputStream(new File(args[0]));
-    		FopGenerator fop_generator=new FopGenerator(Tools.parseISToString(is_result),"Exemple",false);
-    		fop_generator.SelectPrintMedia(null,null,SelectPrintDlg.MODE_NONE,true,null,null);
-		} catch (Exception e) {
-    		ExceptionDlg.throwException(e);
-		} else {
+        if (args.length>1) {
 	        DemoPrint frame=new DemoPrint();
 	        if ((args.length==2) || (args.length==3))
 	        	frame.loadModel(args[0],args[1]);
-	        if (args.length==3)
-	        	frame.mOutFile=new File(args[2]);
 	        frame.setVisible(true);
         }
+        else
+        	ExceptionDlg.throwException(new LucteriosException("Minimum 1 arguments"));
     }
 
 	private void loadModel(String modelFileName, String xmlFileName) {

@@ -67,14 +67,12 @@ public class LabelFormRenderer extends HtmlLabel implements
 		    	setBackground(new Color(220,220,220));
 		}
 		if (cell_check.indexOf(row + "-" + column) == -1) {
-			int cell_height = Math.max(jTable.getRowHeight(row),
-					(int) getPreferredSize().getHeight());
-			jTable.setRowHeight(row, cell_height);
-
 			TableColumn colonne = jTable.getColumnModel().getColumn(column);
-			int col_width=colonne.getPreferredWidth();
-			if (col_width<getPreferredSize().getWidth())
-				colonne.setPreferredWidth((int)getPreferredSize().getWidth());
+			int col_width=Math.max(colonne.getPreferredWidth(),(int)(getPreferredSize().getWidth()/HtmlLabel.SizeFactor));
+			colonne.setPreferredWidth(col_width);
+
+			int cell_height = Math.max(jTable.getRowHeight(row),(int) getPreferredSize().getHeight());
+			jTable.setRowHeight(row, cell_height);
 			cell_check.add(row + "-" + column);
 		}
 		return this;

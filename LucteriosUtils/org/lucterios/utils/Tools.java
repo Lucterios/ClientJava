@@ -87,6 +87,8 @@ public class Tools {
         text=replace(text,"{[/underline]}","</u>");              
         text=replace(text,"{[center]}","<center>");
         text=replace(text,"{[/center]}","</center>");              
+        text=replace(text,"{[hr/]}","<hr/>");              
+        text=replace(text,"{[br/]}","<br/>");              
         text=replace(text,"{[","<");              
         text=replace(text,"]}",">");              
         return text;

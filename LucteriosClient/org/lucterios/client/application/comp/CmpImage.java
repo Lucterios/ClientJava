@@ -21,7 +21,6 @@
 package org.lucterios.client.application.comp;
 
 import java.awt.Dimension;
-import java.lang.ref.WeakReference;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -44,7 +43,7 @@ public class CmpImage extends Cmponent {
 	}
 
 	public void setValue(SimpleParsing aXmlItem) throws LucteriosException {
-		mXmlItem = new WeakReference<SimpleParsing>(aXmlItem);
+		mXmlItem = aXmlItem;
 		refreshComponent();
 	}
 	

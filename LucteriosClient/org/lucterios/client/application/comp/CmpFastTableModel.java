@@ -13,13 +13,17 @@ import org.lucterios.utils.StringDico;
 public class CmpFastTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
-	public final static Icon NullImage=new ImageIcon();
-	
+	public final static Icon NullImage = new ImageIcon();
+
 	class GridColomn {
 		public final static int TypeString = 0;
+
 		public final static int TypeInt = 1;
+
 		public final static int TypeFloat = 2;
+
 		public final static int TypeBool = 3;
+
 		public final static int TypeIcon = 4;
 
 		public final static String TAGNAME = "HEADER";
@@ -31,13 +35,13 @@ public class CmpFastTableModel extends AbstractTableModel {
 				String type = aXmlItem.getAttribut("type");
 				if (type == null)
 					mHeaderType = TypeString;
-				else if ("int".equals( type ))
+				else if ("int".equals(type))
 					mHeaderType = TypeInt;
-				else if ("float".equals( type ))
+				else if ("float".equals(type))
 					mHeaderType = TypeFloat;
-				else if ("bool".equals( type ))
+				else if ("bool".equals(type))
 					mHeaderType = TypeBool;
-				else if ("icon".equals( type ))
+				else if ("icon".equals(type))
 					mHeaderType = TypeIcon;
 				else
 					mHeaderType = TypeString;
@@ -74,7 +78,8 @@ public class CmpFastTableModel extends AbstractTableModel {
 			}
 		}
 
-		private TreeMap<String,Icon> mIconCache=new TreeMap<String, Icon>();
+		private TreeMap<String, Icon> mIconCache = new TreeMap<String, Icon>();
+
 		public Object getValue(GridRow row) {
 			String valuetxt = row.GetCell(mHeaderId);
 			try {
@@ -91,10 +96,11 @@ public class CmpFastTableModel extends AbstractTableModel {
 					if (valuetxt.trim().equals(""))
 						new_icon = NullImage;
 					else if (mIconCache.containsKey(valuetxt))
-						new_icon = (Icon)mIconCache.get(valuetxt);
+						new_icon = (Icon) mIconCache.get(valuetxt);
 					else {
-						new_icon = (Icon) Singletons.Transport().getIcon(valuetxt,0);
-						if (new_icon==null)
+						new_icon = (Icon) Singletons.Transport().getIcon(
+								valuetxt, 0);
+						if (new_icon == null)
 							new_icon = NullImage;
 						mIconCache.put(valuetxt, new_icon);
 					}
@@ -156,18 +162,21 @@ public class CmpFastTableModel extends AbstractTableModel {
 				return null;
 		}
 	}
-	
+
 	private SimpleParsing[] mHeaderXml;
+
 	private SimpleParsing[] mContentXml;
-	
-	private GridColomn[] mGridColomn=null;
-	private GridRow[] mGridRow=null;
+
+	private GridColomn[] mGridColomn = null;
+
+	private GridRow[] mGridRow = null;
 
 	public void close() {
-		mHeaderXml=null;
-		mContentXml=null;
-		mGridColomn=null;
+		mHeaderXml = null;
+		mContentXml = null;
+		mGridColomn = null;
 	}
+
 	public void setText(SimpleParsing aXmlItem) {
 		mHeaderXml = aXmlItem.getSubTag("HEADER");
 		mContentXml = aXmlItem.getSubTag("RECORD");
@@ -176,48 +185,48 @@ public class CmpFastTableModel extends AbstractTableModel {
 	}
 
 	public GridColomn getColumnObject(int columnIndex) {
-		GridColomn resValue=mGridColomn[columnIndex];
-		if (resValue==null) {
-			resValue= new GridColomn(mHeaderXml[columnIndex]);
-			mGridColomn[columnIndex]=resValue;
+		GridColomn resValue = mGridColomn[columnIndex];
+		if (resValue == null) {
+			resValue = new GridColomn(mHeaderXml[columnIndex]);
+			mGridColomn[columnIndex] = resValue;
 		}
 		return resValue;
 	}
 
 	public int getColumnCount() {
-		if (mHeaderXml!=null)
+		if (mHeaderXml != null)
 			return mHeaderXml.length;
 		else
 			return 0;
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
-		 return getColumnObject(columnIndex).getColumnClass();
+		return getColumnObject(columnIndex).getColumnClass();
 	}
-	
+
 	public String getColumnName(int columnIndex) {
-		 return getColumnObject(columnIndex).getName();		 
+		return getColumnObject(columnIndex).getName();
 	}
 
 	public GridRow getRowObject(int rowIndex) {
-		GridRow resValue=mGridRow[rowIndex];
-		if (resValue==null) {
-			resValue= new GridRow(mContentXml[rowIndex]);
-			mGridRow[rowIndex]=resValue;
+		GridRow resValue = mGridRow[rowIndex];
+		if (resValue == null) {
+			resValue = new GridRow(mContentXml[rowIndex]);
+			mGridRow[rowIndex] = resValue;
 		}
 		return resValue;
 	}
-	
+
 	public int getRowCount() {
-		if (mContentXml!=null)
+		if (mContentXml != null)
 			return mContentXml.length;
 		else
 			return 0;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		GridRow current=getRowObject(rowIndex);
-		GridColomn col=getColumnObject(columnIndex);
+		GridRow current = getRowObject(rowIndex);
+		GridColomn col = getColumnObject(columnIndex);
 		return col.getValue(current);
 	}
 }

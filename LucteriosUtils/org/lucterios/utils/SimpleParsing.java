@@ -33,7 +33,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class SimpleParsing extends DefaultHandler 
+public class SimpleParsing extends DefaultHandler implements Cloneable
 {	
 	public int hashCode() {
 		return 0;
@@ -58,6 +58,16 @@ public class SimpleParsing extends DefaultHandler
 	{
 		super();
 		mParent=null;
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		SimpleParsing resValue=new SimpleParsing();
+		resValue.mAttrs=(StringDico) this.mAttrs.clone();
+		resValue.mSimpleName=new String(this.mSimpleName);
+		resValue.mTexts=(StringList) this.mTexts.clone();
+		for(SimpleParsing subfields:this.mFields)
+			resValue.mFields.add((SimpleParsing) subfields.clone());
+		return resValue;
 	}
 	
 	public boolean equals(Object value)

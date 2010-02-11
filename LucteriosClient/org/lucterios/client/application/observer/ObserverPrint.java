@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.util.*;
 
 import org.lucterios.Print.ExtensionFilter;
-import org.lucterios.Print.FopGenerator;
 import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
@@ -40,6 +39,7 @@ import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.graphic.ExceptionDlg;
 
 public class ObserverPrint extends ObserverAbstract {
 	public final static int PRINT_TYPE_FOP = 0;
@@ -102,10 +102,7 @@ public class ObserverPrint extends ObserverAbstract {
 		if (type == PRINT_TYPE_BIN) {
 			openOrSavePrintReport(owner_dialog, owner_frame);
 		} else {
-			FopGenerator generator = new FopGenerator(xml_content, title,
-					type == PRINT_TYPE_FOP);
-			generator.SelectPrintMedia(owner_frame, owner_dialog, mode,
-					withTextExport, null, null);
+	    	ExceptionDlg.throwException(new LucteriosException("Impression impossible"));
 		}
 	}
 
