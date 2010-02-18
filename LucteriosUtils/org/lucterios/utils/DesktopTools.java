@@ -73,8 +73,6 @@ public class DesktopTools {
 		
 	public static final String OS_NAME = System.getProperty("os.name");
 
-	public static final String OS_ARCH=System.getProperty("os.arch").toLowerCase();
-	
 	public static final String ASSOCIATION_SECTION="Application";
 	
 	private Insets current_insets=null;
@@ -133,7 +131,7 @@ public class DesktopTools {
 			String[] args=new String[] {applic, aUrl};				
 			new ProcessExitDetector(args);			
 		} 
-		else if ("x86".equals(OS_ARCH)) {
+		else if (OS_NAME.toLowerCase().startsWith("windows")) {
 				try {
 					URL url = new URL(aUrl);
 					File current_file=new File(url.toURI());
@@ -152,10 +150,10 @@ public class DesktopTools {
 	private void openInWeb(String aUrl) throws LucteriosException {
 		try {
 			String[] args;
-	        Logging.getInstance().writeLog("OS to open URL",OS_ARCH,1);
-			if ("x86".equals(OS_ARCH))
+	        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
+			if (OS_NAME.toLowerCase().startsWith("windows"))
 				args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
-			else if ("ppc".equals(OS_ARCH) || "powerpc".equals(OS_ARCH) || "i386".equals(OS_ARCH)) // MAC OS-X
+			else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
 				args = new String[] {"open",aUrl};
 			else
 				args=new String[] {searchBrowserFromUnix(), aUrl};				
@@ -168,11 +166,10 @@ public class DesktopTools {
 	private void openInMail(String aUrl) throws LucteriosException {
 		try {
 			String[] args;
-			String os_arch=System.getProperty("os.arch").toLowerCase();
-	        Logging.getInstance().writeLog("OS to open URL",os_arch,1);
-			if ("x86".equals( os_arch ))
+	        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
+	        if (OS_NAME.toLowerCase().startsWith("windows"))
 				args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
-			else if ("ppc".equals( os_arch ) || "powerpc".equals( os_arch ))
+			else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
 				args = new String[] {"open",aUrl};
 			else
 				args = new String[] {searchMailerFromUnix(),aUrl};				
