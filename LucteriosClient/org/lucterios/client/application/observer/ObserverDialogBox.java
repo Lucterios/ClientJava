@@ -31,6 +31,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Button;
 import org.lucterios.client.presentation.ObserverAbstract;
@@ -44,7 +45,7 @@ import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.HtmlLabel;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
-public class ObserverDialogBox extends ObserverAbstract {
+public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 	public String mText;
 	public int mType;
 	public SimpleParsing mActions;
@@ -161,6 +162,7 @@ public class ObserverDialogBox extends ObserverAbstract {
 			mText = Tools.convertLuctoriosFormatToHtml(mText);
 			lbl_message.setText(mText);
 		}
+		SwingUtilities.invokeLater(this);
 	}
 
 	public void show(String aTitle, Form new_frame) throws LucteriosException {
@@ -178,8 +180,16 @@ public class ObserverDialogBox extends ObserverAbstract {
 				(screen.height - getGUIDialog().getSize().height) / 2);
 		getGUIDialog().setResizable(false);
 		getGUIDialog().setVisible(true);
+		SwingUtilities.invokeLater(this);
 	}
 
+	public void run() {
+		if (getGUIDialog() != null)
+			getGUIDialog().toFront();
+		setActive(true);
+		mGUIContainer.setVisible(true);
+	}
+	
 	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
 		return mContext;
 	}

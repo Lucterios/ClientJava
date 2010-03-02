@@ -23,7 +23,6 @@ package org.lucterios.client.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
 import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
@@ -36,9 +35,6 @@ import javax.swing.JSeparator;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionImpl;
@@ -53,6 +49,7 @@ import org.lucterios.client.application.comp.Cmponent;
 import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
+import org.lucterios.client.application.observer.ObserverAuthentification;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.presentation.Observer;
@@ -143,7 +140,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	public ApplicationMain() {
 		super();		
-		changeFontSize(0.9f);		
+		HtmlLabel.changeFontSize(0.9f);		
 	
 		setVisible(false);
 		initialize();
@@ -153,24 +150,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		Menu.mToolBar = this;
 		pack();
 		reorganize();
-	}
-
-	private void changeFontSize(float scale) {
-		HtmlLabel.SizeFactor = scale;
-		UIDefaults defaults = UIManager.getDefaults();
-		Enumeration keys = defaults.keys();
-		while(keys.hasMoreElements()) {
-		  Object key = keys.nextElement();
-		  Object value = defaults.get(key);
-		  if(value != null && value instanceof Font) {
-		     UIManager.put(key, null);
-		     Font font = UIManager.getFont(key);
-		     if(font != null) {
-		    	 float size = font.getSize2D();
-		         UIManager.put(key, new FontUIResource(font.deriveFont(size * scale)));
-		     }
-		  }
-		}
 	}
 
 	public ActionListener getRunSetupDialog() {
@@ -240,7 +219,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						while (mFormList.count() > 0) {
-							mFormList.get(0).dispose();
+							mFormList.get(0).Close();
 						}
 					}
 				}, javax.swing.KeyStroke.getKeyStroke(
@@ -298,10 +277,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		setTitle("Application");
 		setName("MainFrame");
 		addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowOpened(java.awt.event.WindowEvent evt) {
-				formWindowOpened(evt);
-			}
-
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				ExitConnection();
 			}
@@ -546,10 +521,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				mContentMenuAction);
 	}
 
-	private void formWindowOpened(java.awt.event.WindowEvent evt) {
-		refreshMainFrame();
-	}
-
 	private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
 		AboutBox about_dlg = new AboutBox(this);
 		about_dlg.show(mDescription);
@@ -570,6 +541,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		LogonBox logon_box = new LogonBox();
 		logon_box.mActionSetUp = getRunSetupDialog();
 		try {
+			ObserverAuthentification.refreshMenu=true;
+			mCloseAllWinAction.actionPerformed(null);
 			Singletons.Transport().setSession("");
 			logon_box.logon("");
 		} catch (LucteriosException e) {
@@ -577,7 +550,6 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			disconnectSession();
 		}
         logon_box.dispose();
-		refreshMainFrame();
 	}
 
 	public void selectIntFrame(Form aInternalFrame) {
@@ -707,7 +679,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 	
 	public void setValue(ApplicationDescription aDescription, String aSubTitle, 
-			String aLogin, String aRealName) {
+			String aLogin, String aRealName,boolean refreshMenu) {
 		refreshConnectionInfoOwnerObs();
 		mDescription=aDescription;
 		setIconImage(mDescription.getLogoImage());
@@ -722,6 +694,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mServer.setText(aLogin + "@" + server.ServerName);
 		mDescription.setlogin(aLogin + "@" + server.HostName+"/"+server.Directory+":"+server.HostPort);
 		checkUpgrade();
+		if (refreshMenu)
+			refreshMainFrame();
 	}
 
 	private void checkUpgrade() {

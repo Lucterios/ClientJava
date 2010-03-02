@@ -23,7 +23,6 @@ package org.lucterios.client.setting;
 import java.io.InputStream;
 
 import org.lucterios.client.resources.Resources;
-import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 
 public class Constants {
@@ -31,7 +30,7 @@ public class Constants {
 		InputStream is = Resources.class.getResourceAsStream("version.txt");
 		try {
 			return Tools.parseISToString(is).replace(' ', '.');
-		} catch (LucteriosException e) {
+		} catch (Throwable e) {
 			return "";
 		}
 	}

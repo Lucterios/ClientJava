@@ -68,7 +68,7 @@ public class LabelFormRenderer extends HtmlLabel implements
 		}
 		if (cell_check.indexOf(row + "-" + column) == -1) {
 			TableColumn colonne = jTable.getColumnModel().getColumn(column);
-			int col_width=Math.max(colonne.getPreferredWidth(),(int)(getPreferredSize().getWidth()/HtmlLabel.SizeFactor));
+			int col_width=Math.max(colonne.getPreferredWidth(),(int)(getPreferredSize().getWidth()));
 			colonne.setPreferredWidth(col_width);
 
 			int cell_height = Math.max(jTable.getRowHeight(row),(int) getPreferredSize().getHeight());

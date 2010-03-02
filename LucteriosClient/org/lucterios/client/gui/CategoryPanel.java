@@ -96,6 +96,9 @@ public class CategoryPanel extends JAdvancePanel {
 			setVisible(false);
 			try{
 				nb_col = Math.max(1, (int) aWidth / activator_width);
+				pos_y = 5;
+				pos_x = 0;
+				num = 0;
 				removeAll();
 				fillTitle();
 				refreshMenus(aMenu);
@@ -114,9 +117,9 @@ public class CategoryPanel extends JAdvancePanel {
 		HtmlLabel mdescription = new HtmlLabel();
 		mdescription.setEditable(false);
 		mdescription.setAlignmentY(0.75f);
-		mdescription.setText("<center><font size=7><u><b>"
+		mdescription.setText("<center><h1><u><b>"
 				+ Tools.convertLuctoriosFormatToHtml(descript)
-				+ "</b></u></font></center>");
+				+ "</b></u></h1></center>");
 		mdescription.setOpaque(false);
 		GridBagConstraints cnt = new GridBagConstraints();
 		cnt.gridx = 0;

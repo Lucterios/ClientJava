@@ -119,11 +119,12 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	public void setCursor(Cursor aCursor) {
 		super.setCursor(aCursor);
-		for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-			if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
-				JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-				scroll.getViewport().getView().setCursor(aCursor);
-			}
+		if (mtabs!=null)
+			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
+				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
+					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
+					scroll.getViewport().getView().setCursor(aCursor);
+				}
 	}
 
 	public void setMainMenuBar(JMenuBar aMenuBar) {
@@ -192,14 +193,17 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 	private void invokeReinitScrollBar() {
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
-				for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-					if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
-						JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-						JScrollBar vert = scroll.getVerticalScrollBar();
-						vert.setValue(vert.getMinimum());
-						JScrollBar hori = scroll.getHorizontalScrollBar();
-						hori.setValue(hori.getMinimum());
-					}
+				if (mtabs != null)
+					for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
+						if (JScrollPane.class.isInstance(mtabs
+								.getComponent(idx))) {
+							JScrollPane scroll = (JScrollPane) mtabs
+									.getComponent(idx);
+							JScrollBar vert = scroll.getVerticalScrollBar();
+							vert.setValue(vert.getMinimum());
+							JScrollBar hori = scroll.getHorizontalScrollBar();
+							hori.setValue(hori.getMinimum());
+						}
 			}
 		});
 	}

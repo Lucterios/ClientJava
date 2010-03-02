@@ -32,6 +32,7 @@ import org.lucterios.utils.SimpleParsing;
 
 public class ObserverAuthentification extends ObserverAbstract {
 	static public Connection mConnection = null;
+	static public boolean refreshMenu=true;
 
 	public String getObserverName() {
 		return "CORE.Auth";
@@ -50,6 +51,7 @@ public class ObserverAuthentification extends ObserverAbstract {
 			LogonBox logon_box = new LogonBox();
 			logon_box.logon(cdate);
             logon_box.dispose();
+            refreshMenu=true;
 		} else if (mConnection != null) {
 			SimpleParsing xml_connection = mContent.getFirstSubTag("CONNECTION");
 			ApplicationDescription desc=new ApplicationDescription(xml_connection.getCDataOfFirstTag("TITLE"),
@@ -59,7 +61,8 @@ public class ObserverAuthentification extends ObserverAbstract {
 			desc.setInfoServer(xml_connection.getCDataOfFirstTag("INFO_SERVER"));
 			mConnection.setValue(desc, xml_connection.getCDataOfFirstTag("SUBTITLE"),
 					xml_connection.getCDataOfFirstTag("LOGIN"), 
-					xml_connection.getCDataOfFirstTag("REALNAME"));
+					xml_connection.getCDataOfFirstTag("REALNAME"),refreshMenu);
+            refreshMenu=false;
 		}
 	}
 

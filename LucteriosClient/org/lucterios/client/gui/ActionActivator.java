@@ -113,9 +113,9 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 		setToolTipNotEmpty(aToolTip, mtext);
 		mtext.setOpaque(false);
 		if (mActionListener != null)
-			mtext.setText("<font size=5><b>" + mText+ "<b></font>");
+			mtext.setText("<h3><b>" + mText+ "<b></h3>");
 		else
-			mtext.setText("<center><font size=6><b>" + mText+ "<b></font></center>");
+			mtext.setText("<center><h2><b>" + mText+ "<b></h2></center>");
 		cnt = new GridBagConstraints();
 		cnt.gridx = 1;
 		cnt.gridy = 1;
@@ -133,9 +133,9 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 			mdescription.setEditable(false);
 			mdescription.setAlignmentY(0.75f);
 			if (mActionListener != null)
-				mdescription.setText("<font size=3>" + mDescription							+ "</font>");
+				mdescription.setText("<h5>" + mDescription							+ "</h5>");
 			else
-				mdescription.setText("<center><font size=5>" + mDescription + "</font></center>");
+				mdescription.setText("<center><h3>" + mDescription + "</h3></center>");
 			setToolTipNotEmpty(aToolTip, mdescription);
 			mdescription.setOpaque(false);
 			cnt = new GridBagConstraints();

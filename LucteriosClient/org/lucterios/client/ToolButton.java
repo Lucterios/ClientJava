@@ -150,11 +150,11 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 			setToolTipNotEmpty(aToolTip, mtext);
 			mtext.setOpaque(false);
 			if (mActionListener != null)
-				mtext.setText("<center><font size=5><b>" + mText
-						+ "<b></font></center>");
+				mtext.setText("<center><h3><b>" + mText
+						+ "<b></h3></center>");
 			else
-				mtext.setText("<center><font size=7><b>" + mText
-						+ "<b></font></center>");
+				mtext.setText("<center><h1><b>" + mText
+						+ "<b></h1></center>");
 			cnt = new GridBagConstraints();
 			cnt.gridx = 1;
 			cnt.gridy = 1;
@@ -172,11 +172,11 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 				mdescription.setEditable(false);
 				mdescription.setAlignmentY(0.75f);
 				if (mActionListener != null)
-					mdescription.setText("<font size=3>" + mDescription
+					mdescription.setText("<h5>" + mDescription
 							+ "</font>");
 				else
-					mdescription.setText("<center><font size=5>" + mDescription
-							+ "</font></center>");
+					mdescription.setText("<center><h3>" + mDescription
+							+ "</h5></center>");
 				setToolTipNotEmpty(aToolTip, mdescription);
 				mdescription.setOpaque(false);
 				cnt = new GridBagConstraints();

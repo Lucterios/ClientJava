@@ -105,12 +105,16 @@ public class Update {
 	}
 
 	public boolean isArchiveMostRecent(String currentVersion) {
-		String[] versions = currentVersion.replace('.', ' ').split(" ");
-		int vMax = getValue(versions, 0);
-		int vMin = getValue(versions, 1);
-		int vRev = getValue(versions, 2);
-		int vBuild = getValue(versions, 3);
-		return isArchiveMostRecent(vMax, vMin, vRev, vBuild);
+		if (currentVersion.isEmpty())
+			return false;
+		else {
+			String[] versions = currentVersion.replace('.', ' ').split(" ");
+			int vMax = getValue(versions, 0);
+			int vMin = getValue(versions, 1);
+			int vRev = getValue(versions, 2);
+			int vBuild = getValue(versions, 3);
+			return isArchiveMostRecent(vMax, vMin, vRev, vBuild);
+		}
 	}
 
 	public boolean isArchiveMostRecent(int vMax, int vMin, int vRev, int vBuild) {
