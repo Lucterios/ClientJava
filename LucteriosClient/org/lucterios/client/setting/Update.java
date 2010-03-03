@@ -105,7 +105,7 @@ public class Update {
 	}
 
 	public boolean isArchiveMostRecent(String currentVersion) {
-		if (currentVersion.isEmpty())
+		if (currentVersion=="")
 			return false;
 		else {
 			String[] versions = currentVersion.replace('.', ' ').split(" ");
