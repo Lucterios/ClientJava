@@ -57,6 +57,7 @@ public class ObserverException extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
+		setActive(true);
 		ExceptionDlg.show(code, message, debug_info, type);
 		close(true);
 	}

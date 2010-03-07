@@ -54,6 +54,7 @@ public class ObserverAcknowledge extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
+		setActive(true);
 		if (mRedirectAction != null)
 			mRedirectAction.actionPerformed(null);
 		close(mRedirectAction == null);
