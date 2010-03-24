@@ -68,8 +68,7 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 	}
 
 	public static MetalTheme[] Global_Themes = new MetalTheme[] {
-			new DefaultMetalTheme(), new AquaTheme(), new CharcoalTheme(),
-			new ContrastTheme(), new EmeraldTheme(), new RubyTheme(),
+			new DefaultMetalTheme(), new CharcoalTheme(), new EmeraldTheme(), 
 			ThemeFactory.GOLD, ThemeFactory.GRAY, ThemeFactory.GREEN,
 			ThemeFactory.RUBY, ThemeFactory.WIN, ThemeFactory.YELLOW };
 

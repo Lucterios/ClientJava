@@ -24,12 +24,11 @@ public class CharcoalTheme extends DefaultMetalTheme {
 
 	private final ColorUIResource secondary1 = new ColorUIResource(0, 0, 0);
 
-	private final ColorUIResource secondary2 = new ColorUIResource(51, 51, 51);
+	private final ColorUIResource secondary2 = new ColorUIResource(90, 90, 90);
 
-	private final ColorUIResource secondary3 = new ColorUIResource(102, 102,
-			102);
+	private final ColorUIResource secondary3 = new ColorUIResource(175, 175, 175);
 
-	private final ColorUIResource black = new ColorUIResource(222, 222, 222);
+	private final ColorUIResource black = new ColorUIResource(250, 250, 250);
 
 	private final ColorUIResource white = new ColorUIResource(0, 0, 0);
 

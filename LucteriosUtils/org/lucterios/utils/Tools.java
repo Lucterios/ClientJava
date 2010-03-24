@@ -88,6 +88,9 @@ public class Tools {
         text=replace(text,"{[center]}","<center>");
         text=replace(text,"{[/center]}","</center>");              
         text=replace(text,"{[hr/]}","<hr/>");              
+        text=replace(text,"<hr>","<hr/>");
+        if (System.getProperty("java.runtime.version").startsWith("1.5."))
+        	text=replace(text,"<hr/>","<table width='100%' border='1'></table>");
         text=replace(text,"{[br/]}","<br/>");              
         text=replace(text,"{[","<");              
         text=replace(text,"]}",">");              
