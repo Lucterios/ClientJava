@@ -20,8 +20,6 @@
 
 package org.lucterios.Print.Data;
 
-import java.util.*;
-
 import org.lucterios.utils.StringDico;
 import org.lucterios.utils.StringList;
 import org.w3c.dom.NodeList;
@@ -57,7 +55,7 @@ public abstract class PrintAbstract
         return Owner.getDataPath();
     }
 
-    public ArrayList getNoAttributProperty()
+    public StringList getNoAttributProperty()
     {
         return NoAttributProperty;
     }
@@ -229,7 +227,7 @@ public abstract class PrintAbstract
 		    PrintVector val_list=(PrintVector)value;
 		    val_list.setOwner(this);
 		    String class_name=(String)ReadProperty.get(fieldName);
-		    Class class_inst=Class.forName(class_name);
+		    Class<?> class_inst=Class.forName(class_name);
 		    val_list.readArrayList(nodes,class_inst);
 		}
 		else if (PrintAbstract.class.isInstance(value))

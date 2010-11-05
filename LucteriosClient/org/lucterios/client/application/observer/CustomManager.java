@@ -51,7 +51,7 @@ public class CustomManager extends JAdvancePanel {
 
 	public static int CustomManagerCount = 0;
 
-	static public Map<String, Class> ListComponents = new TreeMap<String, Class>();
+	static public Map<String, Class<? extends Cmponent>> ListComponents = new TreeMap<String, Class<? extends Cmponent>>();
 
 	static public boolean initalize() throws IOException {
 		ListComponents.put("LABELFORM", CmpLabelform.class);
@@ -175,7 +175,7 @@ public class CustomManager extends JAdvancePanel {
 			String aCompName) {
 		Cmponent comp = (Cmponent) getComponentByName(aPnl, aName);
 		if (comp != null) {
-			Class comp_class = getComponentClass(aCompName);
+			Class<? extends Cmponent> comp_class = getComponentClass(aCompName);
 			if (!comp.getClass().equals(comp_class)) {
 				aPnl.remove(comp);
 				comp = null;
@@ -184,21 +184,21 @@ public class CustomManager extends JAdvancePanel {
 		return comp;
 	}
 
-	private Class getComponentClass(String aCompName) {
-		Class cmp_class = null;
+	private Class<? extends Cmponent> getComponentClass(String aCompName) {
+		Class<? extends Cmponent> cmp_class = null;
 		if (ListComponents.containsKey(aCompName))
-			cmp_class = (Class) ListComponents.get(aCompName);
+			cmp_class = ListComponents.get(aCompName);
 		return cmp_class;
 	}
 
 	private Cmponent createComponent(String aCompName, String aCompId)
 			throws LucteriosException {
-		Class cmp_class = getComponentClass(aCompName);
+		Class<? extends Cmponent> cmp_class = getComponentClass(aCompName);
 		Cmponent new_comp = null;
 
 		if (cmp_class != null) {
 			try {
-				new_comp = (Cmponent) cmp_class.newInstance();
+				new_comp = cmp_class.newInstance();
 			} catch (InstantiationException e) {
 				throw new LucteriosException(
 						"Erreur de creation de composants", e);

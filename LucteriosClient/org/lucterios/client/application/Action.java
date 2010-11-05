@@ -84,5 +84,5 @@ public interface Action extends ActionListener, javax.swing.Action {
 
 	public void setKeyStroke(KeyStroke aKey);
 
-	public void runAction(Map aParam);
+	public void runAction(Map<String,Object> aParam);
 }

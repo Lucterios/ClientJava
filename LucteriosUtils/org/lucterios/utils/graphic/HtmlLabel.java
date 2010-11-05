@@ -28,7 +28,7 @@ public class HtmlLabel extends JEditorPane {
 
 	public static void changeFontSize(float scale) {
 		UIDefaults defaults = UIManager.getDefaults();
-		Enumeration keys = defaults.keys();
+		Enumeration<?> keys = defaults.keys();
 		while(keys.hasMoreElements()) {
 		  Object key = keys.nextElement();
 		  Object value = defaults.get(key);

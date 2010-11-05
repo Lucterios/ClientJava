@@ -62,7 +62,7 @@
 		<manifest file="${projet.bin.dir}/Manifest.txt">
 			<attribute name="Created-By" value="Lucterios"/>
 			<attribute name="Main-Class" value="org.lucterios.stressTester.Main"/>
-			<attribute name="Class-Path" value="lib/LucteriosUtils.jar LucteriosClient.jar" />
+			<attribute name="Class-Path" value="LucteriosClient.jar" />
 			<section name="LucteriosStressTester">
 				<attribute name="Specification-Title" value="LucteriosStressTester"/>
 				<attribute name="Specification-Version" value="${projet.version.max}.${projet.version.min}"/>
@@ -73,6 +73,7 @@
 			</section>
 		</manifest>		
 		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" excludes='.svn'/>
+		<copy file="${projet.bin.dir}/${ant.project.name}.jar" todir="." overwrite="true"/>
 	</target>
 	
 	<target name="javadoc">

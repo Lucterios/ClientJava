@@ -763,7 +763,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	private void ExitConnection() {
 		if (!Constants.CheckVersionInferiorEgual(mDescription.getServerVersion(), 0, 12))
-			mExitAction.runAction(new TreeMap());
+			mExitAction.runAction(new TreeMap<String,Object>());
 	}
 
 }

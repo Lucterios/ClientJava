@@ -334,13 +334,13 @@ public class DesktopTools {
 				Process p = Runtime.getRuntime().exec("ps ax");
 				BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				
-				java.util.List desktopList = Arrays.asList(DESKTOP_ENVIRONMENTS.split("\\|"));
+				java.util.List<String> desktopList = Arrays.asList(DESKTOP_ENVIRONMENTS.split("\\|"));
 				
 				String line = r.readLine();
 				while (line != null) {
 					for (int index=0;index<desktopList.size();index++)
 					{
-						String s=(String)desktopList.get(index);
+						String s=desktopList.get(index);
 						if (line.contains(s) && !line.contains("grep"))
 							return desktopList.indexOf(s);
 					}					

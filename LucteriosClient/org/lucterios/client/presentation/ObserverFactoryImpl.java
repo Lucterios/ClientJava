@@ -32,7 +32,7 @@ import org.lucterios.utils.SimpleParsing;
 
 public class ObserverFactoryImpl implements ObserverFactory {
 	private HttpTransport mTransport = null;
-	static private Map<String,Class> mObservers = new TreeMap<String, Class>();
+	static private Map<String,Class<? extends Observer>> mObservers = new TreeMap<String, Class<? extends Observer>>();
 
 	public ObserverFactoryImpl() {
 		super();
@@ -50,7 +50,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		mObservers.clear();
 	}
 
-	public void AddObserver(String aObserverName, Class aObserver) {
+	public void AddObserver(String aObserverName, Class<? extends Observer> aObserver) {
 		mObservers.put(aObserverName, aObserver);
 	}
 
@@ -82,19 +82,19 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return res;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam)
 			throws LucteriosException {
 		return callAction(aExtension, aAction, aParam, null);
 	}
 
 	private String m_XMLParameters="";
-	protected MapContext convertParameters(String aExtension, String aAction, Map aParam) {
+	protected MapContext convertParameters(String aExtension, String aAction, Map<String,Object> aParam) {
 		MapContext result=new MapContext();
 		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='" + aAction + "'>";
 
-		for (Iterator iterator = aParam.entrySet().iterator(); iterator
+		for (Iterator<Map.Entry<String,Object>> iterator = aParam.entrySet().iterator(); iterator
 				.hasNext();) {
-			Map.Entry entry = (Map.Entry) iterator.next();
+			Map.Entry<String,Object> entry = iterator.next();
 			String key = (String) entry.getKey();
 			Object value_obj = entry.getValue();
 			if (File.class.isInstance(value_obj))
@@ -122,9 +122,9 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	protected Observer factoryObserver(String aObserverName, String aParamTxt,
 			String aXmlText) throws LucteriosException {
 		Observer res_obs = null;
-		Class observ = (Class) mObservers.get(aObserverName);
+		Class<? extends Observer> observ = mObservers.get(aObserverName);
 		try {
-			res_obs = (Observer) observ.newInstance();
+			res_obs = observ.newInstance();
 		} catch (InstantiationException e) {
 			throw new LucteriosException("Observeur non créé", aParamTxt,
 					aXmlText, e);
@@ -135,7 +135,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return res_obs;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam,
 			Observer aObserver) throws LucteriosException {
 		if (mTransport == null)
 			throw new LucteriosException("Transport null");

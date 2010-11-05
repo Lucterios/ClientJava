@@ -20,8 +20,6 @@
 
 package org.lucterios.Print.Data;
 
-import java.util.*;
-
 import org.lucterios.utils.StringList;
 
 public class PrintArea extends PrintVector
@@ -41,7 +39,7 @@ public class PrintArea extends PrintVector
 
     public Object[] getSelection()
     {
-        ArrayList data_list=Owner.getDataList();
+    	StringList data_list=Owner.getDataList();
         if (data_list.size()>0)
             return data_list.toArray();
         else

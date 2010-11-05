@@ -156,8 +156,9 @@ public class HttpTransportImpl implements HttpTransport {
 
 	public ImageIcon getIcon(String aIconName,int aSize)  {
 		if ((aIconName != null) && (aIconName.length() > 0)) {
-			if (imageCache.isInCache(aIconName,aSize))
+			if (imageCache.isInCache(aIconName,aSize)) {
 				return imageCache.getImage(aIconName);
+			}
 			else {
 				ImageIcon icon_result = null;
 				try {
@@ -225,7 +226,7 @@ public class HttpTransportImpl implements HttpTransport {
 					if ((statusCode != HttpStatus.SC_NOT_FOUND)
 							|| (repeat_loop_index <= 0))
 						throw new TransportException(method.getStatusLine()
-								.getReasonPhrase(),
+								.getReasonPhrase()+":"+path_url.toString(),
 								TransportException.TYPE_HTTP, statusCode,
 								param_txt, "");
 				}

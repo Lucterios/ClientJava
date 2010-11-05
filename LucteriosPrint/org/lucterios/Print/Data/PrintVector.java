@@ -104,7 +104,7 @@ public class PrintVector extends PrintAbstract
         return xml_childs;
     }
 
-    public void readArrayList(org.w3c.dom.NodeList aNodes, Class aClass)
+    public void readArrayList(org.w3c.dom.NodeList aNodes, Class<?> aClass)
     {
         init();
         for(int node_idx=0;node_idx<aNodes.getLength();node_idx++)

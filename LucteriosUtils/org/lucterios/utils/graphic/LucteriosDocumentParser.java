@@ -20,7 +20,6 @@
 
 package org.lucterios.utils.graphic;
 
-import java.util.Hashtable;
 import java.awt.Color;
 import javax.swing.text.*;
 
@@ -61,7 +60,7 @@ public class LucteriosDocumentParser {
 		    this.styles = null;
 		  AttributeSet as = aItem.getAttributes().copyAttributes();
 		  if(as != null) {
-		  	Enumeration  names = as.getAttributeNames();
+		  	Enumeration<?>  names = as.getAttributeNames();
 		    while(names.hasMoreElements()) {
 				Object nextName = names.nextElement();
 				Object value=as.getAttribute(nextName);
@@ -131,12 +130,10 @@ public class LucteriosDocumentParser {
 
 	DefaultStyledDocument doc;
 	StyleContext styles;
-	Hashtable runAttr;
 
 	public LucteriosDocumentParser(DefaultStyledDocument doc, StyleContext styles) {
 		this.doc = doc;
 		this.styles = styles;
-		runAttr = new Hashtable();
 	}
 
 	public void loadDocument(String aText) {
@@ -215,11 +212,11 @@ public class LucteriosDocumentParser {
 		SimpleParsing paragraph=new SimpleParsing();
 		if (paragraph.parse(getFormatedText(line)))
 		{
-			ArrayList list=getRunsByPara(paragraph,new Run(this.styles,""));			
+			ArrayList<Run> list=getRunsByPara(paragraph,new Run(this.styles,""));			
 			try
 			{
 				for (int i = 0; i < list.size(); i++) {
-					Run run = (Run)list.get(i);
+					Run run = list.get(i);
 					doc.insertString(doc.getLength(), run.content, run.getStyle());
 				}
 				Style normal = styles.getStyle(StyleContext.DEFAULT_STYLE);

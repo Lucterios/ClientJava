@@ -11,11 +11,8 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalTheme;
 
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.AquaTheme;
 import org.lucterios.client.utils.CharcoalTheme;
-import org.lucterios.client.utils.ContrastTheme;
 import org.lucterios.client.utils.EmeraldTheme;
-import org.lucterios.client.utils.RubyTheme;
 import org.lucterios.utils.graphic.ExceptionDlg;
 
 import com.pagosoft.plaf.PlafOptions;

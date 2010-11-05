@@ -273,7 +273,7 @@ public class ActionImpl implements Action {
 			aObs.show(mTitle);
 	}
 
-	public void runAction(Map aParam) {
+	public void runAction(Map<String,Object> aParam) {
 		try {
 			Logging.getInstance().writeLog("@@@ runAction @@@", "BEGIN", 2);
 			Observer old_observrer = null;
@@ -307,15 +307,15 @@ public class ActionImpl implements Action {
 		Logging.getInstance().writeLog("@@@ runAction @@@", "END", 2);
 	}
 
-	private Map getParameters() throws LucteriosException {
-		Map param;
+	private Map<String,Object> getParameters() throws LucteriosException {
+		Map<String,Object> param;
 		if (mOwner != null) {
 			if (mUsedContext)
 				param = mOwner.getContext();
 			else
 				param = mOwner.getParameters(mID, mSelect, mCheckNull);
 		} else
-			param = new TreeMap();
+			param = new TreeMap<String,Object>();
 		return param;
 	}
 
@@ -333,7 +333,7 @@ public class ActionImpl implements Action {
 	public void actionPerformed(ActionEvent aEvent) {
 		if (mustPerforme())
 			try {
-				final Map param = getParameters();
+				final Map<String,Object> param = getParameters();
 				if (param != null) {
 					if ((mOwner != null) && (mClose)) {
 						mOwner.close(false);

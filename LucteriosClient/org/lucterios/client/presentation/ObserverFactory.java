@@ -32,14 +32,14 @@ public interface ObserverFactory {
 
 	public void clearObserverList();
 
-	public void AddObserver(String aObserverName, Class aObserver);
+	public void AddObserver(String aObserverName, Class<? extends Observer> aObserver);
 
 	public boolean setAuthentification(String aLogin, String aPassWord)
 			throws LucteriosException;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam)
 			throws LucteriosException;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam,
 			Observer aObserver) throws LucteriosException;
 }

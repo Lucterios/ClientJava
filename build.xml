@@ -5,8 +5,6 @@
 	<property name="svn.password" value="user123"/>
 
 	<target name="all">
-		<buildnumber />
-		<property name="env.BUILD_NUMBER" value="${build.number}"/>
 		<antcall target="svn" />
 		<ant antfile="build_all.xml" />
 	</target>		

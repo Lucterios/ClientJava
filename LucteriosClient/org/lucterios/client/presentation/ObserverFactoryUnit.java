@@ -51,7 +51,7 @@ public class ObserverFactoryUnit extends TestCase {
 		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
 
 		Observer obs = mObserverFactory.callAction("CORE",
-				"printmodel_APAS_reinit", new TreeMap());
+				"printmodel_APAS_reinit", new TreeMap<String,Object>());
 		assertTrue("Observer", obs != null);
 		assertEquals("Action", "printmodel_APAS_reinit", obs.getSourceAction());
 		assertEquals("Extension", "CORE", obs.getSourceExtension());
@@ -124,7 +124,7 @@ public class ObserverFactoryUnit extends TestCase {
 
 		try {
 			Observer obs = mObserverFactory.callAction("CORE",
-					"printmodel_APAS_reinit", new TreeMap());
+					"printmodel_APAS_reinit", new TreeMap<String,Object>());
 			assertTrue(obs == null);
 			assertTrue(false);
 		} catch (LucteriosException e) {
@@ -137,7 +137,7 @@ public class ObserverFactoryUnit extends TestCase {
 
 		try {
 			Observer obs = mObserverFactory.callAction("CORE",
-					"printmodel_APAS_reinit", new TreeMap());
+					"printmodel_APAS_reinit", new TreeMap<String,Object>());
 			assertTrue(obs == null);
 			assertTrue(false);
 		} catch (LucteriosException e) {

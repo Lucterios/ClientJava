@@ -68,10 +68,10 @@ public class FormList implements Form.NotifyFrameList {
 	}
 
 	public void assignShortCut(Container aComp) {
-		Set entrees = mShortCutDico.entrySet();
-		Iterator iterateur = entrees.iterator();
+		Set<Map.Entry<String,ShortCut>> entrees = mShortCutDico.entrySet();
+		Iterator<Map.Entry<String,ShortCut>> iterateur = entrees.iterator();
 		while (iterateur.hasNext()) {
-			Map.Entry entree = (Map.Entry) iterateur.next();
+			Map.Entry<String,ShortCut> entree = iterateur.next();
 			ShortCut short_cut = (ShortCut) entree.getValue();
 			addShortCut(aComp, short_cut.mActionName, short_cut.mShortCut,
 					short_cut.mActionListener);

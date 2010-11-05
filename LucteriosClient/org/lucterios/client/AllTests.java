@@ -23,12 +23,14 @@ package org.lucterios.client;
 import org.lucterios.client.application.ActionUnit;
 import org.lucterios.client.presentation.ObserverFactoryUnit;
 import org.lucterios.client.transport.HttpTranportUnit;
+import org.lucterios.utils.Logging;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class AllTests {
 	public static Test suite() {
+		Logging.getInstance().setDebugLevel("DEBUG");
 		TestSuite suite = new TestSuite("Client");
 		suite.addTest(new TestSuite(HttpTranportUnit.class));
 		suite.addTest(new TestSuite(ObserverFactoryUnit.class));

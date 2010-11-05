@@ -47,10 +47,10 @@ public class CmpDateTime extends CmpAbstractEvent {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
-		Map map_date=date.getRequete(aActionIdent);
+		Map<String,Object> map_date=date.getRequete(aActionIdent);
 		String text=(String)map_date.get(date.getName());
 		text+=" ";		
-		Map map_time=time.getRequete(aActionIdent);
+		Map<String,Object> map_time=time.getRequete(aActionIdent);
 		text+=(String)map_time.get(time.getName());
 		tree_map.put(getName(), text);
 		return tree_map;

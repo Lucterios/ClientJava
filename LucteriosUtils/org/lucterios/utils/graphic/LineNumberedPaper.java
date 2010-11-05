@@ -160,12 +160,12 @@ public class LineNumberedPaper extends JTextPane implements KeyListener
 	
 	private void invertFocusTraversalBehaviour()
 	{
-		Set forwardKeys  = this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-		Set backwardKeys = this.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> forwardKeys  = this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> backwardKeys = this.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
  
 		if (forwardKeys.size() != 1 || backwardKeys.size() != 1) return;
-		final AWTKeyStroke fks = (AWTKeyStroke)forwardKeys.iterator().next();
-		final AWTKeyStroke bks = (AWTKeyStroke)backwardKeys.iterator().next();
+		final AWTKeyStroke fks = forwardKeys.iterator().next();
+		final AWTKeyStroke bks = backwardKeys.iterator().next();
 		final int fkm = fks.getModifiers();
 		final int bkm = bks.getModifiers();
 		final int ctrlMask      = KeyEvent.CTRL_MASK+KeyEvent.CTRL_DOWN_MASK;

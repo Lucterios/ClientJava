@@ -1,51 +1,73 @@
 <project name="LucteriosClient" default="build" basedir=".">
 	
 	<property name="projet.sources.dir" value="${ant.project.name}/org"/>
+	<property name="projet.src.dir" value="src_client"/>
 	<property name="projet.bin.dir" value="${ant.project.name}"/>
 	<property name="projet.doc.dir" value="${ant.project.name}/doc"/>
 	<property name="projet.lib.dir" value="lib"/>
-	
+
 	<path id="projet.classpath">
-		<fileset dir="${projet.lib.dir}">
-			<include name="*.jar"/>
-		</fileset>
 		<pathelement location="${projet.bin.dir}" />
 	</path>
- 
+
 	<target name="tests" >
+		<delete dir=".LucteriosCache" />
+		<mkdir dir=".LucteriosCache" /> 		
 		<junit fork="yes" printsummary="no" haltonfailure="no">
 			<jvmarg value="-Djava.awt.headless=true"/>
 			<batchtest fork="yes" todir="${projet.bin.dir}" >
-				<fileset dir="${projet.bin.dir}">
+				<fileset dir="${projet.src.dir}">
 					<include name="**/AllTests.class" />
 				</fileset>
 			</batchtest>
 			<formatter type="xml" />
 			<classpath>
-				<fileset dir="${projet.lib.dir}">
-					<include name="*.jar"/>
-				</fileset>
-				<pathelement location="${projet.bin.dir}/${ant.project.name}.jar" />
+				  <pathelement location="${projet.src.dir}" />
 			</classpath>
-		</junit>
+	      </junit>
 	</target>
 
 	<target name="build" depends="clear,compile,packaging" />
 	
 	<target name="clear">
+		<delete dir="${projet.src.dir}" /> 
+		<mkdir dir="${projet.src.dir}" /> 		
 		<delete dir="${projet.doc.dir}" /> 
-		<delete file="${projet.bin.dir}/${ant.project.name}.jar" /> 
+		<delete file="${projet.src.dir}/${ant.project.name}.jar" /> 
 		<delete>
-			<fileset dir="${projet.bin.dir}" includes="TEST*.xml" />
+			<fileset dir="${ant.project.name}" includes="TEST*.xml" />
 		</delete>
-		<delete>
+		<delete>		  
+			<fileset dir="${projet.src.dir}" includes="**/*.class" />
 			<fileset dir="${projet.sources.dir}" includes="**/*.class" />
 		</delete>
 	</target>
-	 
-	 <target name="compile" description="Compilation des classes">
-		<javac srcdir="${projet.sources.dir}"
-			destdir="${projet.bin.dir}"
+
+	<target name="init">
+		<unzip src="${projet.lib.dir}/commons-codec-1.3.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/commons-httpclient-3.1.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/commons-logging-1.0.4.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/contrib.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/Date_selector.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/js.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/junit.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/PgsLookAndFeel.jar" dest="${projet.src.dir}" />
+		<unzip src="${projet.lib.dir}/xercesImpl-2.7.1.jar" dest="${projet.src.dir}" />
+		<delete dir="${projet.src.dir}/junit3.8.1" /> 
+		<delete dir="${projet.src.dir}/META-INF" /> 
+		<delete file="${projet.src.dir}/Manifest.txt" /> 
+		<delete file="${projet.src.dir}/stylesheet.css" /> 
+		<mkdir dir="${projet.src.dir}/org" /> 		
+		<copy todir="${projet.src.dir}/org">
+		    <fileset dir="LucteriosUtils/org"/>
+		    <fileset dir="LucteriosPrint/org"/>
+		    <fileset dir="LucteriosClient/org"/>
+		</copy>
+	</target>
+
+	<target name="compile" depends="init" description="Compilation des classes">
+		<javac srcdir="${projet.src.dir}"
+			destdir="${projet.src.dir}"
 			target="1.5"
 			source="1.5"
 			debug="off"
@@ -56,22 +78,28 @@
 	</target>
 	
 	<target name="packaging">
-		<copy file="${projet.bin.dir}/Manifest.tmp" tofile="${projet.bin.dir}/Manifest.txt" overwrite="true"/>
-		<echo file="${projet.bin.dir}/Manifest.txt" append='true'>Name: LucteriosClient
-Specification-Title: LucteriosClient
-Specification-Version: ${projet.version.max}.${projet.version.min}
-Specification-Vendor: lucterios.org
-Implementation-Title: LucteriosClient
-Implementation-Version: ${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build} ${TODAY}
-Implementation-Vendor: lucterios.org</echo>
-<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt"  excludes='.svn'/>
+		<manifest file="${projet.bin.dir}/Manifest.txt">
+			<attribute name="Created-By" value="Lucterios"/>
+			<attribute name="Main-Class" value="org.lucterios.client.Main"/>
+			<attribute name="Class-Path" value="." />
+			<section name="LucteriosClient">
+				<attribute name="Specification-Title" value="LucteriosClient"/>
+				<attribute name="Specification-Version" value="${projet.version.max}.${projet.version.min}"/>
+				<attribute name="Specification-Vendor" value="lucterios.org"/>
+				<attribute name="Implementation-Title" value="LucteriosClient"/>
+				<attribute name="Implementation-Version" value="${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="lucterios.org"/>
+			</section>
+		</manifest>		
+		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.src.dir}" manifest="${projet.bin.dir}/Manifest.txt"  excludes='.svn'/>
+		<copy file="${projet.bin.dir}/${ant.project.name}.jar" todir="." overwrite="true"/>
 	</target>
 	
 	<target name="javadoc">
 		<delete dir="${projet.doc.dir}" /> 
 		<mkdir dir="${projet.doc.dir}" /> 
-		<javadoc sourcepath="${projet.sources.dir}" destdir="${projet.doc.dir}" >
-			<fileset dir="${projet.sources.dir}" defaultexcludes="yes">
+		<javadoc sourcepath="${projet.src.dir}" destdir="${projet.doc.dir}" >
+			<fileset dir="${projet.src.dir}" defaultexcludes="yes">
 				<include name="**/*.java" />				
 			</fileset>
 		</javadoc>

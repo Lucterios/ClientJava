@@ -23,7 +23,6 @@ package org.lucterios.utils;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
@@ -91,10 +90,10 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 			return false;
 	}
 
-	private boolean isAttributesEquals(TreeMap firstAttributes,TreeMap secondaryAttributes) {
+	private boolean isAttributesEquals(StringDico firstAttributes,StringDico secondaryAttributes) {
 		boolean result=true;
-		for (Iterator iterator = firstAttributes.entrySet().iterator(); iterator.hasNext();){
-			Map.Entry entry = (Map.Entry) iterator.next();
+		for (Iterator<Map.Entry<String,String>> iterator = firstAttributes.entrySet().iterator(); iterator.hasNext();){
+			Map.Entry<String,String> entry = iterator.next();
 			String key = (String) entry.getKey();
 			result=result && secondaryAttributes.containsKey(key);
 			result=result && firstAttributes.get(key).equals(secondaryAttributes.get(key));
@@ -225,8 +224,8 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	private String getContent()
 	{
 		String content="<"+getTagName();		
-		for (Iterator iterator = mAttrs.entrySet().iterator(); iterator.hasNext();){
-			Map.Entry entry = (Map.Entry) iterator.next();
+		for (Iterator<Map.Entry<String,String>> iterator = mAttrs.entrySet().iterator(); iterator.hasNext();){
+			Map.Entry<String,String> entry = iterator.next();
 			String key = (String) entry.getKey();
 			content+=" "+key+"='"+mAttrs.get(key)+"'";	
 		}

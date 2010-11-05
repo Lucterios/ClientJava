@@ -70,6 +70,7 @@
 			</section>
 		</manifest>		
 		<jar jarfile="${projet.bin.dir}/${ant.project.name}.jar" basedir="${projet.bin.dir}" manifest="${projet.bin.dir}/Manifest.txt" excludes='.svn' />
+		<copy file="${projet.bin.dir}/${ant.project.name}.jar" todir="." overwrite="true"/>
 	</target>
 	
 	<target name="javadoc">

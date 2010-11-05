@@ -43,7 +43,7 @@ public class Singletons {
 	
 	static public ApplicationTerminate AppTerminate=null;
 	
-	static public Class HttpTransportClass=null;
+	static public Class<? extends HttpTransport> HttpTransportClass=null;
 
 	static public HttpTransport Transport() {
 		HttpTransport new_transport = null;

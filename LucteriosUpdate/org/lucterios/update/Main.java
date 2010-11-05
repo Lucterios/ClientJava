@@ -72,6 +72,7 @@ public class Main
 					}
 					try 
 					{
+						deleteDirectory(new File(target_dir,"lib"));
 						unzipArchive(zip_file, target_path);
 					}
 					finally
@@ -103,6 +104,22 @@ public class Main
 		else
 			ShowHelp();
 	}
+	
+	private static boolean deleteDirectory(File path) {
+	    if(path.exists() ) {
+	      File[] files = path.listFiles();
+	      for(int i=0; i<files.length; i++) {
+	         if(files[i].isDirectory()) {
+	           deleteDirectory(files[i]);
+	         }
+	         else {
+	           files[i].delete();
+	         }
+	      }
+	    }
+	    return( path.delete() );
+	  }
+	
 
 	private static void unzipArchive(File zipFile, String targetPath)
 			throws ZipException, IOException, FileNotFoundException {
@@ -110,11 +127,11 @@ public class Main
 		byte data[]=new byte[BUFFER];
 
 		ZipFile zf = new ZipFile(zipFile);
-		Enumeration entries = zf.entries();
+		Enumeration<? extends ZipEntry> entries = zf.entries();
 		BufferedOutputStream dest=null;
 		while (entries.hasMoreElements())
 		{
-			ZipEntry e=(ZipEntry)entries.nextElement();
+			ZipEntry e=entries.nextElement();
 			String file_extracted=targetPath+e.getName();
 			File new_file=new File(file_extracted);
 			if (!new_file.isDirectory())

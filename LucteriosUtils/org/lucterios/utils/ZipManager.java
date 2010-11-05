@@ -25,11 +25,11 @@ public class ZipManager {
 		byte data[]=new byte[BUFFER];
 		try {
 			ZipFile zf = new ZipFile(mZipFileName);
-			Enumeration entries = zf.entries();
+			Enumeration<? extends ZipEntry> entries = zf.entries();
 			BufferedOutputStream dest=null;
 			if (entries.hasMoreElements())
 			{
-				ZipEntry e=(ZipEntry)entries.nextElement();
+				ZipEntry e=entries.nextElement();
 				if (aFileName.exists())
 					aFileName.delete();
 				InputStream is=zf.getInputStream(e);

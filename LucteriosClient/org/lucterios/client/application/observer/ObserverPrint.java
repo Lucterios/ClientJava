@@ -77,8 +77,8 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	protected Map getRequete(String aActionIdent) {
-		return new TreeMap();
+	protected Map<String,Object> getRequete(String aActionIdent) {
+		return new TreeMap<String,Object>();
 	}
 
 	public byte getType() {

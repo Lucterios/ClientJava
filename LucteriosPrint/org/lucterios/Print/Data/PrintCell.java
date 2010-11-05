@@ -20,8 +20,6 @@
 
 package org.lucterios.Print.Data;
 
-import java.util.*;
-
 import org.lucterios.utils.StringList;
 
 public class PrintCell extends PrintBorder
@@ -38,7 +36,7 @@ public class PrintCell extends PrintBorder
 
     public Object[] getSelection()
     {
-        ArrayList data_list=Owner.getDataList();
+    	StringList data_list=Owner.getDataList();
         if (data_list.size()>0)
         {
             if (PrintRow.class.isInstance(getOwner().getOwner()) && !"".equals( ((PrintRow)(getOwner().getOwner())).data ))

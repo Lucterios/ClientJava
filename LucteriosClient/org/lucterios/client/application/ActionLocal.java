@@ -123,7 +123,7 @@ public class ActionLocal implements Action {
 			String title, String extension, String action) {
 	}
 
-	public void runAction(Map param) {
+	public void runAction(Map<String,Object> param) {
 		actionPerformed(null);
 	}
 

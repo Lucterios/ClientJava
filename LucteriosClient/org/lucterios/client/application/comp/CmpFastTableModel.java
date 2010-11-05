@@ -63,7 +63,7 @@ public class CmpFastTableModel extends AbstractTableModel {
 
 		public int mHeaderType = 0;
 
-		public Class getColumnClass() {
+		public Class<?> getColumnClass() {
 			switch (mHeaderType) {
 			case TypeInt:
 				return Integer.class;

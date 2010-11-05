@@ -11,7 +11,6 @@
 	</tstamp>
 
 	<target name="all">
-		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
@@ -21,14 +20,14 @@
 	</target>		
 
 	<target name="compile">
-		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
 	</target>		
 	
 	<target name="init">
-		<property name="projet.version.build" value="1"/>
+		<buildnumber />
+		<property name="projet.version.build" value="${build.number}"/>
 		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
 		<delete file="setup.inc.php"/>
 		<exec executable="./createSetup.sh">
@@ -53,32 +52,21 @@
 		<delete dir=".LucteriosTemp"/>
 		<delete file=".LucteriosSetting"/>
 		<delete file="LucteriosClient.conf"/>
-		<ant antfile="Utils_build.xml" target="clear"/>
-		<ant antfile="Print_build.xml" target="clear"/>
 		<ant antfile="Client_build.xml" target="clear"/>
 		<ant antfile="Update_build.xml" target="clear"/>
 		<ant antfile="StressTester_build.xml" target="clear"/>
 	</target>	
 
 	<target name="javadoc">
-		<ant antfile="Utils_build.xml" target="javadoc"/>
-		<ant antfile="Print_build.xml" target="javadoc"/>
 		<ant antfile="Client_build.xml" target="javadoc"/>
 		<ant antfile="Update_build.xml" target="javadoc"/>
 		<ant antfile="StressTester_build.xml" target="javadoc"/>
 	</target>	
 
 	<target name="build">
-		<ant antfile="Utils_build.xml" target="build"/>
-		<copy file="LucteriosUtils/LucteriosUtils.jar" todir="${projet.lib.dir}" overwrite="true"/>
-		<ant antfile="Print_build.xml" target="build"/>
-		<copy file="LucteriosPrint/LucteriosPrint.jar" todir="${projet.lib.dir}" overwrite="true"/>
 		<ant antfile="Client_build.xml" target="build"/>
-		<copy file="LucteriosClient/LucteriosClient.jar" todir="." overwrite="true"/>
 		<ant antfile="Update_build.xml" target="build"/>
-		<copy file="LucteriosUpdate/LucteriosUpdate.jar" todir="." overwrite="true"/>
 		<ant antfile="StressTester_build.xml" target="build"/>
-		<copy file="LucteriosStressTester/LucteriosStressTester.jar" todir="." overwrite="true"/>
 	</target>	
 
 	<target name="package">
@@ -90,13 +78,11 @@
 			<fileset dir="." includes="LucteriosLogo.png"/>
 			<fileset dir="." includes="LucteriosLogo.ico"/>
 		</zip>
-		<zip destfile="${projet.lpk.dir}/Lucterios_JavaClient_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.zip" basedir="." update="true" includes="lib/**/*.jar"/>
 		
 		<delete dir="JavaClient.zip" /> 
 		<zip destfile="JavaClient.zip" >
 			<fileset dir="." includes="LucteriosClient.jar"/>
 		</zip>
-		<zip destfile="JavaClient.zip" update="true" basedir="." includes="lib/**/*.jar"/>
 		
 		<tar destfile="JavaClient.tar">
 			<fileset dir="." includes="JavaClient.zip"/>
@@ -119,51 +105,30 @@
 		<delete dir="doc" /> 
 		<mkdir dir="doc" />
 		<mkdir dir="doc/LucteriosClient" />
-		<copy todir="doc/LucteriosClient">
+		<move todir="doc/LucteriosClient">
 			<fileset dir="LucteriosClient/doc">
 				<include name="**/*.*"/>
 			</fileset>
-		</copy>			
+		</move>			
 		<mkdir dir="doc/LucteriosUpdate" />
-		<copy todir="doc/LucteriosUpdate">
+		<move todir="doc/LucteriosUpdate">
 			<fileset dir="LucteriosUpdate/doc">
 				<include name="**/*.*"/>
 			</fileset>
-		</copy>			
-		<mkdir dir="doc/LucteriosPrint" />
-		<copy todir="doc/LucteriosPrint">
-			<fileset dir="LucteriosPrint/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>			
-		<mkdir dir="doc/LucteriosUtils" />
-		<copy todir="doc/LucteriosUtils">
-			<fileset dir="LucteriosUtils/doc">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>
+		</move>			
 		<mkdir dir="doc/LucteriosStressTester" />
-		<copy todir="doc/LucteriosStressTester">
+		<move todir="doc/LucteriosStressTester">
 			<fileset dir="LucteriosStressTester/doc">
 				<include name="**/*.*"/>
 			</fileset>
-		</copy>
+		</move>
 		<zip destfile="${projet.lpk.dir}/JavaClientDoc.zip" basedir="doc" />
 	</target>	
 
 	<target name="tests">
-		<ant antfile="Utils_build.xml" target="tests"/>
-		<ant antfile="Print_build.xml" target="tests"/>
 		<ant antfile="Client_build.xml" target="tests"/>
 		<ant antfile="Update_build.xml" target="tests"/>
-		<ant antfile="Update_build.xml" target="build"/>
  		<copy todir="${projet.test.dir}">
-			<fileset dir="LucteriosUtils">
-				<include name="TEST*.xml"/>
-			</fileset>
-			<fileset dir="LucteriosPrint">
-				<include name="TEST*.xml"/>
-			</fileset>
 			<fileset dir="LucteriosClient">
 				<include name="TEST*.xml"/>
 			</fileset>

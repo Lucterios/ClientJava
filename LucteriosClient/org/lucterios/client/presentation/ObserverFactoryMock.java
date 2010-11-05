@@ -23,7 +23,7 @@ public class ObserverFactoryMock implements ObserverFactory {
 	public void clearObserverList() {
 	}
 
-	public void AddObserver(String aObserverName, Class aObserver) {
+	public void AddObserver(String aObserverName, Class<? extends Observer> aObserver) {
 	}
 
 	public HttpTransport getHttpTransport() {
@@ -41,18 +41,18 @@ public class ObserverFactoryMock implements ObserverFactory {
 		return NewAuthentification;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam)
 			throws LucteriosException {
 		return callAction(aExtension, aAction, aParam, null);
 	}
 
 	static public String LastExtension = "";
 	static public String LastAction = "";
-	static public Map LastParam = null;
+	static public Map<String,Object> LastParam = null;
 	static public Observer OldObserver = null;
 	static public Observer NewObserver = null;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, Map<String,Object> aParam,
 			Observer aObserver) throws LucteriosException {
 		OldObserver = aObserver;
 		LastExtension = aExtension;
