@@ -22,9 +22,9 @@ package org.lucterios.client.presentation;
 
 import java.util.TreeMap;
 
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
-import org.lucterios.client.utils.Form.NotifyFrameObserver;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
+import org.lucterios.client.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -63,13 +63,13 @@ public interface Observer extends NotifyFrameObserver {
 
 	public void show(String aTitle) throws LucteriosException;
 
-	public void show(String aTitle, Form new_frame) throws LucteriosException;
+	public void show(String aTitle, IForm new_frame) throws LucteriosException;
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException;
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException;
 
-	public Form getGUIFrame();
+	public IForm getGUIFrame();
 
-	public Dialog getGUIDialog();
+	public IDialog getGUIDialog();
 
 	public void setActive(boolean aIsActive);
 

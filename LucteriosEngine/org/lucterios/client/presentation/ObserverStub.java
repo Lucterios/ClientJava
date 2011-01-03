@@ -22,8 +22,8 @@ package org.lucterios.client.presentation;
 
 import java.lang.ref.WeakReference;
 import org.lucterios.client.application.ActionConstantes;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.SimpleParsing;
 
 public class ObserverStub extends ObserverAbstract {
@@ -62,13 +62,13 @@ public class ObserverStub extends ObserverAbstract {
 			getGUIDialog().setVisible(true);
 	}
 
-	public void show(String aTitle, Form aGUI) {
-		mGUIFrame = new WeakReference<Form>(aGUI);
+	public void show(String aTitle, IForm aGUI) {
+		mGUIFrame = new WeakReference<IForm>(aGUI);
 		show(aTitle);
 	}
 
-	public void show(String aTitle, Dialog aGUI) {
-		mGUIDialog = new WeakReference<Dialog>(aGUI);
+	public void show(String aTitle, IDialog aGUI) {
+		mGUIDialog = new WeakReference<IDialog>(aGUI);
 		show(aTitle);
 	}
 

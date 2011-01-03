@@ -6,6 +6,22 @@ import org.lucterios.client.utils.NotifyFrameList;
 
 public interface IForm {
 
+	public abstract String getName();
+
+	public abstract String getTitle();
+
+	public abstract void setTitle(String title);
+	
+	public abstract void setLocation(int x, int y);
+
+	public abstract void setSize(int width, int height);
+
+	public abstract void requestFocus();
+
+	public abstract void toFront();
+	
+	public abstract void dispose();
+	
 	public abstract void activate();
 
 	public abstract void Close();
@@ -25,5 +41,7 @@ public interface IForm {
 	public abstract void refresh();
 
 	public abstract void setActive(boolean aIsActive);
+
+	public abstract void refreshSize();
 
 }

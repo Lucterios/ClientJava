@@ -25,9 +25,8 @@ import java.util.Set;
 
 import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionConstantes;
-import org.lucterios.client.application.ActionImpl;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -100,7 +99,7 @@ public abstract class ObserverAbstract implements Observer {
                     for (int action_idx = 0; (mCloseAction == null)
                             && (action_idx < xml_items.length); action_idx++) {
                         SimpleParsing xml_item = xml_items[action_idx];
-                        mCloseAction = new ActionImpl();
+                        mCloseAction = Singletons.CreateAction();
                         mCloseAction.initialize(this, Singletons.Factory(),
                                 xml_item);
                         mCloseAction.setCheckNull(false);
@@ -157,17 +156,17 @@ public abstract class ObserverAbstract implements Observer {
 			mTitle = aTitle;
 	}
 
-	protected WeakReference<Form> mGUIFrame = null;
-	protected WeakReference<Dialog> mGUIDialog = null;
+	protected WeakReference<IForm> mGUIFrame = null;
+	protected WeakReference<IDialog> mGUIDialog = null;
 
-	public Form getGUIFrame() {
+	public IForm getGUIFrame() {
         if (mGUIFrame!=null)
             return mGUIFrame.get();
         else
             return null;
 	}
 
-	public Dialog getGUIDialog() {
+	public IDialog getGUIDialog() {
         if (mGUIDialog!=null)
             return mGUIDialog.get();
         else
@@ -208,7 +207,7 @@ public abstract class ObserverAbstract implements Observer {
 	}
 
 	public void refresh() throws LucteriosException {
-		Action refresh = new ActionImpl();
+		Action refresh = Singletons.CreateAction();
 		refresh.initialize(this, Singletons.Factory(), getTitle(),
 				getSourceExtension(), getSourceAction());
 		refresh.setFormType(ActionConstantes.FORM_REFRESH);
