@@ -25,11 +25,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.lang.ref.WeakReference;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.RootPaneContainer;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -37,8 +39,8 @@ import org.lucterios.client.application.Button;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
@@ -165,19 +167,19 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 		SwingUtilities.invokeLater(this);
 	}
 
-	public void show(String aTitle, Form new_frame) throws LucteriosException {
+	public void show(String aTitle, IForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
-		mGUIDialog = new WeakReference<Dialog>(aGUI);
-		mGUIContainer = aGUI.getContentPane();
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+		mGUIDialog = new WeakReference<IDialog>(aGUI);
+		mGUIContainer = ((RootPaneContainer)aGUI).getContentPane();
 		show(aTitle);
 		getGUIDialog().setNotifyFrameClose(this);
-		getGUIDialog().pack();
+		((Window)getGUIDialog()).pack();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		getGUIDialog().setLocation((screen.width - getGUIDialog().getSize().width) / 2,
-				(screen.height - getGUIDialog().getSize().height) / 2);
+		getGUIDialog().setLocation((screen.width - ((Window)getGUIDialog()).getSize().width) / 2,
+				(screen.height - ((Window)getGUIDialog()).getSize().height) / 2);
 		getGUIDialog().setResizable(false);
 		getGUIDialog().setVisible(true);
 		SwingUtilities.invokeLater(this);

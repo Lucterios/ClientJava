@@ -33,8 +33,8 @@ import org.lucterios.client.presentation.Observer;
 import org.lucterios.client.presentation.ObserverConstant;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -202,8 +202,8 @@ public class ActionImpl implements Action {
 		aObs.eventForEnabled(true);
 		try {
 			try {
-				Dialog owner_dialog = null;
-				Form owner_frame = null;
+				IDialog owner_dialog = null;
+				IForm owner_frame = null;
 				int form_type = getFormType(aObs);
 				if ((mOwner != null)
 						&& (form_type != ActionConstantes.FORM_REFRESH)) {
@@ -235,10 +235,10 @@ public class ActionImpl implements Action {
 		return form_type;
 	}
 
-	private void showObserver(Observer aObs, final Dialog owner_dialog,
-			final Form owner_frame, int form_type) throws LucteriosException {
-		Dialog new_dialog = null;
-		Form new_frame = null;
+	private void showObserver(Observer aObs, final IDialog owner_dialog,
+			final IForm owner_frame, int form_type) throws LucteriosException {
+		IDialog new_dialog = null;
+		IForm new_frame = null;
 		if (aObs.getType() != ObserverConstant.TYPE_NONE) {
 			switch (form_type) {
 			case ActionConstantes.FORM_NOMODAL:

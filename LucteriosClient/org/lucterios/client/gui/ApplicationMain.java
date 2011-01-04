@@ -21,7 +21,6 @@
 package org.lucterios.client.gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
@@ -45,15 +44,12 @@ import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.WindowGenerator;
 import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.application.Menu.ToolBar;
-import org.lucterios.client.application.comp.Cmponent;
-import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverAuthentification;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.presentation.WatchDog;
@@ -67,11 +63,12 @@ import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.client.utils.FormList;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.client.utils.TimeLabel;
-import org.lucterios.client.utils.Form.NotifyFrameChange;
+import org.lucterios.client.utils.NotifyFrameChange;
 import org.lucterios.client.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
-import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -205,7 +202,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						Form frame_current = mFormList.getFrameSelected();
+						IForm frame_current = mFormList.getFrameSelected();
 						if (frame_current != null)
 							frame_current.dispose();
 					}
@@ -394,29 +391,9 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.addActionListener(Tools.createOrderGCAction());
-		if (Logging.getInstance().isLogActivate()) {
-			mTimeValue.addActionListener(new ActionListener(){
-				private int count=0;
-				public void actionPerformed(ActionEvent arg0) {				
-					count=actionPerformedObjectCounter(count);			
-				}				
-			});
-		}
 		mTimeValue.start();
 	}
 
-	private int actionPerformedObjectCounter(int count) {
-		count++;
-		if (count>15) {
-			count=0;
-			Logging.getInstance().writeLog("### PROFILE ###",
-					" Observer=" + ObserverAbstract.ObserverCount + "\n" +
-					" Cmponent="+Cmponent.CmponentCount+"\n"+
-					" CustomManager="+CustomManager.CustomManagerCount, 2);					
-		}
-		return count;
-	}
-	
 	public void initMenu() {
 		menuBar = new JMenuBar();
 		menuBar.setName("MainMenu");
@@ -552,7 +529,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
         logon_box.dispose();
 	}
 
-	public void selectIntFrame(Form aInternalFrame) {
+	public void selectIntFrame(IForm aInternalFrame) {
 		if (mFormList.getFrameSelected() != null)
 			mFormList.getFrameSelected().setSelected(false);
 		aInternalFrame.setSelected(true);
@@ -591,7 +568,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				new_menu.setActionCommand(mFormList.get(frame_idx).getName());
 				new_menu.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						Form frame_to_select = null;
+						IForm frame_to_select = null;
 						for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
 							if (mFormList.get(frame_idx).getName().equals(
 									evt.getActionCommand()))
@@ -725,7 +702,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	public Form newFrame(String aActionId) {
-		Form frame = mFormList.create(aActionId);
+		Form frame = (Form)mFormList.create(aActionId);
 		javax.swing.SwingUtilities.updateComponentTreeUI(frame);
 		frame.mFrameControle = this;
 		frame.setNotifyFrameChange(this);
@@ -739,12 +716,12 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		return frame;
 	}
 
-	public Dialog newDialog(Dialog aOwnerDialog, Form aOwnerFrame) {
+	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
 		Dialog dlg;
 		if (aOwnerFrame != null)
-			dlg = new Dialog(aOwnerFrame);
+			dlg = new Dialog((Form)aOwnerFrame);
 		else if (aOwnerDialog != null)
-			dlg = new Dialog(aOwnerDialog);
+			dlg = new Dialog((Dialog)aOwnerDialog);
 		else
 			dlg = new Dialog(this);
 		javax.swing.SwingUtilities.updateComponentTreeUI(dlg);
@@ -755,7 +732,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	public Component[] getComponentsForLookAndFeel() {
 		Component[] cmp = new Component[mFormList.count() + 2];
 		for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
-			cmp[frame_idx] = mFormList.get(frame_idx);
+			cmp[frame_idx] = (Component)mFormList.get(frame_idx);
 		cmp[mFormList.count()] = this;
 		cmp[mFormList.count() + 1] = mToolNavigator;
 		return cmp;

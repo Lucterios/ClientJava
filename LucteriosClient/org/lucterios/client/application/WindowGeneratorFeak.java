@@ -22,22 +22,24 @@ package org.lucterios.client.application;
 
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IForm;
+import org.lucterios.client.utils.IDialog;
 
 public class WindowGeneratorFeak implements WindowGenerator {
 	public WindowGeneratorFeak() {
 		super();
 	}
 
-	public Form newFrame(String aActionId) {
+	public IForm newFrame(String aActionId) {
 		return new Form(aActionId);
 	}
 
-	public Dialog newDialog(Dialog aOwnerDialog, Form aOwnerFrame) {
-		Dialog new_dialog;
+	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
+		IDialog new_dialog;
 		if (aOwnerDialog != null)
-			new_dialog = new Dialog(aOwnerDialog);
+			new_dialog = new Dialog((Dialog)aOwnerDialog);
 		else
-			new_dialog = new Dialog(aOwnerFrame);
+			new_dialog = new Dialog((Form)aOwnerFrame);
 		return new_dialog;
 	}
 

@@ -27,13 +27,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 import org.lucterios.Print.ExtensionFilter;
 import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IForm;
+import org.lucterios.client.utils.IDialog;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
@@ -90,8 +93,8 @@ public class ObserverPrint extends ObserverAbstract {
 		SelectPrintDlg.FontImage = Toolkit.getDefaultToolkit().getImage(
 				this.getClass().getResource("ObserverFont.jpg"));
 
-		Dialog owner_dialog = null;
-		Form owner_frame = null;
+		IDialog owner_dialog = null;
+		IForm owner_frame = null;
 		if (getParent() != null) {
 			owner_dialog = getParent().getGUIDialog();
 			owner_frame = getParent().getGUIFrame();
@@ -106,7 +109,7 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	private void openOrSavePrintReport(Dialog owner_dialog, Form owner_frame)
+	private void openOrSavePrintReport(IDialog owner_dialog, IForm owner_frame)
 			throws LucteriosException {
 		try {
 			InputStream print_stream = new DecodeBase64ToInputStream(
@@ -116,7 +119,7 @@ public class ObserverPrint extends ObserverAbstract {
 				File pdf_file = SelectPrintDlg.getSelectedFileName(
 						SelectPrintDlg.getDefaultFileName(title,
 								ExtensionFilter.EXTENSION_EXPORT_PDF),
-						owner_frame, owner_dialog,
+								(JFrame)owner_frame, (JDialog)owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
 				break;
@@ -125,7 +128,7 @@ public class ObserverPrint extends ObserverAbstract {
 				File csv_file = SelectPrintDlg.getSelectedFileName(
 						SelectPrintDlg.getDefaultFileName(title,
 								ExtensionFilter.EXTENSION_EXPORT_CSV),
-						owner_frame, owner_dialog,
+								(JFrame)owner_frame, (JDialog)owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_CSV);
 				saveFile(csv_file, print_stream);
 				break;
@@ -157,11 +160,11 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	public void show(String aTitle, Form new_frame) throws LucteriosException {
+	public void show(String aTitle, IForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
 	}
 

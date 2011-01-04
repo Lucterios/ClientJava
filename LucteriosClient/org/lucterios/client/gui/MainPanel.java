@@ -100,8 +100,19 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	private void clearTabs() {
 		split.setRightComponent(null);
-		if (mtabs!=null)
+		if (mtabs!=null) {
+			mtabs.removeComponentListener(this);
+			mtabs.removeMouseListener(this);
+			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
+				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
+					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
+					if (CategoryPanel.class.isInstance(scroll.getViewport().getView())) {
+						CategoryPanel subpanel = (CategoryPanel)scroll.getViewport().getView();
+						subpanel.dispose();
+					}
+				}
 			mtabs.removeAll();
+		}
 		mtabs=null;
 	}
 	

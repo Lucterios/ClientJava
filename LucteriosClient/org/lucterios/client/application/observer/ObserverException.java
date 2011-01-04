@@ -22,8 +22,8 @@ package org.lucterios.client.application.observer;
 
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IForm;
+import org.lucterios.client.utils.IDialog;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -62,11 +62,11 @@ public class ObserverException extends ObserverAbstract {
 		close(true);
 	}
 
-	public void show(String aTitle, Form new_frame) throws LucteriosException {
+	public void show(String aTitle, IForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
 	}
 

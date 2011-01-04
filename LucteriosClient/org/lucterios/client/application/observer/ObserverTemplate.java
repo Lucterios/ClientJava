@@ -25,22 +25,25 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.Window;
 
 import java.lang.ref.WeakReference;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.RootPaneContainer;
 
 import org.lucterios.Print.MainPrintPanel;
 import org.lucterios.client.application.Button;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.Tools;
@@ -99,20 +102,20 @@ public class ObserverTemplate extends ObserverAbstract {
 		setValue(data_str, style_str, mTitle);
 	}
 
-	public void show(String aTitle, Form new_frame) throws LucteriosException {
+	public void show(String aTitle, IForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
-		mGUIDialog = new WeakReference<Dialog>(aGUI);
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+		mGUIDialog = new WeakReference<IDialog>(aGUI);
 		aGUI.setTitle(aTitle);
-		aGUI.getContentPane().setLayout(new java.awt.BorderLayout());
+		((RootPaneContainer)aGUI).getContentPane().setLayout(new java.awt.BorderLayout());
 		GridBagConstraints gridBagConstraints;
 
 		pnl_Cst = new JPanel();
 		pnl_Cst.setName("pnl_Cst");
 		pnl_Cst.setLayout(new GridBagLayout());
-		aGUI.getContentPane().add(pnl_Cst, java.awt.BorderLayout.CENTER);
+		((RootPaneContainer)aGUI).getContentPane().add(pnl_Cst, java.awt.BorderLayout.CENTER);
 
 		lbl_Title = new javax.swing.JLabel();
 		lbl_Title.setText("Titre du model");
@@ -156,7 +159,7 @@ public class ObserverTemplate extends ObserverAbstract {
 		pnl_Btn = new JPanel();
 		pnl_Btn.setName("pnl_Btn");
 		pnl_Btn.setLayout(new java.awt.GridBagLayout());
-		aGUI.getContentPane().add(pnl_Btn, java.awt.BorderLayout.SOUTH);
+		((RootPaneContainer)aGUI).getContentPane().add(pnl_Btn, java.awt.BorderLayout.SOUTH);
 		SimpleParsing act = new SimpleParsing();
 		act.parse("<ACTIONS>"
 						+ "<ACTION extension='"
@@ -177,17 +180,17 @@ public class ObserverTemplate extends ObserverAbstract {
 
 		show(aTitle);
 
-		aGUI.pack();
+		((Window)aGUI).pack();
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screen = kit.getScreenSize();
-		Insets insets = kit.getScreenInsets(aGUI.getGraphicsConfiguration());
+		Insets insets = kit.getScreenInsets(((Window)aGUI).getGraphicsConfiguration());
 		int w = (int) (screen.getWidth() - insets.left - insets.right);
 		int h = (int) (screen.getHeight() - insets.top - insets.bottom);
 		Dimension dimension = new Dimension(w, h);
-		aGUI.setSize(dimension);
-		aGUI.setLocation((screen.width - aGUI.getSize().width) / 2,
-				(screen.height - aGUI.getSize().height) / 2);
-		aGUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		((Window)aGUI).setSize(dimension);
+		aGUI.setLocation((screen.width - ((Window)aGUI).getSize().width) / 2,
+				(screen.height - ((Window)aGUI).getSize().height) / 2);
+		((JDialog)aGUI).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		aGUI.setVisible(true);
 	}
 

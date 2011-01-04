@@ -26,12 +26,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.Window;
 
 import java.lang.ref.WeakReference;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Button;
@@ -39,8 +41,8 @@ import org.lucterios.client.application.comp.Cmponent;
 import org.lucterios.client.presentation.ObserverAbstract;
 import org.lucterios.client.presentation.ObserverConstant;
 import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IDialog;
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
@@ -209,27 +211,14 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			if (getGUIFrame() != null) {
 				if (aTitle != null)
 					getGUIFrame().setTitle(getTitle());
-				getGUIFrame().getRootPane().setDefaultButton(mDefaultBtn);
-				java.awt.Dimension size = getGUIFrame().getSize();
-				java.awt.Dimension pref_size = getGUIFrame().getPreferredSize();
-				getGUIFrame().setPreferredSize(size);
-				getGUIFrame().pack();
-				getGUIFrame().setPreferredSize(pref_size);
-				getGUIFrame().setSize(size);
-				getGUIFrame().Change();
-				getGUIFrame().toFront();
+				((RootPaneContainer)getGUIFrame()).getRootPane().setDefaultButton(mDefaultBtn);
+				getGUIFrame().refreshSize();
 			}
 			if (getGUIDialog() != null) {
 				if (aTitle != null)
 					getGUIDialog().setTitle(getTitle());
-				getGUIDialog().getRootPane().setDefaultButton(mDefaultBtn);
-				java.awt.Dimension size = getGUIDialog().getSize();
-				java.awt.Dimension pref_size = getGUIDialog().getPreferredSize();
-				getGUIDialog().setPreferredSize(size);
-				getGUIDialog().pack();
-				getGUIDialog().setPreferredSize(pref_size);
-				getGUIDialog().setSize(size);
-				getGUIDialog().toFront();
+				((RootPaneContainer)getGUIDialog()).getRootPane().setDefaultButton(mDefaultBtn);
+				getGUIDialog().refreshSize();
 			}
 		} finally {
 			setNameComponentFocused(old_name_component_focused);
@@ -238,38 +227,35 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		Tools.postOrderGC();
 	}
 
-	public void show(String aTitle, Form aGUI) throws LucteriosException {
+	public void show(String aTitle, IForm aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIFrame=new WeakReference<Form>(aGUI);
+		mGUIFrame=new WeakReference<IForm>(aGUI);
 		if (getGUIFrame() != null) {
-			mGUIContainer = getGUIFrame().getContentPane();
+			mGUIContainer = ((RootPaneContainer)getGUIFrame()).getContentPane();
 			if (aTitle != null)
 				getGUIFrame().setTitle(getTitle());
 			fillPanel();
-			getGUIFrame().getRootPane().setDefaultButton(mDefaultBtn);
 			getGUIFrame().setNotifyFrameObserver(this);
-			java.awt.Dimension size = getGUIFrame().getSize();
-			getGUIFrame().pack();
-			getGUIFrame().setSize(size);
+			((RootPaneContainer)getGUIFrame()).getRootPane().setDefaultButton(mDefaultBtn);
+			getGUIFrame().refreshSize();
 			getGUIFrame().setVisible(true);
-			getGUIFrame().Change();
 			SwingUtilities.invokeLater(this);
 		}
 	}
 
-	public void show(String aTitle, Dialog aGUI) throws LucteriosException {
+	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIDialog = new WeakReference<Dialog>(aGUI);
+		mGUIDialog = new WeakReference<IDialog>(aGUI);
 		if (getGUIDialog() != null) {
-			mGUIContainer = getGUIDialog().getContentPane();
+			mGUIContainer = ((RootPaneContainer)getGUIDialog()).getContentPane();
 			if (aTitle != null)
 				getGUIDialog().setTitle(getTitle());
 			fillPanel();
-			getGUIDialog().getRootPane().setDefaultButton(mDefaultBtn);
 			getGUIDialog().setNotifyFrameClose(this);
-			getGUIDialog().pack();
+			((RootPaneContainer)getGUIDialog()).getRootPane().setDefaultButton(mDefaultBtn);
+			((Window)getGUIDialog()).pack();
 			Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-			Dimension dialog = getGUIDialog().getSize();
+			Dimension dialog = ((Window)getGUIDialog()).getSize();
 			getGUIDialog().setLocation((screen.width - dialog.width) / 2,
 					(screen.height - dialog.height) / 2);
 			getGUIDialog().setSize((int)(dialog.width*1.05), (int)(dialog.height*1.05));

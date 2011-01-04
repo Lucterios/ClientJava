@@ -32,20 +32,21 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.lucterios.client.utils.IForm;
 import org.lucterios.utils.Tools;
 
-public class FormList implements Form.NotifyFrameList {
+public class FormList implements NotifyFrameList {
 	class ShortCut {
 		String mActionName = "";
 		KeyStroke mShortCut = null;
 		javax.swing.Action mActionListener = null;
 	}
 
-	private ArrayList<Form> mList;
+	private ArrayList<IForm> mList;
 	private Map<String,ShortCut> mShortCutDico;
 
 	public FormList() {
-		mList = new ArrayList<Form>();
+		mList = new ArrayList<IForm>();
 		mShortCutDico = new TreeMap<String,ShortCut>();
 	}
 
@@ -67,13 +68,13 @@ public class FormList implements Form.NotifyFrameList {
 		mShortCutDico.put(aActionName, short_cut);
 	}
 
-	public void assignShortCut(Container aComp) {
+	public void assignShortCut(Object aComp) {
 		Set<Map.Entry<String,ShortCut>> entrees = mShortCutDico.entrySet();
 		Iterator<Map.Entry<String,ShortCut>> iterateur = entrees.iterator();
 		while (iterateur.hasNext()) {
 			Map.Entry<String,ShortCut> entree = iterateur.next();
 			ShortCut short_cut = (ShortCut) entree.getValue();
-			addShortCut(aComp, short_cut.mActionName, short_cut.mShortCut,
+			addShortCut((Container)aComp, short_cut.mActionName, short_cut.mShortCut,
 					short_cut.mActionListener);
 		}
 	}
@@ -93,8 +94,8 @@ public class FormList implements Form.NotifyFrameList {
 						aShortCut, aActionListener);
 	}
 
-	public Form create(String aId) {
-		Form form = null;
+	public IForm create(String aId) {
+		IForm form = null;
 		for (int idx = 0; (form == null) && idx < count(); idx++)
 			if (get(idx).getName().equals(aId))
 				form = get(idx);
@@ -105,14 +106,14 @@ public class FormList implements Form.NotifyFrameList {
 		return form;
 	}
 
-	private void add(Form aNewForm) {
+	private void add(IForm aNewForm) {
 		aNewForm.setNotifyFrameList(this);
 		mList.add(aNewForm);
 		if (mFormSelected == null)
 			mFormSelected = aNewForm;
 	}
 
-	public void removeFrame(Form aForm) {
+	public void removeFrame(IForm aForm) {
 		mList.remove(aForm);
 		System.gc();
 	}
@@ -121,17 +122,18 @@ public class FormList implements Form.NotifyFrameList {
 		return mList.size();
 	}
 
-	public Form get(int index) {
+	public IForm get(int index) {
 		return mList.get(index);
 	}
 
-	private Form mFormSelected = null;
+	private IForm mFormSelected = null;
 
-	public void selectFrame(Form aForm) {
+	public void selectFrame(IForm aForm) {
 		mFormSelected = aForm;
 	}
 
-	public Form getFrameSelected() {
+	public IForm getFrameSelected() {
 		return mFormSelected;
 	}
+
 }

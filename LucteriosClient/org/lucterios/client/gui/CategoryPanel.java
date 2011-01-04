@@ -4,7 +4,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.lang.ref.WeakReference;
 
 import javax.swing.JLabel;
 
@@ -27,7 +26,7 @@ public class CategoryPanel extends JAdvancePanel {
 
 	private static final int activator_width = 400;
 
-	private WeakReference<Menu> mMenu = null;
+	private Menu mMenu = null;
 
 	private int pos_y;
 
@@ -37,9 +36,14 @@ public class CategoryPanel extends JAdvancePanel {
 
 	private int nb_col;
 
+	public void dispose() {
+		removeAll();
+		mMenu=null;
+	}
+	
 	public Menu getMenu() {
 		if (mMenu != null)
-			return mMenu.get();
+			return mMenu;
 		else
 			return null;
 	}
@@ -47,7 +51,7 @@ public class CategoryPanel extends JAdvancePanel {
 	public CategoryPanel(Menu current_menu) {
 		super();
 		setLayout(new java.awt.GridBagLayout());
-		mMenu = new WeakReference<Menu>(current_menu);
+		mMenu = current_menu;
 		pos_y = 5;
 		pos_x = 0;
 		num = 0;

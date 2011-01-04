@@ -20,11 +20,11 @@
 
 package org.lucterios.client.application;
 
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
+import org.lucterios.client.utils.IForm;
+import org.lucterios.client.utils.IDialog;
 
 public interface WindowGenerator {
-	public Form newFrame(String aActionId);
+	public IForm newFrame(String aActionId);
 
-	public Dialog newDialog(Dialog aOwnerDialog, Form aOwnerFrame);
+	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame);
 }

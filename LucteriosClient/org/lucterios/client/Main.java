@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import org.lucterios.client.presentation.ObserverFactory;
 import org.lucterios.client.presentation.Singletons;
 import org.lucterios.client.resources.Resources;
+import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
@@ -59,6 +60,7 @@ class Main {
 
 	public static void main(String args[]) {
 		try {
+			Singletons.ActionClass=ActionImpl.class;
 			Singletons.initalize();
 			ThemeMenu.initializedTheme();
 			Singletons.AppTerminate=new RequirementProcesses();

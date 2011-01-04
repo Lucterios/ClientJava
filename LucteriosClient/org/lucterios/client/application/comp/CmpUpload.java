@@ -20,6 +20,7 @@
 
 package org.lucterios.client.application.comp;
 
+import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -158,9 +159,9 @@ public class CmpUpload extends CmpAbstractEvent {
 		file_dlg.setFileFilter(new FilesFilter(filters,"Fichier à télécharger"));
 		int returnVal;
 		if (this.getObsCustom().getGUIDialog() != null)
-			returnVal = file_dlg.showOpenDialog(this.getObsCustom().getGUIDialog());
+			returnVal = file_dlg.showOpenDialog((Component)this.getObsCustom().getGUIDialog());
 		else
-			returnVal = file_dlg.showOpenDialog(this.getObsCustom().getGUIFrame());
+			returnVal = file_dlg.showOpenDialog((Component)this.getObsCustom().getGUIFrame());
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    	java.io.File file_exp = file_dlg.getSelectedFile();
 	    	CurrentDirectory=file_exp.getParentFile();
