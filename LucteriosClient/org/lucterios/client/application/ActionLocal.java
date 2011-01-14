@@ -23,20 +23,20 @@ package org.lucterios.client.application;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.application.Action;
-import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverFactory;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
-public class ActionLocal implements Action {
+public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 
 	static public FrameControle mFrameControle=null;
 
@@ -44,7 +44,7 @@ public class ActionLocal implements Action {
 	private char mMenomnic = 0;
 	private ImageIcon mIcon = null;
 	private ActionListener mAction = null;
-	private KeyStroke mKey = null;
+	private String mKey = "";
 
 	public ActionLocal(String aTitle, char aMenomnic, ImageIcon aIcon,
 			ActionListener aAction, KeyStroke aKey) {
@@ -53,7 +53,8 @@ public class ActionLocal implements Action {
 		mMenomnic = aMenomnic;
 		mIcon = aIcon;
 		mAction = aAction;
-		mKey = aKey;
+		if (aKey!=null)
+			mKey = aKey.toString();
 	}
 	
 	public void setOwner(Observer aOwner) {
@@ -91,7 +92,7 @@ public class ActionLocal implements Action {
 		return mIcon.getDescription();
 	}
 
-	public KeyStroke getKeyStroke() {
+	public String getKeyStroke() {
 		return mKey;
 	}
 
@@ -123,8 +124,8 @@ public class ActionLocal implements Action {
 			String title, String extension, String action) {
 	}
 
-	public void runAction(Map<String,Object> param) {
-		actionPerformed(null);
+	public void runAction(MapContext param) {
+		actionPerformed();
 	}
 
 	public void setCheckNull(boolean checkNull) {
@@ -142,18 +143,21 @@ public class ActionLocal implements Action {
 	public void setUsedContext(boolean usedContext) {
 	}
 
-	public void setKeyStroke(KeyStroke key) {
+	public void setKeyStroke(String key) {
 		mKey = key;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		final ActionEvent event = e;
+		actionPerformed();
+	}
+		
+	public void actionPerformed() {
 		if (mAction != null)
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					mFrameControle.setActive(false);
 					try {
-						mAction.actionPerformed(event);
+						mAction.actionPerformed(null);
 					} finally {
 						mFrameControle.setActive(true);
 					}

@@ -26,12 +26,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverFactory;
-import org.lucterios.client.presentation.Singletons;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.Tools;
 
@@ -45,8 +45,8 @@ public class Menu extends JMenu {
 	public interface ToolBar {
 		public void initialToolBar();
 		
-		public void newShortCut(String aActionName, KeyStroke aShortCut,
-				javax.swing.Action aActionListener);
+		public void newShortCut(String aActionName, String aShortCut,
+				Action aActionListener);
 
 		public void terminatToolBar();
 	}
@@ -105,7 +105,7 @@ public class Menu extends JMenu {
 				new_menu = new MenuItem(act, help_text);
 				if (new_menu.getAccelerator() != null)
 					mToolBar.newShortCut(act.getID(),
-							new_menu.getAccelerator(), act);
+							new_menu.getAccelerator().toString(), act);
 			}
 			add(new_menu);
 		}

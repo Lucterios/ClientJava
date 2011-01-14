@@ -21,8 +21,8 @@
 package org.lucterios.client.gui;
 
 import java.awt.*;
+
 import java.awt.event.ActionListener;
-import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -35,7 +35,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
-import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.application.ApplicationDescription;
@@ -49,25 +48,27 @@ import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverAuthentification;
 import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverFactory;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.presentation.WatchDog;
-import org.lucterios.client.presentation.Observer.MapContext;
-import org.lucterios.client.resources.Resources;
 import org.lucterios.client.setting.AboutBox;
 import org.lucterios.client.setting.Constants;
+import org.lucterios.client.setting.LucteriosConfigurationModel;
 import org.lucterios.client.setting.SetupDialog;
 import org.lucterios.client.setting.Update;
-import org.lucterios.client.transport.ImageCache;
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
 import org.lucterios.client.utils.FormList;
-import org.lucterios.client.utils.IDialog;
-import org.lucterios.client.utils.IForm;
 import org.lucterios.client.utils.TimeLabel;
-import org.lucterios.client.utils.NotifyFrameChange;
-import org.lucterios.client.utils.LucteriosConfiguration.Server;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.presentation.WatchDog;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.resources.Resources;
+import org.lucterios.engine.transport.ImageCache;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
+import org.lucterios.engine.utils.NotifyFrameChange;
+import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
@@ -153,7 +154,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		final JFrame frame = this;
 		return new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				SetupDialog.run(frame, Singletons.Configuration);
+				SetupDialog.run(frame, new LucteriosConfigurationModel(Singletons.Configuration));
 			}
 		};
 	}
@@ -464,9 +465,9 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mToolBar.refresh(menuBar);
 	}
 
-	public void newShortCut(String aActionName, KeyStroke aShortCut,
-			javax.swing.Action aActionListener) {
-		mFormList.newShortCut(aActionName, aShortCut, aActionListener);
+	public void newShortCut(String aActionName, String aShortCut,
+			Action aActionListener) {
+		mFormList.newShortCut(aActionName, KeyStroke.getKeyStroke(aShortCut), (javax.swing.Action)aActionListener);
 	}
 
 	public void initialToolBar() {
@@ -478,7 +479,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mToolNavigator.setVisible(true);
 		mToolNavigator.setMainMenuBar(menuBar);
 		mFormList.assignShortCut(mToolNavigator);
-		mConnectionInfoAction.actionPerformed(null);
+		mConnectionInfoAction.actionPerformed();
 		terminateShortCut();
 		setActive(true);
 	}
@@ -519,7 +520,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		logon_box.mActionSetUp = getRunSetupDialog();
 		try {
 			ObserverAuthentification.refreshMenu=true;
-			mCloseAllWinAction.actionPerformed(null);
+			mCloseAllWinAction.actionPerformed();
 			Singletons.Transport().setSession("");
 			logon_box.logon("");
 		} catch (LucteriosException e) {
@@ -545,7 +546,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		setActive(false);
 		ObserverMenu.Main = this;
 		mFormList.clearShortCut();
-		mMenuAction.actionPerformed(null);
+		mMenuAction.actionPerformed();
 		for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
 			mFormList.get(frame_idx).refresh();
 		reorganize();
@@ -740,7 +741,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 
 	private void ExitConnection() {
 		if (!Constants.CheckVersionInferiorEgual(mDescription.getServerVersion(), 0, 12))
-			mExitAction.runAction(new TreeMap<String,Object>());
+			mExitAction.runAction(new MapContext());
 	}
 
 }

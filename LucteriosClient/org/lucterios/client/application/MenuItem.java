@@ -20,11 +20,13 @@
 
 package org.lucterios.client.application;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.lucterios.client.application.Action;
-import org.lucterios.client.application.ActionConstantes;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.utils.graphic.Tools;
 
 public class MenuItem extends JMenuItem {
@@ -48,7 +50,7 @@ public class MenuItem extends JMenuItem {
 			this.setIcon(Tools.resizeIcon(mAction.getIcon(), 24, true));
 		else
 			this.setIcon(null);
-		KeyStroke key = mAction.getKeyStroke();
+		KeyStroke key = KeyStroke.getKeyStroke(mAction.getKeyStroke());
 		if (key != null) {
 			int key_code = key.getKeyCode();
 			int modifier = key.getModifiers();
@@ -62,6 +64,6 @@ public class MenuItem extends JMenuItem {
 			this.setAccelerator(KeyStroke.getKeyStroke(key_code, new_modifier));
 		}
 		mDescription = aDescription;
-		this.addActionListener(mAction);
+		this.addActionListener((ActionListener)mAction);
 	}
 }

@@ -39,11 +39,11 @@ import javax.swing.RootPaneContainer;
 
 import org.lucterios.Print.MainPrintPanel;
 import org.lucterios.client.application.Button;
-import org.lucterios.client.presentation.ObserverAbstract;
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.IDialog;
-import org.lucterios.client.utils.IForm;
+import org.lucterios.engine.presentation.ObserverAbstract;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.Tools;

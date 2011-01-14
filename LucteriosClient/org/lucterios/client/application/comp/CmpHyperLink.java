@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.PopupListener;
 import org.lucterios.utils.graphic.WebLabel;

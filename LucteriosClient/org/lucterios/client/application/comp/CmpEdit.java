@@ -28,7 +28,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.text.Caret;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.PopupListener;
 

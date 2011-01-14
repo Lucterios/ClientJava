@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.lucterios.client.application.observer.ObserverAcknowledge;
-import org.lucterios.client.presentation.FileDownload;
-import org.lucterios.client.presentation.FileDownload.FileDownloadCallBack;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.FileDownload;
+import org.lucterios.engine.presentation.FileDownload.FileDownloadCallBack;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.FileMonitoring;
 import org.lucterios.utils.LucteriosException;
@@ -217,7 +217,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements FileDownloadCallBac
 					return requete;
 				}
 			});
-			mEventAction.actionPerformed(null);
+			mEventAction.actionPerformed();
 		}
 	}
 

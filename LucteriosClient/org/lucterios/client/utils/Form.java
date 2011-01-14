@@ -27,7 +27,10 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.client.utils.IForm;
+import org.lucterios.engine.utils.IForm;
+import org.lucterios.engine.utils.NotifyFrameChange;
+import org.lucterios.engine.utils.NotifyFrameList;
+import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
 

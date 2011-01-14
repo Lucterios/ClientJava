@@ -20,11 +20,13 @@
 
 package org.lucterios.client.application;
 
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.presentation.ObserverFactoryMock;
-import org.lucterios.client.presentation.ObserverStub;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.transport.HttpTransportStub;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.presentation.ObserverFactoryMock;
+import org.lucterios.engine.presentation.ObserverStub;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.transport.HttpTransportStub;
 import org.lucterios.utils.SimpleParsing;
 
 import junit.framework.TestCase;
@@ -118,7 +120,7 @@ public class ActionUnit extends TestCase {
 		action
 				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(null, fact, action);
-		mAction.actionPerformed(null);
+		mAction.actionPerformed();
 		sleepOneTime();
 
 		assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
@@ -206,7 +208,7 @@ public class ActionUnit extends TestCase {
 		SimpleParsing action = new SimpleParsing();
 		action.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='1' modal='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
-		mAction.actionPerformed(null);
+		mAction.actionPerformed();
 		sleepOneTime();
 
 		assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
@@ -239,7 +241,7 @@ public class ActionUnit extends TestCase {
 		action
 				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='0'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
-		mAction.actionPerformed(null);
+		mAction.actionPerformed();
 		sleepOneTime();
 
 		assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
@@ -272,7 +274,7 @@ public class ActionUnit extends TestCase {
 		SimpleParsing action = new SimpleParsing();
 		action.parse("<ACTION close='1' modal='0'><![CDATA[_Close]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
-		mAction.actionPerformed(null);
+		mAction.actionPerformed();
 		sleepOneTime();
 
 		assertEquals("extension", "", ObserverFactoryMock.LastExtension);

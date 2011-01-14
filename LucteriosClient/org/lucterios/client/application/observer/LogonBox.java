@@ -28,10 +28,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.transport.HttpTransport;
-import org.lucterios.client.utils.LucteriosConfiguration;
-import org.lucterios.client.utils.LucteriosConfiguration.Server;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.transport.HttpTransport;
+import org.lucterios.engine.utils.LucteriosConfiguration;
+import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.Tools;

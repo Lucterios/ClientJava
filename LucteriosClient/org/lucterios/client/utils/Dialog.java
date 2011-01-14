@@ -33,7 +33,8 @@ import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
 import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.client.utils.NotifyFrameObserver;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
 

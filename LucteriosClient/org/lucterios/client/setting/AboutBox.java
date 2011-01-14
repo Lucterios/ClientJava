@@ -39,7 +39,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.lucterios.client.application.ApplicationDescription;
-import org.lucterios.client.resources.Resources;
+import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.graphic.WebLabel;
 
 public class AboutBox extends JDialog implements MouseListener {

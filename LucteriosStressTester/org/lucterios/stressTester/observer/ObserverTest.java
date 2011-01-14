@@ -1,9 +1,9 @@
 package org.lucterios.stressTester.observer;
 
-import org.lucterios.client.presentation.ObserverAbstract;
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.IDialog;
+import org.lucterios.engine.presentation.ObserverAbstract;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 
 public class ObserverTest extends ObserverAbstract {

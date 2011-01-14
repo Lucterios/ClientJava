@@ -20,7 +20,7 @@
 
 package org.lucterios.client.application.comp;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.HtmlLabel;
 

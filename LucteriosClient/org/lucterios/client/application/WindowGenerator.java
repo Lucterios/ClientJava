@@ -20,8 +20,8 @@
 
 package org.lucterios.client.application;
 
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.IDialog;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 
 public interface WindowGenerator {
 	public IForm newFrame(String aActionId);

@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.resources.Resources;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.StringDico;
 import org.lucterios.utils.graphic.JAdvancePanel;

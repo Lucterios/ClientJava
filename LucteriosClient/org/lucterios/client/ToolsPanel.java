@@ -38,9 +38,9 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.gui.RefreshButtonPanel;
+import org.lucterios.engine.application.Action;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.NavigatorBar;
@@ -235,8 +235,8 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	ToolButton[] mCoinActions = new ToolButton[4];
 
 	public void setCoinAction(Action aAction, int aPosition) {
-		ToolButton btn = new ToolButton(aAction, aAction.getTitle(), aAction
-				.getIcon());
+		ToolButton btn = new ToolButton((ActionListener)aAction, 
+				aAction.getTitle(), aAction.getIcon());
 		setCoinAction(btn, aPosition);
 		btn.setVisible(mNavigatorBar.getComponentCount() > 0);
 		mCoinActions[aPosition] = btn;

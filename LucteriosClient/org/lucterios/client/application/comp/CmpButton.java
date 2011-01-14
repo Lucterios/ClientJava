@@ -25,7 +25,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import org.lucterios.client.application.Button;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpButton extends CmpAbstractEvent {

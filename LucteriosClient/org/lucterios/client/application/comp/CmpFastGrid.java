@@ -29,13 +29,13 @@ import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
-import org.lucterios.client.application.Action;
-import org.lucterios.client.application.ActionConstantes;
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.Button;
 import org.lucterios.client.application.comp.CmpFastTableModel.GridRow;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -146,7 +146,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 					first_action = mActions[act_idx];
 			}
 			if (first_action != null)
-				first_action.actionPerformed(null);
+				first_action.actionPerformed();
 		}
 	}
 
@@ -327,7 +327,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 			cmp_Pages.setSelectedIndex(mPageNum);
 			cmp_Pages.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					mPageRefreshAction.actionPerformed(null);
+					mPageRefreshAction.actionPerformed();
 				}
 			});
 

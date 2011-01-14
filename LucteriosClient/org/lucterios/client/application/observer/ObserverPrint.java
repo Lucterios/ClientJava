@@ -32,11 +32,11 @@ import javax.swing.JFrame;
 
 import org.lucterios.Print.ExtensionFilter;
 import org.lucterios.Print.SelectPrintDlg;
-import org.lucterios.client.presentation.ObserverAbstract;
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.IDialog;
+import org.lucterios.engine.presentation.ObserverAbstract;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;

@@ -24,11 +24,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverFactory;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.Tools;
 
@@ -50,7 +53,7 @@ public class Button extends JButton {
 			this.setIcon(Tools.resizeIcon(mAction.getIcon(), 24, true));
 		else
 			this.setIcon(null);
-		this.addActionListener(mAction);
+		this.addActionListener((ActionListener)mAction);
 	}
 
 	public Action getCurrentAction() {

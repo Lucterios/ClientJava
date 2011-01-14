@@ -1,6 +1,6 @@
 package org.lucterios.stressTester.inputs;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
 public class ActionTest {

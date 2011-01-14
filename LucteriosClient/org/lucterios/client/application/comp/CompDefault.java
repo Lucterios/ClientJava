@@ -23,8 +23,8 @@ package org.lucterios.client.application.comp;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
 public class CompDefault extends Cmponent {

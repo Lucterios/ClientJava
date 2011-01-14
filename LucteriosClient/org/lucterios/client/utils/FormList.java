@@ -32,7 +32,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import org.lucterios.client.utils.IForm;
+import org.lucterios.engine.utils.IForm;
+import org.lucterios.engine.utils.NotifyFrameList;
 import org.lucterios.utils.Tools;
 
 public class FormList implements NotifyFrameList {

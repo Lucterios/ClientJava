@@ -22,8 +22,8 @@ package org.lucterios.client.application;
 
 import org.lucterios.client.utils.Dialog;
 import org.lucterios.client.utils.Form;
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.IDialog;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 
 public class WindowGeneratorFeak implements WindowGenerator {
 	public WindowGeneratorFeak() {

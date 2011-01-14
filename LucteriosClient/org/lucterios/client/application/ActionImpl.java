@@ -21,26 +21,27 @@
 package org.lucterios.client.application;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.presentation.ObserverFactory;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.IDialog;
-import org.lucterios.client.utils.IForm;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
 
-public class ActionImpl implements Action {
+public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	static public WindowGenerator mWindowGenerator = null;
 
 	public final static char MNEMONIC_CHAR = '_';
@@ -63,7 +64,7 @@ public class ActionImpl implements Action {
 
 	private int mSizeIcon = 0;
 
-	private KeyStroke mKeyStroke = null;
+	private String mKeyStroke = "";
 
 	private int mFormType = ActionConstantes.FORM_NOMODAL;
 
@@ -90,11 +91,7 @@ public class ActionImpl implements Action {
 		mSelect = aXml.getAttributInt("unique", ActionConstantes.SELECT_NONE);
 		mIcon = aXml.getAttribut("icon");
 		mSizeIcon = aXml.getAttributInt("sizeicon", 0);
-		String key_stroke = aXml.getAttribut("shortcut");
-		if (!key_stroke.equals(""))
-			mKeyStroke = KeyStroke.getKeyStroke(key_stroke);
-		else
-			mKeyStroke = null;
+		mKeyStroke = aXml.getAttribut("shortcut");
 	}
 
 	public void initialize(Observer aOwner, ObserverFactory aFactory,
@@ -149,7 +146,7 @@ public class ActionImpl implements Action {
 		return Singletons.Transport().getIcon(mIcon, mSizeIcon);
 	}
 
-	public KeyStroke getKeyStroke() {
+	public String getKeyStroke() {
 		return mKeyStroke;
 	}
 
@@ -193,7 +190,7 @@ public class ActionImpl implements Action {
 		mSelect = aSelect;
 	}
 
-	public void setKeyStroke(KeyStroke aKey) {
+	public void setKeyStroke(String aKey) {
 		mKeyStroke = aKey;
 	}
 
@@ -273,7 +270,7 @@ public class ActionImpl implements Action {
 			aObs.show(mTitle);
 	}
 
-	public void runAction(Map<String,Object> aParam) {
+	public void runAction(MapContext aParam) {
 		try {
 			Logging.getInstance().writeLog("@@@ runAction @@@", "BEGIN", 2);
 			Observer old_observrer = null;
@@ -307,15 +304,15 @@ public class ActionImpl implements Action {
 		Logging.getInstance().writeLog("@@@ runAction @@@", "END", 2);
 	}
 
-	private Map<String,Object> getParameters() throws LucteriosException {
-		Map<String,Object> param;
+	private MapContext getParameters() throws LucteriosException {
+		MapContext param;
 		if (mOwner != null) {
 			if (mUsedContext)
 				param = mOwner.getContext();
 			else
 				param = mOwner.getParameters(mID, mSelect, mCheckNull);
 		} else
-			param = new TreeMap<String,Object>();
+			param = new MapContext();
 		return param;
 	}
 
@@ -331,9 +328,13 @@ public class ActionImpl implements Action {
 	}
 
 	public void actionPerformed(ActionEvent aEvent) {
+		actionPerformed();
+	}
+	
+	public void actionPerformed() {		
 		if (mustPerforme())
 			try {
-				final Map<String,Object> param = getParameters();
+				final MapContext param = getParameters();
 				if (param != null) {
 					if ((mOwner != null) && (mClose)) {
 						mOwner.close(false);
@@ -381,4 +382,5 @@ public class ActionImpl implements Action {
 
 	public void removePropertyChangeListener(PropertyChangeListener arg0) {
 	}
+
 }

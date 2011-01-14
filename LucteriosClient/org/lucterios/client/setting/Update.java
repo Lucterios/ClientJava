@@ -28,8 +28,8 @@ import java.io.InputStreamReader;
 
 import javax.swing.JOptionPane;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 

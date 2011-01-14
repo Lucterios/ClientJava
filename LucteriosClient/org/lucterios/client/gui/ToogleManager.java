@@ -18,9 +18,9 @@ import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.MenuItem;
-import org.lucterios.client.presentation.WatchDog;
-import org.lucterios.client.presentation.WatchDog.WatchDogRefresher;
-import org.lucterios.client.resources.Resources;
+import org.lucterios.engine.presentation.WatchDog;
+import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
+import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.JAdvancePanel;

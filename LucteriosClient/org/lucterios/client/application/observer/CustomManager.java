@@ -39,7 +39,7 @@ import org.lucterios.client.application.comp.CmpTime;
 import org.lucterios.client.application.comp.CmpUpload;
 import org.lucterios.client.application.comp.Cmponent;
 import org.lucterios.client.application.comp.CompDefault;
-import org.lucterios.client.presentation.Observer;
+import org.lucterios.engine.presentation.Observer;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;

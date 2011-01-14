@@ -22,7 +22,7 @@ package org.lucterios.client.application.comp;
 
 import java.awt.*;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpCheck extends CmpAbstractEvent {

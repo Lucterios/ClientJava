@@ -28,8 +28,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -177,7 +177,7 @@ public class CmpChecklist extends CmpAbstractEvent implements
 			ExceptionDlg.throwException(e);
 		}
 		if (mEnabled && (mEventAction != null) && hasChanged())
-			mEventAction.actionPerformed(null);
+			mEventAction.actionPerformed();
 	}
 
 	protected boolean hasChanged() {

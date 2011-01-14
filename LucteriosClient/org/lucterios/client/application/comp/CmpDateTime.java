@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -108,7 +108,7 @@ public class CmpDateTime extends CmpAbstractEvent {
 				date.removeFocusListener(this);
 				time.removeFocusListener(this);
 				getObsCustom().setNameComponentFocused(new_Cmponent_focused.getName());
-				mEventAction.actionPerformed(null);
+				mEventAction.actionPerformed();
 			}
 		}
 	}

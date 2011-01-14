@@ -26,9 +26,9 @@ import java.lang.ref.WeakReference;
 
 import javax.swing.*;
 
-import org.lucterios.client.application.Action.ActionList;
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.application.Action.ActionList;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing; // import

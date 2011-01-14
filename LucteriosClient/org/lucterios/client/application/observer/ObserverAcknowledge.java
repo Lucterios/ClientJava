@@ -20,13 +20,13 @@
 
 package org.lucterios.client.application.observer;
 
-import org.lucterios.client.application.Action;
 import org.lucterios.client.application.ActionImpl;
-import org.lucterios.client.presentation.ObserverAbstract;
-import org.lucterios.client.presentation.ObserverConstant;
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.IDialog;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.presentation.ObserverAbstract;
+import org.lucterios.engine.presentation.ObserverConstant;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -56,7 +56,7 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		super.show(aTitle);
 		setActive(true);
 		if (mRedirectAction != null)
-			mRedirectAction.actionPerformed(null);
+			mRedirectAction.actionPerformed();
 		close(mRedirectAction == null);
 	}
 

@@ -3,7 +3,7 @@ package org.lucterios.client;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.lucterios.client.presentation.Singletons.ApplicationTerminate;
+import org.lucterios.engine.presentation.Singletons.ApplicationTerminate;
 import org.lucterios.utils.ExternalProcess;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.SimpleParsing;

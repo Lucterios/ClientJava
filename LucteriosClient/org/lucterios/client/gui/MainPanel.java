@@ -40,7 +40,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu;
-import org.lucterios.client.resources.Resources;
+import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class MainPanel extends JAdvancePanel implements Runnable,

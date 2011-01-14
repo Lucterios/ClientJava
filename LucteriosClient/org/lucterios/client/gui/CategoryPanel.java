@@ -167,7 +167,7 @@ public class CategoryPanel extends JAdvancePanel {
 						addSeparator(pos_x, pos_y);
 					addActivator(pos_x + num * (max_width - pos_x) / nb_col,
 							pos_y, (max_width - pos_x) / nb_col,
-							new ActionActivator(current_menu.mAction,
+							new ActionActivator((javax.swing.Action)current_menu.mAction,
 									current_menu.mAction.getTitle(),
 									current_menu.mDescription, key_string,
 									current_menu.mAction.getIcon()));

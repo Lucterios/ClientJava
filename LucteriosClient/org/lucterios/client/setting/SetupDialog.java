@@ -31,9 +31,9 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.filechooser.FileFilter;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.resources.Resources;
-import org.lucterios.client.utils.LucteriosConfiguration;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.resources.Resources;
+import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.Tools;
@@ -58,9 +58,9 @@ public class SetupDialog extends JDialog {
 	private javax.swing.JButton btn_Ok;
 	private javax.swing.JButton btn_Cancel;
 
-	private LucteriosConfiguration mConf;
+	private LucteriosConfigurationModel mConf;
 
-	public SetupDialog(JFrame aFrame, LucteriosConfiguration aConf) {
+	public SetupDialog(JFrame aFrame, LucteriosConfigurationModel aConf) {
 		super(aFrame);
 		mFontImg = Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
 		mConf = aConf;
@@ -226,7 +226,7 @@ public class SetupDialog extends JDialog {
 		}
 	}
 
-	public static void run(JFrame aFrame, LucteriosConfiguration aConf) {
+	public static void run(JFrame aFrame, LucteriosConfigurationModel aConf) {
 		SetupDialog dlg = new SetupDialog(aFrame, aConf);
 		dlg.setVisible(true);
 	}

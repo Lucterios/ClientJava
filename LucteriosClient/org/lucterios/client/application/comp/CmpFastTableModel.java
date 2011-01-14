@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
-import org.lucterios.client.presentation.Singletons;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringDico;
 

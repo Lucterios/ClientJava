@@ -1,6 +1,7 @@
 package org.lucterios.client;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JMenuBar;
@@ -75,7 +76,7 @@ public class ToolButtonCollection extends ToolButton implements Runnable {
 				if (current_menu.mAction.getIconName().length() > 0) {
 					String key_string = current_menu.mAction.getTitle();
 					key_string += Tools.getKeyString(current_menu.getAccelerator());
-					mSubActions.add(new ToolButton(current_menu.mAction,
+					mSubActions.add(new ToolButton((ActionListener)current_menu.mAction,
 							current_menu.mAction.getTitle(),
 							current_menu.mDescription, key_string,
 							current_menu.mAction.getIcon()));

@@ -32,8 +32,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.EncodeBase64FromInputStream;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;

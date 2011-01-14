@@ -22,7 +22,7 @@ package org.lucterios.client.setting;
 
 import java.io.InputStream;
 
-import org.lucterios.client.resources.Resources;
+import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.Tools;
 
 public class Constants {

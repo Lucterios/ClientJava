@@ -26,8 +26,8 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-import org.lucterios.client.presentation.Observer.MapContext;
 import org.lucterios.client.utils.DatePickerSimple;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpDate extends CmpAbstractEvent {
@@ -208,7 +208,7 @@ public class CmpDate extends CmpAbstractEvent {
 				edit_date.removeFocusListener(this);
 				getObsCustom().setNameComponentFocused(new_Cmponent_focused
 						.getName());
-				mEventAction.actionPerformed(null);
+				mEventAction.actionPerformed();
 			}
 		}
 	}

@@ -24,8 +24,8 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.lucterios.client.presentation.Singletons;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;

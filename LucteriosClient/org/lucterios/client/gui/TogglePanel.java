@@ -4,7 +4,7 @@ package org.lucterios.client.gui;
 import javax.swing.ImageIcon;
 
 import org.lucterios.client.application.observer.ObserverCustom;
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.graphic.JAdvancePanel;
 

@@ -26,7 +26,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.*;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpTime extends CmpAbstractEvent {
@@ -132,7 +132,7 @@ public class CmpTime extends CmpAbstractEvent {
 				spe_minute.removeFocusListener(this);
 				getObsCustom().setNameComponentFocused(new_Cmponent_focused
 						.getName());
-				mEventAction.actionPerformed(null);
+				mEventAction.actionPerformed();
 			}
 		}
 	}
