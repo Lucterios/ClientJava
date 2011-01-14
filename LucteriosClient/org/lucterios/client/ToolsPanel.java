@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.gui.RefreshButtonPanel;
 import org.lucterios.engine.application.Action;
-import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.graphic.DesktopTools;
 import org.lucterios.utils.graphic.JAdvancePanel;
 import org.lucterios.utils.graphic.NavigatorBar;
 

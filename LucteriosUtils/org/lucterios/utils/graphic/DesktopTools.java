@@ -1,4 +1,4 @@
-package org.lucterios.utils;
+package org.lucterios.utils.graphic;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -16,7 +16,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 
-public class DesktopTools {
+import org.lucterios.utils.DesktopInterface;
+import org.lucterios.utils.IniFileManager;
+import org.lucterios.utils.IniFileReader;
+import org.lucterios.utils.Logging;
+import org.lucterios.utils.LucteriosException;
+
+public class DesktopTools implements DesktopInterface {
 
 	class ProcessExitDetector extends Thread {
 
@@ -83,17 +89,23 @@ public class DesktopTools {
 		super();
 	}
 	
-	private static DesktopTools mInstance=null;
-	public static DesktopTools instance() {
+	private static DesktopInterface mInstance=null;
+	public static DesktopInterface instance() {
 		if (mInstance==null)
 			mInstance=new DesktopTools();
 		return mInstance;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.lucterios.utils.graphic.DesktopInterface#initApplicationsSetting(org.lucterios.utils.IniFileManager)
+	 */
 	public void initApplicationsSetting(IniFileManager aApplicationsSettingFile) {
 		m_ApplicationsSettingFile=aApplicationsSettingFile;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.lucterios.utils.graphic.DesktopInterface#launch(java.lang.String)
+	 */
 	public void launch(String aUrl) throws LucteriosException
 	{
 		if (aUrl.startsWith("mailto:"))
@@ -104,6 +116,9 @@ public class DesktopTools {
 			openInFile(aUrl);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.lucterios.utils.graphic.DesktopInterface#getInsets()
+	 */
 	public Insets getInsets() {
 		if (current_insets==null)
 		switch (isCompatibleOS()) {

@@ -69,7 +69,7 @@ import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.engine.utils.NotifyFrameChange;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
-import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.graphic.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;

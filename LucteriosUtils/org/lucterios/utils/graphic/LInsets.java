@@ -19,7 +19,7 @@
 * 		A. Tres Finocchiaro
 *		Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
-package org.lucterios.utils;
+package org.lucterios.utils.graphic;
 
 /* Linsets
  *

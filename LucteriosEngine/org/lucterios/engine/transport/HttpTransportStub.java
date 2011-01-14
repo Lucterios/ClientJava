@@ -25,6 +25,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
 public class HttpTransportStub implements HttpTransport {
@@ -128,5 +129,8 @@ public class HttpTransportStub implements HttpTransport {
 			return "https";
 		else
 			return "http";
+	}
+
+	public void setDesktop(DesktopInterface desktop) {		
 	}
 }

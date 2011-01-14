@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 import org.lucterios.client.setting.Constants;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.graphic.DesktopTools;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.ExceptionDlg.InfoDescription;

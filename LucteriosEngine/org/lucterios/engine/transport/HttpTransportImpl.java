@@ -40,7 +40,7 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.protocol.Protocol;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
@@ -62,12 +62,17 @@ public class HttpTransportImpl implements HttpTransport {
 
 	private org.apache.commons.httpclient.HttpClient m_Cnx = null;
 	private ImageCache imageCache = null;
+	private DesktopInterface mDesktop=null;
 
 	public HttpTransportImpl() {
 		super();
 		Protocol.registerProtocol("https",new Protocol("https", new EasySSLProtocolSocketFactory(),443));
 		m_Cnx = new org.apache.commons.httpclient.HttpClient();
 		imageCache = new ImageCache(this);
+	}
+
+	public void setDesktop(DesktopInterface desktop){
+		mDesktop=desktop;
 	}
 
 	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity) {
@@ -416,6 +421,6 @@ public class HttpTransportImpl implements HttpTransport {
 
 	public void openPageInWebBrowser(String pageName) throws LucteriosException {
 		java.net.URL page_url = getUrl(pageName);
-		DesktopTools.instance().launch(page_url.toString());
+		mDesktop.launch(page_url.toString());
 	}
 }

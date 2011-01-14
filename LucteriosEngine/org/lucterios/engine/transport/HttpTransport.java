@@ -25,11 +25,14 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
 public interface HttpTransport {
 	public final static String POST_VARIABLE = "XMLinput";
 
+	public void setDesktop(DesktopInterface desktop);
+	
 	public String getSession();
 
 	public void setSession(String aSession);

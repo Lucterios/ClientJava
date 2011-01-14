@@ -38,7 +38,7 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.DecodeBase64ToInputStream;
-import org.lucterios.utils.DesktopTools;
+import org.lucterios.utils.graphic.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;

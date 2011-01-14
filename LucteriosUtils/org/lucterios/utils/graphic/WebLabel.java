@@ -23,7 +23,6 @@ package org.lucterios.utils.graphic;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 
 public class WebLabel extends LinkLabel {

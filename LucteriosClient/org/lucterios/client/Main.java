@@ -41,6 +41,7 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.graphic.DesktopTools;
 import org.lucterios.utils.graphic.ExceptionDlg;
 import org.lucterios.utils.graphic.WaitingWindow;
 
@@ -61,6 +62,7 @@ class Main {
 	public static void main(String args[]) {
 		try {
 			Singletons.ActionClass=ActionImpl.class;
+			Singletons.mDesktop=DesktopTools.instance();
 			Singletons.initalize();
 			ThemeMenu.initializedTheme();
 			Singletons.AppTerminate=new RequirementProcesses();
