@@ -1,10 +1,10 @@
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.lucterios.client.transport.HttpTransport;
-import org.lucterios.client.transport.TransportException;
+import org.lucterios.engine.transport.HttpTransport;
+import org.lucterios.engine.transport.TransportException;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.utils.ZipManager;

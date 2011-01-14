@@ -18,13 +18,13 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.transport;
+package org.lucterios.engine.transport;
 
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 public class HttpTransportStub implements HttpTransport {

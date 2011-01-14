@@ -18,15 +18,15 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;
 
-import org.lucterios.client.application.Action;
-import org.lucterios.client.application.ActionConstantes;
-import org.lucterios.client.utils.IDialog;
-import org.lucterios.client.utils.IForm;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.graphic.ExceptionDlg;
@@ -189,7 +189,7 @@ public abstract class ObserverAbstract implements Observer {
 		if (!closed) {
 			closed = true;
 			if (mCloseAction != null)
-				mCloseAction.actionPerformed(null);
+				mCloseAction.actionPerformed();
 			mCloseAction = null;
 			try {
 				Observer parent=getParent();
@@ -213,7 +213,7 @@ public abstract class ObserverAbstract implements Observer {
 		refresh.setFormType(ActionConstantes.FORM_REFRESH);
 		refresh.setClose(false);
 		refresh.setUsedContext(true);
-		refresh.actionPerformed(null);
+		refresh.actionPerformed();
 		refresh=null;
 	}
 }

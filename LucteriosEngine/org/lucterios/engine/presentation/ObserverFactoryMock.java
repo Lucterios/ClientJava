@@ -1,11 +1,12 @@
 /**
  * 
  */
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.util.Map;
 
-import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 
 /**
@@ -23,7 +24,7 @@ public class ObserverFactoryMock implements ObserverFactory {
 	public void clearObserverList() {
 	}
 
-	public void AddObserver(String aObserverName, Class aObserver) {
+	public void AddObserver(String aObserverName, Class<?> aObserver) {
 	}
 
 	public HttpTransport getHttpTransport() {
@@ -41,18 +42,18 @@ public class ObserverFactoryMock implements ObserverFactory {
 		return NewAuthentification;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, MapContext aParam)
 			throws LucteriosException {
 		return callAction(aExtension, aAction, aParam, null);
 	}
 
 	static public String LastExtension = "";
 	static public String LastAction = "";
-	static public Map LastParam = null;
+	static public Map<?, ?> LastParam = null;
 	static public Observer OldObserver = null;
 	static public Observer NewObserver = null;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, MapContext aParam,
 			Observer aObserver) throws LucteriosException {
 		OldObserver = aObserver;
 		LastExtension = aExtension;

@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 public class ObserverConstant {
 	static final public byte TYPE_NONE = 0;

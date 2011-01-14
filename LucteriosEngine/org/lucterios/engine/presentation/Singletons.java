@@ -18,15 +18,15 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.lucterios.client.application.Action;
-import org.lucterios.client.transport.HttpTransport;
-import org.lucterios.client.transport.HttpTransportImpl;
-import org.lucterios.client.utils.LucteriosConfiguration;
+import org.lucterios.engine.application.Action;
+import org.lucterios.engine.transport.HttpTransport;
+import org.lucterios.engine.transport.HttpTransportImpl;
+import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.Tools;

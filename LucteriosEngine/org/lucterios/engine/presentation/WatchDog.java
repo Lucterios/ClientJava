@@ -18,13 +18,13 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.lucterios.client.presentation.Observer.MapContext;
-import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 
 public class WatchDog extends TimerTask {

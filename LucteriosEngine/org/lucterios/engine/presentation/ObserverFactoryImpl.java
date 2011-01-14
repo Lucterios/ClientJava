@@ -18,21 +18,21 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.lucterios.client.presentation.Observer.MapContext;
-import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public class ObserverFactoryImpl implements ObserverFactory {
 	private HttpTransport mTransport = null;
-	static private Map<String,Class> mObservers = new TreeMap<String, Class>();
+	static private Map<String,Class<?>> mObservers = new TreeMap<String, Class<?>>();
 
 	public ObserverFactoryImpl() {
 		super();
@@ -50,7 +50,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		mObservers.clear();
 	}
 
-	public void AddObserver(String aObserverName, Class aObserver) {
+	public void AddObserver(String aObserverName, Class<?> aObserver) {
 		mObservers.put(aObserverName, aObserver);
 	}
 
@@ -82,17 +82,18 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return res;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, MapContext aParam)
 			throws LucteriosException {
 		return callAction(aExtension, aAction, aParam, null);
 	}
 
 	private String m_XMLParameters="";
-	protected MapContext convertParameters(String aExtension, String aAction, Map aParam) {
+	@SuppressWarnings("unchecked")
+	protected MapContext convertParameters(String aExtension, String aAction, MapContext aParam) {
 		MapContext result=new MapContext();
 		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='" + aAction + "'>";
 
-		for (Iterator iterator = aParam.entrySet().iterator(); iterator
+		for (Iterator<?> iterator = aParam.entrySet().iterator(); iterator
 				.hasNext();) {
 			Map.Entry entry = (Map.Entry) iterator.next();
 			String key = (String) entry.getKey();
@@ -122,7 +123,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	protected Observer factoryObserver(String aObserverName, String aParamTxt,
 			String aXmlText) throws LucteriosException {
 		Observer res_obs = null;
-		Class observ = (Class) mObservers.get(aObserverName);
+		Class<?> observ = mObservers.get(aObserverName);
 		try {
 			res_obs = (Observer) observ.newInstance();
 		} catch (InstantiationException e) {
@@ -135,7 +136,7 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return res_obs;
 	}
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, MapContext aParam,
 			Observer aObserver) throws LucteriosException {
 		if (mTransport == null)
 			throw new LucteriosException("Transport null");

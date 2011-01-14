@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
+package org.lucterios.engine.application;
 
 public class ActionConstantes {
 
@@ -30,6 +30,10 @@ public class ActionConstantes {
 	public final static int SELECT_SINGLE = 0;
 	public final static int SELECT_MULTI = 2;
 
+    public static final int CTRL_MASK		= 1 << 1;
+
+    public static final int META_MASK		= 1 << 2;
+	
 	public static int getMaxSelect(int aSelect1, int aSelect2) {
 		int res = SELECT_NONE;
 		if ((aSelect1 == SELECT_MULTI) || (aSelect2 == SELECT_MULTI)) {
@@ -44,9 +48,9 @@ public class ActionConstantes {
 		String os_arch = System.getProperty("os.arch");
 		if (os_arch.equalsIgnoreCase("PowerPC")
 				|| os_arch.equalsIgnoreCase("ppc")) {
-			return java.awt.event.InputEvent.META_MASK;
+			return META_MASK;
 		} else {
-			return java.awt.event.InputEvent.CTRL_MASK;
+			return CTRL_MASK;
 		}
 	}
 

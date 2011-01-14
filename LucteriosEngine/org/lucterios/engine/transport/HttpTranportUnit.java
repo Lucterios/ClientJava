@@ -18,11 +18,11 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.transport;
+package org.lucterios.engine.transport;
 
 import javax.swing.ImageIcon;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 
 import junit.framework.TestCase;
@@ -53,9 +53,9 @@ public class HttpTranportUnit extends TestCase {
 		assertEquals("Port connect a", 0, http_transport.getCurrentPort());
 		assertEquals("Session initial", "", http_transport.getSession());
 
-		http_transport.connectToServer("localhost", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
 		http_transport.setSession("ABCDEF12345");
-		assertEquals("Server connect b", "localhost", http_transport
+		assertEquals("Server connect b", "projets.lucterios.org", http_transport
 				.getServerHost());
 		assertEquals("Path connect b", "/lucterios", http_transport.getRootPath());
 		assertEquals("Port connect b", 80, http_transport.getCurrentPort());
@@ -64,11 +64,11 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testStatic() {
-		http_transport.connectToServer("localhost", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
 		http_transport.setSession("ABCDEF12345");
 
 		HttpTransport new_http_transport = new HttpTransportImpl();
-		assertEquals("Server connect b", "localhost", new_http_transport
+		assertEquals("Server connect b", "projets.lucterios.org", new_http_transport
 				.getServerHost());
 		assertEquals("Path connect b", "/lucterios", new_http_transport
 				.getRootPath());
@@ -78,7 +78,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testImage() {
-		http_transport.connectToServer("localhost", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
 		ImageIcon null_icon = http_transport.getIcon(null,0);
 		assertTrue("Null icon", null_icon == null);
 

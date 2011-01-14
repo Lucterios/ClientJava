@@ -18,11 +18,10 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
-import java.util.Map;
-
-import org.lucterios.client.transport.HttpTransport;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
 
 public interface ObserverFactory {
@@ -32,14 +31,14 @@ public interface ObserverFactory {
 
 	public void clearObserverList();
 
-	public void AddObserver(String aObserverName, Class aObserver);
+	public void AddObserver(String aObserverName, Class<?> aObserver);
 
 	public boolean setAuthentification(String aLogin, String aPassWord)
 			throws LucteriosException;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam)
+	public Observer callAction(String aExtension, String aAction, MapContext aParam)
 			throws LucteriosException;
 
-	public Observer callAction(String aExtension, String aAction, Map aParam,
+	public Observer callAction(String aExtension, String aAction, MapContext aParam,
 			Observer aObserver) throws LucteriosException;
 }

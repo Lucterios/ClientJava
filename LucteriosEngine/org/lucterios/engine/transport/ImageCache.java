@@ -1,4 +1,4 @@
-package org.lucterios.client.transport;
+package org.lucterios.engine.transport;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -48,7 +48,7 @@ public class ImageCache {
 			String cache_file_name=getCacheFileName(aIconName);
 			File cache_file=new File(cache_file_name);
 			long file_size=cache_file.length();
-			Date date_limit=new Date(cache_file.lastModified()+TIME_PERINITY);			
+			Date date_limit=new Date(cache_file.lastModified()+TIME_PERINITY);		
 			if ((file_size!=0) && (date_limit.after(new Date()))) {
 				if (mMiniImages.contains(cache_file_name))
 					return true;

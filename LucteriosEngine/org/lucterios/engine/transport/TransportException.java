@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.transport;
+package org.lucterios.engine.transport;
 
 import org.lucterios.utils.LucteriosException;
 

@@ -18,13 +18,13 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
 import java.util.TreeMap;
 
-import org.lucterios.client.utils.IDialog;
-import org.lucterios.client.utils.IForm;
-import org.lucterios.client.utils.NotifyFrameObserver;
+import org.lucterios.engine.utils.IDialog;
+import org.lucterios.engine.utils.IForm;
+import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 

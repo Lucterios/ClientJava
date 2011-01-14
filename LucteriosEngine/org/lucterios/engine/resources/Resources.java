@@ -1,4 +1,4 @@
-package org.lucterios.client.resources;
+package org.lucterios.engine.resources;
 
 public class Resources {
 

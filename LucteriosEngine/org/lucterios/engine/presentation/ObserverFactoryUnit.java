@@ -18,12 +18,10 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.presentation;
+package org.lucterios.engine.presentation;
 
-import java.util.TreeMap;
-
-import org.lucterios.client.presentation.Observer.MapContext;
-import org.lucterios.client.transport.HttpTransportStub;
+import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.transport.HttpTransportStub;
 import org.lucterios.utils.LucteriosException;
 
 import junit.framework.TestCase;
@@ -51,7 +49,7 @@ public class ObserverFactoryUnit extends TestCase {
 		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
 
 		Observer obs = mObserverFactory.callAction("CORE",
-				"printmodel_APAS_reinit", new TreeMap());
+				"printmodel_APAS_reinit", new MapContext());
 		assertTrue("Observer", obs != null);
 		assertEquals("Action", "printmodel_APAS_reinit", obs.getSourceAction());
 		assertEquals("Extension", "CORE", obs.getSourceExtension());
@@ -124,7 +122,7 @@ public class ObserverFactoryUnit extends TestCase {
 
 		try {
 			Observer obs = mObserverFactory.callAction("CORE",
-					"printmodel_APAS_reinit", new TreeMap());
+					"printmodel_APAS_reinit", new MapContext());
 			assertTrue(obs == null);
 			assertTrue(false);
 		} catch (LucteriosException e) {
@@ -137,7 +135,7 @@ public class ObserverFactoryUnit extends TestCase {
 
 		try {
 			Observer obs = mObserverFactory.callAction("CORE",
-					"printmodel_APAS_reinit", new TreeMap());
+					"printmodel_APAS_reinit", new MapContext());
 			assertTrue(obs == null);
 			assertTrue(false);
 		} catch (LucteriosException e) {

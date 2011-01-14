@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.transport;
+package org.lucterios.engine.transport;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,7 +39,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.protocol.Protocol;
 
-import org.lucterios.client.presentation.Observer.MapContext;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.DesktopTools;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
@@ -156,8 +156,9 @@ public class HttpTransportImpl implements HttpTransport {
 
 	public ImageIcon getIcon(String aIconName,int aSize)  {
 		if ((aIconName != null) && (aIconName.length() > 0)) {
-			if (imageCache.isInCache(aIconName,aSize))
+			if (imageCache.isInCache(aIconName,aSize)) {
 				return imageCache.getImage(aIconName);
+			}
 			else {
 				ImageIcon icon_result = null;
 				try {
@@ -225,7 +226,7 @@ public class HttpTransportImpl implements HttpTransport {
 					if ((statusCode != HttpStatus.SC_NOT_FOUND)
 							|| (repeat_loop_index <= 0))
 						throw new TransportException(method.getStatusLine()
-								.getReasonPhrase(),
+								.getReasonPhrase()+":"+path_url.toString(),
 								TransportException.TYPE_HTTP, statusCode,
 								param_txt, "");
 				}

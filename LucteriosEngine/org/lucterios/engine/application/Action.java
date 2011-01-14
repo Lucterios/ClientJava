@@ -18,20 +18,18 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
+package org.lucterios.engine.application;
 
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.KeyStroke;
 
-import org.lucterios.client.presentation.Observer;
-import org.lucterios.client.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
-public interface Action extends ActionListener, javax.swing.Action {
+public interface Action  {
 	
 	@SuppressWarnings("serial")
 	public class ActionList extends ArrayList<Action> {}
@@ -60,7 +58,7 @@ public interface Action extends ActionListener, javax.swing.Action {
 
 	public ImageIcon getIcon();
 
-	public KeyStroke getKeyStroke();
+	public String getKeyStroke();
 
 	public int getFormType();
 
@@ -82,7 +80,9 @@ public interface Action extends ActionListener, javax.swing.Action {
 
 	public void setUsedContext(boolean aUsedContext);
 
-	public void setKeyStroke(KeyStroke aKey);
+	public void setKeyStroke(String aKey);
 
-	public void runAction(Map<String,Object> aParam);
+	public void runAction(MapContext aParam);
+	
+	public void actionPerformed();
 }
