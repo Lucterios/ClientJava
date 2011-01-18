@@ -11,6 +11,7 @@
 	</tstamp>
 
 	<target name="all">
+		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
@@ -20,14 +21,14 @@
 	</target>		
 
 	<target name="compile">
+		<property name="projet.version.build" value="${env.BUILD_NUMBER}"/>
 		<antcall target="init" />
 		<antcall target="build" />
 		<antcall target="package" />
 	</target>		
 	
 	<target name="init">
-		<buildnumber />
-		<property name="projet.version.build" value="${build.number}"/>
+		<property name="projet.version.build" value="1"/>
 		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
 		<delete file="setup.inc.php"/>
 		<exec executable="./createSetup.sh">

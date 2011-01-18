@@ -53,6 +53,7 @@
 			source="1.5"
 			debug="off"
 			optimize="on" 
+			includeAntRuntime="false"
 			deprecation="off">
 			<classpath refid="projet.classpath"/>
 		</javac>
