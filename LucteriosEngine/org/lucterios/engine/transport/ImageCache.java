@@ -1,21 +1,18 @@
 package org.lucterios.engine.transport;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.swing.ImageIcon;
-
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
 
 public class ImageCache {
+	
+	static public Class<? extends AbstractImage> ImageClass=null;
 	
 	private HttpTransport mTransport=null;
 	private static final String CACHE_DIR=".LucteriosCache";
@@ -82,20 +79,22 @@ public class ImageCache {
 		} catch (IOException e) {}
 	}
 	
-	public ImageIcon getImage(String aIconName){
+	public AbstractImage getImage(String aIconName){
 		String file_cache=getCacheFileName(aIconName);
 		File file=new File(file_cache);
 		if (file.exists()){
 			try {
-				FileImageInputStream fiis = new FileImageInputStream(file);
-				BufferedImage img=ImageIO.read(fiis);			
-				ImageIcon icon=new ImageIcon(img);
-				if (!mMiniImages.contains(file_cache) && (icon.getIconHeight()<=64) && (icon.getIconWidth()<=64))
-					mMiniImages.add(file_cache);
-				return icon;
-			} catch (FileNotFoundException e) {
+				AbstractImage icon=(AbstractImage)ImageClass.newInstance();
+				if (icon.load(file)) {
+					if (!mMiniImages.contains(file_cache) && (icon.getHeight()<=64) && (icon.getWidth()<=64))
+						mMiniImages.add(file_cache);
+					return icon;
+				}
+				else
+					return null;
+			} catch (InstantiationException e) {
 				return null;
-			} catch (IOException e) {
+			} catch (IllegalAccessException e) {
 				return null;
 			}
 		}
@@ -103,7 +102,7 @@ public class ImageCache {
 			return null;
 	}
 	
-	public ImageIcon addImage(String aIconName,InputStream aImageStream) {
+	public AbstractImage addImage(String aIconName,InputStream aImageStream) {
 		if (aImageStream != null)
 			try {			
 				String cache_file_name=getCacheFileName(aIconName);

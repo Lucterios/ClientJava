@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.transport.HttpTransport;
-import org.lucterios.engine.transport.HttpTransportImpl;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.IniFileManager;
@@ -49,7 +48,7 @@ public class Singletons {
 	static public Class<? extends HttpTransport> HttpTransportClass=null;
 
 	static public Class<? extends Action> ActionClass=null;
-
+	
 	static public HttpTransport Transport() {
 		HttpTransport new_transport = null;
 		try {
@@ -84,7 +83,6 @@ public class Singletons {
 	static public LucteriosConfiguration Configuration = null;
 
 	static public void initalize() throws IOException {
-		HttpTransportClass = HttpTransportImpl.class;
 		Configuration = new LucteriosConfiguration();
 		mFactory = new ObserverFactoryImpl();
 		File cache_dir=new File(TEMP_DIR);

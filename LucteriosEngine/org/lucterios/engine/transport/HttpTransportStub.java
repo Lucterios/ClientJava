@@ -22,9 +22,8 @@ package org.lucterios.engine.transport;
 
 import java.net.URL;
 
-import javax.swing.ImageIcon;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
@@ -83,9 +82,9 @@ public class HttpTransportStub implements HttpTransport {
 		return mServerHost;
 	}
 
-	public ImageIcon IconName = null;
+	public AbstractImage IconName = null;
 
-	public ImageIcon getIcon(String aIconName,int aSize) {
+	public AbstractImage getIcon(String aIconName,int aSize) {
 		return IconName;
 	}
 

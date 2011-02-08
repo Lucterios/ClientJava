@@ -22,9 +22,8 @@ package org.lucterios.engine.transport;
 
 import java.net.URL;
 
-import javax.swing.ImageIcon;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
@@ -58,7 +57,7 @@ public interface HttpTransport {
 	public String transfertFileFromServerString(String aWebFile, MapContext aParams)
 			throws LucteriosException;
 
-	public ImageIcon getIcon(String aIconName,int aSize);
+	public AbstractImage getIcon(String aIconName,int aSize);
 
 	public void saveFiles(String aServerFileName, String aLocalFileName)
 			throws LucteriosException;

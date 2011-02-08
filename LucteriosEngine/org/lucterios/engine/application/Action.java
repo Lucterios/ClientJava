@@ -22,11 +22,10 @@ package org.lucterios.engine.application;
 
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.utils.SimpleParsing;
 
 public interface Action  {
@@ -56,7 +55,7 @@ public interface Action  {
 
 	public String getIconName();
 
-	public ImageIcon getIcon();
+	public AbstractImage getIcon();
 
 	public String getKeyStroke();
 

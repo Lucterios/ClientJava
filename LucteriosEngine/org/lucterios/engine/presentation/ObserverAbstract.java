@@ -29,7 +29,6 @@ import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
 
 public abstract class ObserverAbstract implements Observer {
 	protected Action mCloseAction = null;
@@ -197,7 +196,7 @@ public abstract class ObserverAbstract implements Observer {
 					parent.refresh();
 				parent=null;
 			} catch (LucteriosException e) {
-				ExceptionDlg.throwException(e);
+				//ExceptionDlg.throwException(e);
 			}
 		}
 	}
