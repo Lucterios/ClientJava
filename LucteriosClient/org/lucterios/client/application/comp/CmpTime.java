@@ -31,9 +31,9 @@ import org.lucterios.utils.LucteriosException;
 
 public class CmpTime extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
-	private org.lucterios.utils.graphic.SpinEdit spe_hour;
+	private org.lucterios.graphic.SpinEdit spe_hour;
 	private javax.swing.JLabel lbl_text;
-	private org.lucterios.utils.graphic.SpinEdit spe_minute;
+	private org.lucterios.graphic.SpinEdit spe_minute;
 
 	public CmpTime() {
 		super();
@@ -67,7 +67,7 @@ public class CmpTime extends CmpAbstractEvent {
 		setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints gdbConstr;
 
-		spe_hour = new org.lucterios.utils.graphic.SpinEdit(0, 0, 23);
+		spe_hour = new org.lucterios.graphic.SpinEdit(0, 0, 23);
 		spe_hour.setMinimumSize(new Dimension(30, 0));
 		spe_hour.setPreferredSize(new Dimension(30, 0));
 		gdbConstr = new GridBagConstraints();
@@ -88,7 +88,7 @@ public class CmpTime extends CmpAbstractEvent {
 		gdbConstr.fill = GridBagConstraints.NONE;
 		add(lbl_text, gdbConstr);
 
-		spe_minute = new org.lucterios.utils.graphic.SpinEdit(0, 0, 59);
+		spe_minute = new org.lucterios.graphic.SpinEdit(0, 0, 59);
 		spe_minute.setMinimumSize(new Dimension(30, 0));
 		spe_minute.setPreferredSize(new Dimension(30, 0));
 		gdbConstr = new GridBagConstraints();
@@ -130,8 +130,8 @@ public class CmpTime extends CmpAbstractEvent {
 					&& !new_Cmponent_focused.getName().equals(getName())) {
 				spe_hour.removeFocusListener(this);
 				spe_minute.removeFocusListener(this);
-				getObsCustom().setNameComponentFocused(new_Cmponent_focused
-						.getName());
+				getObsCustom().setNameComponentFocused(
+						new_Cmponent_focused.getName());
 				mEventAction.actionPerformed();
 			}
 		}
@@ -143,7 +143,7 @@ public class CmpTime extends CmpAbstractEvent {
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}
-	
+
 	public void addFocusListener(FocusListener aFocus) {
 		super.addFocusListener(aFocus);
 		spe_hour.addFocusListener(aFocus);
@@ -155,5 +155,5 @@ public class CmpTime extends CmpAbstractEvent {
 		spe_hour.removeFocusListener(aFocus);
 		spe_minute.removeFocusListener(aFocus);
 	}
-	
+
 }

@@ -31,9 +31,8 @@ import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.SimpleParsing; // import
-import org.lucterios.utils.graphic.ExceptionDlg;
-											// org.lucterios.client.utils.Logging;
+import org.lucterios.utils.SimpleParsing; 
+import org.lucterios.graphic.ExceptionDlg; 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Scriptable;
@@ -42,8 +41,8 @@ import org.mozilla.javascript.ScriptableObject;
 public abstract class Cmponent extends JPanel {
 	static final long serialVersionUID = 1L;
 
-	public static int CmponentCount=0;
-	
+	public static int CmponentCount = 0;
+
 	public GridBagConstraints mGdbConp;
 	protected int mFill;
 	protected SimpleParsing mXmlItem;
@@ -73,15 +72,15 @@ public abstract class Cmponent extends JPanel {
 		setFocusable(false);
 	}
 
-	protected void finalize() throws Throwable{
+	protected void finalize() throws Throwable {
 		CmponentCount--;
 		super.finalize();
 	}
-		
+
 	public void close() {
-		mGdbConp=null;
-		mXmlItem=null;
-		mObsCustom=null;
+		mGdbConp = null;
+		mXmlItem = null;
+		mObsCustom = null;
 	}
 
 	public void fillActions(ActionList atns) {
@@ -99,20 +98,20 @@ public abstract class Cmponent extends JPanel {
 	public boolean isFocusable() {
 		return true;
 	}
-	
+
 	protected boolean mEnabled = true;
 
-	protected SimpleParsing getXmlItem(){
+	protected SimpleParsing getXmlItem() {
 		return mXmlItem;
 	}
-	protected Observer getObsCustom(){
-		if (mObsCustom!=null)
+
+	protected Observer getObsCustom() {
+		if (mObsCustom != null)
 			return mObsCustom.get();
 		else
 			return null;
 	}
-	
-	
+
 	public void setEnabled(boolean aEnabled) {
 		super.setEnabled(aEnabled);
 		mEnabled = aEnabled;
@@ -134,7 +133,7 @@ public abstract class Cmponent extends JPanel {
 		VMin = aXmlItem.getAttributInt("VMin", 0);
 		HMax = aXmlItem.getAttributInt("HMax", Integer.MAX_VALUE);
 		VMax = aXmlItem.getAttributInt("VMax", Integer.MAX_VALUE);
-		if (aOwnerPanel!=null) {
+		if (aOwnerPanel != null) {
 			mGdbConp.gridx = X;
 			mGdbConp.gridy = Y;
 			mGdbConp.gridwidth = W;
@@ -188,8 +187,8 @@ public abstract class Cmponent extends JPanel {
 
 	public String getValue() {
 		try {
-			Object val=getRequete("").get(getName());
-			if (val!=null)
+			Object val = getRequete("").get(getName());
+			if (val != null)
 				return val.toString();
 			else
 				return "";
@@ -216,26 +215,35 @@ public abstract class Cmponent extends JPanel {
 				try {
 					Scriptable scope = cx.initStandardObjects();
 					Object wrappedCurrent = Context.javaToJS(this, scope);
-					ScriptableObject.putProperty(scope, "current", wrappedCurrent);
-					Object wrappedParent = Context.javaToJS(getObsCustom(), scope);
-					ScriptableObject.putProperty(scope, "parent", wrappedParent);
-					Object result = cx.evaluateString(scope, JavaScript, "<js>", 1, null);
-					Logging.getInstance().writeLog("<== JavaScript '" + getName() + "' <==", Context.toString(result), 2);
+					ScriptableObject.putProperty(scope, "current",
+							wrappedCurrent);
+					Object wrappedParent = Context.javaToJS(getObsCustom(),
+							scope);
+					ScriptableObject
+							.putProperty(scope, "parent", wrappedParent);
+					Object result = cx.evaluateString(scope, JavaScript,
+							"<js>", 1, null);
+					Logging.getInstance().writeLog(
+							"<== JavaScript '" + getName() + "' <==",
+							Context.toString(result), 2);
 				} finally {
 					Context.exit();
 				}
 			} catch (EcmaError e) {
-				throw new LucteriosException("Erreur dans un script", JavaScript, "", e);
+				throw new LucteriosException("Erreur dans un script",
+						JavaScript, "", e);
 			}
 		}
 	}
 
-	public abstract MapContext getRequete(String aActionIdent) throws LucteriosException;
+	public abstract MapContext getRequete(String aActionIdent)
+			throws LucteriosException;
 
 	protected abstract void initComponent();
 
 	protected abstract void refreshComponent() throws LucteriosException;
 
-	public void initialize() throws LucteriosException {}
+	public void initialize() throws LucteriosException {
+	}
 
 }

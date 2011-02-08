@@ -36,7 +36,7 @@ import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class Dialog extends JDialog implements IDialog {
 
@@ -82,7 +82,9 @@ public class Dialog extends JDialog implements IDialog {
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IDialog#setVisible(boolean)
 	 */
 	public void setVisible(boolean aVisible) {
@@ -100,7 +102,9 @@ public class Dialog extends JDialog implements IDialog {
 		super.setVisible(aVisible);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IDialog#close()
 	 */
 	public void close() {
@@ -108,11 +112,13 @@ public class Dialog extends JDialog implements IDialog {
 			mNotifyFrameClose.close(true);
 			mNotifyFrameClose = null;
 		}
-        mNotifyFrameClose = null;
-        mFrameControle = null;
+		mNotifyFrameClose = null;
+		mFrameControle = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IDialog#refresh()
 	 */
 	public void refresh() {
@@ -124,14 +130,20 @@ public class Dialog extends JDialog implements IDialog {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.lucterios.client.utils.IDialog#setNotifyFrameClose(org.lucterios.client.utils.NotifyFrameObserver)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.lucterios.client.utils.IDialog#setNotifyFrameClose(org.lucterios.
+	 * client.utils.NotifyFrameObserver)
 	 */
 	public void setNotifyFrameClose(NotifyFrameObserver aNotifyFrameClose) {
 		mNotifyFrameClose = aNotifyFrameClose;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IDialog#setActive(boolean)
 	 */
 	public void setActive(boolean aIsActive) {
@@ -153,5 +165,5 @@ public class Dialog extends JDialog implements IDialog {
 		setPreferredSize(pref_size);
 		setSize(size);
 	}
-	
+
 }

@@ -45,8 +45,8 @@ import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.Tools;
 
 public class ObserverCustom extends ObserverAbstract implements Runnable {
 	public SimpleParsing mActions;
@@ -63,7 +63,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void setContent(SimpleParsing aContent) {
 		super.setContent(aContent);
-		if (mCustomManager!=null) {
+		if (mCustomManager != null) {
 			SimpleParsing xml_component = mContent.getFirstSubTag("COMPONENTS");
 			getCustomManager().init(xml_component);
 			mActions = mContent.getFirstSubTag("ACTIONS");
@@ -72,9 +72,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	private CustomManager getCustomManager() {
 		CustomManager resValue;
-		resValue=mCustomManager;
-		if (resValue==null) {
-			resValue=new CustomManager(this);
+		resValue = mCustomManager;
+		if (resValue == null) {
+			resValue = new CustomManager(this);
 			mCustomManager = resValue;
 		}
 		return resValue;
@@ -98,7 +98,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	private void getfocusToMainCmponent() {
 		synchronized (mSynchronizedObj) {
-			if (mGUIContainer!=null) {
+			if (mGUIContainer != null) {
 				mGUIContainer.setFocusable(false);
 				if (getGUIFrame() != null)
 					getGUIFrame().requestFocus();
@@ -106,16 +106,19 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 					getGUIDialog().requestFocus();
 				Cmponent new_Cmponent_focused = null;
 				if (mNameComponentFocused != null)
-					new_Cmponent_focused = getCustomManager().getCmponentName(mNameComponentFocused);
+					new_Cmponent_focused = getCustomManager().getCmponentName(
+							mNameComponentFocused);
 				else
-					new_Cmponent_focused = getCustomManager().getFirstCmponentFocusabled();
+					new_Cmponent_focused = getCustomManager()
+							.getFirstCmponentFocusabled();
 				if (new_Cmponent_focused != null) {
 					System.out.printf(
 							"focusManagement:request focus Cmponent:%s\n",
 							new Object[] { new_Cmponent_focused.getName() });
 					new_Cmponent_focused.requestFocus();
 				} else
-					System.out.print("focusManagement:no request focus Cmponent\n");
+					System.out
+							.print("focusManagement:no request focus Cmponent\n");
 			}
 		}
 	}
@@ -134,8 +137,10 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		synchronized (mSynchronizedObj) {
 			if (mGUIContainer != null) {
 				mGUIContainer.setLayout(new BorderLayout());
-				mScrollbar = (javax.swing.JScrollPane)CustomManager.getComponentByName(mGUIContainer, "components");
-				JPanel mPnlBtn = (JPanel) CustomManager.getComponentByName(mGUIContainer, "buttons");
+				mScrollbar = (javax.swing.JScrollPane) CustomManager
+						.getComponentByName(mGUIContainer, "components");
+				JPanel mPnlBtn = (JPanel) CustomManager.getComponentByName(
+						mGUIContainer, "buttons");
 
 				if (mScrollbar == null) {
 					mScrollbar = new javax.swing.JScrollPane();
@@ -153,7 +158,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 				if (mPnlBtn == null) {
 					mPnlBtn = new JAdvancePanel();
 					((JAdvancePanel) mPnlBtn).setFontImage(Toolkit
-							.getDefaultToolkit().getImage(this.getClass().getResource("ObserverFont.jpg")),
+							.getDefaultToolkit().getImage(
+									this.getClass().getResource(
+											"ObserverFont.jpg")),
 							JAdvancePanel.TEXTURE);
 					mPnlBtn.setFocusable(false);
 					mPnlBtn.setName("buttons");
@@ -166,18 +173,19 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 					mGUIContainer.remove(mPnlBtn);
 				}
 				mGUIContainer.add(mPnlBtn, BorderLayout.PAGE_END);
-				Button.fillPanelByButton(mPnlBtn, this, Singletons.Factory(),mActions, true);
+				Button.fillPanelByButton(mPnlBtn, this, Singletons.Factory(),
+						mActions, true);
 				mDefaultBtn = null;
 				for (int btn_idx = 0; (mDefaultBtn == null)
 						&& (btn_idx < mPnlBtn.getComponentCount()); btn_idx++)
 					if (Button.class.isInstance(mPnlBtn.getComponent(btn_idx)))
-						mDefaultBtn = (Button)mPnlBtn.getComponent(btn_idx);
+						mDefaultBtn = (Button) mPnlBtn.getComponent(btn_idx);
 
 				getCustomManager().fillComponents();
 				java.awt.Dimension size = mGUIContainer.getSize();
-				mGUIContainer.setSize(size);				
+				mGUIContainer.setSize(size);
 			}
-            super.setContent(null);
+			super.setContent(null);
 		}
 	}
 
@@ -196,9 +204,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		getfocusToMainCmponent();
 		setActive(true);
 		mGUIContainer.setVisible(true);
-		if ((mCustomManager!=null) && (getCustomManager()!=null)) {
+		if ((mCustomManager != null) && (getCustomManager() != null)) {
 			getCustomManager().initialComponents();
-			getCustomManager().runJavaScripts();		
+			getCustomManager().runJavaScripts();
 		}
 	}
 
@@ -211,13 +219,15 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			if (getGUIFrame() != null) {
 				if (aTitle != null)
 					getGUIFrame().setTitle(getTitle());
-				((RootPaneContainer)getGUIFrame()).getRootPane().setDefaultButton(mDefaultBtn);
+				((RootPaneContainer) getGUIFrame()).getRootPane()
+						.setDefaultButton(mDefaultBtn);
 				getGUIFrame().refreshSize();
 			}
 			if (getGUIDialog() != null) {
 				if (aTitle != null)
 					getGUIDialog().setTitle(getTitle());
-				((RootPaneContainer)getGUIDialog()).getRootPane().setDefaultButton(mDefaultBtn);
+				((RootPaneContainer) getGUIDialog()).getRootPane()
+						.setDefaultButton(mDefaultBtn);
 				getGUIDialog().refreshSize();
 			}
 		} finally {
@@ -229,14 +239,16 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void show(String aTitle, IForm aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIFrame=new WeakReference<IForm>(aGUI);
+		mGUIFrame = new WeakReference<IForm>(aGUI);
 		if (getGUIFrame() != null) {
-			mGUIContainer = ((RootPaneContainer)getGUIFrame()).getContentPane();
+			mGUIContainer = ((RootPaneContainer) getGUIFrame())
+					.getContentPane();
 			if (aTitle != null)
 				getGUIFrame().setTitle(getTitle());
 			fillPanel();
 			getGUIFrame().setNotifyFrameObserver(this);
-			((RootPaneContainer)getGUIFrame()).getRootPane().setDefaultButton(mDefaultBtn);
+			((RootPaneContainer) getGUIFrame()).getRootPane().setDefaultButton(
+					mDefaultBtn);
 			getGUIFrame().refreshSize();
 			getGUIFrame().setVisible(true);
 			SwingUtilities.invokeLater(this);
@@ -247,29 +259,34 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		super.show(aTitle);
 		mGUIDialog = new WeakReference<IDialog>(aGUI);
 		if (getGUIDialog() != null) {
-			mGUIContainer = ((RootPaneContainer)getGUIDialog()).getContentPane();
+			mGUIContainer = ((RootPaneContainer) getGUIDialog())
+					.getContentPane();
 			if (aTitle != null)
 				getGUIDialog().setTitle(getTitle());
 			fillPanel();
 			getGUIDialog().setNotifyFrameClose(this);
-			((RootPaneContainer)getGUIDialog()).getRootPane().setDefaultButton(mDefaultBtn);
-			((Window)getGUIDialog()).pack();
+			((RootPaneContainer) getGUIDialog()).getRootPane()
+					.setDefaultButton(mDefaultBtn);
+			((Window) getGUIDialog()).pack();
 			Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-			Dimension dialog = ((Window)getGUIDialog()).getSize();
+			Dimension dialog = ((Window) getGUIDialog()).getSize();
 			getGUIDialog().setLocation((screen.width - dialog.width) / 2,
 					(screen.height - dialog.height) / 2);
-			getGUIDialog().setSize((int)(dialog.width*1.05), (int)(dialog.height*1.05));
+			getGUIDialog().setSize((int) (dialog.width * 1.05),
+					(int) (dialog.height * 1.05));
 			SwingUtilities.invokeLater(this);
 			getGUIDialog().setVisible(true);
 		}
 	}
 
-	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+	public MapContext getParameters(String aActionId, int aSelect,
+			boolean aCheckNull) throws LucteriosException {
 		if (!aCheckNull || checkCompoundEmpty()) {
 			MapContext requete = new MapContext();
 			if (mGUIContainer != null) {
 				requete.putAll(mContext);
-				for (int cmp_idx = 0; cmp_idx < getCustomManager().getCmponentCount(); cmp_idx++) {
+				for (int cmp_idx = 0; cmp_idx < getCustomManager()
+						.getCmponentCount(); cmp_idx++) {
 					Cmponent cmp = getCustomManager().getCmponents(cmp_idx);
 					if (cmp != null)
 						requete.putAll(cmp.getRequete(aActionId));
@@ -283,7 +300,8 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 	private boolean checkCompoundEmpty() {
 		Cmponent cmp = null;
 		int cmp_idx = 0;
-		while ((cmp == null) && (cmp_idx < getCustomManager().getCmponentCount())) {
+		while ((cmp == null)
+				&& (cmp_idx < getCustomManager().getCmponentCount())) {
 			cmp = getCustomManager().getCmponents(cmp_idx);
 			if (!cmp.isEmpty()) {
 				cmp_idx++;
@@ -345,22 +363,23 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 
 	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
-			for (int cmp_idx = 0; cmp_idx < getCustomManager().getCmponentCount(); cmp_idx++) 
-					getCustomManager().getCmponents(cmp_idx).close();
+			for (int cmp_idx = 0; cmp_idx < getCustomManager()
+					.getCmponentCount(); cmp_idx++)
+				getCustomManager().getCmponents(cmp_idx).close();
 			closed = true;
 			getCustomManager().close();
-			if (mGUIContainer!=null) {
+			if (mGUIContainer != null) {
 				mGUIContainer.removeAll();
-				mGUIContainer=null;
+				mGUIContainer = null;
 			}
 			if (getGUIDialog() != null)
 				getGUIDialog().dispose();
 			if (getGUIFrame() != null)
 				getGUIFrame().dispose();
 			mCustomManager = null;
-			mScrollbar= null;
-			mDefaultBtn= null;
-			mActions= null;
+			mScrollbar = null;
+			mDefaultBtn = null;
+			mActions = null;
 			super.close(aMustRefreshParent);
 			Tools.postOrderGC();
 		}
@@ -369,5 +388,5 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 	public Cmponent get(String aName) {
 		return getCustomManager().getCmponentName(aName);
 	}
-	
+
 }

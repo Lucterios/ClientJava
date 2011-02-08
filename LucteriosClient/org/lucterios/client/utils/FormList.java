@@ -34,7 +34,7 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.engine.utils.NotifyFrameList;
-import org.lucterios.utils.Tools;
+import org.lucterios.graphic.Tools;
 
 public class FormList implements NotifyFrameList {
 	class ShortCut {
@@ -44,11 +44,11 @@ public class FormList implements NotifyFrameList {
 	}
 
 	private ArrayList<IForm> mList;
-	private Map<String,ShortCut> mShortCutDico;
+	private Map<String, ShortCut> mShortCutDico;
 
 	public FormList() {
 		mList = new ArrayList<IForm>();
-		mShortCutDico = new TreeMap<String,ShortCut>();
+		mShortCutDico = new TreeMap<String, ShortCut>();
 	}
 
 	public void clear() {
@@ -70,13 +70,13 @@ public class FormList implements NotifyFrameList {
 	}
 
 	public void assignShortCut(Object aComp) {
-		Set<Map.Entry<String,ShortCut>> entrees = mShortCutDico.entrySet();
-		Iterator<Map.Entry<String,ShortCut>> iterateur = entrees.iterator();
+		Set<Map.Entry<String, ShortCut>> entrees = mShortCutDico.entrySet();
+		Iterator<Map.Entry<String, ShortCut>> iterateur = entrees.iterator();
 		while (iterateur.hasNext()) {
-			Map.Entry<String,ShortCut> entree = iterateur.next();
+			Map.Entry<String, ShortCut> entree = iterateur.next();
 			ShortCut short_cut = (ShortCut) entree.getValue();
-			addShortCut((Container)aComp, short_cut.mActionName, short_cut.mShortCut,
-					short_cut.mActionListener);
+			addShortCut((Container) aComp, short_cut.mActionName,
+					short_cut.mShortCut, short_cut.mActionListener);
 		}
 	}
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.Tools;
 
 public class ToolButtonCollection extends ToolButton implements Runnable {
 
@@ -75,11 +75,13 @@ public class ToolButtonCollection extends ToolButton implements Runnable {
 						.getMenuComponent(index);
 				if (current_menu.mAction.getIconName().length() > 0) {
 					String key_string = current_menu.mAction.getTitle();
-					key_string += Tools.getKeyString(current_menu.getAccelerator());
-					mSubActions.add(new ToolButton((ActionListener)current_menu.mAction,
+					key_string += Tools.getKeyString(current_menu
+							.getAccelerator());
+					mSubActions.add(new ToolButton(
+							(ActionListener) current_menu.mAction,
 							current_menu.mAction.getTitle(),
 							current_menu.mDescription, key_string,
-							current_menu.mAction.getIcon()));
+							(javax.swing.ImageIcon)current_menu.mAction.getIcon().getData()));
 				}
 			}
 		}

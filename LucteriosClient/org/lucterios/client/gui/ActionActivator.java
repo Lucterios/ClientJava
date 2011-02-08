@@ -36,10 +36,11 @@ import javax.swing.JLabel;
 
 import org.lucterios.client.ToolsPanel;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.JAdvancePanel;
 
-public class ActionActivator extends JAdvancePanel implements ActionListener, MouseListener {
+public class ActionActivator extends JAdvancePanel implements ActionListener,
+		MouseListener {
 	/**
 	 * 
 	 */
@@ -56,16 +57,17 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 		mActionListener = aActionListener;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 32, true);
+		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 32, true);
 		initial(aToolTip);
 	}
 
-	public ActionActivator(String aText, String aDescription, javax.swing.ImageIcon aIcon) {
+	public ActionActivator(String aText, String aDescription,
+			javax.swing.ImageIcon aIcon) {
 		super();
 		mActionListener = null;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 64, true);
+		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 64, true);
 		initial("");
 	}
 
@@ -79,7 +81,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 
 	HtmlLabel mtext = null;
 	HtmlLabel mdescription = null;
-	JLabel mImage=null;
+	JLabel mImage = null;
 
 	private void initial(String aToolTip) {
 		GridBagConstraints cnt;
@@ -87,9 +89,9 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 		addMouseListenerByComponent(this);
 		setToolTipNotEmpty(aToolTip, this);
 
-		if (mActionListener==null)
-			setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,Color.GRAY));
-		
+		if (mActionListener == null)
+			setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
+
 		mImage = new JLabel(mIcon);
 		mImage.setAlignmentX(0.5f);
 		mImage.setAlignmentY(0.5f);
@@ -113,9 +115,9 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 		setToolTipNotEmpty(aToolTip, mtext);
 		mtext.setOpaque(false);
 		if (mActionListener != null)
-			mtext.setText("<h3><b>" + mText+ "<b></h3>");
+			mtext.setText("<h3><b>" + mText + "<b></h3>");
 		else
-			mtext.setText("<center><h2><b>" + mText+ "<b></h2></center>");
+			mtext.setText("<center><h2><b>" + mText + "<b></h2></center>");
 		cnt = new GridBagConstraints();
 		cnt.gridx = 1;
 		cnt.gridy = 1;
@@ -133,9 +135,10 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 			mdescription.setEditable(false);
 			mdescription.setAlignmentY(0.75f);
 			if (mActionListener != null)
-				mdescription.setText("<h5>" + mDescription							+ "</h5>");
+				mdescription.setText("<h5>" + mDescription + "</h5>");
 			else
-				mdescription.setText("<center><h3>" + mDescription + "</h3></center>");
+				mdescription.setText("<center><h3>" + mDescription
+						+ "</h3></center>");
 			setToolTipNotEmpty(aToolTip, mdescription);
 			mdescription.setOpaque(false);
 			cnt = new GridBagConstraints();
@@ -156,7 +159,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 
 	private void setToolTipNotEmpty(String aToolTip, JComponent comp) {
 		if (aToolTip.length() > 0) {
-			aToolTip=Tools.replace(aToolTip, "{[newline}]", "\n");
+			aToolTip = Tools.replace(aToolTip, "{[newline}]", "\n");
 			comp.setToolTipText(aToolTip);
 		}
 	}
@@ -167,10 +170,10 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 	long mLastTimeActionRunning = 0;
 
 	public void runAction() {
-		long new_time=System.currentTimeMillis();
-		if (((mLastTimeActionRunning == 0) || ((new_time-mLastTimeActionRunning)>2000)) && (mActionListener != null))
-		{
-			mLastTimeActionRunning=new_time;
+		long new_time = System.currentTimeMillis();
+		if (((mLastTimeActionRunning == 0) || ((new_time - mLastTimeActionRunning) > 2000))
+				&& (mActionListener != null)) {
+			mLastTimeActionRunning = new_time;
 			mActionListener.actionPerformed(null);
 		}
 	}
@@ -179,7 +182,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 
 	public void mouseEntered(MouseEvent e) {
 		mIsEntered = true;
-		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals( getCursor() )) {
+		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
 			Cursor cur = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 			setCursor(cur);
 		}
@@ -187,13 +190,13 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 
 	public void mouseExited(MouseEvent e) {
 		mIsEntered = false;
-		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals( getCursor() )) {
+		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
 
 	public void setCursor(Cursor aCursor) {
-		super.setCursor(aCursor);		
+		super.setCursor(aCursor);
 		if (mImage != null)
 			mImage.setCursor(aCursor);
 		if (mtext != null)
@@ -212,5 +215,5 @@ public class ActionActivator extends JAdvancePanel implements ActionListener, Mo
 	public void actionPerformed(ActionEvent e) {
 		//
 	}
-		
+
 }

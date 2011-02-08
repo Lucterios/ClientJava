@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JRadioButtonMenuItem;
 
 import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class LookAndFeelMenuItem extends JRadioButtonMenuItem implements
 		ActionListener {

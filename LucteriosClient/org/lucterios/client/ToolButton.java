@@ -37,8 +37,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.JAdvancePanel;
 
 public class ToolButton extends JAdvancePanel implements ActionListener,
 		MouseListener {
@@ -61,7 +61,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 		mActionListener = aActionListener;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 64, true);
+		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 64, true);
 		initial(false, aToolTip);
 	}
 
@@ -69,7 +69,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 		mActionListener = null;
 		mText = aText;
 		mDescription = aDescription;
-		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 64, true);
+		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 64, true);
 		initial(false, "");
 	}
 
@@ -79,7 +79,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 		mActionListener = this;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.utils.graphic.Tools.resizeIcon(aIcon, 64, true);
+		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 64, true);
 		initial(false, aToolTip);
 	}
 
@@ -150,11 +150,9 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 			setToolTipNotEmpty(aToolTip, mtext);
 			mtext.setOpaque(false);
 			if (mActionListener != null)
-				mtext.setText("<center><h3><b>" + mText
-						+ "<b></h3></center>");
+				mtext.setText("<center><h3><b>" + mText + "<b></h3></center>");
 			else
-				mtext.setText("<center><h1><b>" + mText
-						+ "<b></h1></center>");
+				mtext.setText("<center><h1><b>" + mText + "<b></h1></center>");
 			cnt = new GridBagConstraints();
 			cnt.gridx = 1;
 			cnt.gridy = 1;
@@ -172,8 +170,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 				mdescription.setEditable(false);
 				mdescription.setAlignmentY(0.75f);
 				if (mActionListener != null)
-					mdescription.setText("<h5>" + mDescription
-							+ "</font>");
+					mdescription.setText("<h5>" + mDescription + "</font>");
 				else
 					mdescription.setText("<center><h3>" + mDescription
 							+ "</h5></center>");
@@ -249,10 +246,10 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 	long mLastTimeActionRunning = 0;
 
 	public void runAction() {
-		long new_time=System.currentTimeMillis();
-		if (((mLastTimeActionRunning == 0) || ((new_time-mLastTimeActionRunning)>2000)) && (mActionListener != null))
-		{
-			mLastTimeActionRunning=new_time;
+		long new_time = System.currentTimeMillis();
+		if (((mLastTimeActionRunning == 0) || ((new_time - mLastTimeActionRunning) > 2000))
+				&& (mActionListener != null)) {
+			mLastTimeActionRunning = new_time;
 			mActionListener.actionPerformed(null);
 		}
 	}
@@ -261,7 +258,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 
 	public void mouseEntered(MouseEvent e) {
 		mIsEntered = true;
-		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals( getCursor() )) {
+		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
 			Cursor cur = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 			setCursor(cur);
 		}
@@ -269,7 +266,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 
 	public void mouseExited(MouseEvent e) {
 		mIsEntered = false;
-		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals( getCursor() )) {
+		if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
 			setCursor(Cursor.getDefaultCursor());
 		}
 	}
@@ -277,7 +274,7 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 	public void setCursor(Cursor aCursor) {
 		if (mIsEntered && (aCursor.getType() != Cursor.WAIT_CURSOR))
 			aCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-		if (aCursor.equals( Cursor.getDefaultCursor() ))
+		if (aCursor.equals(Cursor.getDefaultCursor()))
 			mClicked = false;
 		super.setCursor(aCursor);
 		if (mtext != null)
@@ -329,5 +326,5 @@ public class ToolButton extends JAdvancePanel implements ActionListener,
 			}
 		}
 	}
-		
+
 }

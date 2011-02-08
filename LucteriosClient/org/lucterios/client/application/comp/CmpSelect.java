@@ -46,6 +46,7 @@ public class CmpSelect extends CmpAbstractEvent {
 			return mText;
 		}
 	}
+
 	class ItemList extends ArrayList<ItemObj> implements ComboBoxModel {
 
 		/**
@@ -93,13 +94,13 @@ public class CmpSelect extends CmpAbstractEvent {
 	}
 
 	public void close() {
-		if (m_comboModel!=null)
+		if (m_comboModel != null)
 			m_comboModel.removeAllElements();
-		m_comboModel=null;
+		m_comboModel = null;
 		cmp_cnbb = null;
 		super.close();
 	}
-	
+
 	public void requestFocus() {
 		cmp_cnbb.requestFocus();
 	}
@@ -172,8 +173,8 @@ public class CmpSelect extends CmpAbstractEvent {
 
 	protected boolean hasChanged() {
 		ItemObj sel_item = (ItemObj) cmp_cnbb.getSelectedItem();
-		if (sel_item!=null)
-			return !InitialItem.mID.equals( sel_item.mID );
+		if (sel_item != null)
+			return !InitialItem.mID.equals(sel_item.mID);
 		else
 			return false;
 	}

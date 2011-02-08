@@ -32,7 +32,7 @@ import org.lucterios.engine.utils.NotifyFrameChange;
 import org.lucterios.engine.utils.NotifyFrameList;
 import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class Form extends JFrame implements IForm {
 
@@ -59,7 +59,9 @@ public class Form extends JFrame implements IForm {
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#activate()
 	 */
 	public void activate() {
@@ -67,7 +69,9 @@ public class Form extends JFrame implements IForm {
 			mNotifyFrameList.selectFrame(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#Close()
 	 */
 	public void Close() {
@@ -80,11 +84,13 @@ public class Form extends JFrame implements IForm {
 			mNotifyFrameList = null;
 		}
 		Change();
-        mNotifyFrameChange = null;
-        mFrameControle = null;
+		mNotifyFrameChange = null;
+		mFrameControle = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#Change()
 	 */
 	public void Change() {
@@ -92,28 +98,42 @@ public class Form extends JFrame implements IForm {
 			mNotifyFrameChange.Change();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.lucterios.client.utils.IForm#setNotifyFrameList(org.lucterios.client.utils.Form.NotifyFrameList)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.lucterios.client.utils.IForm#setNotifyFrameList(org.lucterios.client
+	 * .utils.Form.NotifyFrameList)
 	 */
 	public void setNotifyFrameList(NotifyFrameList aNotifyFrameList) {
 		mNotifyFrameList = aNotifyFrameList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.lucterios.client.utils.IForm#setNotifyFrameChange(org.lucterios.client.utils.Form.NotifyFrameChange)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.lucterios.client.utils.IForm#setNotifyFrameChange(org.lucterios.client
+	 * .utils.Form.NotifyFrameChange)
 	 */
 	public void setNotifyFrameChange(NotifyFrameChange aNotifyFrameChange) {
 		mNotifyFrameChange = aNotifyFrameChange;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.lucterios.client.utils.IForm#setNotifyFrameObserver(org.lucterios.client.utils.NotifyFrameObserver)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.lucterios.client.utils.IForm#setNotifyFrameObserver(org.lucterios
+	 * .client.utils.NotifyFrameObserver)
 	 */
 	public void setNotifyFrameObserver(NotifyFrameObserver aNotifyFrameObserver) {
 		mNotifyFrameObserver = aNotifyFrameObserver;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#setSelected(boolean)
 	 */
 	public void setSelected(boolean aSelected) {
@@ -123,7 +143,9 @@ public class Form extends JFrame implements IForm {
 			toBack();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#setVisible(boolean)
 	 */
 	public void setVisible(boolean aVisible) {
@@ -139,7 +161,9 @@ public class Form extends JFrame implements IForm {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#refresh()
 	 */
 	public void refresh() {
@@ -151,7 +175,9 @@ public class Form extends JFrame implements IForm {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.lucterios.client.utils.IForm#setActive(boolean)
 	 */
 	public void setActive(boolean aIsActive) {
@@ -173,7 +199,7 @@ public class Form extends JFrame implements IForm {
 		setPreferredSize(pref_size);
 		setSize(size);
 		Change();
-		toFront();	
+		toFront();
 	}
 
 }

@@ -32,7 +32,7 @@ import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class CmpChecklist extends CmpAbstractEvent implements
 		ListSelectionListener {
@@ -63,11 +63,11 @@ public class CmpChecklist extends CmpAbstractEvent implements
 	}
 
 	public void close() {
-		cmp_list=null;
-		scrl_list=null;
+		cmp_list = null;
+		scrl_list = null;
 		super.close();
 	}
-	
+
 	public void requestFocus() {
 		cmp_list.requestFocus();
 	}
@@ -125,7 +125,7 @@ public class CmpChecklist extends CmpAbstractEvent implements
 		}
 		super.init(aOwnerPanel, aObsCustom, aXmlItem);
 	}
-	
+
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
 		mSimple = (getXmlItem().getAttributInt("simple", 0) != 0);

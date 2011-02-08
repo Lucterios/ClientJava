@@ -35,8 +35,8 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.LineNumberedPaper;
-import org.lucterios.utils.graphic.PopupListener;
+import org.lucterios.graphic.LineNumberedPaper;
+import org.lucterios.graphic.PopupListener;
 
 public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 	final static public String ENCODE = "ISO-8859-1";
@@ -142,7 +142,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 				String value = java.net.URLDecoder.decode(aSubMenu[index]
 						.getCDataOfFirstTag("VALUE"), ENCODE);
 				JMenu current = getSubMenu(SubMenu, type);
-				if ("-".equals( name ))
+				if ("-".equals(name))
 					current.addSeparator();
 				else {
 					JMenuItem variable_item = new JMenuItem();
@@ -181,7 +181,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		popupListener.resetUndoManager();
 		fillSubMenu(getXmlItem().getSubTag("SUBMENU"));
 		SubMenu.setVisible(SubMenu.getMenuComponentCount() > 0);
-		Tools.postOrderGC();
+		org.lucterios.graphic.Tools.postOrderGC();
 	}
 
 	public void actionPerformed(ActionEvent event) {

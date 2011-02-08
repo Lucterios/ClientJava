@@ -46,7 +46,7 @@ import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.Tools;
 
 public class ObserverTemplate extends ObserverAbstract {
 	SimpleParsing data_elements = null;
@@ -83,7 +83,8 @@ public class ObserverTemplate extends ObserverAbstract {
 		}
 	}
 
-	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+	public MapContext getParameters(String aActionId, int aSelect,
+			boolean aCheckNull) {
 		MapContext attrib = mContext;
 		attrib.put("model_id", new Integer(mModelId));
 		attrib.put("title", getModelTitle());
@@ -109,13 +110,15 @@ public class ObserverTemplate extends ObserverAbstract {
 	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
 		mGUIDialog = new WeakReference<IDialog>(aGUI);
 		aGUI.setTitle(aTitle);
-		((RootPaneContainer)aGUI).getContentPane().setLayout(new java.awt.BorderLayout());
+		((RootPaneContainer) aGUI).getContentPane().setLayout(
+				new java.awt.BorderLayout());
 		GridBagConstraints gridBagConstraints;
 
 		pnl_Cst = new JPanel();
 		pnl_Cst.setName("pnl_Cst");
 		pnl_Cst.setLayout(new GridBagLayout());
-		((RootPaneContainer)aGUI).getContentPane().add(pnl_Cst, java.awt.BorderLayout.CENTER);
+		((RootPaneContainer) aGUI).getContentPane().add(pnl_Cst,
+				java.awt.BorderLayout.CENTER);
 
 		lbl_Title = new javax.swing.JLabel();
 		lbl_Title.setText("Titre du model");
@@ -159,9 +162,11 @@ public class ObserverTemplate extends ObserverAbstract {
 		pnl_Btn = new JPanel();
 		pnl_Btn.setName("pnl_Btn");
 		pnl_Btn.setLayout(new java.awt.GridBagLayout());
-		((RootPaneContainer)aGUI).getContentPane().add(pnl_Btn, java.awt.BorderLayout.SOUTH);
+		((RootPaneContainer) aGUI).getContentPane().add(pnl_Btn,
+				java.awt.BorderLayout.SOUTH);
 		SimpleParsing act = new SimpleParsing();
-		act.parse("<ACTIONS>"
+		act
+				.parse("<ACTIONS>"
 						+ "<ACTION extension='"
 						+ getSourceExtension()
 						+ "' action='"
@@ -169,7 +174,9 @@ public class ObserverTemplate extends ObserverAbstract {
 						+ "' close='1' modal='0' icon='images/ok.png'><![CDATA[_Ok]]></ACTION>"
 						+ "<ACTION close='1' modal='0' icon='images/cancel.png'><![CDATA[_Annuler]]></ACTION>"
 						+ "</ACTIONS>");
-		Button.fillPanelByButton(pnl_Btn, this, Singletons.Factory(), act,true);
+		Button
+				.fillPanelByButton(pnl_Btn, this, Singletons.Factory(), act,
+						true);
 
 		JButton[] btns = new JButton[2];
 		int index = 0;
@@ -180,17 +187,18 @@ public class ObserverTemplate extends ObserverAbstract {
 
 		show(aTitle);
 
-		((Window)aGUI).pack();
+		((Window) aGUI).pack();
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screen = kit.getScreenSize();
-		Insets insets = kit.getScreenInsets(((Window)aGUI).getGraphicsConfiguration());
+		Insets insets = kit.getScreenInsets(((Window) aGUI)
+				.getGraphicsConfiguration());
 		int w = (int) (screen.getWidth() - insets.left - insets.right);
 		int h = (int) (screen.getHeight() - insets.top - insets.bottom);
 		Dimension dimension = new Dimension(w, h);
-		((Window)aGUI).setSize(dimension);
-		aGUI.setLocation((screen.width - ((Window)aGUI).getSize().width) / 2,
-				(screen.height - ((Window)aGUI).getSize().height) / 2);
-		((JDialog)aGUI).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		((Window) aGUI).setSize(dimension);
+		aGUI.setLocation((screen.width - ((Window) aGUI).getSize().width) / 2,
+				(screen.height - ((Window) aGUI).getSize().height) / 2);
+		((JDialog) aGUI).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		aGUI.setVisible(true);
 	}
 
@@ -228,7 +236,7 @@ public class ObserverTemplate extends ObserverAbstract {
 			super.close(aMustRefreshParent);
 			if (getGUIDialog() != null)
 				getGUIDialog().dispose();
-			org.lucterios.utils.Tools.postOrderGC();
+			org.lucterios.graphic.Tools.postOrderGC();
 		}
 	}
 

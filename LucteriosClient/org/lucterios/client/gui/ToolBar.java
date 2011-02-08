@@ -2,6 +2,7 @@ package org.lucterios.client.gui;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
@@ -9,7 +10,7 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.Action.ActionList;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.Tools;
 
 public class ToolBar extends JToolBar {
 
@@ -17,7 +18,7 @@ public class ToolBar extends JToolBar {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final int ICON_SIZE=16;
+	public static final int ICON_SIZE = 16;
 
 	private boolean mAdded;
 
@@ -81,8 +82,8 @@ public class ToolBar extends JToolBar {
 		String key_string = aAction.getTitle();
 		key_string += Tools.getKeyString(aKey);
 		button.setToolTipText(key_string);
-		button.addActionListener((ActionListener)aAction);
-		button.setIcon(Tools.resizeIcon(aAction.getIcon(), ICON_SIZE, true));
+		button.addActionListener((ActionListener) aAction);
+		button.setIcon(Tools.resizeIcon((ImageIcon)aAction.getIcon().getData(), ICON_SIZE, true));
 		add(button);
 		mAdded = true;
 	}

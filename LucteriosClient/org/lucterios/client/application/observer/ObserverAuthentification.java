@@ -32,7 +32,7 @@ import org.lucterios.utils.SimpleParsing;
 
 public class ObserverAuthentification extends ObserverAbstract {
 	static public Connection mConnection = null;
-	static public boolean refreshMenu=true;
+	static public boolean refreshMenu = true;
 
 	public String getObserverName() {
 		return "CORE.Auth";
@@ -46,23 +46,31 @@ public class ObserverAuthentification extends ObserverAbstract {
 		super.show(aTitle);
 		String cdate = mContent.getText();
 		if (!cdate.equalsIgnoreCase("OK")
-				|| "".equals( Singletons.Transport().getSession() )) {
+				|| "".equals(Singletons.Transport().getSession())) {
 			Singletons.Transport().setSession("");
 			LogonBox logon_box = new LogonBox();
 			logon_box.logon(cdate);
-            logon_box.dispose();
-            refreshMenu=true;
+			logon_box.dispose();
+			refreshMenu = true;
 		} else if (mConnection != null) {
-			SimpleParsing xml_connection = mContent.getFirstSubTag("CONNECTION");
-			ApplicationDescription desc=new ApplicationDescription(xml_connection.getCDataOfFirstTag("TITLE"),
-					xml_connection.getCDataOfFirstTag("COPYRIGHT"),xml_connection.getCDataOfFirstTag("LOGONAME"),
-					xml_connection.getCDataOfFirstTag("VERSION"),xml_connection.getCDataOfFirstTag("SERVERVERSION"));
-			desc.setSupportEmail(xml_connection.getCDataOfFirstTag("SUPPORT_EMAIL"));
-			desc.setInfoServer(xml_connection.getCDataOfFirstTag("INFO_SERVER"));
-			mConnection.setValue(desc, xml_connection.getCDataOfFirstTag("SUBTITLE"),
-					xml_connection.getCDataOfFirstTag("LOGIN"), 
-					xml_connection.getCDataOfFirstTag("REALNAME"),refreshMenu);
-            refreshMenu=false;
+			SimpleParsing xml_connection = mContent
+					.getFirstSubTag("CONNECTION");
+			ApplicationDescription desc = new ApplicationDescription(
+					xml_connection.getCDataOfFirstTag("TITLE"), xml_connection
+							.getCDataOfFirstTag("COPYRIGHT"), xml_connection
+							.getCDataOfFirstTag("LOGONAME"), xml_connection
+							.getCDataOfFirstTag("VERSION"), xml_connection
+							.getCDataOfFirstTag("SERVERVERSION"));
+			desc.setSupportEmail(xml_connection
+					.getCDataOfFirstTag("SUPPORT_EMAIL"));
+			desc
+					.setInfoServer(xml_connection
+							.getCDataOfFirstTag("INFO_SERVER"));
+			mConnection.setValue(desc, xml_connection
+					.getCDataOfFirstTag("SUBTITLE"), xml_connection
+					.getCDataOfFirstTag("LOGIN"), xml_connection
+					.getCDataOfFirstTag("REALNAME"), refreshMenu);
+			refreshMenu = false;
 		}
 	}
 

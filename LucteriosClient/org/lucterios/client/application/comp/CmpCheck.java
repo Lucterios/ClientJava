@@ -68,14 +68,14 @@ public class CmpCheck extends CmpAbstractEvent {
 		super.refreshComponent();
 		String value = getXmlItem().getText().trim();
 		cmp_Check.setText("");
-		cmp_Check.setSelected("1".equals( value ));
+		cmp_Check.setSelected("1".equals(value));
 		cmp_Check.addFocusListener(this);
 		cmp_Check.addActionListener(this);
 	}
 
 	protected boolean hasChanged() {
 		String value = getXmlItem().getText().trim();
-		return cmp_Check.isSelected() != "1".equals( value );
+		return cmp_Check.isSelected() != "1".equals(value);
 	}
 
 }

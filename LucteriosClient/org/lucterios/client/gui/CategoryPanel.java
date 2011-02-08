@@ -5,13 +5,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.MenuItem;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.JAdvancePanel;
 
 public class CategoryPanel extends JAdvancePanel {
 
@@ -38,9 +39,9 @@ public class CategoryPanel extends JAdvancePanel {
 
 	public void dispose() {
 		removeAll();
-		mMenu=null;
+		mMenu = null;
 	}
-	
+
 	public Menu getMenu() {
 		if (mMenu != null)
 			return mMenu;
@@ -98,7 +99,7 @@ public class CategoryPanel extends JAdvancePanel {
 		Menu aMenu = getMenu();
 		if (aMenu != null) {
 			setVisible(false);
-			try{
+			try {
 				nb_col = Math.max(1, (int) aWidth / activator_width);
 				pos_y = 5;
 				pos_x = 0;
@@ -107,7 +108,7 @@ public class CategoryPanel extends JAdvancePanel {
 				fillTitle();
 				refreshMenus(aMenu);
 				addSeparator(max_width, pos_y + 1);
-			}finally {
+			} finally {
 				setVisible(true);
 				repaint();
 			}
@@ -136,7 +137,6 @@ public class CategoryPanel extends JAdvancePanel {
 		this.add(mdescription, cnt);
 	}
 
-
 	private void refreshMenus(Menu aMenu) {
 		for (int index = 0; index < aMenu.getMenuComponentCount(); index++) {
 			if (Menu.class.isInstance(aMenu.getMenuComponent(index))) {
@@ -161,16 +161,17 @@ public class CategoryPanel extends JAdvancePanel {
 						.getMenuComponent(index);
 				if (current_menu.mAction.getIconName().length() > 0) {
 					String key_string = current_menu.mAction.getTitle();
-					key_string += Tools.getKeyString(current_menu
+					key_string += org.lucterios.graphic.Tools.getKeyString(current_menu
 							.getAccelerator());
 					if (num == 0)
 						addSeparator(pos_x, pos_y);
 					addActivator(pos_x + num * (max_width - pos_x) / nb_col,
 							pos_y, (max_width - pos_x) / nb_col,
-							new ActionActivator((javax.swing.Action)current_menu.mAction,
+							new ActionActivator(
+									(javax.swing.Action) current_menu.mAction,
 									current_menu.mAction.getTitle(),
 									current_menu.mDescription, key_string,
-									current_menu.mAction.getIcon()));
+									(ImageIcon)current_menu.mAction.getIcon().getData()));
 					num++;
 					if (num >= nb_col) {
 						num = 0;

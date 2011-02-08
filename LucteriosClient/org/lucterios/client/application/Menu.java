@@ -33,7 +33,7 @@ import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.Tools;
 
 public class Menu extends JMenu {
 	/**
@@ -44,7 +44,7 @@ public class Menu extends JMenu {
 
 	public interface ToolBar {
 		public void initialToolBar();
-		
+
 		public void newShortCut(String aActionName, String aShortCut,
 				Action aActionListener);
 
@@ -63,8 +63,9 @@ public class Menu extends JMenu {
 	private int mSizeIcon;
 	public String mDescription;
 
-	Menu(String atext, String aIcon,int aSizeIcon, String aDescription, SimpleParsing[] aXml,
-			Observer aOwner, ObserverFactory aFactory, boolean aMainMenu) {
+	Menu(String atext, String aIcon, int aSizeIcon, String aDescription,
+			SimpleParsing[] aXml, Observer aOwner, ObserverFactory aFactory,
+			boolean aMainMenu) {
 		super();
 		int pos;
 		mIcon = aIcon;
@@ -77,10 +78,11 @@ public class Menu extends JMenu {
 		while ((pos = new_text.indexOf(ActionImpl.MNEMONIC_CHAR)) != -1)
 			new_text = new_text.substring(0, pos) + new_text.substring(pos + 1);
 		this.setText(new_text);
-		this.setVisible(new_text.length()>0);
+		this.setVisible(new_text.length() > 0);
 
 		if (!aMainMenu && (mIcon.length() > 0)) {
-			this.setIcon(Tools.resizeIcon(Singletons.Transport().getIcon(mIcon,mSizeIcon), 24, true));
+			this.setIcon(Tools.resizeIcon((ImageIcon)Singletons.Transport().getIcon(mIcon,
+					mSizeIcon).getData(), 24, true));
 		} else
 			this.setIcon(null);
 
@@ -95,17 +97,18 @@ public class Menu extends JMenu {
 			SimpleParsing[] sub_xml_menus = aXml[menu_idx].getSubTag("MENU");
 			JMenuItem new_menu = null;
 			if (sub_xml_menus.length > 0)
-				new_menu = new Menu(aXml[menu_idx].getText(), aXml[menu_idx].getAttribut("icon"),
-						aXml[menu_idx].getAttributInt("sizeicon",0), help_text, sub_xml_menus, aOwner,
+				new_menu = new Menu(aXml[menu_idx].getText(), aXml[menu_idx]
+						.getAttribut("icon"), aXml[menu_idx].getAttributInt(
+						"sizeicon", 0), help_text, sub_xml_menus, aOwner,
 						aFactory, false);
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, aXml[menu_idx]);
-				//act.setClose(false);
+				// act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 				if (new_menu.getAccelerator() != null)
-					mToolBar.newShortCut(act.getID(),
-							new_menu.getAccelerator().toString(), act);
+					mToolBar.newShortCut(act.getID(), new_menu.getAccelerator()
+							.toString(), act);
 			}
 			add(new_menu);
 		}
@@ -116,7 +119,7 @@ public class Menu extends JMenu {
 	}
 
 	public ImageIcon getMenuIcon() {
-		return Singletons.Transport().getIcon(mIcon,mSizeIcon);
+		return (ImageIcon)Singletons.Transport().getIcon(mIcon, mSizeIcon).getData();
 	}
 
 	static public ToolBar mToolBar = null;
@@ -125,7 +128,7 @@ public class Menu extends JMenu {
 			ObserverFactory aFactory, SimpleParsing aXml) {
 		if (mToolBar != null) {
 			mToolBar.initialToolBar();
-		}		
+		}
 		JMenuBar menu_bar = aJPOwner.getJMenuBar();
 		int extra_menu_idx = -1;
 		int extra_menu_nb = 0;
@@ -136,7 +139,9 @@ public class Menu extends JMenu {
 				menu_bar.remove(menu_bar.getMenu(menu_idx));
 			} else {
 				String menu_name = menu_bar.getMenu(menu_idx).getName();
-				if ((menu_name != null) && (("helpMenu".equals( menu_name ) || "windowsMenu".equals( menu_name )))) {
+				if ((menu_name != null)
+						&& (("helpMenu".equals(menu_name) || "windowsMenu"
+								.equals(menu_name)))) {
 					if (extra_menu_idx == -1)
 						extra_menu_idx = menu_idx;
 					extra_menu_nb++;
@@ -144,10 +149,11 @@ public class Menu extends JMenu {
 				menu_idx++;
 			}
 		}
-		fillMenuBar(aOwner, aFactory, aXml, menu_bar, extra_menu_idx, extra_menu_nb);
+		fillMenuBar(aOwner, aFactory, aXml, menu_bar, extra_menu_idx,
+				extra_menu_nb);
 		aJPOwner.refreshSize();
 		if (mToolBar != null) {
-			SwingUtilities.invokeLater(new Runnable(){
+			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					mToolBar.terminatToolBar();
 				}
@@ -173,13 +179,13 @@ public class Menu extends JMenu {
 					.getSubTag("MENU");
 			if (sub_xml_menus.length > 0)
 				new_menu = new Menu(xml_menus[menu_idx].getText(),
-						xml_menus[menu_idx].getAttribut("icon"), 
-						xml_menus[menu_idx].getAttributInt("sizeicon",0),help_text,
-						sub_xml_menus, aOwner, aFactory, true);
+						xml_menus[menu_idx].getAttribut("icon"),
+						xml_menus[menu_idx].getAttributInt("sizeicon", 0),
+						help_text, sub_xml_menus, aOwner, aFactory, true);
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, xml_menus[menu_idx]);
-				//act.setClose(false);
+				// act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 			}
 			menu_bar.add(new_menu);

@@ -38,68 +38,75 @@ import org.lucterios.utils.EncodeBase64FromInputStream;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.ZipManager;
-import org.lucterios.utils.graphic.FilesFilter;
-import org.lucterios.utils.graphic.ImagePreview;
+import org.lucterios.graphic.FilesFilter;
+import org.lucterios.graphic.ImagePreview;
 
 public class CmpUpload extends CmpAbstractEvent {
-	
-	private static File CurrentDirectory=null;
-	public final static String SUFFIX_FILE_NAME="_FILENAME";
-		
+
+	private static File CurrentDirectory = null;
+	public final static String SUFFIX_FILE_NAME = "_FILENAME";
+
 	private static final long serialVersionUID = 1L;
 	private JPanel pnl_Btn;
 	private JLabel lbl_message;
 	private JTextField txt_FileName;
 	private JButton btn_select;
 
-	private boolean m_isCompress=false; 
-	private boolean m_isHttpFile=false; 
-	private int m_maxsize=1048576;
-	
+	private boolean m_isCompress = false;
+	private boolean m_isHttpFile = false;
+	private int m_maxsize = 1048576;
+
 	public CmpUpload() {
 		super();
-		if (CurrentDirectory==null) {
+		if (CurrentDirectory == null) {
 			String homeDir = System.getProperty("user.home");
 			CurrentDirectory = new java.io.File(homeDir);
-			if (new java.io.File(homeDir+"/Desktop").exists())
-				CurrentDirectory = new java.io.File(homeDir+"/Desktop");
-			if (new java.io.File(homeDir+"/Bureau").exists())
-				CurrentDirectory = new java.io.File(homeDir+"/Bureau");
+			if (new java.io.File(homeDir + "/Desktop").exists())
+				CurrentDirectory = new java.io.File(homeDir + "/Desktop");
+			if (new java.io.File(homeDir + "/Bureau").exists())
+				CurrentDirectory = new java.io.File(homeDir + "/Bureau");
 		}
 	}
 
-	public static Object getFileContentBase64(File aFile,boolean aIsCompress,boolean aIsHttpFile,int aMaxSize) throws LucteriosException {
-		String content="";
+	public static Object getFileContentBase64(File aFile, boolean aIsCompress,
+			boolean aIsHttpFile, int aMaxSize) throws LucteriosException {
+		String content = "";
 		try {
 			File tmp_file;
 			if (aIsCompress) {
-				tmp_file=File.createTempFile("tmp",".zip",new File(Singletons.TEMP_DIR));
+				tmp_file = File.createTempFile("tmp", ".zip", new File(
+						Singletons.TEMP_DIR));
 				tmp_file.delete();
-				ZipManager zip_manager=new ZipManager(tmp_file);
+				ZipManager zip_manager = new ZipManager(tmp_file);
 				zip_manager.compressSimpleFile(aFile);
+			} else
+				tmp_file = aFile;
+			if (tmp_file.length() > aMaxSize) {
+				float size = aMaxSize / (1024 * 1024);
+				throw new LucteriosException(
+						"Téléchargement impossible<br/>Le fichier doit faire moins de "
+								+ size + "Mo ", false);
 			}
-			else
-				tmp_file=aFile;
-			if (tmp_file.length()>aMaxSize) {
-				float size=aMaxSize/(1024*1024);
-				throw new LucteriosException("Téléchargement impossible<br/>Le fichier doit faire moins de "+size+"Mo ",false);
-			}
-			if (aIsHttpFile) 
-				return tmp_file; 
+			if (aIsHttpFile)
+				return tmp_file;
 			InputStream file_stream = new java.io.FileInputStream(tmp_file);
-			EncodeBase64FromInputStream encoder = new EncodeBase64FromInputStream(file_stream);
-			content=aFile.getName() + ";" + encoder.encodeString();
-		} catch (IOException ioe) {}
+			EncodeBase64FromInputStream encoder = new EncodeBase64FromInputStream(
+					file_stream);
+			content = aFile.getName() + ";" + encoder.encodeString();
+		} catch (IOException ioe) {
+		}
 		return content;
 	}
-	
+
 	public MapContext getRequete(String aActionIdent) throws LucteriosException {
-		MapContext tree_map = new MapContext();;
-		if (txt_FileName.getText().length()>0) {
+		MapContext tree_map = new MapContext();
+		;
+		if (txt_FileName.getText().length() > 0) {
 			File file = new File(txt_FileName.getText());
-			tree_map.put(getName(), getFileContentBase64(file,m_isCompress,m_isHttpFile,m_maxsize));
-			if (m_isCompress) 
-				tree_map.put(getName()+SUFFIX_FILE_NAME,file.getName());
+			tree_map.put(getName(), getFileContentBase64(file, m_isCompress,
+					m_isHttpFile, m_maxsize));
+			if (m_isCompress)
+				tree_map.put(getName() + SUFFIX_FILE_NAME, file.getName());
 		}
 		return tree_map;
 	}
@@ -156,26 +163,30 @@ public class CmpUpload extends CmpAbstractEvent {
 		java.io.File file_name = new java.io.File(txt_FileName.getText());
 		file_dlg.setSelectedFile(file_name);
 		file_dlg.setAccessory(new ImagePreview(file_dlg));
-		file_dlg.setFileFilter(new FilesFilter(filters,"Fichier à télécharger"));
+		file_dlg
+				.setFileFilter(new FilesFilter(filters, "Fichier à télécharger"));
 		int returnVal;
 		if (this.getObsCustom().getGUIDialog() != null)
-			returnVal = file_dlg.showOpenDialog((Component)this.getObsCustom().getGUIDialog());
+			returnVal = file_dlg.showOpenDialog((Component) this.getObsCustom()
+					.getGUIDialog());
 		else
-			returnVal = file_dlg.showOpenDialog((Component)this.getObsCustom().getGUIFrame());
-	    if (returnVal == JFileChooser.APPROVE_OPTION) {
-	    	java.io.File file_exp = file_dlg.getSelectedFile();
-	    	CurrentDirectory=file_exp.getParentFile();
-	    	txt_FileName.setText(file_exp.getAbsolutePath());
-	    }
+			returnVal = file_dlg.showOpenDialog((Component) this.getObsCustom()
+					.getGUIFrame());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			java.io.File file_exp = file_dlg.getSelectedFile();
+			CurrentDirectory = file_exp.getParentFile();
+			txt_FileName.setText(file_exp.getAbsolutePath());
+		}
 	}
 
 	String[] filters = null;
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
-		m_isCompress=(getXmlItem().getAttributInt("Compress",0)!=0);
-		m_isHttpFile=(getXmlItem().getAttributInt("HttpFile",0)!=0);
-		m_maxsize=getXmlItem().getAttributInt("maxsize",1048576);;
+		m_isCompress = (getXmlItem().getAttributInt("Compress", 0) != 0);
+		m_isHttpFile = (getXmlItem().getAttributInt("HttpFile", 0) != 0);
+		m_maxsize = getXmlItem().getAttributInt("maxsize", 1048576);
+		;
 		lbl_message.setText(getXmlItem().getText().trim());
 		SimpleParsing[] filer_list = getXmlItem().getSubTag("FILTER");
 		filters = new String[filer_list.length];

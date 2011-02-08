@@ -18,18 +18,18 @@ public class ImageFormRenderer extends JPanel implements
 
 	private static final long serialVersionUID = 1L;
 
-	JLabel img=new JLabel();
-	
+	JLabel img = new JLabel();
+
 	public ImageFormRenderer() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints cst = new GridBagConstraints();
-		cst.fill=GridBagConstraints.NONE;
-		cst.anchor=GridBagConstraints.CENTER;
+		cst.fill = GridBagConstraints.NONE;
+		cst.anchor = GridBagConstraints.CENTER;
 		img.setFocusable(true);
 		img.setOpaque(true);
 		img.setHorizontalAlignment(SwingConstants.CENTER);
 		img.setVerticalAlignment(SwingConstants.CENTER);
-		this.add(img,cst);
+		this.add(img, cst);
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -40,10 +40,10 @@ public class ImageFormRenderer extends JPanel implements
 			if (isSelected)
 				setBackground(UIManager.getColor("Table.selectionBackground"));
 			else {
-			    if((row % 2)!=0)	    	
-			    	setBackground(Color.WHITE);  
-			    else  
-			    	setBackground(new Color(220,220,220));
+				if ((row % 2) != 0)
+					setBackground(Color.WHITE);
+				else
+					setBackground(new Color(220, 220, 220));
 			}
 			setPreferredSize(new Dimension(my_icon.getIconWidth(), my_icon
 					.getIconHeight()));

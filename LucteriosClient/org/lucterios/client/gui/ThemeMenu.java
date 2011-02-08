@@ -13,7 +13,7 @@ import javax.swing.plaf.metal.MetalTheme;
 import org.lucterios.client.utils.CharcoalTheme;
 import org.lucterios.client.utils.EmeraldTheme;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 import com.pagosoft.plaf.PlafOptions;
 import com.pagosoft.plaf.ThemeFactory;
@@ -65,7 +65,7 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 	}
 
 	public static MetalTheme[] Global_Themes = new MetalTheme[] {
-			new DefaultMetalTheme(), new CharcoalTheme(), new EmeraldTheme(), 
+			new DefaultMetalTheme(), new CharcoalTheme(), new EmeraldTheme(),
 			ThemeFactory.GOLD, ThemeFactory.GRAY, ThemeFactory.GREEN,
 			ThemeFactory.RUBY, ThemeFactory.WIN, ThemeFactory.YELLOW };
 
@@ -89,7 +89,8 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 					DEFAULT_THEME, default_num);
 			try {
 				Singletons.LucteriosSettingFile.save();
-			} catch (IOException e) { }
+			} catch (IOException e) {
+			}
 		}
 	}
 

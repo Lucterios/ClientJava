@@ -33,9 +33,9 @@ import org.lucterios.utils.LucteriosException;
 public class CmpDate extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 
-	private org.lucterios.utils.graphic.SpinEdit spe_day;
+	private org.lucterios.graphic.SpinEdit spe_day;
 	private javax.swing.JComboBox cmp_month;
-	private org.lucterios.utils.graphic.SpinEdit spe_year;
+	private org.lucterios.graphic.SpinEdit spe_year;
 
 	private javax.swing.JButton edit_date;
 	private DatePickerSimple date_simple;
@@ -63,10 +63,14 @@ public class CmpDate extends CmpAbstractEvent {
 		fillData();
 		MapContext tree_map = new MapContext();
 		String date_text = "";
-		date_text = date_text + DatePickerSimple.convertIntToStr(spe_year.getNumber(), 4);
+		date_text = date_text
+				+ DatePickerSimple.convertIntToStr(spe_year.getNumber(), 4);
+		date_text = date_text
+				+ "-"
+				+ DatePickerSimple.convertIntToStr(
+						cmp_month.getSelectedIndex() + 1, 2);
 		date_text = date_text + "-"
-				+ DatePickerSimple.convertIntToStr(cmp_month.getSelectedIndex() + 1, 2);
-		date_text = date_text + "-" + DatePickerSimple.convertIntToStr(spe_day.getNumber(), 2);
+				+ DatePickerSimple.convertIntToStr(spe_day.getNumber(), 2);
 		tree_map.put(getName(), date_text);
 		return tree_map;
 	}
@@ -77,7 +81,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 		setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints gdbConstr;
-		spe_day = new org.lucterios.utils.graphic.SpinEdit(date_simple.day(),
+		spe_day = new org.lucterios.graphic.SpinEdit(date_simple.day(),
 				1, 31);
 		spe_day.setName("spe_day");
 		spe_day.setMinimumSize(new Dimension(30, 0));
@@ -90,7 +94,8 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.weighty = 1.0;
 		add(spe_day, gdbConstr);
 
-		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList().toArray());
+		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList()
+				.toArray());
 		cmp_month.setName("cmp_month");
 		cmp_month.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +125,7 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.fill = GridBagConstraints.BOTH;
 		add(cmp_month, gdbConstr);
 
-		spe_year = new org.lucterios.utils.graphic.SpinEdit(date_simple.year(),
+		spe_year = new org.lucterios.graphic.SpinEdit(date_simple.year(),
 				1000, 3000);
 		spe_year.setName("spe_year");
 		spe_year.setMinimumSize(new Dimension(60, 0));
@@ -160,8 +165,8 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected void fillData() {
-		date_simple.getSelector().set((int)(spe_year.getNumber()), cmp_month
-				.getSelectedIndex(),(int)(spe_day.getNumber()));
+		date_simple.getSelector().set((int) (spe_year.getNumber()),
+				cmp_month.getSelectedIndex(), (int) (spe_day.getNumber()));
 	}
 
 	protected void refreshData() {
@@ -206,8 +211,8 @@ public class CmpDate extends CmpAbstractEvent {
 				cmp_month.removeFocusListener(this);
 				spe_year.removeFocusListener(this);
 				edit_date.removeFocusListener(this);
-				getObsCustom().setNameComponentFocused(new_Cmponent_focused
-						.getName());
+				getObsCustom().setNameComponentFocused(
+						new_Cmponent_focused.getName());
 				mEventAction.actionPerformed();
 			}
 		}
@@ -234,5 +239,5 @@ public class CmpDate extends CmpAbstractEvent {
 		spe_year.removeFocusListener(aFocus);
 		edit_date.removeFocusListener(aFocus);
 	}
-	
+
 }

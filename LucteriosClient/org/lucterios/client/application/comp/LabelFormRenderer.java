@@ -28,7 +28,7 @@ import javax.swing.table.TableColumn;
 
 import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
+import org.lucterios.graphic.HtmlLabel;
 
 public class LabelFormRenderer extends HtmlLabel implements
 		javax.swing.table.TableCellRenderer {
@@ -50,9 +50,8 @@ public class LabelFormRenderer extends HtmlLabel implements
 			int column) {
 		String val;
 		if ((obj instanceof Double) || (obj instanceof Integer)) {
-			val = "<DIV align='right'>"+obj.toString()+"</DIV>";			
-		}
-		else {
+			val = "<DIV align='right'>" + obj.toString() + "</DIV>";
+		} else {
 			val = Tools.convertLuctoriosFormatToHtml(obj.toString());
 			while (val.endsWith("<br>"))
 				val = val.substring(0, val.length() - 4).trim();
@@ -61,17 +60,19 @@ public class LabelFormRenderer extends HtmlLabel implements
 		if (isSelected)
 			setBackground(UIManager.getColor("Table.selectionBackground"));
 		else {
-		    if((row % 2)!=0)	    	
-		    	setBackground(Color.WHITE);  
-		    else  
-		    	setBackground(new Color(220,220,220));
+			if ((row % 2) != 0)
+				setBackground(Color.WHITE);
+			else
+				setBackground(new Color(220, 220, 220));
 		}
 		if (cell_check.indexOf(row + "-" + column) == -1) {
 			TableColumn colonne = jTable.getColumnModel().getColumn(column);
-			int col_width=Math.max(colonne.getPreferredWidth(),(int)(getPreferredSize().getWidth()));
+			int col_width = Math.max(colonne.getPreferredWidth(),
+					(int) (getPreferredSize().getWidth()));
 			colonne.setPreferredWidth(col_width);
 
-			int cell_height = Math.max(jTable.getRowHeight(row),(int) getPreferredSize().getHeight());
+			int cell_height = Math.max(jTable.getRowHeight(row),
+					(int) getPreferredSize().getHeight());
 			jTable.setRowHeight(row, cell_height);
 			cell_check.add(row + "-" + column);
 		}

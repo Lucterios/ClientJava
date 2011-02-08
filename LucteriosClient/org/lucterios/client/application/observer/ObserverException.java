@@ -26,7 +26,7 @@ import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class ObserverException extends ObserverAbstract {
 	String message = "";
@@ -44,8 +44,10 @@ public class ObserverException extends ObserverAbstract {
 		super.setContent(aContent);
 		SimpleParsing xml_error = mContent.getFirstSubTag("EXCEPTION");
 		message = xml_error.getCDataOfFirstTag("MESSAGE");
-		code = new Integer("0" + xml_error.getCDataOfFirstTag("CODE")).intValue();
-		mode = new Integer("0" + xml_error.getCDataOfFirstTag("MODE")).intValue();
+		code = new Integer("0" + xml_error.getCDataOfFirstTag("CODE"))
+				.intValue();
+		mode = new Integer("0" + xml_error.getCDataOfFirstTag("MODE"))
+				.intValue();
 		debug_info = xml_error.getCDataOfFirstTag("DEBUG_INFO");
 		type = xml_error.getCDataOfFirstTag("TYPE");
 		user_info = xml_error.getCDataOfFirstTag("USER_INFO");

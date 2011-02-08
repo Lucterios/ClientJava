@@ -34,9 +34,9 @@ public class CmpImage extends Cmponent {
 	private static final long serialVersionUID = 1L;
 	private JLabel cmp_text;
 
-	private String mType="";
-	private String mVal="";
-	
+	private String mType = "";
+	private String mVal = "";
+
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
 		return tree_map;
@@ -46,7 +46,7 @@ public class CmpImage extends Cmponent {
 		mXmlItem = aXmlItem;
 		refreshComponent();
 	}
-	
+
 	protected void initComponent() {
 		setLayout(new java.awt.BorderLayout());
 		cmp_text = new JLabel();
@@ -60,15 +60,15 @@ public class CmpImage extends Cmponent {
 	protected void refreshComponent() {
 		mType = getXmlItem().getCDataOfFirstTag("TYPE");
 		mVal = getXmlItem().getText();
-		int height=getXmlItem().getAttributInt("height",0);
-		int width=getXmlItem().getAttributInt("width",0);
-		cmp_text.setPreferredSize(new Dimension(width,height));
+		int height = getXmlItem().getAttributInt("height", 0);
+		int width = getXmlItem().getAttributInt("width", 0);
+		cmp_text.setPreferredSize(new Dimension(width, height));
 	}
-	
+
 	public void initialize() throws LucteriosException {
 		ImageIcon image;
-		if (mType.equals( "" ))
-			image = Singletons.Transport().getIcon(mVal,0);
+		if (mType.equals(""))
+			image = (ImageIcon)Singletons.Transport().getIcon(mVal, 0).getData();
 		else {
 			DecodeBase64ToInputStream decoder = new DecodeBase64ToInputStream(mVal);
 			image = new ImageIcon(decoder.readData());

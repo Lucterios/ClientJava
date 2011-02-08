@@ -37,9 +37,9 @@ public class WindowGeneratorFeak implements WindowGenerator {
 	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
 		IDialog new_dialog;
 		if (aOwnerDialog != null)
-			new_dialog = new Dialog((Dialog)aOwnerDialog);
+			new_dialog = new Dialog((Dialog) aOwnerDialog);
 		else
-			new_dialog = new Dialog((Form)aOwnerFrame);
+			new_dialog = new Dialog((Form) aOwnerFrame);
 		return new_dialog;
 	}
 

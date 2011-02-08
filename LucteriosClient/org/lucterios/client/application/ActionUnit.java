@@ -77,7 +77,8 @@ public class ActionUnit extends TestCase {
 
 	public void testAction() {
 		SimpleParsing action = new SimpleParsing();
-		action.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
+		action
+				.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("Titre", "Modifier", mAction.getTitle());
@@ -95,7 +96,8 @@ public class ActionUnit extends TestCase {
 
 	public void testMenu() {
 		SimpleParsing action = new SimpleParsing();
-		action.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardees]]></MENU>");
+		action
+				.parse("<MENU id='Im_pressionsauvegardees' extension='CORE' action='finalreport_APAS_list'><![CDATA[Im_pression sauvegardees]]></MENU>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("ID", "Im_pressionsauvegardees", mAction.getID());
@@ -135,67 +137,55 @@ public class ActionUnit extends TestCase {
 				ObserverFactoryMock.NewObserver.getGUIFrame() == null);
 	}
 
-/*	public void testNewDialog() throws LucteriosException {
-		ObserverStub.mType = ObserverConstant.TYPE_BOTH;
-		ObserverFactoryMock fact = new ObserverFactoryMock();
-		ObserverFactoryMock.NewObserver = new ObserverStub();
-
-		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1'><![CDATA[_Modifier]]></ACTION>");
-		mAction.initialize(null, fact, action);
-		mAction.actionPerformed(null);
-		sleepOneTime();
-
-		assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
-		assertEquals("action", "extension_params_APAS_modifier",
-				ObserverFactoryMock.LastAction);
-		assertEquals("Params", 0, ObserverFactoryMock.LastParam.size());
-		assertEquals("Modal", ActionConstantes.FORM_MODAL, mAction
-				.getFormType());
-		assertTrue("Show", ObserverStub.mShow);
-		assertEquals("Title", "Modifier", ObserverStub.mTitle);
-		assertTrue("Frame",
-				ObserverFactoryMock.NewObserver.getGUIFrame() == null);
-		assertTrue("Dialog",
-				ObserverFactoryMock.NewObserver.getGUIDialog() != null);
-		assertTrue("Visible", ObserverFactoryMock.NewObserver.getGUIDialog()
-				.isVisible());
-
-		ObserverFactoryMock.NewObserver.close(true);
-	}
-
-	public void testNewFrame() throws LucteriosException {
-		ObserverStub.mType = ObserverConstant.TYPE_BOTH;
-		ObserverFactoryMock fact = new ObserverFactoryMock();
-		ObserverFactoryMock.NewObserver = new ObserverStub();
-
-		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='0'><![CDATA[_Modifier]]></ACTION>");
-		mAction.initialize(null, fact, action);
-		mAction.actionPerformed(null);
-		sleepOneTime();
-
-		assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
-		assertEquals("action", "extension_params_APAS_modifier",
-				ObserverFactoryMock.LastAction);
-		assertEquals("Params", 0, ObserverFactoryMock.LastParam.size());
-		assertEquals("Modal", ActionConstantes.FORM_NOMODAL, mAction
-				.getFormType());
-		assertTrue("Show", ObserverStub.mShow);
-		assertEquals("Title", "Modifier", ObserverStub.mTitle);
-		assertTrue("Dialog",
-				ObserverFactoryMock.NewObserver.getGUIDialog() == null);
-		assertTrue("Frame",
-				ObserverFactoryMock.NewObserver.getGUIFrame() != null);
-		assertTrue("Visible", ObserverFactoryMock.NewObserver.getGUIFrame()
-				.isVisible());
-
-		ObserverFactoryMock.NewObserver.close(true);
-	}
-
-*/	
+	/*
+	 * public void testNewDialog() throws LucteriosException {
+	 * ObserverStub.mType = ObserverConstant.TYPE_BOTH; ObserverFactoryMock fact
+	 * = new ObserverFactoryMock(); ObserverFactoryMock.NewObserver = new
+	 * ObserverStub();
+	 * 
+	 * SimpleParsing action = new SimpleParsing(); action.parse(
+	 * "<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1'><![CDATA[_Modifier]]></ACTION>"
+	 * ); mAction.initialize(null, fact, action); mAction.actionPerformed(null);
+	 * sleepOneTime();
+	 * 
+	 * assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
+	 * assertEquals("action", "extension_params_APAS_modifier",
+	 * ObserverFactoryMock.LastAction); assertEquals("Params", 0,
+	 * ObserverFactoryMock.LastParam.size()); assertEquals("Modal",
+	 * ActionConstantes.FORM_MODAL, mAction .getFormType()); assertTrue("Show",
+	 * ObserverStub.mShow); assertEquals("Title", "Modifier",
+	 * ObserverStub.mTitle); assertTrue("Frame",
+	 * ObserverFactoryMock.NewObserver.getGUIFrame() == null);
+	 * assertTrue("Dialog", ObserverFactoryMock.NewObserver.getGUIDialog() !=
+	 * null); assertTrue("Visible",
+	 * ObserverFactoryMock.NewObserver.getGUIDialog() .isVisible());
+	 * 
+	 * ObserverFactoryMock.NewObserver.close(true); }
+	 * 
+	 * public void testNewFrame() throws LucteriosException { ObserverStub.mType
+	 * = ObserverConstant.TYPE_BOTH; ObserverFactoryMock fact = new
+	 * ObserverFactoryMock(); ObserverFactoryMock.NewObserver = new
+	 * ObserverStub();
+	 * 
+	 * SimpleParsing action = new SimpleParsing(); action.parse(
+	 * "<ACTION extension='CORE' action='extension_params_APAS_modifier' close='0' modal='0'><![CDATA[_Modifier]]></ACTION>"
+	 * ); mAction.initialize(null, fact, action); mAction.actionPerformed(null);
+	 * sleepOneTime();
+	 * 
+	 * assertEquals("extension", "CORE", ObserverFactoryMock.LastExtension);
+	 * assertEquals("action", "extension_params_APAS_modifier",
+	 * ObserverFactoryMock.LastAction); assertEquals("Params", 0,
+	 * ObserverFactoryMock.LastParam.size()); assertEquals("Modal",
+	 * ActionConstantes.FORM_NOMODAL, mAction .getFormType());
+	 * assertTrue("Show", ObserverStub.mShow); assertEquals("Title", "Modifier",
+	 * ObserverStub.mTitle); assertTrue("Dialog",
+	 * ObserverFactoryMock.NewObserver.getGUIDialog() == null);
+	 * assertTrue("Frame", ObserverFactoryMock.NewObserver.getGUIFrame() !=
+	 * null); assertTrue("Visible",
+	 * ObserverFactoryMock.NewObserver.getGUIFrame() .isVisible());
+	 * 
+	 * ObserverFactoryMock.NewObserver.close(true); }
+	 */
 
 	public void testCloseParent() {
 		ObserverStub obs_parent = new ObserverStub();
@@ -206,7 +196,8 @@ public class ActionUnit extends TestCase {
 		ObserverFactoryMock.NewObserver = new ObserverStub();
 
 		SimpleParsing action = new SimpleParsing();
-		action.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='1' modal='1'><![CDATA[_Modifier]]></ACTION>");
+		action
+				.parse("<ACTION extension='CORE' action='extension_params_APAS_modifier' close='1' modal='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(obs_parent, fact, action);
 		mAction.actionPerformed();
 		sleepOneTime();
@@ -217,7 +208,8 @@ public class ActionUnit extends TestCase {
 		assertEquals("Params", 1, ObserverFactoryMock.LastParam.size());
 		assertEquals("Param 0", "123", ObserverFactoryMock.LastParam.get("abc"));
 		assertEquals("Close", true, mAction.getClose());
-		assertEquals("Unique", ActionConstantes.SELECT_NONE, mAction.getSelect());
+		assertEquals("Unique", ActionConstantes.SELECT_NONE, mAction
+				.getSelect());
 		assertTrue("Show", ObserverStub.mShow);
 		assertEquals("Title", "Modifier", ObserverStub.mTitle);
 		assertTrue("Parent",
@@ -255,8 +247,8 @@ public class ActionUnit extends TestCase {
 				.getSelect());
 		assertTrue("Show", ObserverStub.mShow);
 		assertEquals("Title", "Modifier", ObserverStub.mTitle);
-		assertTrue("Parent",
-				ObserverFactoryMock.NewObserver.getParent().equals( obs_parent ));
+		assertTrue("Parent", ObserverFactoryMock.NewObserver.getParent()
+				.equals(obs_parent));
 
 		assertFalse("Close", obs_parent.mClose);
 		assertEquals("Select", ActionConstantes.SELECT_SINGLE,

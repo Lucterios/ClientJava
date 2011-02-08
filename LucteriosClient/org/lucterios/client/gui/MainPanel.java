@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.JAdvancePanel;
 
 public class MainPanel extends JAdvancePanel implements Runnable,
 		MouseListener, ComponentListener {
@@ -57,7 +57,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	RefreshButtonPanel mRefreshButtonPanel;
 
-	private JTabbedPane mtabs=null;
+	private JTabbedPane mtabs = null;
 
 	private ToogleManager mToogleManager;
 
@@ -90,7 +90,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 	}
 
 	private void addTabs() {
-		if (mtabs==null) {
+		if (mtabs == null) {
 			mtabs = new JTabbedPane();
 			mtabs.addComponentListener(this);
 			split.setRightComponent(mtabs);
@@ -100,22 +100,24 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	private void clearTabs() {
 		split.setRightComponent(null);
-		if (mtabs!=null) {
+		if (mtabs != null) {
 			mtabs.removeComponentListener(this);
 			mtabs.removeMouseListener(this);
 			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
 				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
 					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-					if (CategoryPanel.class.isInstance(scroll.getViewport().getView())) {
-						CategoryPanel subpanel = (CategoryPanel)scroll.getViewport().getView();
+					if (CategoryPanel.class.isInstance(scroll.getViewport()
+							.getView())) {
+						CategoryPanel subpanel = (CategoryPanel) scroll
+								.getViewport().getView();
 						subpanel.dispose();
 					}
 				}
 			mtabs.removeAll();
 		}
-		mtabs=null;
+		mtabs = null;
 	}
-	
+
 	public void clearTools() {
 		if (mDividerLocation != -1)
 			mDividerLocation = (1.0 * split.getDividerLocation())
@@ -130,7 +132,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	public void setCursor(Cursor aCursor) {
 		super.setCursor(aCursor);
-		if (mtabs!=null)
+		if (mtabs != null)
 			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
 				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
 					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
@@ -148,7 +150,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 				if (current_menu.getIconName().length() > 0) {
 					CategoryPanel new_subpanel = new CategoryPanel(current_menu);
 					new_subpanel.setFontImage(this.getFontImage(), TEXTURE);
-					ImageIcon icon = org.lucterios.utils.graphic.Tools
+					ImageIcon icon = org.lucterios.graphic.Tools
 							.resizeIcon(current_menu.getMenuIcon(), 32, true);
 					mtabs.addTab(current_menu.getText(), icon, new JScrollPane(
 							new_subpanel));
@@ -156,7 +158,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 					mToogleManager.addMenu(current_menu);
 				}
 			}
-		if (mtabs.getTabCount()==0) {
+		if (mtabs.getTabCount() == 0) {
 			clearTabs();
 		}
 		SwingUtilities.invokeLater(this);
@@ -166,7 +168,9 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 	public void run() {
 		mToogleManager.showToggles();
 		if (mToogleManager.getToggleCount() > 0) {
-			split.setDividerLocation((int) (mDividerLocation * split.getSize().width));
+			split
+					.setDividerLocation((int) (mDividerLocation * split
+							.getSize().width));
 			mToogleManager.setVisible(true);
 		} else {
 			mToogleManager.setVisible(false);
@@ -182,7 +186,8 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 		for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
 			if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
 				JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-				CategoryPanel subpanel = (CategoryPanel) scroll.getViewport().getView();
+				CategoryPanel subpanel = (CategoryPanel) scroll.getViewport()
+						.getView();
 				subpanel.refreshButtons(mtabs.getSize().width);
 			}
 		invokeReinitScrollBar();
@@ -202,7 +207,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 	}
 
 	private void invokeReinitScrollBar() {
-		SwingUtilities.invokeLater(new Runnable(){
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (mtabs != null)
 					for (int idx = 0; idx < mtabs.getComponentCount(); idx++)

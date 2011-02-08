@@ -39,8 +39,8 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
-public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListener, 
-	javax.swing.event.ListSelectionListener {
+public class CmpFastGrid extends Cmponent implements
+		java.awt.event.MouseListener, javax.swing.event.ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JTable cmp_tbl;
@@ -52,8 +52,8 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 	private javax.swing.JComboBox cmp_Pages;
 
 	private int mSelectMode = ActionConstantes.SELECT_NONE;
-	private int mPageMax=0;
-	private int mPageNum=0;
+	private int mPageMax = 0;
+	private int mPageNum = 0;
 	private Action mPageRefreshAction = null;
 	private Action[] mActions = null;
 
@@ -75,7 +75,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		cmp_Pages = null;
 		super.close();
 	}
-	
+
 	public void requestFocus() {
 		cmp_tbl.requestFocus();
 	}
@@ -96,12 +96,14 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 			if (grid_action && (current_action != null))
 				tree_map = getRequeteForSelectRow(id_list, current_action);
 		}
-		if (cmp_Pages!=null)
-			tree_map.put("GRID_PAGE%"+getName(),new Integer(cmp_Pages.getSelectedIndex()));
+		if (cmp_Pages != null)
+			tree_map.put("GRID_PAGE%" + getName(), new Integer(cmp_Pages
+					.getSelectedIndex()));
 		return tree_map;
 	}
 
-	private MapContext getRequeteForSelectRow(String[] id_list, Action current_action) {
+	private MapContext getRequeteForSelectRow(String[] id_list,
+			Action current_action) {
 		MapContext tree_map = new MapContext();
 		switch (current_action.getSelect()) {
 		case ActionConstantes.SELECT_SINGLE:
@@ -113,7 +115,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 				ids += ";" + id_list[idx];
 			tree_map.put(getName(), ids);
 			break;
-		default: 
+		default:
 			assert false;
 			break;
 		}
@@ -122,9 +124,9 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 
 	private String[] getListIds() {
 		String[] id_list = new String[cmp_tbl.getSelectedRowCount()];
-		int[] index_list=cmp_tbl.getSelectedRows();
-		int idx=0;
-		for (int index:index_list) {
+		int[] index_list = cmp_tbl.getSelectedRows();
+		int idx = 0;
+		for (int index : index_list) {
 			GridRow select_row = cmp_tbl_Model.getRowObject(index);
 			id_list[idx++] = select_row.GetId();
 		}
@@ -195,9 +197,10 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		initTableView();
 		scr_pnl = new javax.swing.JScrollPane(pnl_Grid);
 		scr_pnl.setColumnHeader(null);
-		JTableHeader th=cmp_tbl.getTableHeader();
-		Font old=th.getFont();
-		th.setFont(new Font(old.getName(),old.getStyle()+Font.BOLD,old.getSize()));
+		JTableHeader th = cmp_tbl.getTableHeader();
+		Font old = th.getFont();
+		th.setFont(new Font(old.getName(), old.getStyle() + Font.BOLD, old
+				.getSize()));
 		scr_pnl.setColumnHeaderView(th);
 		add(scr_pnl, java.awt.BorderLayout.CENTER);
 
@@ -207,7 +210,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		pnl_Btn.setLayout(new GridBagLayout());
 		add(pnl_Btn, java.awt.BorderLayout.EAST);
 
-		pnl_Pages=new javax.swing.JPanel();
+		pnl_Pages = new javax.swing.JPanel();
 		pnl_Pages.setOpaque(this.isOpaque());
 		pnl_Pages.setName("pnl_Pages");
 		pnl_Pages.setLayout(new GridBagLayout());
@@ -217,7 +220,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		pnl_Grid.setFocusable(false);
 		scr_pnl.setFocusable(false);
 	}
-	
+
 	public void selectChange() {
 		int nb_select = cmp_tbl.getSelectedRowCount();
 		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++) {
@@ -233,7 +236,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 				case ActionConstantes.SELECT_MULTI:
 					btn.setEnabled(nb_select > 0);
 					break;
-				default: 
+				default:
 					assert false;
 					break;
 				}
@@ -254,28 +257,33 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 
 	protected void refreshComponent() {
 		mPageRefreshAction = new ActionImpl();
-		mPageRefreshAction.initialize(getObsCustom(),Singletons.Factory(), "",getObsCustom().getSourceExtension(), getObsCustom().getSourceAction());
+		mPageRefreshAction.initialize(getObsCustom(), Singletons.Factory(), "",
+				getObsCustom().getSourceExtension(), getObsCustom()
+						.getSourceAction());
 		mPageRefreshAction.setFormType(ActionConstantes.FORM_REFRESH);
 		mPageRefreshAction.setClose(false);
 		mPageRefreshAction.setSelect(ActionConstantes.SELECT_NONE);
-		
+
 		action();
 		initBtn();
 		switch (mSelectMode) {
 		case ActionConstantes.SELECT_NONE:
-			cmp_tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			cmp_tbl
+					.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			break;
 		case ActionConstantes.SELECT_SINGLE:
-			cmp_tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			cmp_tbl
+					.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			break;
 		case ActionConstantes.SELECT_MULTI:
-			cmp_tbl.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			cmp_tbl
+					.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			break;
 		default:
 			assert false;
 			break;
 		}
-		scr_pnl.setPreferredSize(new Dimension(1,1));
+		scr_pnl.setPreferredSize(new Dimension(1, 1));
 	}
 
 	public void initialize() throws LucteriosException {
@@ -283,7 +291,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		if (cmp_tbl_Model != null)
 			cmp_tbl_Model.close();
 		cmp_tbl_Model = null;
-		
+
 		cmp_tbl_Model = new CmpFastTableModel();
 		cmp_tbl_Model.setText(getXmlItem());
 		cmp_tbl.setModel(cmp_tbl_Model);
@@ -291,7 +299,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 		cmp_tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		cmp_tbl.doLayout();
 	}
-	
+
 	public void fillActions(ArrayList<Action> atns) {
 		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
 			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx)))
@@ -301,8 +309,8 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 	public void initBtn() {
 		pnl_Btn.removeAll();
 		SimpleParsing xml_item = getXmlItem().getFirstSubTag("ACTIONS");
-		int nb = Button.fillPanelByButton(pnl_Btn, this.getObsCustom(), Singletons
-				.Factory(), xml_item, false);
+		int nb = Button.fillPanelByButton(pnl_Btn, this.getObsCustom(),
+				Singletons.Factory(), xml_item, false);
 		mActions = new Action[nb];
 
 		mSelectMode = ActionConstantes.SELECT_NONE;
@@ -315,17 +323,17 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 				btn.mAction.setCheckNull(false);
 				mActions[action_idx++] = btn.mAction;
 			}
-		mPageMax=getXmlItem().getAttributInt("PageMax", 0);
-		mPageNum=getXmlItem().getAttributInt("PageNum", 0);
+		mPageMax = getXmlItem().getAttributInt("PageMax", 0);
+		mPageNum = getXmlItem().getAttributInt("PageNum", 0);
 		pnl_Pages.removeAll();
-		if (mPageMax>1) {
-			pnl_Pages.setVisible(nb==0);
-			String[] values=new String[mPageMax];
-			for(int idx=0;idx<mPageMax;idx++)
-				values[idx]="Page N°"+(idx+1);
-			cmp_Pages=new javax.swing.JComboBox(values);
+		if (mPageMax > 1) {
+			pnl_Pages.setVisible(nb == 0);
+			String[] values = new String[mPageMax];
+			for (int idx = 0; idx < mPageMax; idx++)
+				values[idx] = "Page N°" + (idx + 1);
+			cmp_Pages = new javax.swing.JComboBox(values);
 			cmp_Pages.setSelectedIndex(mPageNum);
-			cmp_Pages.addActionListener(new ActionListener(){
+			cmp_Pages.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mPageRefreshAction.actionPerformed();
 				}
@@ -333,20 +341,18 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 
 			GridBagConstraints cst = new GridBagConstraints();
 			cst.insets = new Insets(2, 5, 2, 5);
-			if (nb>0) {
+			if (nb > 0) {
 				cst.fill = GridBagConstraints.BOTH;
 				cst.anchor = GridBagConstraints.CENTER;
 				pnl_Btn.add(cmp_Pages, cst);
-			}
-			else {
-				cmp_Pages.setPreferredSize(new Dimension(50,20));
+			} else {
+				cmp_Pages.setPreferredSize(new Dimension(50, 20));
 				cst.fill = GridBagConstraints.NONE;
 				cst.anchor = GridBagConstraints.EAST;
 				pnl_Pages.add(cmp_Pages, cst);
 			}
-		}
-		else {
-			cmp_Pages=null;
+		} else {
+			cmp_Pages = null;
 			pnl_Pages.setVisible(false);
 		}
 	}
@@ -354,7 +360,7 @@ public class CmpFastGrid extends Cmponent implements java.awt.event.MouseListene
 	public void action() {
 		mLabelForm.clearTag();
 	}
-	
+
 	/*
 	 * <HEADER name='val1'> Premier champ </HEADER> <HEADER name='val2'
 	 * type='int'> deuxieme champ </HEADER> <HEADER name='val3' type='float'>

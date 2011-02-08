@@ -46,7 +46,8 @@ public class ObserverMenu extends ObserverAbstract {
 
 	public void show(String aTitle) throws LucteriosException {
 		super.show(aTitle);
-		Menu.fillMenuInFrame(Main, this, Singletons.Factory(), mContent.getFirstSubTag("MENUS"));
+		Menu.fillMenuInFrame(Main, this, Singletons.Factory(), mContent
+				.getFirstSubTag("MENUS"));
 	}
 
 	public void show(String aTitle, IForm new_frame) throws LucteriosException {

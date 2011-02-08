@@ -74,8 +74,8 @@ public class Update {
 				return Integer.parseInt(versions[num].trim());
 			else
 				return 0;
-		} catch(Exception e){
-			return 0;			
+		} catch (Exception e) {
+			return 0;
 		}
 	}
 
@@ -105,7 +105,7 @@ public class Update {
 	}
 
 	public boolean isArchiveMostRecent(String currentVersion) {
-		if (currentVersion=="")
+		if (currentVersion == "")
 			return false;
 		else {
 			String[] versions = currentVersion.replace('.', ' ').split(" ");
@@ -141,8 +141,10 @@ public class Update {
 
 	public boolean importFiles(String path) {
 		try {
-			mHttpTransport.saveFiles("UpdateClients/java/LucteriosUpdate.jar", path+"lib/LucteriosUpdate.jar");
-			mHttpTransport.saveFiles("UpdateClients/java/JavaClient.zip", path+ "JavaClient.zip");
+			mHttpTransport.saveFiles("UpdateClients/java/LucteriosUpdate.jar",
+					path + "lib/LucteriosUpdate.jar");
+			mHttpTransport.saveFiles("UpdateClients/java/JavaClient.zip", path
+					+ "JavaClient.zip");
 			return true;
 		} catch (LucteriosException e) {
 			e.printStackTrace();

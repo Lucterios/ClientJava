@@ -40,10 +40,10 @@ import org.lucterios.client.application.comp.CmpUpload;
 import org.lucterios.client.application.comp.Cmponent;
 import org.lucterios.client.application.comp.CompDefault;
 import org.lucterios.engine.presentation.Observer;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.JAdvancePanel;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
-import org.lucterios.utils.graphic.JAdvancePanel;
 
 public class CustomManager extends JAdvancePanel {
 

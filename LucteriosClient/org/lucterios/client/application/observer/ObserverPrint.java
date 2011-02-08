@@ -38,11 +38,11 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.DecodeBase64ToInputStream;
-import org.lucterios.utils.graphic.DesktopTools;
+import org.lucterios.graphic.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class ObserverPrint extends ObserverAbstract {
 	public final static int PRINT_TYPE_FOP = 0;
@@ -80,8 +80,8 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	protected Map<String,Object> getRequete(String aActionIdent) {
-		return new TreeMap<String,Object>();
+	protected Map<String, Object> getRequete(String aActionIdent) {
+		return new TreeMap<String, Object>();
 	}
 
 	public byte getType() {
@@ -105,7 +105,8 @@ public class ObserverPrint extends ObserverAbstract {
 		if (type == PRINT_TYPE_BIN) {
 			openOrSavePrintReport(owner_dialog, owner_frame);
 		} else {
-	    	ExceptionDlg.throwException(new LucteriosException("Impression impossible"));
+			ExceptionDlg.throwException(new LucteriosException(
+					"Impression impossible"));
 		}
 	}
 
@@ -119,7 +120,7 @@ public class ObserverPrint extends ObserverAbstract {
 				File pdf_file = SelectPrintDlg.getSelectedFileName(
 						SelectPrintDlg.getDefaultFileName(title,
 								ExtensionFilter.EXTENSION_EXPORT_PDF),
-								(JFrame)owner_frame, (JDialog)owner_dialog,
+						(JFrame) owner_frame, (JDialog) owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
 				break;
@@ -128,7 +129,7 @@ public class ObserverPrint extends ObserverAbstract {
 				File csv_file = SelectPrintDlg.getSelectedFileName(
 						SelectPrintDlg.getDefaultFileName(title,
 								ExtensionFilter.EXTENSION_EXPORT_CSV),
-								(JFrame)owner_frame, (JDialog)owner_dialog,
+						(JFrame) owner_frame, (JDialog) owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_CSV);
 				saveFile(csv_file, print_stream);
 				break;
@@ -143,7 +144,8 @@ public class ObserverPrint extends ObserverAbstract {
 				break;
 			}
 		} catch (Exception e) {
-			throw new LucteriosException("Echec de l'impression:"+e.getMessage(), e);
+			throw new LucteriosException("Echec de l'impression:"
+					+ e.getMessage(), e);
 		}
 	}
 

@@ -68,7 +68,8 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		throw new LucteriosException("Not in Dialog");
 	}
 
-	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) throws LucteriosException {
+	public MapContext getParameters(String aActionId, int aSelect,
+			boolean aCheckNull) throws LucteriosException {
 		MapContext requete = new MapContext();
 		requete.putAll(mContext);
 		return requete;

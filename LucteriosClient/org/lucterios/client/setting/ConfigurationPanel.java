@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
-import org.lucterios.utils.graphic.JAdvancePanel;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.Tools;
 
 public class ConfigurationPanel extends JAdvancePanel {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 		private javax.swing.JLabel lbl_srv;
 		private javax.swing.JTextField txt_srv;
 		private javax.swing.JLabel lbl_port;
-		private org.lucterios.utils.graphic.SpinEdit spe_port;
+		private org.lucterios.graphic.SpinEdit spe_port;
 		private javax.swing.JLabel lbl_mode;
 		private javax.swing.JComboBox sel_mode;
 		private javax.swing.JLabel lbl_dir;
@@ -126,7 +126,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 			sel_mode = new javax.swing.JComboBox(
 					LucteriosConfiguration.MODE_TEXTS);
 			lbl_port = new javax.swing.JLabel();
-			spe_port = new org.lucterios.utils.graphic.SpinEdit();
+			spe_port = new org.lucterios.graphic.SpinEdit();
 			lbl_dir = new javax.swing.JLabel();
 			txt_dir = new javax.swing.JTextField();
 			btn_Del = new javax.swing.JButton();
@@ -213,7 +213,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 	private javax.swing.JLabel lbl_proxyaddr;
 	private javax.swing.JTextField txt_proxyaddr;
 	private javax.swing.JLabel lbl_proxyport;
-	private org.lucterios.utils.graphic.SpinEdit spe_proxyport;
+	private org.lucterios.graphic.SpinEdit spe_proxyport;
 
 	private javax.swing.JLabel lbl_tbl;
 	private javax.swing.JScrollPane scr_pnl;
@@ -269,7 +269,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 		lbl_proxyaddr = new javax.swing.JLabel();
 		txt_proxyaddr = new javax.swing.JTextField();
 		lbl_proxyport = new javax.swing.JLabel();
-		spe_proxyport = new org.lucterios.utils.graphic.SpinEdit();
+		spe_proxyport = new org.lucterios.graphic.SpinEdit();
 
 		setLayout(new java.awt.GridBagLayout());
 

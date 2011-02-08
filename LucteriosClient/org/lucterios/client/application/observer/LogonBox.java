@@ -33,8 +33,8 @@ import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.JAdvancePanel;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.Tools;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -118,11 +118,11 @@ public class LogonBox extends JDialog implements ActionListener {
 
 	private void setReason(String aReason) {
 		lb_Reason.setVisible(true);
-		if ("BADAUTH".equals( aReason ))
+		if ("BADAUTH".equals(aReason))
 			lb_Reason.setText("Alias ou Mot de passe incorrect!");
-		else if ("BADSESS".equals( aReason ))
+		else if ("BADSESS".equals(aReason))
 			lb_Reason.setText("Session expirée!");
-		else if ("BADFROMLOCATION".equals( aReason ))
+		else if ("BADFROMLOCATION".equals(aReason))
 			lb_Reason.setText("Localisation de connection interdite!");
 		else {
 			lb_Reason.setText("");
@@ -150,8 +150,12 @@ public class LogonBox extends JDialog implements ActionListener {
 			HttpTransport transp = Singletons.Transport();
 			transp.setProxy(Singletons.Configuration.ProxyAdress,
 					Singletons.Configuration.ProxyPort);
-			transp.connectToServer(mLastServer.HostName,
-					mLastServer.Directory, mLastServer.HostPort, mLastServer.ConnectionMode==LucteriosConfiguration.MODE_SECURITY);
+			transp
+					.connectToServer(
+							mLastServer.HostName,
+							mLastServer.Directory,
+							mLastServer.HostPort,
+							mLastServer.ConnectionMode == LucteriosConfiguration.MODE_SECURITY);
 			mLastUserLogon = txt_User.getText();
 			Singletons.Factory().setAuthentification(txt_User.getText(),
 					new String(txt_PassWord.getPassword()));

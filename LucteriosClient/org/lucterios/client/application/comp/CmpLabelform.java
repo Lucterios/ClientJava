@@ -22,7 +22,7 @@ package org.lucterios.client.application.comp;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
+import org.lucterios.graphic.HtmlLabel;
 
 public class CmpLabelform extends Cmponent {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ public class CmpLabelform extends Cmponent {
 	public boolean isFocusable() {
 		return false;
 	}
-	
+
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
 		return tree_map;

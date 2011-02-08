@@ -40,7 +40,7 @@ import javax.swing.JLabel;
 
 import org.lucterios.client.application.ApplicationDescription;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.utils.graphic.WebLabel;
+import org.lucterios.graphic.WebLabel;
 
 public class AboutBox extends JDialog implements MouseListener {
 
@@ -56,7 +56,7 @@ public class AboutBox extends JDialog implements MouseListener {
 	JLabel mImageLogo;
 
 	private ApplicationDescription mDescription;
-	
+
 	private GridBagConstraints getConstraints(int x, int y, Insets aInset,
 			int aGridwidth, int aGridheight) {
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -104,7 +104,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		getContentPane().add(mCopyRigthLbl,
 				getConstraints(0, 2, new Insets(0, 10, 0, 0), 2, 1));
 
-		JLabel lucterios_logo = new JLabel(new javax.swing.ImageIcon(Resources.class.getResource("LucteriosImage.gif")));
+		JLabel lucterios_logo = new JLabel(new javax.swing.ImageIcon(
+				Resources.class.getResource("LucteriosImage.gif")));
 		getContentPane().add(lucterios_logo, getConstraints(0, 3, null, 2, 1));
 
 		JEditorPane lucterios = new JEditorPane();
@@ -121,16 +122,20 @@ public class AboutBox extends JDialog implements MouseListener {
 		lucterios_web.setBackground(this.getBackground());
 		getContentPane().add(lucterios_web, getConstraints(0, 5, null, 2, 1));
 
-		JButton supportBtn=new JButton();
+		JButton supportBtn = new JButton();
 		supportBtn.setText("Ecrire au support");
-		supportBtn.addActionListener(new ActionListener(){
+		supportBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent aEvent) {
-				mDescription.sendSupport("demande de support","Décrivez le plus précisément possible votre problème." +
-	    				"<br><br>_______________________________________________________________<br>");
+				mDescription
+						.sendSupport(
+								"demande de support",
+								"Décrivez le plus précisément possible votre problème."
+										+ "<br><br>_______________________________________________________________<br>");
 			}
 		});
-		getContentPane().add(supportBtn, getConstraints(0, 6, new Insets(5, 5, 10, 10), 2, 1));
-		
+		getContentPane().add(supportBtn,
+				getConstraints(0, 6, new Insets(5, 5, 10, 10), 2, 1));
+
 		mConfigMore = new JLabel();
 		mConfigMore.setText("...");
 		mConfigMore.addMouseListener(this);
@@ -145,22 +150,26 @@ public class AboutBox extends JDialog implements MouseListener {
 		setResizable(false);
 		setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 	}
-	
+
 	public void show(ApplicationDescription aDescription) {
-		mDescription=aDescription;
-		mTitleLbl.setText("<center><h1>" + mDescription.getTitle() + "</h1></center>");
+		mDescription = aDescription;
+		mTitleLbl.setText("<center><h1>" + mDescription.getTitle()
+				+ "</h1></center>");
 		mImageLogo.setIcon(mDescription.getLogoIcon());
 		mVersionLbl.setText("<table width='100%'>"
 				+ "<tr><td><center>Version</center></td><td><center>"
 				+ mDescription.getApplisVersion() + "</center></td></tr>"
 				+ "<tr><td colspan='2'><font size='-1'><center><i>"
-				+ mDescription.getCopyRigth() + "</i></center></font></td><td>" + "</table>");
+				+ mDescription.getCopyRigth() + "</i></center></font></td><td>"
+				+ "</table>");
 
-		mCopyRigthLbl.setText("<HR SIZE='2' WIDTH='100%' ALIGN=center>"
+		mCopyRigthLbl
+				.setText("<HR SIZE='2' WIDTH='100%' ALIGN=center>"
 						+ "<table width='100%'>"
 						+ "<tr><td colspan='2'><font size='+1'><center>Utilise le cadre d'application <i>Lucterios</i></center></font></td><td>"
 						+ "<tr><td><center>Serveur</td><td><center>"
-						+ mDescription.getServerVersion() + "</center></td></tr>"
+						+ mDescription.getServerVersion()
+						+ "</center></td></tr>"
 						+ "<tr><td><center>Client JAVA</td><td><center>"
 						+ Constants.Version() + "</center></td></tr>"
 						+ "</table>");
@@ -172,10 +181,10 @@ public class AboutBox extends JDialog implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent aEvent) {
-		JDialog config=new JDialog(this,true);
+		JDialog config = new JDialog(this, true);
 		config.setTitle("Configuration");
 		config.getContentPane().setLayout(new GridBagLayout());
-		
+
 		JEditorPane text = new JEditorPane();
 		text.setEditable(false);
 		text.setFocusable(false);
@@ -183,7 +192,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		text.setContentType("text/html");
 		text.setText(mDescription.getHTML(null));
 
-		config.getContentPane().add(text,getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 1));
+		config.getContentPane().add(text,
+				getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 1));
 
 		config.pack();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -192,12 +202,16 @@ public class AboutBox extends JDialog implements MouseListener {
 		config.setVisible(true);
 	}
 
-	public void mouseEntered(MouseEvent aEvent) {}
+	public void mouseEntered(MouseEvent aEvent) {
+	}
 
-	public void mouseExited(MouseEvent aEvent) {}
+	public void mouseExited(MouseEvent aEvent) {
+	}
 
-	public void mousePressed(MouseEvent aEvent) {}
+	public void mousePressed(MouseEvent aEvent) {
+	}
 
-	public void mouseReleased(MouseEvent aEvent) {}
+	public void mouseReleased(MouseEvent aEvent) {
+	}
 
 }

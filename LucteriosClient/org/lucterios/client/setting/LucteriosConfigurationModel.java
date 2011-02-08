@@ -7,7 +7,8 @@ import javax.swing.table.TableModel;
 
 import org.lucterios.engine.utils.LucteriosConfiguration;
 
-public class LucteriosConfigurationModel extends LucteriosConfiguration implements TableModel {
+public class LucteriosConfigurationModel extends LucteriosConfiguration
+		implements TableModel {
 
 	public LucteriosConfigurationModel() throws IOException {
 		super();

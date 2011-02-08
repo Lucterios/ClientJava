@@ -22,6 +22,7 @@ package org.lucterios.client;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.observer.CustomManager;
@@ -36,14 +37,17 @@ import org.lucterios.client.application.observer.ObserverPrint;
 import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.client.gui.ThemeMenu;
+import org.lucterios.client.transport.HttpTransportImpl;
+import org.lucterios.client.utils.SwingImage;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
+import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.DesktopTools;
-import org.lucterios.utils.graphic.ExceptionDlg;
-import org.lucterios.utils.graphic.WaitingWindow;
+import org.lucterios.graphic.DesktopTools;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.WaitingWindow;
 
 class Main {
 	static private void initalizeObserver() {
@@ -61,11 +65,8 @@ class Main {
 
 	public static void main(String args[]) {
 		try {
-			Singletons.ActionClass=ActionImpl.class;
-			Singletons.mDesktop=DesktopTools.instance();
-			Singletons.initalize();
+			initializeSingleton();
 			ThemeMenu.initializedTheme();
-			Singletons.AppTerminate=new RequirementProcesses();
 			ApplicationMain main;
 			WaitingWindow ww = new WaitingWindow(
 					"Chargement de l'application.<br>Veuillez patienter.",
@@ -82,12 +83,12 @@ class Main {
 						Resources.class.getResource("connect.png")));
 				ActionListener run_setup_dlg = main.getRunSetupDialog();
 				ObserverAuthentification.mConnection = main;
-				while ("".equals( Singletons.Transport().getSession() ))
+				while ("".equals(Singletons.Transport().getSession()))
 					try {
 						LogonBox logon_box = new LogonBox();
 						logon_box.mActionSetUp = run_setup_dlg;
 						logon_box.logon("");
-                        logon_box.dispose();
+						logon_box.dispose();
 					} catch (LucteriosException e) {
 						ExceptionDlg.throwException(e);
 					}
@@ -99,5 +100,14 @@ class Main {
 			ExceptionDlg.throwException(e);
 			Singletons.exit();
 		}
+	}
+
+	private static void initializeSingleton() throws IOException {
+		Singletons.ActionClass = ActionImpl.class;
+		Singletons.HttpTransportClass=HttpTransportImpl.class;
+		Singletons.mDesktop = DesktopTools.instance();
+		Singletons.initalize();
+		Singletons.AppTerminate = new RequirementProcesses();
+		ImageCache.ImageClass=SwingImage.class;
 	}
 }

@@ -29,16 +29,18 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu.FrameControle;
+import org.lucterios.client.utils.SwingImage;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.utils.SimpleParsing;
 
 public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 
-	static public FrameControle mFrameControle=null;
+	static public FrameControle mFrameControle = null;
 
 	private String mTitle = "";
 	private char mMenomnic = 0;
@@ -53,10 +55,10 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 		mMenomnic = aMenomnic;
 		mIcon = aIcon;
 		mAction = aAction;
-		if (aKey!=null)
+		if (aKey != null)
 			mKey = aKey.toString();
 	}
-	
+
 	public void setOwner(Observer aOwner) {
 	}
 
@@ -84,8 +86,8 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 		return "";
 	}
 
-	public ImageIcon getIcon() {
-		return mIcon;
+	public AbstractImage getIcon() {
+		return new SwingImage(mIcon);
 	}
 
 	public String getIconName() {
@@ -150,7 +152,7 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 	public void actionPerformed(ActionEvent e) {
 		actionPerformed();
 	}
-		
+
 	public void actionPerformed() {
 		if (mAction != null)
 			SwingUtilities.invokeLater(new Runnable() {

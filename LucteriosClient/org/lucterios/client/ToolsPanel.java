@@ -41,9 +41,9 @@ import javax.swing.SwingUtilities;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.gui.RefreshButtonPanel;
 import org.lucterios.engine.application.Action;
-import org.lucterios.utils.graphic.DesktopTools;
-import org.lucterios.utils.graphic.JAdvancePanel;
-import org.lucterios.utils.graphic.NavigatorBar;
+import org.lucterios.graphic.DesktopTools;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.NavigatorBar;
 
 public class ToolsPanel extends JAdvancePanel implements Runnable,
 		ActionListener, ToolButtonCollection.ChangeAction {
@@ -134,7 +134,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		mNavigatorBar = new NavigatorBar();
 		mNavigatorBar.setOpaque(false);
 
-		Insets insets = DesktopTools.instance().getInsets();
+		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(DesktopTools.instance().getCoord());
 		Dimension screen = tkt.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		int height = (int) (screen.getHeight() - insets.top - insets.bottom);
@@ -166,7 +166,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	public void clearTools() {
 		mCurrentButton = null;
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Insets insets = DesktopTools.instance().getInsets();
+		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(DesktopTools.instance().getCoord());
 		Dimension screen = kit.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		mNbHorizontalButton = (width - 3 * SIZE_SMALL) / SIZEX;
@@ -235,8 +235,8 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	ToolButton[] mCoinActions = new ToolButton[4];
 
 	public void setCoinAction(Action aAction, int aPosition) {
-		ToolButton btn = new ToolButton((ActionListener)aAction, 
-				aAction.getTitle(), aAction.getIcon());
+		ToolButton btn = new ToolButton((ActionListener) aAction, aAction
+				.getTitle(), (javax.swing.ImageIcon)aAction.getIcon().getData());
 		setCoinAction(btn, aPosition);
 		btn.setVisible(mNavigatorBar.getComponentCount() > 0);
 		mCoinActions[aPosition] = btn;
@@ -257,9 +257,9 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 			case BOTTOM_RIGHT:
 				addPanel(aToolButton, 2, 4, true, false);
 				break;
-				default: 
-					//TODO: Implement 'default' statement
-					break;
+			default:
+				// TODO: Implement 'default' statement
+				break;
 			}
 	}
 
@@ -271,9 +271,9 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		String[] text = aText.split(" - ");
 		mApplicationText = "";
 		mApplicationDescription = "";
-		if (text.length>0)
+		if (text.length > 0)
 			mApplicationText = text[0];
-		if (text.length>1)
+		if (text.length > 1)
 			mApplicationDescription = text[1];
 		mApplicationIcon = aIcon;
 	}
@@ -327,7 +327,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		}
 
 		for (int index = 0; index < mCoinActions.length; index++) {
-			if (mCoinActions[index].getActionListener().equals( mReturnAction )) {
+			if (mCoinActions[index].getActionListener().equals(mReturnAction)) {
 				if ((mCurrentButton != null)
 						&& (mCurrentButton.getButtonsParent() != null))
 					setCoinAction(mCoinActions[index], index);

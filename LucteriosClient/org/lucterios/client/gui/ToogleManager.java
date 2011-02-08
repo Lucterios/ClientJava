@@ -22,11 +22,12 @@ import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.ExceptionDlg;
-import org.lucterios.utils.graphic.JAdvancePanel;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.Tools;
 
-public class ToogleManager extends JAdvancePanel implements ActionListener,WatchDogRefresher {
+public class ToogleManager extends JAdvancePanel implements ActionListener,
+		WatchDogRefresher {
 
 	class ToggleAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
@@ -34,7 +35,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 		private int num;
 
 		public ToggleAction(String text, ImageIcon icon, int num) {
-			super(text,icon);
+			super(text, icon);
 			this.num = num;
 		}
 
@@ -48,7 +49,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 
 		public void changeButton() {
 			setVisible(false);
-			try{
+			try {
 				mainToogle.removeAll();
 				int btn_num = 0;
 				int index = 0;
@@ -70,7 +71,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 				mToggles.get(num).repaint();
 				mainToogle.repaint();
 				repaint();
-			}finally{
+			} finally {
 				setVisible(true);
 			}
 		}
@@ -86,7 +87,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 	private JPanel mainToogle;
 
 	public ToogleManager(Image fontImage) {
-		setFontImage(fontImage,TEXTURE);
+		setFontImage(fontImage, TEXTURE);
 		setLayout(new GridBagLayout());
 	}
 
@@ -97,8 +98,12 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 				addMenu(current_menu);
 			}
 			if (MenuItem.class.isInstance(aMenu.getMenuComponent(index))) {
-				MenuItem current_menu = (MenuItem) aMenu.getMenuComponent(index);
-				mToggles.add(new TogglePanel(current_menu.getText(),Tools.resizeIcon(current_menu.mAction.getIcon(),32,false),current_menu.mAction.getExtension(), current_menu.mAction.getAction()));
+				MenuItem current_menu = (MenuItem) aMenu
+						.getMenuComponent(index);
+				mToggles.add(new TogglePanel(current_menu.getText(), Tools
+						.resizeIcon((ImageIcon)current_menu.mAction.getIcon().getData(), 32, false),
+						current_menu.mAction.getExtension(),
+						current_menu.mAction.getAction()));
 			}
 		}
 	}
@@ -109,29 +114,30 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 		mToggles.clear();
 	}
 
-	public int getToggleCount(){
+	public int getToggleCount() {
 		return mToggles.size();
 	}
 
 	public void showToggles() {
-		if (mToggles.size()>0) {
-			JToggleButton first_button=null;
+		if (mToggles.size() > 0) {
+			JToggleButton first_button = null;
 			GridBagConstraints cnt = new GridBagConstraints();
 			cnt.gridx = 0;
 			cnt.weightx = 1;
 			cnt.weighty = 0;
 			cnt.fill = GridBagConstraints.BOTH;
 			for (int index = 0; index < mToggles.size(); index++) {
-				TogglePanel current= mToggles.get(index);
-				JToggleButton button = new JToggleButton(new ToggleAction(current.getTitle(),current.getIcon(), index));
-				if (first_button==null)
-					first_button=button;
+				TogglePanel current = mToggles.get(index);
+				JToggleButton button = new JToggleButton(new ToggleAction(
+						current.getTitle(), current.getIcon(), index));
+				if (first_button == null)
+					first_button = button;
 				button.setSelected(false);
 				cnt.gridy = index;
 				add(button, cnt);
 			}
 
-			mainToogle=new JPanel();
+			mainToogle = new JPanel();
 			mainToogle.setLayout(new GridBagLayout());
 			mainToogle.setOpaque(false);
 			cnt.gridx = 0;
@@ -141,9 +147,11 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,Watch
 			cnt.fill = GridBagConstraints.BOTH;
 			add(mainToogle, cnt);
 
-			Toolkit tkt = Toolkit.getDefaultToolkit();			
-			ImageIcon icon=new ImageIcon(tkt.getImage(Resources.class.getResource("refresh.png")));
-			JButton refresh=new JButton("Rafraichir",Tools.resizeIcon(icon,24,false));
+			Toolkit tkt = Toolkit.getDefaultToolkit();
+			ImageIcon icon = new ImageIcon(tkt.getImage(Resources.class
+					.getResource("refresh.png")));
+			JButton refresh = new JButton("Rafraichir", Tools.resizeIcon(icon,
+					24, false));
 			refresh.addActionListener(this);
 			cnt.weighty = 0;
 			cnt.gridy = mToggles.size() + 1;

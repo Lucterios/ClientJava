@@ -26,8 +26,8 @@ import java.awt.GridLayout;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.FloatField;
-import org.lucterios.utils.graphic.SpinEdit;
+import org.lucterios.graphic.FloatField;
+import org.lucterios.graphic.SpinEdit;
 
 public class CmpFloat extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,6 @@ public class CmpFloat extends CmpAbstractEvent {
 	private SpinEdit cmp_int;
 
 	private boolean mIsInteger = false;
-
 
 	public CmpFloat() {
 		super();

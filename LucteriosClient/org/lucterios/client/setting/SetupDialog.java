@@ -34,23 +34,23 @@ import javax.swing.filechooser.FileFilter;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.utils.LucteriosConfiguration;
-import org.lucterios.utils.graphic.ExceptionDlg;
-import org.lucterios.utils.graphic.JAdvancePanel;
-import org.lucterios.utils.graphic.Tools;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.graphic.Tools;
 
 public class SetupDialog extends JDialog {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	protected Image mFontImg;
 
 	private javax.swing.JLabel lbl_Title;
 	private javax.swing.JTextField txt_Title;
 
 	private JAdvancePanel pnl_main;
-	private JTabbedPane pnl_Tab;	
+	private JTabbedPane pnl_Tab;
 	private ConfigurationPanel conf_pnl;
 	private AssociationPanel asso_pnl;
 	private JAdvancePanel pnl_btn;
@@ -62,7 +62,8 @@ public class SetupDialog extends JDialog {
 
 	public SetupDialog(JFrame aFrame, LucteriosConfigurationModel aConf) {
 		super(aFrame);
-		mFontImg = Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
+		mFontImg = Toolkit.getDefaultToolkit().getImage(
+				Resources.class.getResource("MainFont.jpg"));
 		mConf = aConf;
 		Init();
 		InitSubPanel();
@@ -74,8 +75,10 @@ public class SetupDialog extends JDialog {
 	}
 
 	public LucteriosConfiguration.Server newServer(String aServerName,
-			String aHostName, int aHostPort, String aDirectory,int aConnectionMode) {
-		return mConf.newServer(aServerName, aHostName, aHostPort, aDirectory, aConnectionMode);
+			String aHostName, int aHostPort, String aDirectory,
+			int aConnectionMode) {
+		return mConf.newServer(aServerName, aHostName, aHostPort, aDirectory,
+				aConnectionMode);
 	}
 
 	public GridBagConstraints getCnt(int x, int y, int w, int h, int fill,
@@ -119,10 +122,11 @@ public class SetupDialog extends JDialog {
 		txt_Title.setText("Lucterios");
 		pnl_main.add(txt_Title, getCnt(1, 0, 1, 1, GridBagConstraints.BOTH, 1));
 
-		getContentPane().add(pnl_main,getCnt(0, 0, 4, 1, GridBagConstraints.BOTH, 1));
+		getContentPane().add(pnl_main,
+				getCnt(0, 0, 4, 1, GridBagConstraints.BOTH, 1));
 
 		pnl_btn.setLayout(new java.awt.GridBagLayout());
-		
+
 		btn_Ok.setMnemonic('o');
 		btn_Ok.setText("OK");
 		btn_Ok.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +136,7 @@ public class SetupDialog extends JDialog {
 		});
 		btn_Ok.setIcon(new ImageIcon(Resources.class.getResource("ok.png")));
 		pnl_btn.add(btn_Ok, getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 0));
-		
+
 		btn_Cancel.setMnemonic('n');
 		btn_Cancel.setText("Annuler");
 		btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +144,8 @@ public class SetupDialog extends JDialog {
 				btn_CancelActionPerformed(evt);
 			}
 		});
-		btn_Cancel.setIcon(new ImageIcon(Resources.class.getResource("cancel.png")));
+		btn_Cancel.setIcon(new ImageIcon(Resources.class
+				.getResource("cancel.png")));
 		pnl_btn.add(btn_Cancel, getCnt(1, 0, 1, 1, GridBagConstraints.BOTH, 0));
 
 		btn_import.setMnemonic('o');
@@ -150,19 +155,21 @@ public class SetupDialog extends JDialog {
 				btn_importActionPerformed(evt);
 			}
 		});
-		btn_import.setIcon(new ImageIcon(Resources.class.getResource("import.png")));
+		btn_import.setIcon(new ImageIcon(Resources.class
+				.getResource("import.png")));
 		pnl_btn.add(btn_import, getCnt(2, 0, 1, 1, GridBagConstraints.BOTH, 0));
 
-		getContentPane().add(pnl_btn,getCnt(0, 4, 4, 1, GridBagConstraints.BOTH, 1));
+		getContentPane().add(pnl_btn,
+				getCnt(0, 4, 4, 1, GridBagConstraints.BOTH, 1));
 	}
 
 	public void InitSubPanel() {
-		pnl_Tab=new JTabbedPane();	
-		//pnl_Tab.setPreferredSize(new Dimension(600, 200));
-		conf_pnl=new ConfigurationPanel(this,mFontImg,mConf);
-		asso_pnl=new AssociationPanel(this,mFontImg);
-		pnl_Tab.addTab("Connexions",conf_pnl);
-		pnl_Tab.addTab("Extensions de fichiers",asso_pnl);
+		pnl_Tab = new JTabbedPane();
+		// pnl_Tab.setPreferredSize(new Dimension(600, 200));
+		conf_pnl = new ConfigurationPanel(this, mFontImg, mConf);
+		asso_pnl = new AssociationPanel(this, mFontImg);
+		pnl_Tab.addTab("Connexions", conf_pnl);
+		pnl_Tab.addTab("Extensions de fichiers", asso_pnl);
 		pnl_main.add(pnl_Tab, getCnt(0, 1, 2, 1, GridBagConstraints.BOTH, 1));
 	}
 
@@ -174,33 +181,35 @@ public class SetupDialog extends JDialog {
 		setResizable(true);
 		setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 	}
-	
 
 	private void btn_importActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser file_dlg;
 		file_dlg = new JFileChooser();
-		file_dlg.setFileFilter(new FileFilter(){
+		file_dlg.setFileFilter(new FileFilter() {
 			public boolean accept(File aFile) {
-				return aFile.isDirectory() || aFile.getName().equalsIgnoreCase(LucteriosConfiguration.CONF_FILE_NAME);
+				return aFile.isDirectory()
+						|| aFile.getName().equalsIgnoreCase(
+								LucteriosConfiguration.CONF_FILE_NAME);
 			}
+
 			public String getDescription() {
 				return "Fichier de configuration";
 			}
-			
+
 		});
-		if (file_dlg.showOpenDialog(this)== JFileChooser.APPROVE_OPTION) {
-	    	try {
-		    	java.io.File file_exp = file_dlg.getSelectedFile();
-				LucteriosConfiguration conf_import=new LucteriosConfiguration();
+		if (file_dlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			try {
+				java.io.File file_exp = file_dlg.getSelectedFile();
+				LucteriosConfiguration conf_import = new LucteriosConfiguration();
 				conf_import.read(file_exp);
-				for(int conf_idx=0;conf_idx<conf_import.ServerCount();conf_idx++)
+				for (int conf_idx = 0; conf_idx < conf_import.ServerCount(); conf_idx++)
 					mConf.AddServer(conf_import.GetServer(conf_idx));
-				conf_pnl.refreshGUI(mConf.ServerCount()-1);
+				conf_pnl.refreshGUI(mConf.ServerCount() - 1);
 			} catch (IOException e) {
 				ExceptionDlg.throwException(e);
-			} 	    	
+			}
 		}
-		
+
 	}
 
 	private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,7 +226,7 @@ public class SetupDialog extends JDialog {
 			mConf.TitreDefault = txt_Title.getText().trim();
 			mConf.ProxyAdress = conf_pnl.getProxyAddr();
 			mConf.ProxyPort = conf_pnl.getProxyPort();
-			mConf.write();	
+			mConf.write();
 			asso_pnl.Save();
 			dispose();
 			Singletons.loadSetting();

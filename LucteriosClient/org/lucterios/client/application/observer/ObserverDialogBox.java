@@ -29,6 +29,7 @@ import java.awt.Window;
 import java.lang.ref.WeakReference;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.RootPaneContainer;
@@ -44,8 +45,8 @@ import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.HtmlLabel;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.JAdvancePanel;
 
 public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 	public String mText;
@@ -109,7 +110,8 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 			gdbConstr_lbl.gridwidth = 1;
 			main_Pnl.add(lbl_img, gdbConstr_Img);
 
-			lbl_message.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+			lbl_message
+					.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
 			lbl_message.setOpaque(false);
 			lbl_message.setEditable(false);
 			lbl_message.setFocusable(false);
@@ -141,23 +143,23 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 
 			switch (mType) {
 			case 2: {
-				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/confirm.png",0));
+				lbl_img.setIcon((ImageIcon)Singletons.Transport().getIcon(
+						"images/confirm.png", 0).getData());
 				break;
 			}
 			case 3: {
-				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/warning.png",0));
+				lbl_img.setIcon((ImageIcon)Singletons.Transport().getIcon(
+						"images/warning.png", 0).getData());
 				break;
 			}
 			case 4: {
-				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/error.png",0));
+				lbl_img.setIcon((ImageIcon)Singletons.Transport().getIcon(
+						"images/error.png", 0).getData());
 				break;
 			}
 			default: {
-				lbl_img.setIcon(Singletons.Transport().getIcon(
-						"images/info.png",0));
+				lbl_img.setIcon((ImageIcon)Singletons.Transport().getIcon(
+						"images/info.png", 0).getData());
 				break;
 			}
 			}
@@ -173,13 +175,15 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 
 	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
 		mGUIDialog = new WeakReference<IDialog>(aGUI);
-		mGUIContainer = ((RootPaneContainer)aGUI).getContentPane();
+		mGUIContainer = ((RootPaneContainer) aGUI).getContentPane();
 		show(aTitle);
 		getGUIDialog().setNotifyFrameClose(this);
-		((Window)getGUIDialog()).pack();
+		((Window) getGUIDialog()).pack();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		getGUIDialog().setLocation((screen.width - ((Window)getGUIDialog()).getSize().width) / 2,
-				(screen.height - ((Window)getGUIDialog()).getSize().height) / 2);
+		getGUIDialog()
+				.setLocation(
+						(screen.width - ((Window) getGUIDialog()).getSize().width) / 2,
+						(screen.height - ((Window) getGUIDialog()).getSize().height) / 2);
 		getGUIDialog().setResizable(false);
 		getGUIDialog().setVisible(true);
 		SwingUtilities.invokeLater(this);
@@ -191,8 +195,9 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 		setActive(true);
 		mGUIContainer.setVisible(true);
 	}
-	
-	public MapContext getParameters(String aActionId, int aSelect, boolean aCheckNull) {
+
+	public MapContext getParameters(String aActionId, int aSelect,
+			boolean aCheckNull) {
 		return mContext;
 	}
 
@@ -209,14 +214,14 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 	public void close(boolean aMustRefreshParent) {
 		if (!closed) {
 			closed = true;
-			if (mGUIContainer!=null) {
+			if (mGUIContainer != null) {
 				mGUIContainer.removeAll();
-				mGUIContainer=null;
+				mGUIContainer = null;
 			}
 			if (getGUIDialog() != null)
 				getGUIDialog().dispose();
 			super.close(aMustRefreshParent);
-			Tools.postOrderGC();
+			org.lucterios.graphic.Tools.postOrderGC();
 		}
 	}
 

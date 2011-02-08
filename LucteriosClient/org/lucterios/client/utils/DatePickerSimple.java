@@ -7,14 +7,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import org.lucterios.utils.StringList;
-import org.lucterios.utils.graphic.MyDateSelectorPanel;
+import org.lucterios.graphic.MyDateSelectorPanel;
 
 public class DatePickerSimple extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	static public int MIN_YEAR = 1930;
 	static public int MAX_YEAR = 2015;
-	
+
 	MyDateSelectorPanel selector;
 
 	public DatePickerSimple() {
@@ -28,11 +28,11 @@ public class DatePickerSimple extends JDialog {
 		buildGUI();
 	}
 
-	public MyDateSelectorPanel getSelector(){
+	public MyDateSelectorPanel getSelector() {
 		return selector;
 	}
-	
-	public static StringList getMonthList(){
+
+	public static StringList getMonthList() {
 		StringList month_list = new StringList();
 		month_list.add("Janvier");
 		month_list.add("Février");
@@ -55,20 +55,22 @@ public class DatePickerSimple extends JDialog {
 			result = "0" + result;
 		return result;
 	}
-	
+
 	public String getDate() {
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+				"yyyy-MM-dd");
 		java.util.Calendar cal = selector.get_calendar();
 		return sdf.format(cal.getTime());
 	}
 
 	public void buildGUI() {
 		selector = new MyDateSelectorPanel();
-		JPanel pnl_select = selector.getTitledDateSelector(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		JPanel pnl_select = selector
+				.getTitledDateSelector(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+					}
+				});
 		selector.set_from_calendar(java.util.Calendar.getInstance());
 		getContentPane().add(pnl_select);
 		pack();

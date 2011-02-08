@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 import org.lucterios.engine.application.Action;
@@ -34,12 +33,13 @@ import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.engine.utils.AbstractImage;
 import org.lucterios.engine.utils.IDialog;
 import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.utils.graphic.ExceptionDlg;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	static public WindowGenerator mWindowGenerator = null;
@@ -142,7 +142,7 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 		return mIcon;
 	}
 
-	public ImageIcon getIcon() {
+	public AbstractImage getIcon() {
 		return Singletons.Transport().getIcon(mIcon, mSizeIcon);
 	}
 
@@ -330,15 +330,15 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	public void actionPerformed(ActionEvent aEvent) {
 		actionPerformed();
 	}
-	
-	public void actionPerformed() {		
+
+	public void actionPerformed() {
 		if (mustPerforme())
 			try {
 				final MapContext param = getParameters();
 				if (param != null) {
 					if ((mOwner != null) && (mClose)) {
 						mOwner.close(false);
-					} 
+					}
 					if (mOwner != null) {
 						mOwner.setActive(false);
 					}
@@ -377,10 +377,10 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	public void putValue(String arg0, Object arg1) {
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener arg0) {
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener arg0) {
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
 	}
 
 }

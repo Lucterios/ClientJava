@@ -30,7 +30,7 @@ import javax.swing.text.Caret;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.utils.graphic.PopupListener;
+import org.lucterios.graphic.PopupListener;
 
 public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	private static final long serialVersionUID = 1L;
