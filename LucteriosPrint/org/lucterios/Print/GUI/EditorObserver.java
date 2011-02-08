@@ -12,7 +12,7 @@ import org.lucterios.Print.Data.PrintColumn;
 import org.lucterios.Print.Data.PrintText;
 import org.lucterios.Print.Observer.PrintManager;
 import org.lucterios.Print.Observer.PrintObserverAbstract;
-import org.lucterios.utils.graphic.LucteriosEditor;
+import org.lucterios.graphic.LucteriosEditor;
 
 public class EditorObserver extends JPanel implements PrintObserverAbstract {
 

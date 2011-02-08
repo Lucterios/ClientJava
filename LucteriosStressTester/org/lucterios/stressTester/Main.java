@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 
+import org.lucterios.client.transport.HttpTransportImpl;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.ObserverFactoryImpl;
 import org.lucterios.engine.transport.HttpTransport;
-import org.lucterios.engine.transport.HttpTransportImpl;
 import org.lucterios.stressTester.inputs.ActionTest;
 import org.lucterios.stressTester.inputs.InputTest;
 import org.lucterios.stressTester.observer.ObserverTestAcknowledge;

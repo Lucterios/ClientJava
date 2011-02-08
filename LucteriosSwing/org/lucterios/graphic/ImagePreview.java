@@ -1,4 +1,4 @@
-package org.lucterios.utils.graphic;
+package org.lucterios.graphic;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

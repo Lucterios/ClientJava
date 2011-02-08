@@ -18,7 +18,7 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.utils.graphic;
+package org.lucterios.graphic;
 
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -26,10 +26,14 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -135,11 +139,40 @@ public class Tools {
 
     static public String getKeyString(KeyStroke aKey)
     {
-	String key_string = "";
-	if (aKey != null)
-		key_string += " [" + aKey.toString() + "]";
-	key_string=org.lucterios.utils.Tools.replace(key_string,"pressed"," ");
-	return key_string;
+		String key_string = "";
+		if (aKey != null)
+			key_string += " [" + aKey.toString() + "]";
+		key_string=org.lucterios.utils.Tools.replace(key_string,"pressed"," ");
+		return key_string;
     }
 
+    private final static int TIME_TO_ORDER=2*1000; // 2sec 
+    private static Date postOrderGCdate = null;
+    public static void postOrderGC(){
+    	long current_time=new Date().getTime(); 
+    	postOrderGCdate=new Date(current_time+TIME_TO_ORDER);
+    }       
+    
+    public static ActionListener createOrderGCAction(){
+    	ActionListener action=new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if (postOrderGCdate!=null) {
+					long current_time=new Date().getTime();
+					if (postOrderGCdate.getTime()<current_time){
+						org.lucterios.utils.Tools.clearGC();
+						postOrderGCdate=null;
+					}
+				}
+				
+			}
+    	};
+    	return action;
+    }
+
+    public static Insets convertcoordToInsets(int[] coord){
+    	if (coord.length==4)
+    		return new Insets(coord[0],coord[1],coord[2],coord[3]);
+    	else
+    		return null;
+    }
 }

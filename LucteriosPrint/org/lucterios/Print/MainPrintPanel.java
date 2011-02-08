@@ -27,7 +27,7 @@ import org.lucterios.Print.GUI.BrowserObserver;
 import org.lucterios.Print.GUI.EditorObserver;
 import org.lucterios.Print.GUI.PreviewObserver;
 import org.lucterios.Print.GUI.PropertyObserver;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.JAdvancePanel;
 
 /**
  *

@@ -1,6 +1,6 @@
 package org.lucterios.utils;
 
-import java.awt.Insets;
+//import java.awt.Insets;
 
 
 public interface DesktopInterface {
@@ -10,6 +10,6 @@ public interface DesktopInterface {
 
 	public abstract void launch(String aUrl) throws LucteriosException;
 
-	public abstract Insets getInsets();
+	public abstract int[] getCoord();
 
 }

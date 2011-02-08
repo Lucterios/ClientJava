@@ -110,7 +110,7 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
         mPrintManager.addObserver(this);
         initComponents();
         refresh();
-        MouseListener popupListener = new org.lucterios.utils.graphic.PopupListener(mnBrowser);
+        MouseListener popupListener = new org.lucterios.graphic.PopupListener(mnBrowser);
         treeBrowser.addMouseListener(popupListener);
         treeBrowser.putClientProperty("JTree.lineStyle","Angled");
         treeBrowser.setCellRenderer(new IconNodeRenderer());

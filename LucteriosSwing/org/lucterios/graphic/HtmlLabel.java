@@ -1,4 +1,4 @@
-package org.lucterios.utils.graphic;
+package org.lucterios.graphic;
 
 import java.awt.Font;
 import java.util.Enumeration;

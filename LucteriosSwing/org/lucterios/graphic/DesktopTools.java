@@ -1,4 +1,4 @@
-package org.lucterios.utils.graphic;
+package org.lucterios.graphic;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -81,7 +81,7 @@ public class DesktopTools implements DesktopInterface {
 
 	public static final String ASSOCIATION_SECTION="Application";
 	
-	private Insets current_insets=null;
+	private int[] current_coord=null;
 	
 	private IniFileManager m_ApplicationsSettingFile=null;
 	
@@ -119,8 +119,8 @@ public class DesktopTools implements DesktopInterface {
 	/* (non-Javadoc)
 	 * @see org.lucterios.utils.graphic.DesktopInterface#getInsets()
 	 */
-	public Insets getInsets() {
-		if (current_insets==null)
+	public int[] getCoord() {
+		if (current_coord==null)
 		switch (isCompatibleOS()) {
 			case 0: 
 				extractKDEInsets();
@@ -132,7 +132,7 @@ public class DesktopTools implements DesktopInterface {
 				extractDefaultInsets();
 				break;
 		}
-		return current_insets;
+		return current_coord;
 	}	
 
 	private void openInFile(String aUrl) throws LucteriosException {
@@ -237,14 +237,16 @@ public class DesktopTools implements DesktopInterface {
 			{
 				GraphicsDevice gs=gdev_list[gs_index];
 				GraphicsConfiguration[] gconf_list=gs.getConfigurations();
-				if (gconf_list.length>0)
-					current_insets=(Toolkit.getDefaultToolkit().getScreenInsets(gconf_list[0]));
+				if (gconf_list.length>0) {
+					Insets inset=(Toolkit.getDefaultToolkit().getScreenInsets(gconf_list[0]));
+					current_coord=new int[]{inset.top,inset.left,inset.bottom,inset.right};
+				}
 			}
 		}
 		catch (HeadlessException h) {
 			System.err.println("Error: Headless error (you aren't running a GUI)");
 		}
-		current_insets=new Insets(0,0,0,0);
+		current_coord=new int[]{0,0,0,0};
 	}
 	
 	/*
@@ -306,7 +308,7 @@ public class DesktopTools implements DesktopInterface {
                     ex.printStackTrace();
                     System.out.println("Error: IO Exception during Runtime exec");
             }
-            current_insets=new Insets(n, w, s, e);
+            current_coord=new int[]{n, w, s, e};
 	}
 	
 	/* 
@@ -337,7 +339,7 @@ public class DesktopTools implements DesktopInterface {
 		}
 		else
 			i[3]=sizes[3];
-		current_insets=new Insets(i[2],i[0],i[3],i[1]);
+		current_coord=new int[]{i[2],i[0],i[3],i[1]};
 	}
 	
 	/*

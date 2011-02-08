@@ -20,8 +20,6 @@
 
 package org.lucterios.utils;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -30,9 +28,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
-import java.util.Date;
-
-import javax.swing.KeyStroke;
 
 public class Tools {
 	
@@ -123,15 +118,6 @@ public class Tools {
         return buf.toString();
     }
 
-    static public String getKeyString(KeyStroke aKey)
-    {
-	String key_string = "";
-	if (aKey != null)
-		key_string += " [" + aKey.toString() + "]";
-	key_string=replace(key_string,"pressed"," ");
-	return key_string;
-    }
-
     static public void saveFileStream(File aFile,InputStream aStream) throws LucteriosException{
 	FileOutputStream fos;
 	try {
@@ -186,29 +172,6 @@ public class Tools {
             }
         }
         return dir.delete();
-    }
-    
-    private final static int TIME_TO_ORDER=2*1000; // 2sec 
-    private static Date postOrderGCdate = null;
-    public static void postOrderGC(){
-    	long current_time=new Date().getTime(); 
-    	postOrderGCdate=new Date(current_time+TIME_TO_ORDER);
-    }
-    
-    public static ActionListener createOrderGCAction(){
-    	ActionListener action=new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				if (postOrderGCdate!=null) {
-					long current_time=new Date().getTime();
-					if (postOrderGCdate.getTime()<current_time){
-						clearGC();
-						postOrderGCdate=null;
-					}
-				}
-				
-			}
-    	};
-    	return action;
     }
     
     public static void clearGC(){

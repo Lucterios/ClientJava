@@ -1,4 +1,4 @@
-package org.lucterios.utils.graphic;
+package org.lucterios.graphic;
 
 import junit.framework.TestCase;
 

@@ -20,11 +20,8 @@
 
 package org.lucterios.utils;
 
-import org.lucterios.utils.graphic.LucteriosEditorUnit;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 
 public class AllTests 
 {
@@ -33,7 +30,6 @@ public class AllTests
         TestSuite suite = new TestSuite("Utils");
         suite.addTest(new TestSuite(ZipMangerUnit.class));
         suite.addTest(new TestSuite(SimpleParsingUnit.class));
-        suite.addTest(new TestSuite(LucteriosEditorUnit.class));
         return suite;
     }
 }

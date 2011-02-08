@@ -38,8 +38,8 @@ import javax.swing.JScrollPane;
 import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.ExceptionDlg;
-import org.lucterios.utils.graphic.HtmlLabel;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.HtmlLabel;
 
 /**
  *

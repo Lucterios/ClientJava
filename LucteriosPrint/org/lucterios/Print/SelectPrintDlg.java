@@ -26,7 +26,7 @@ import javax.swing.*;
 
 import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.Tools;
-import org.lucterios.utils.graphic.JAdvancePanel;
+import org.lucterios.graphic.JAdvancePanel;
 
 public class SelectPrintDlg extends JDialog 
 {
@@ -216,7 +216,7 @@ public class SelectPrintDlg extends JDialog
 		});
 
 		javax.swing.JButton[] btns=new javax.swing.JButton[]{btn_Cancel,btn_Ok};
-		org.lucterios.utils.graphic.Tools.calculBtnSize(btns);
+		org.lucterios.graphic.Tools.calculBtnSize(btns);
 		
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
@@ -370,7 +370,7 @@ public class SelectPrintDlg extends JDialog
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize(); 
 		setLocation((screen.width-getSize().width)/2,(screen.height-getSize().height)/2);			
 		javax.swing.JButton[] btns={btn_Ok,btn_Cancel};
-		org.lucterios.utils.graphic.Tools.calculBtnSize(btns);
+		org.lucterios.graphic.Tools.calculBtnSize(btns);
 		setVisible(true);
 		return mChose;
 	}	

@@ -123,12 +123,12 @@ public abstract class PropertyPanel extends javax.swing.JPanel
 	{
 		if (field.getType().isAssignableFrom(Integer.TYPE))
 		{
-		    int value=(int)((org.lucterios.utils.graphic.FloatField)cmp).getValue();
+		    int value=(int)((org.lucterios.graphic.FloatField)cmp).getValue();
 		    field.setInt(objectValue,value);
 		}
 		else if (field.getType().isAssignableFrom(Double.TYPE))
 		{
-		    double value=((org.lucterios.utils.graphic.FloatField)cmp).getValue();
+		    double value=((org.lucterios.graphic.FloatField)cmp).getValue();
 		    field.setDouble(objectValue,value);
 		}
 		else if (field.getType().isAssignableFrom(String.class))
@@ -202,15 +202,15 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         {
             if (field.getType().isAssignableFrom(Integer.TYPE))
             {
-                edit_cmp = new org.lucterios.utils.graphic.FloatField();
-                ((org.lucterios.utils.graphic.FloatField)edit_cmp).setRange(1,50,0);
-                ((org.lucterios.utils.graphic.FloatField)edit_cmp).setValue(((Integer)temp_value).intValue());
+                edit_cmp = new org.lucterios.graphic.FloatField();
+                ((org.lucterios.graphic.FloatField)edit_cmp).setRange(1,50,0);
+                ((org.lucterios.graphic.FloatField)edit_cmp).setValue(((Integer)temp_value).intValue());
             }
             else if (field.getType().isAssignableFrom(Double.TYPE))
             {
-                edit_cmp = new org.lucterios.utils.graphic.FloatField();
-                ((org.lucterios.utils.graphic.FloatField)edit_cmp).setRange(0,5000,2);
-                ((org.lucterios.utils.graphic.FloatField)edit_cmp).setValue(((Double)temp_value).doubleValue());
+                edit_cmp = new org.lucterios.graphic.FloatField();
+                ((org.lucterios.graphic.FloatField)edit_cmp).setRange(0,5000,2);
+                ((org.lucterios.graphic.FloatField)edit_cmp).setValue(((Double)temp_value).doubleValue());
             }
             else 
             {

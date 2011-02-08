@@ -1,12 +1,9 @@
-package org.lucterios.utils;
+package org.lucterios.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JFrame;
-
-import org.lucterios.utils.graphic.LucteriosEditor;
-import org.lucterios.utils.graphic.LucteriosEditor.AppCloser;
 
 public class LucteriosEditorDemo {
 
@@ -27,7 +24,6 @@ public class LucteriosEditorDemo {
 			
 			frame.getContentPane().add("Center", editor);
 			frame.setJMenuBar(editor.createMenubar(with_file_action));
-			frame.addWindowListener(new AppCloser());
 			frame.pack();
 			frame.setSize(500, 600);
 			frame.setVisible(true);
