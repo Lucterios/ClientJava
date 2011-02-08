@@ -41,6 +41,7 @@
 			<fileset dir="${projet.src.dir}" includes="**/*.class" />
 			<fileset dir="${projet.sources.dir}" includes="**/*.class" />
 			<fileset dir="LucteriosUtils/org" includes="**/*.class" />
+			<fileset dir="LucteriosSwing/org" includes="**/*.class" />
 			<fileset dir="LucteriosPrint/org" includes="**/*.class" />
 			<fileset dir="LucteriosEngine/org" includes="**/*.class" />
 			<fileset dir="LucteriosClient/org" includes="**/*.class" />
@@ -64,6 +65,7 @@
 		<mkdir dir="${projet.src.dir}/org" /> 		
 		<copy todir="${projet.src.dir}/org">
 		    <fileset dir="LucteriosUtils/org"/>
+		    <fileset dir="LucteriosSwing/org"/>
 		    <fileset dir="LucteriosPrint/org"/>
 		    <fileset dir="LucteriosEngine/org"/>
 		    <fileset dir="LucteriosClient/org"/>
