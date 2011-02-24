@@ -130,8 +130,12 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
     	mTexts.clear();
     	mFields.clear();
     	mAttrs.clear();
-    	for(int idx=0;idx<aAttrs.getLength();idx++)
-    		mAttrs.put(aAttrs.getLocalName(idx)+aAttrs.getQName(idx),aAttrs.getValue(idx));
+    	for(int idx=0;idx<aAttrs.getLength();idx++) {
+    		if ((aAttrs.getLocalName(idx)!=null) && (aAttrs.getLocalName(idx).length()>0))
+        		mAttrs.put(aAttrs.getLocalName(idx),aAttrs.getValue(idx));
+    		else
+    			mAttrs.put(aAttrs.getQName(idx),aAttrs.getValue(idx));
+    	}
     }
     public void startElement (String namespaceURI,String simpleName,String qualifiedName,Attributes attrs) throws SAXException {
     	if (mCurrent==null)
@@ -141,7 +145,10 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
     		mCurrent.mFields.add(new_item);
     		mCurrent=new_item;
     	}
-    	mCurrent.fillElement(simpleName+qualifiedName, attrs);
+    	if ((simpleName!=null) && (simpleName.length()>0))
+    		mCurrent.fillElement(simpleName, attrs);
+    	else
+    		mCurrent.fillElement(qualifiedName, attrs);
     }
 
     public void endElement (String namespaceURI,String simpleName,String qualifiedName) throws SAXException {
@@ -167,7 +174,7 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 		if (mAttrs!=null) {
 			String value=null;
 			if (mAttrs.containsKey(aName))
-				value=(String)mAttrs.get(aName);	
+				value=mAttrs.get(aName);	
 			if (value!=null)
 				return value;
 			else
