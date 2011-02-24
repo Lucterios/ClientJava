@@ -23,7 +23,7 @@ package org.lucterios.engine.transport;
 import java.net.URL;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 

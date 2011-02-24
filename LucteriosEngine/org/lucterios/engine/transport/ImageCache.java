@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.StringList;
 import org.lucterios.utils.Tools;

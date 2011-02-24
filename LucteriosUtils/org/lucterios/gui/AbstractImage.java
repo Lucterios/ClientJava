@@ -1,6 +1,7 @@
-package org.lucterios.engine.utils;
+package org.lucterios.gui;
 
 import java.io.File;
+import java.net.URL;
 
 public abstract class AbstractImage {
 	
@@ -25,9 +26,12 @@ public abstract class AbstractImage {
 
 	public abstract boolean load(File file);
 	
+	public abstract boolean load(URL url);
+	
 	protected abstract void initialize(byte[] imageData);
 
 	public abstract int getHeight();
 	
 	public abstract int getWidth();
+
 }

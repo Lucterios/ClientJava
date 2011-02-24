@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.utils;
+package org.lucterios.graphic;
 
 import java.awt.Container;
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import org.lucterios.engine.utils.IForm;
-import org.lucterios.engine.utils.NotifyFrameList;
-import org.lucterios.graphic.Tools;
+import org.lucterios.gui.IForm;
+import org.lucterios.gui.NotifyFrameList;
+import org.lucterios.swing.SForm;
 
 public class FormList implements NotifyFrameList {
 	class ShortCut {
@@ -101,7 +101,7 @@ public class FormList implements NotifyFrameList {
 			if (get(idx).getName().equals(aId))
 				form = get(idx);
 		if (form == null) {
-			form = new Form(aId);
+			form = new SForm(aId);
 			add(form);
 		}
 		return form;

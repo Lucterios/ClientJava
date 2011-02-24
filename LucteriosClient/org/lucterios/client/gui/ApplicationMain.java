@@ -41,7 +41,6 @@ import org.lucterios.client.application.ApplicationDescription;
 import org.lucterios.client.application.Connection;
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.WindowGenerator;
-import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.client.application.Menu.ToolBar;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
@@ -51,11 +50,7 @@ import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.setting.AboutBox;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.client.setting.LucteriosConfigurationModel;
-import org.lucterios.client.setting.SetupDialog;
 import org.lucterios.client.setting.Update;
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
-import org.lucterios.client.utils.FormList;
 import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Observer;
@@ -64,19 +59,24 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.resources.Resources;
+import org.lucterios.client.setting.SetupDialog;
 import org.lucterios.engine.transport.ImageCache;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
-import org.lucterios.engine.utils.NotifyFrameChange;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.graphic.DesktopTools;
+import org.lucterios.swing.SDialog;
+import org.lucterios.swing.SForm;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.graphic.FormList;
+import org.lucterios.graphic.FrameControle;
 import org.lucterios.graphic.Tools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.graphic.MemoryJauge;
 import org.lucterios.graphic.ProgressPanel;
 import org.lucterios.graphic.WaitingWindow;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
+import org.lucterios.gui.NotifyFrameChange;
 
 public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		Connection, WindowGenerator, NotifyFrameChange, ToolBar, FrameControle,
@@ -154,8 +154,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		final JFrame frame = this;
 		return new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				SetupDialog.run(frame, new LucteriosConfigurationModel(
-						Singletons.Configuration));
+				SetupDialog.run(frame,new LucteriosConfigurationModel(Singletons.Configuration));
 			}
 		};
 	}
@@ -719,8 +718,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 							"Mise à jour", JOptionPane.WARNING_MESSAGE);
 	}
 
-	public Form newFrame(String aActionId) {
-		Form frame = (Form) mFormList.create(aActionId);
+	public SForm newFrame(String aActionId) {
+		SForm frame = (SForm) mFormList.create(aActionId);
 		javax.swing.SwingUtilities.updateComponentTreeUI(frame);
 		frame.mFrameControle = this;
 		frame.setNotifyFrameChange(this);
@@ -735,13 +734,13 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
-		Dialog dlg;
+		SDialog dlg;
 		if (aOwnerFrame != null)
-			dlg = new Dialog((Form) aOwnerFrame);
+			dlg = new SDialog((SForm) aOwnerFrame);
 		else if (aOwnerDialog != null)
-			dlg = new Dialog((Dialog) aOwnerDialog);
+			dlg = new SDialog((SDialog) aOwnerDialog);
 		else
-			dlg = new Dialog(this);
+			dlg = new SDialog(this);
 		javax.swing.SwingUtilities.updateComponentTreeUI(dlg);
 		dlg.mFrameControle = this;
 		return dlg;

@@ -1,5 +1,6 @@
 package org.lucterios.client.setting;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.event.TableModelListener;
@@ -11,7 +12,7 @@ public class LucteriosConfigurationModel extends LucteriosConfiguration
 		implements TableModel {
 
 	public LucteriosConfigurationModel() throws IOException {
-		super();
+		super(new File("."));
 	}
 
 	public LucteriosConfigurationModel(LucteriosConfiguration configuration) {

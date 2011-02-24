@@ -33,6 +33,7 @@ import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.SimpleParsing;
+import org.lucterios.graphic.FrameControle;
 import org.lucterios.graphic.Tools;
 
 public class Menu extends JMenu {
@@ -49,14 +50,6 @@ public class Menu extends JMenu {
 				Action aActionListener);
 
 		public void terminatToolBar();
-	}
-
-	public interface FrameControle {
-		public void setActive(boolean aIsActive);
-
-		public JMenuBar getJMenuBar();
-
-		public void refreshSize();
 	}
 
 	private String mIcon;

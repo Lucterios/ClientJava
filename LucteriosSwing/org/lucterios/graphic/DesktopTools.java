@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.IniFileReader;
@@ -79,8 +80,6 @@ public class DesktopTools implements DesktopInterface {
 		
 	public static final String OS_NAME = System.getProperty("os.name");
 
-	public static final String ASSOCIATION_SECTION="Application";
-	
 	private int[] current_coord=null;
 	
 	private IniFileManager m_ApplicationsSettingFile=null;
@@ -133,7 +132,15 @@ public class DesktopTools implements DesktopInterface {
 				break;
 		}
 		return current_coord;
-	}	
+	}
+	
+	public int[] getScreenSize(){
+		int[] result=new int[2]; 
+		java.awt.Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		result[0]=screen.width;
+		result[1]=screen.height;
+		return result;
+	}
 
 	private void openInFile(String aUrl) throws LucteriosException {
 		int dot_pos=aUrl.lastIndexOf('.');
@@ -370,5 +377,15 @@ public class DesktopTools implements DesktopInterface {
 			}
 		}
 		return -1;
+	}
+
+	public AbstractImage CreateImage(URL url) {
+		AbstractImage new_image=new SwingImage();
+		new_image.load(url);
+		return new_image;
+	}
+
+	public void throwException(Exception e) {
+		ExceptionDlg.throwException(e);
 	}
 }

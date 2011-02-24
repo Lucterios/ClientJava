@@ -1,32 +1,50 @@
-package org.lucterios.engine.utils;
+package org.lucterios.gui;
 
 public interface IDialog {
-
-	public abstract void setTitle(String title);
-
-	public abstract void setLocation(int x, int y);
-
-	public abstract void setSize(int width, int height);
-
-	public abstract void setResizable(boolean isResizable);
 	
-	public abstract void dispose();
+	public interface DialogVisitor {
+		public void execute(IDialog dialog);
+	}
 	
-	public abstract void setVisible(boolean aVisible);
+	public void setDialogVisitor(DialogVisitor dialogVisitor);
 
-	public abstract void close();
+	public void setTitle(String title);
 
-	public abstract void refresh();
+	public void setLocation(int x, int y);
 
-	public abstract void setNotifyFrameClose(
+	public void setSize(int width, int height);
+
+	public void setResizable(boolean isResizable);
+	
+	public void dispose();
+	
+	public void setVisible(boolean aVisible);
+
+	public void close();
+
+	public void refresh();
+
+	public void setNotifyFrameClose(
 			NotifyFrameObserver aNotifyFrameClose);
 
-	public abstract void setActive(boolean aIsActive);
+	public void setActive(boolean aIsActive);
 
-	public abstract void requestFocus();
+	public void requestFocus();
 
-	public abstract void toFront();
+	public void toFront();
 
-	public abstract void refreshSize();
+	public void refreshSize();
+	
+	public IDialog createDialog();
+	
+	public GUIContainer getContainer();
 
+	public void pack();
+
+	public int getSizeY();
+
+	public int getSizeX();
+
+	public void setDefaultButton(GUIButton btnAdd);
+	
 }

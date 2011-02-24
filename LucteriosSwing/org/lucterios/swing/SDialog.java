@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.utils;
+package org.lucterios.swing;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -28,17 +28,22 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.FormList;
+import org.lucterios.graphic.FrameControle;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.NotifyFrameObserver;
+import org.lucterios.gui.GUIContainer.ContainerType;
 
-public class Dialog extends JDialog implements IDialog {
+public class SDialog extends JDialog implements IDialog {
 
 	/**
 	 * 
@@ -46,10 +51,12 @@ public class Dialog extends JDialog implements IDialog {
 	private static final long serialVersionUID = 1L;
 
 	private NotifyFrameObserver mNotifyFrameClose = null;
+	private DialogVisitor mDialogVisitor=null;
+	private SContainer mContainer;	
 
 	public FrameControle mFrameControle;
 
-	public Dialog() {
+	public SDialog() {
 		super();
 		initial();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,17 +64,17 @@ public class Dialog extends JDialog implements IDialog {
 				(screen.height - getSize().height) / 2);
 	}
 
-	public Dialog(Dialog aDialog) {
+	public SDialog(SDialog aDialog) {
 		super(aDialog);
 		initial();
 	}
 
-	public Dialog(Form aForm) {
+	public SDialog(SForm aForm) {
 		super(aForm);
 		initial();
 	}
 
-	public Dialog(JFrame aFrame) {
+	public SDialog(JFrame aFrame) {
 		super(aFrame);
 		initial();
 	}
@@ -80,8 +87,15 @@ public class Dialog extends JDialog implements IDialog {
 				close();
 			}
 		});
+		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		getContentPane().add(mContainer);
 	}
 
+	private boolean isCreate=false; 
+	public void setDialogVisitor(DialogVisitor dialogVisitor){
+		mDialogVisitor=dialogVisitor;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -89,6 +103,10 @@ public class Dialog extends JDialog implements IDialog {
 	 */
 	public void setVisible(boolean aVisible) {
 		if (aVisible) {
+			if ((!isCreate) && (mDialogVisitor!=null)) {
+				mDialogVisitor.execute(this);
+				isCreate=true;
+			}
 			AbstractAction refresh_action = new AbstractAction() {
 				private static final long serialVersionUID = 1L;
 
@@ -166,4 +184,24 @@ public class Dialog extends JDialog implements IDialog {
 		setSize(size);
 	}
 
+	public GUIContainer getContainer(){
+		return mContainer;
+	}
+
+	public IDialog createDialog(){
+		return new SDialog(this);
+	}
+
+	public int getSizeX() {
+		return getSize().width;
+	}
+
+	public int getSizeY() {
+		return getSize().height;
+	}
+
+	public void setDefaultButton(GUIButton btn) {
+		if (btn instanceof JButton)
+			this.getRootPane().setDefaultButton((JButton)btn);
+	}
 }

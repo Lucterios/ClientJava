@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.SimpleParsing;
 
 public interface Action  {

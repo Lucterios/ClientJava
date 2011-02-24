@@ -1,4 +1,4 @@
-package org.lucterios.engine.utils;
+package org.lucterios.gui;
 
 import org.lucterios.utils.LucteriosException;
 

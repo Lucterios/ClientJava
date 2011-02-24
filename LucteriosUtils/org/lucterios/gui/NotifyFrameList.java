@@ -1,4 +1,4 @@
-package org.lucterios.engine.utils;
+package org.lucterios.gui;
 
 public interface NotifyFrameList {
 	public void selectFrame(IForm aFrame);

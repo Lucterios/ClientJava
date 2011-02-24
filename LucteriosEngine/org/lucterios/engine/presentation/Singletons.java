@@ -72,7 +72,7 @@ public class Singletons {
 		}
 		return new_action;
 	}
-
+	
 	static private ObserverFactory mFactory=null;
 
 	static public ObserverFactory Factory() {
@@ -82,19 +82,19 @@ public class Singletons {
 
 	static public LucteriosConfiguration Configuration = null;
 
-	static public void initalize() throws IOException {
-		Configuration = new LucteriosConfiguration();
+	static public void initalize(File storagePath) throws IOException {
+		Configuration = new LucteriosConfiguration(storagePath);
 		mFactory = new ObserverFactoryImpl();
-		File cache_dir=new File(TEMP_DIR);
+		File cache_dir=new File(storagePath,TEMP_DIR);
 		if (cache_dir.isDirectory())
 			Tools.deleteDir(cache_dir);
 		if (!cache_dir.isDirectory())
 			cache_dir.mkdir();
-		loadSetting();
+		loadSetting(storagePath);
 	}
 
-	static public void loadSetting() throws IOException {
-		LucteriosSettingFile=new IniFileManager(LUCTERIOS_CONFIG);
+	static public void loadSetting(File storagePath) throws IOException {
+		LucteriosSettingFile=new IniFileManager(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
 		mDesktop.initApplicationsSetting(LucteriosSettingFile);
 	}
 	

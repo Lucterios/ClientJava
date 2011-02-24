@@ -16,7 +16,7 @@ import javax.swing.table.TableModel;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.graphic.DesktopTools;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.StringDico;
 import org.lucterios.graphic.JAdvancePanel;
 import org.lucterios.graphic.Tools;
@@ -375,7 +375,7 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 
 	public void Setup() {
 		mExtAssociation = Singletons.LucteriosSettingFile
-				.getValuesSection(DesktopTools.ASSOCIATION_SECTION);
+				.getValuesSection(DesktopInterface.ASSOCIATION_SECTION);
 		refreshGrid();
 		javax.swing.JButton[] btns_1 = { btn_Mod, btn_Del, btn_Add };
 		Tools.calculBtnSize(btns_1);
@@ -383,10 +383,10 @@ public class AssociationPanel extends JAdvancePanel implements TableModel {
 
 	public void Save() throws IOException {
 		Singletons.LucteriosSettingFile
-				.clearSection(DesktopTools.ASSOCIATION_SECTION);
+				.clearSection(DesktopInterface.ASSOCIATION_SECTION);
 		for (int idx = 0; idx < getRowCount(); idx++) {
 			Singletons.LucteriosSettingFile.setValueSection(
-					DesktopTools.ASSOCIATION_SECTION, getKey(idx),
+					DesktopInterface.ASSOCIATION_SECTION, getKey(idx),
 					(String) getValueAt(idx, 1));
 		}
 		Singletons.LucteriosSettingFile.save();

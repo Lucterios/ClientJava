@@ -28,14 +28,14 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.client.utils.SwingImage;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.graphic.FrameControle;
+import org.lucterios.graphic.SwingImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.SimpleParsing;
 
 public class ActionLocal implements Action, ActionListener, javax.swing.Action {

@@ -406,13 +406,12 @@ public class ConfigurationPanel extends JAdvancePanel {
 
 	private void selectListener() {
 		javax.swing.ListSelectionModel rowSM = cmp_tbl.getSelectionModel();
-		rowSM
-				.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-					public void valueChanged(
-							javax.swing.event.ListSelectionEvent e) {
-						selectChange();
-					}
-				});
+		rowSM.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+			public void valueChanged(
+					javax.swing.event.ListSelectionEvent e) {
+				selectChange();
+			}
+		});
 	}
 
 	private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {

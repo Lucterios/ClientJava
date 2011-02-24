@@ -1,8 +1,8 @@
-package org.lucterios.engine.utils;
+package org.lucterios.gui;
 
-import org.lucterios.engine.utils.NotifyFrameChange;
-import org.lucterios.engine.utils.NotifyFrameList;
-import org.lucterios.engine.utils.NotifyFrameObserver;
+import org.lucterios.gui.NotifyFrameChange;
+import org.lucterios.gui.NotifyFrameList;
+import org.lucterios.gui.NotifyFrameObserver;
 
 public interface IForm {
 

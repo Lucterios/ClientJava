@@ -21,12 +21,12 @@
 package org.lucterios.client.application.observer;
 
 import org.lucterios.client.application.Menu;
-import org.lucterios.client.application.Menu.FrameControle;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
+import org.lucterios.graphic.FrameControle;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
 import org.lucterios.utils.LucteriosException;
 
 public class ObserverMenu extends ObserverAbstract {

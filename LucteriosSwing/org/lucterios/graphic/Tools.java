@@ -36,11 +36,12 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.KeyStroke;
 
 public class Tools {
 
-    static public void calculBtnSize(javax.swing.JButton[] btns)
+    static public void calculBtnSize(JButton[] btns)
     {
         int wbtn=0;
         int hbtn=0;

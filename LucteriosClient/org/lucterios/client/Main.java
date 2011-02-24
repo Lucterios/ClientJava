@@ -22,6 +22,7 @@ package org.lucterios.client;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import org.lucterios.client.application.ActionImpl;
@@ -38,7 +39,6 @@ import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.client.gui.ThemeMenu;
 import org.lucterios.client.transport.HttpTransportImpl;
-import org.lucterios.client.utils.SwingImage;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
@@ -47,6 +47,7 @@ import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.DesktopTools;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.SwingImage;
 import org.lucterios.graphic.WaitingWindow;
 
 class Main {
@@ -106,7 +107,7 @@ class Main {
 		Singletons.ActionClass = ActionImpl.class;
 		Singletons.HttpTransportClass=HttpTransportImpl.class;
 		Singletons.mDesktop = DesktopTools.instance();
-		Singletons.initalize();
+		Singletons.initalize(new File("."));
 		Singletons.AppTerminate = new RequirementProcesses();
 		ImageCache.ImageClass=SwingImage.class;
 	}

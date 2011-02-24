@@ -200,7 +200,7 @@ public class SetupDialog extends JDialog {
 		if (file_dlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
 				java.io.File file_exp = file_dlg.getSelectedFile();
-				LucteriosConfiguration conf_import = new LucteriosConfiguration();
+				LucteriosConfiguration conf_import = new LucteriosConfiguration(new File("."));
 				conf_import.read(file_exp);
 				for (int conf_idx = 0; conf_idx < conf_import.ServerCount(); conf_idx++)
 					mConf.AddServer(conf_import.GetServer(conf_idx));
@@ -229,7 +229,7 @@ public class SetupDialog extends JDialog {
 			mConf.write();
 			asso_pnl.Save();
 			dispose();
-			Singletons.loadSetting();
+			Singletons.loadSetting(mConf.getStoragePath());
 		} catch (java.io.IOException ioe) {
 			ExceptionDlg.throwException(ioe);
 		}

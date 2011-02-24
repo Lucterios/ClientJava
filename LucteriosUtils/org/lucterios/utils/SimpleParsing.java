@@ -131,7 +131,7 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
     	mFields.clear();
     	mAttrs.clear();
     	for(int idx=0;idx<aAttrs.getLength();idx++)
-    		mAttrs.put(aAttrs.getQName(idx),aAttrs.getValue(idx));
+    		mAttrs.put(aAttrs.getLocalName(idx)+aAttrs.getQName(idx),aAttrs.getValue(idx));
     }
     public void startElement (String namespaceURI,String simpleName,String qualifiedName,Attributes attrs) throws SAXException {
     	if (mCurrent==null)
@@ -141,7 +141,7 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
     		mCurrent.mFields.add(new_item);
     		mCurrent=new_item;
     	}
-    	mCurrent.fillElement(qualifiedName, attrs);
+    	mCurrent.fillElement(simpleName+qualifiedName, attrs);
     }
 
     public void endElement (String namespaceURI,String simpleName,String qualifiedName) throws SAXException {
@@ -329,12 +329,12 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 		String[] names=getTagNames();
 		int nb=0;
 		for(int idx=0;idx<names.length;idx++)
-			if (names[idx]==aName)
+			if (names[idx].equals(aName))
 				nb++;
 		SimpleParsing[] pars_ret=new SimpleParsing[nb];
 		int tag_idx=0;
 		for(int idx=0;idx<mFields.size();idx++)
-			if (((SimpleParsing)mFields.get(idx)).getTagName()==aName)
+			if (((SimpleParsing)mFields.get(idx)).getTagName().equals(aName))
 				pars_ret[tag_idx++]=(SimpleParsing)mFields.get(idx);
 		return pars_ret;
 	}

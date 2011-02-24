@@ -42,11 +42,11 @@ import org.lucterios.client.application.Button;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.Tools;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
 
 public class ObserverTemplate extends ObserverAbstract {
 	SimpleParsing data_elements = null;

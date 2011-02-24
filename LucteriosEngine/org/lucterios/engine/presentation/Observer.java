@@ -22,9 +22,9 @@ package org.lucterios.engine.presentation;
 
 import java.util.TreeMap;
 
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
-import org.lucterios.engine.utils.NotifyFrameObserver;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
+import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 

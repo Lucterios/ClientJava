@@ -35,14 +35,14 @@ import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 import org.lucterios.graphic.DesktopTools;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
 
 public class ObserverPrint extends ObserverAbstract {
 	public final static int PRINT_TYPE_FOP = 0;

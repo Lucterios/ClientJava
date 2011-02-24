@@ -20,11 +20,11 @@
 
 package org.lucterios.client.transport;
 
-import org.lucterios.client.utils.SwingImage;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.transport.ImageCache;
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.graphic.SwingImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.LucteriosException;
 
 import junit.framework.TestCase;

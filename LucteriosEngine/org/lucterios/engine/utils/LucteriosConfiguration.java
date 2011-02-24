@@ -21,12 +21,14 @@
 package org.lucterios.engine.utils;
 
 import java.util.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.lucterios.gui.GridInterface;
 import org.lucterios.utils.SimpleParsing;
 
-public class LucteriosConfiguration {
+public class LucteriosConfiguration implements GridInterface {
 	private static final long serialVersionUID = 1L;
 	public final static String CONF_FILE_NAME = "LucteriosClient.conf";
 	public final static int DEFAULT_PORT = 80;
@@ -34,8 +36,7 @@ public class LucteriosConfiguration {
 	public final static int MODE_NORMAL = 0;
 	public final static int MODE_SECURITY = 1;
 
-	public final static String[] MODE_TEXTS = new String[] { "Normal",
-			"Sécurisé" };
+	public final static String[] MODE_TEXTS = new String[] { "Normal", "Sécurisé" };
 
 	public class Server {
 		public Server(String aServerName, String aHostName, int aHostPort,
@@ -62,6 +63,7 @@ public class LucteriosConfiguration {
 	}
 
 	private ArrayList<Server> mServers;
+	private File mStoragePath;
 
 	public Server newServer(String aServerName, String aHostName,
 			int aHostPort, String aDirectory, int aConnectionMode) {
@@ -69,10 +71,14 @@ public class LucteriosConfiguration {
 				aConnectionMode);
 	}
 
-	public LucteriosConfiguration() throws IOException {
+	public LucteriosConfiguration(File storagePath) throws IOException {
+		mStoragePath=storagePath;
 		mServers = new ArrayList<Server>();
-		if (new java.io.File(CONF_FILE_NAME).exists())
-			read();
+		if (!new java.io.File(storagePath,CONF_FILE_NAME).exists()) {
+			AddServer("Demo sd-libre.fr","demo.sd-libre.fr",443,"/",MODE_SECURITY);
+			write();
+		}
+		read();
 	}
 
 	public LucteriosConfiguration(LucteriosConfiguration configuration) {
@@ -81,12 +87,17 @@ public class LucteriosConfiguration {
 		TitreDefault = configuration.TitreDefault;
 		ProxyAdress = configuration.ProxyAdress;
 		ProxyPort = configuration.ProxyPort;
+		mStoragePath=configuration.getStoragePath();
 	}
 
 	public String TitreDefault = "Lucterios";
 	public String ProxyAdress = "";
 	public int ProxyPort = 0;
 
+	public File	getStoragePath(){
+		return mStoragePath;
+	}
+	
 	public int ServerCount() {
 		return mServers.size();
 	}
@@ -115,7 +126,7 @@ public class LucteriosConfiguration {
 	}
 
 	public void read() throws IOException {
-		read(new java.io.File(CONF_FILE_NAME));
+		read(new java.io.File(mStoragePath,CONF_FILE_NAME));
 	}
 
 	public void read(java.io.File aConFile) throws IOException {
@@ -161,7 +172,7 @@ public class LucteriosConfiguration {
 	}
 
 	public void write() throws java.io.IOException {
-		FileWriter file_conf = new FileWriter(CONF_FILE_NAME);
+		FileWriter file_conf = new FileWriter(new File(mStoragePath,CONF_FILE_NAME));
 		file_conf.write("<?xml version='1.0' encoding='ISO-8859-1'?>");
 		file_conf.write("<CONFIG>\n");
 		file_conf.write("\t<TITLE>" + TitreDefault + "</TITLE>\n");

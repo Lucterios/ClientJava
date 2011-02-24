@@ -33,13 +33,13 @@ import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.engine.utils.AbstractImage;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
 
 public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	static public WindowGenerator mWindowGenerator = null;
@@ -257,7 +257,6 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 				new_frame = null;
 				break;
 			default:
-				// TODO: Implement 'default' statement
 				break;
 			}
 		}

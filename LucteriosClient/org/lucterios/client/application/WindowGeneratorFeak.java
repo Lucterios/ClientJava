@@ -20,10 +20,10 @@
 
 package org.lucterios.client.application;
 
-import org.lucterios.client.utils.Dialog;
-import org.lucterios.client.utils.Form;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
+import org.lucterios.swing.SDialog;
+import org.lucterios.swing.SForm;
 
 public class WindowGeneratorFeak implements WindowGenerator {
 	public WindowGeneratorFeak() {
@@ -31,15 +31,15 @@ public class WindowGeneratorFeak implements WindowGenerator {
 	}
 
 	public IForm newFrame(String aActionId) {
-		return new Form(aActionId);
+		return new SForm(aActionId);
 	}
 
 	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
 		IDialog new_dialog;
 		if (aOwnerDialog != null)
-			new_dialog = new Dialog((Dialog) aOwnerDialog);
+			new_dialog = new SDialog((SDialog) aOwnerDialog);
 		else
-			new_dialog = new Dialog((Form) aOwnerFrame);
+			new_dialog = new SDialog((SForm) aOwnerFrame);
 		return new_dialog;
 	}
 

@@ -25,8 +25,8 @@ import org.lucterios.client.application.Connection;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.engine.utils.IDialog;
-import org.lucterios.engine.utils.IForm;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 

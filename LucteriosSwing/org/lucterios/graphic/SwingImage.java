@@ -1,15 +1,17 @@
-package org.lucterios.client.utils;
+package org.lucterios.graphic;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.lucterios.engine.utils.AbstractImage;
+import org.lucterios.gui.AbstractImage;
 
 public class SwingImage extends AbstractImage {
 
@@ -19,6 +21,16 @@ public class SwingImage extends AbstractImage {
 	
 	public SwingImage(ImageIcon iconImage) {
 		mObject=iconImage;
+	}	
+
+	public SwingImage(Icon iconImage) {
+		 if( iconImage instanceof ImageIcon ) 
+			 mObject=iconImage;
+		 else {
+	       BufferedImage image = new BufferedImage( iconImage.getIconWidth() , iconImage.getIconHeight() , BufferedImage.TYPE_INT_RGB );
+	       iconImage.paintIcon(null, image.getGraphics() , 0 , 0 );
+	       mObject=new ImageIcon(image);
+		}
 	}	
 	
 	public SwingImage(AbstractImage image) {
@@ -64,6 +76,12 @@ public class SwingImage extends AbstractImage {
 			mObject=new ImageIcon();
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean load(URL url) {
+		mObject=new ImageIcon(url);
+		return true;
 	}
 
 }

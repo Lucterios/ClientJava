@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.utils;
+package org.lucterios.swing;
 
 import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
@@ -26,15 +26,18 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import org.lucterios.client.application.Menu.FrameControle;
-import org.lucterios.engine.utils.IForm;
-import org.lucterios.engine.utils.NotifyFrameChange;
-import org.lucterios.engine.utils.NotifyFrameList;
-import org.lucterios.engine.utils.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.FrameControle;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.IDialog;
+import org.lucterios.gui.IForm;
+import org.lucterios.gui.NotifyFrameChange;
+import org.lucterios.gui.NotifyFrameList;
+import org.lucterios.gui.NotifyFrameObserver;
+import org.lucterios.gui.GUIContainer.ContainerType;
 
-public class Form extends JFrame implements IForm {
+public class SForm extends JFrame implements IForm {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +47,9 @@ public class Form extends JFrame implements IForm {
 
 	public FrameControle mFrameControle;
 
-	public Form(String aFrameID) {
+	private SContainer mContainer=new SContainer(ContainerType.CT_NORMAL);
+	
+	public SForm(String aFrameID) {
 		super();
 		setName(aFrameID);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -202,4 +207,12 @@ public class Form extends JFrame implements IForm {
 		toFront();
 	}
 
+	public GUIContainer getContainer(){
+		return mContainer;
+	}
+	
+	public IDialog createDialog(){
+		return new SDialog(this);
+	}
+	
 }
