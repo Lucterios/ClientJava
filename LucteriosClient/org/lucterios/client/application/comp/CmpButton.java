@@ -23,6 +23,8 @@ package org.lucterios.client.application.comp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import org.lucterios.client.application.Button;
 import org.lucterios.engine.presentation.Observer.MapContext;
@@ -35,6 +37,10 @@ public class CmpButton extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JPanel pnl_Btn;
 	private Button actbtn;
+	private String m_clickName="";
+	private String m_clickValue="";
+	private boolean m_isMini=false;
+	private boolean m_hasBeenClicked=false;
 
 	public CmpButton() {
 		super();
@@ -42,6 +48,9 @@ public class CmpButton extends CmpAbstractEvent {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
+		if (m_hasBeenClicked && (m_clickName.length()>0)) {
+			tree_map.put(m_clickName, m_clickValue);
+		}
 		return tree_map;
 	}
 
@@ -62,6 +71,9 @@ public class CmpButton extends CmpAbstractEvent {
 
 	protected void refreshComponent() throws LucteriosException {
 		super.refreshComponent();
+		m_clickName = getXmlItem().getAttribut("clickname", "");
+		m_clickValue = getXmlItem().getAttribut("clickvalue", "");
+		m_isMini = (getXmlItem().getAttributInt("isMini", 0)==1);
 		GridBagConstraints gdbConstr_btn;
 		actbtn = null;
 		pnl_Btn.removeAll();
@@ -76,7 +88,12 @@ public class CmpButton extends CmpAbstractEvent {
 			gdbConstr_btn.weightx = 0.0;
 			gdbConstr_btn.weighty = 0.0;
 			gdbConstr_btn.insets = new Insets(1, 0, 1, 0);
-			actbtn = new Button(mEventAction);
+			actbtn = new Button(mEventAction, m_isMini);
+			actbtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					m_hasBeenClicked=true;
+				}
+			});
 			pnl_Btn.add(actbtn, gdbConstr_btn);
 			pnl_Btn.setFocusable(false);
 		}

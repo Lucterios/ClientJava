@@ -40,6 +40,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu;
+import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.graphic.JAdvancePanel;
 
@@ -65,7 +66,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	private double mDividerLocation = -1;
 
-	public MainPanel(RefreshButtonPanel refreshButtonPanel) {
+	public MainPanel(RefreshButtonPanel refreshButtonPanel,Observer aParent) {
 		super();
 		Toolkit tkt = Toolkit.getDefaultToolkit();
 		setFontImage(tkt.getImage(Resources.class.getResource("MainFont.jpg")),
@@ -74,7 +75,7 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createLineBorder(FORE_GROUND));
 		setBackground(BACK_GROUND);
-		mToogleManager = new ToogleManager(getFontImage());
+		mToogleManager = new ToogleManager(getFontImage(),aParent);
 		split = new JSplitPane();
 		split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		split.setLeftComponent(mToogleManager);

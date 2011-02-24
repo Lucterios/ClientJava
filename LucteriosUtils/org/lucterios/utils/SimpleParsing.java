@@ -92,7 +92,7 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 
 	private boolean isAttributesEquals(StringDico firstAttributes,StringDico secondaryAttributes) {
 		boolean result=true;
-		for (Iterator<Map.Entry<String,String>> iterator = firstAttributes.entrySet().iterator(); iterator.hasNext();){
+		for (Iterator<Map.Entry<String,String>> iterator = firstAttributes.entrySet().iterator();result && iterator.hasNext();){
 			Map.Entry<String,String> entry = iterator.next();
 			String key = (String) entry.getKey();
 			result=result && secondaryAttributes.containsKey(key);
@@ -256,9 +256,8 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	public String getText(int index)
 	{
 		String val="";
-		for(int idx=0;idx<mTexts.size();idx++)
-			if (idx==index)
-				val+=(String)mTexts.get(idx);
+		if ((index>=0) && (mTexts.size()>index))
+			val=mTexts.get(index);
 		return val;
 	}
 	
@@ -341,11 +340,12 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	
 	public SimpleParsing getFirstSubTag(String aName)
 	{
-		SimpleParsing[] pars_ret=getSubTag(aName);
-		if (pars_ret.length>0)
-			return pars_ret[0];
-		else
-			return null;
+		SimpleParsing result=null;
+		for(int idx=0;(result==null) && (idx<mFields.size());idx++) {
+			if (((SimpleParsing)mFields.get(idx)).getTagName().equals(aName))
+				result=(SimpleParsing)mFields.get(idx);
+		}
+		return result;
 	}
 	
 	public String toString()

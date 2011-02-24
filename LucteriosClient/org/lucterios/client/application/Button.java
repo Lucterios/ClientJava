@@ -44,15 +44,22 @@ public class Button extends JButton {
 	public Action mAction;
 
 	public Button(Action aAction) {
+		this(aAction,false);
+	}
+	
+	public Button(Action aAction,boolean isMini) {
 		super();
 		mAction = aAction;
 		this.setText(mAction.getTitle());
 		if (mAction.getMnemonic() != 0)
 			this.setMnemonic(mAction.getMnemonic());
 		if (mAction.getIcon() != null)
-			this.setIcon(Tools.resizeIcon((ImageIcon)mAction.getIcon().getData(), 24, true));
+			this.setIcon(Tools.resizeIcon((ImageIcon)mAction.getIcon().getData(),isMini?16:24, true));
 		else
 			this.setIcon(null);
+		if (isMini && (this.getText().length()==0)){
+			this.setPreferredSize(new Dimension(26,22));
+		}
 		this.addActionListener((ActionListener) mAction);
 	}
 

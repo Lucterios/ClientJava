@@ -141,8 +141,8 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		HtmlLabel.changeFontSize(0.9f);
 
 		setVisible(false);
-		initialize();
 		initAction();
+		initialize();
 		initMenu();
 		ActionLocal.mFrameControle = this;
 		Menu.mToolBar = this;
@@ -168,7 +168,11 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		mExitAction = new ActionImpl();
 		mExitAction.initialize(null, fact, "Exit", "CORE", "exitConnection");
 
-		mConnectionInfoOwnerObserber = new ObserverAcknowledge();
+		mConnectionInfoOwnerObserber = new ObserverAcknowledge(){
+			public void setActive(boolean aIsActive) {
+				ApplicationMain.this.setActive(aIsActive);
+			}			
+		};
 		mConnectionInfoAction = new ActionImpl();
 		mConnectionInfoAction.initialize(mConnectionInfoOwnerObserber, fact,
 				"CnxInfo", "common", "authentification");
@@ -318,7 +322,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		cnt.fill = GridBagConstraints.BOTH;
 		getContentPane().add(mProgressPanelTop, cnt);
 
-		mToolNavigator = new MainPanel(this);
+		mToolNavigator = new MainPanel(this,mConnectionInfoOwnerObserber);
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 2;

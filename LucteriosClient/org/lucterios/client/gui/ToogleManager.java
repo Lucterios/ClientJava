@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.MenuItem;
+import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
 import org.lucterios.engine.resources.Resources;
@@ -86,9 +87,12 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 
 	private JPanel mainToogle;
 
-	public ToogleManager(Image fontImage) {
+	private Observer mParent;
+
+	public ToogleManager(Image fontImage, Observer aParent) {
 		setFontImage(fontImage, TEXTURE);
 		setLayout(new GridBagLayout());
+		mParent=aParent;
 	}
 
 	public void addMenu(Menu aMenu) {
@@ -103,7 +107,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 				mToggles.add(new TogglePanel(current_menu.getText(), Tools
 						.resizeIcon((ImageIcon)current_menu.mAction.getIcon().getData(), 32, false),
 						current_menu.mAction.getExtension(),
-						current_menu.mAction.getAction()));
+						current_menu.mAction.getAction(),mParent));
 			}
 		}
 	}
