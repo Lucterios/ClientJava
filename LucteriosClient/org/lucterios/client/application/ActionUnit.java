@@ -76,8 +76,7 @@ public class ActionUnit extends TestCase {
 
 	public void testAction() {
 		SimpleParsing action = new SimpleParsing();
-		action
-				.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
+		action.parse("<ACTION icon='images/edit.png' extension='CORE' action='extension_params_APAS_modifier' close='0' modal='1' unique='1'><![CDATA[_Modifier]]></ACTION>");
 		mAction.initialize(null, null, action);
 
 		assertEquals("Titre", "Modifier", mAction.getTitle());
