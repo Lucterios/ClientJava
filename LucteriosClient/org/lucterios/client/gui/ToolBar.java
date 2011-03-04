@@ -83,7 +83,10 @@ public class ToolBar extends JToolBar {
 		key_string += Tools.getKeyString(aKey);
 		button.setToolTipText(key_string);
 		button.addActionListener((ActionListener) aAction);
-		button.setIcon(Tools.resizeIcon((ImageIcon)aAction.getIcon().getData(), ICON_SIZE, true));
+		ImageIcon icon=null;
+		if (aAction.getIcon()!=null)
+			icon=(ImageIcon)aAction.getIcon().getData();
+		button.setIcon(Tools.resizeIcon(icon, ICON_SIZE, true));
 		add(button);
 		mAdded = true;
 	}

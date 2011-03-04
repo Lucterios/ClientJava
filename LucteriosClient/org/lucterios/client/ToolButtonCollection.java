@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
@@ -77,11 +78,11 @@ public class ToolButtonCollection extends ToolButton implements Runnable {
 					String key_string = current_menu.mAction.getTitle();
 					key_string += Tools.getKeyString(current_menu
 							.getAccelerator());
-					mSubActions.add(new ToolButton(
-							(ActionListener) current_menu.mAction,
-							current_menu.mAction.getTitle(),
-							current_menu.mDescription, key_string,
-							(javax.swing.ImageIcon)current_menu.mAction.getIcon().getData()));
+					ImageIcon icon=null;
+					if (current_menu.mAction.getIcon()!=null)
+						icon=(ImageIcon)current_menu.mAction.getIcon().getData();			
+					mSubActions.add(new ToolButton((ActionListener) current_menu.mAction,
+							current_menu.mAction.getTitle(),current_menu.mDescription, key_string,icon));
 				}
 			}
 		}

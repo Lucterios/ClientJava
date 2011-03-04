@@ -165,13 +165,14 @@ public class CategoryPanel extends JAdvancePanel {
 							.getAccelerator());
 					if (num == 0)
 						addSeparator(pos_x, pos_y);
+					ImageIcon icon=null;
+					if (current_menu.mAction.getIcon()!=null)
+						icon=(ImageIcon)current_menu.mAction.getIcon().getData();
 					addActivator(pos_x + num * (max_width - pos_x) / nb_col,
 							pos_y, (max_width - pos_x) / nb_col,
-							new ActionActivator(
-									(javax.swing.Action) current_menu.mAction,
-									current_menu.mAction.getTitle(),
-									current_menu.mDescription, key_string,
-									(ImageIcon)current_menu.mAction.getIcon().getData()));
+							new ActionActivator((javax.swing.Action) current_menu.mAction,
+									current_menu.mAction.getTitle(),current_menu.mDescription, 
+									key_string,icon));
 					num++;
 					if (num >= nb_col) {
 						num = 0;

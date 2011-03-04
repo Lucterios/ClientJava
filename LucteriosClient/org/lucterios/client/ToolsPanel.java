@@ -235,8 +235,10 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	ToolButton[] mCoinActions = new ToolButton[4];
 
 	public void setCoinAction(Action aAction, int aPosition) {
-		ToolButton btn = new ToolButton((ActionListener) aAction, aAction
-				.getTitle(), (javax.swing.ImageIcon)aAction.getIcon().getData());
+		ImageIcon icon=null;
+		if (aAction.getIcon()!=null)
+			icon=(ImageIcon)aAction.getIcon().getData();
+		ToolButton btn = new ToolButton((ActionListener) aAction, aAction.getTitle(), icon);
 		setCoinAction(btn, aPosition);
 		btn.setVisible(mNavigatorBar.getComponentCount() > 0);
 		mCoinActions[aPosition] = btn;

@@ -102,12 +102,12 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 				addMenu(current_menu);
 			}
 			if (MenuItem.class.isInstance(aMenu.getMenuComponent(index))) {
-				MenuItem current_menu = (MenuItem) aMenu
-						.getMenuComponent(index);
-				mToggles.add(new TogglePanel(current_menu.getText(), Tools
-						.resizeIcon((ImageIcon)current_menu.mAction.getIcon().getData(), 32, false),
-						current_menu.mAction.getExtension(),
-						current_menu.mAction.getAction(),mParent));
+				MenuItem current_menu = (MenuItem)aMenu.getMenuComponent(index);
+				ImageIcon icon=null;
+				if (current_menu.mAction.getIcon()!=null)
+					icon=(ImageIcon)current_menu.mAction.getIcon().getData();
+				mToggles.add(new TogglePanel(current_menu.getText(), Tools.resizeIcon(icon, 32, false),
+					current_menu.mAction.getExtension(),current_menu.mAction.getAction(),mParent));
 			}
 		}
 	}
