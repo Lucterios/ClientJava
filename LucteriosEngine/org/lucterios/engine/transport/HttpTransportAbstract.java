@@ -143,7 +143,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 				return imageCache.getImage(aIconName);
 			}
 			else {
-				AbstractImage icon_result = null;
+				AbstractImage icon_result = AbstractImage.Null;
 				try {
 					try {
 						Logging.getInstance().writeLog("### TELECHARGEMENT ###",aIconName,2);
@@ -159,7 +159,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 				return icon_result;
 			}
 		} else {
-			return null;
+			return AbstractImage.Null;
 		}
 	}
 

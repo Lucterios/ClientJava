@@ -91,15 +91,15 @@ public class ImageCache {
 					return icon;
 				}
 				else
-					return null;
+					return AbstractImage.Null;
 			} catch (InstantiationException e) {
-				return null;
+				return AbstractImage.Null;
 			} catch (IllegalAccessException e) {
-				return null;
+				return AbstractImage.Null;
 			}
 		}
 		else
-			return null;
+			return AbstractImage.Null;
 	}
 	
 	public AbstractImage addImage(String aIconName,InputStream aImageStream) {

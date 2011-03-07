@@ -82,7 +82,7 @@ public class HttpTransportStub implements HttpTransport {
 		return mServerHost;
 	}
 
-	public AbstractImage IconName = null;
+	public AbstractImage IconName = AbstractImage.Null;
 
 	public AbstractImage getIcon(String aIconName,int aSize) {
 		return IconName;
