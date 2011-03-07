@@ -5,6 +5,32 @@ import java.net.URL;
 
 public abstract class AbstractImage {
 	
+	public final static AbstractImage Null=new AbstractImage(){
+		@Override
+		public int getHeight() {
+			return 0;
+		}
+
+		@Override
+		public int getWidth() {
+			return 0;
+		}
+
+		@Override
+		public void initialize(byte[] imageData) {}
+
+		@Override
+		public boolean load(File file) {
+			return false;
+		}
+
+		@Override
+		public boolean load(URL url) {
+			return false;
+		}
+		
+	};
+	
 	protected Object mObject; 
 	
 	public AbstractImage(){
