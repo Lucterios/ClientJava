@@ -22,15 +22,15 @@ package org.lucterios.client.setting;
 
 import java.io.InputStream;
 
-import org.lucterios.client.resources.Resources;
 import org.lucterios.utils.Tools;
 
 public class Constants {
 	public static final String Version() {
-		InputStream is = Resources.class.getResourceAsStream("version.txt");
+		InputStream is = org.lucterios.client.resources.Resources.class.getResourceAsStream("version.txt");
 		try {
 			return Tools.parseISToString(is).replace(' ', '.');
 		} catch (Throwable e) {
+			e.printStackTrace();
 			return "";
 		}
 	}
