@@ -27,6 +27,7 @@ import org.lucterios.engine.presentation.ObserverFactoryMock;
 import org.lucterios.engine.presentation.ObserverStub;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransportStub;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.utils.SimpleParsing;
 
 import junit.framework.TestCase;
@@ -66,7 +67,7 @@ public class ActionUnit extends TestCase {
 		assertEquals("Mnemonic", 0, mAction.getMnemonic());
 		assertEquals("Extension", "", mAction.getExtension());
 		assertEquals("Action", "", mAction.getAction());
-		assertEquals("Icon", null, mAction.getIcon());
+		assertEquals("Icon", AbstractImage.Null, mAction.getIcon());
 		assertEquals("Modal", ActionConstantes.FORM_NOMODAL, mAction
 				.getFormType());
 		assertEquals("Close", true, mAction.getClose());
@@ -84,7 +85,7 @@ public class ActionUnit extends TestCase {
 		assertEquals("Extension", "CORE", mAction.getExtension());
 		assertEquals("Action", "extension_params_APAS_modifier", mAction
 				.getAction());
-		assertEquals("Icon", null, mAction.getIcon());
+		assertEquals("Icon", AbstractImage.Null, mAction.getIcon());
 		assertEquals("Modal", ActionConstantes.FORM_MODAL, mAction
 				.getFormType());
 		assertEquals("Close", false, mAction.getClose());
@@ -103,7 +104,7 @@ public class ActionUnit extends TestCase {
 		assertEquals("Mnemonic", 'p', mAction.getMnemonic());
 		assertEquals("Extension", "CORE", mAction.getExtension());
 		assertEquals("Action", "finalreport_APAS_list", mAction.getAction());
-		assertEquals("Icon", null, mAction.getIcon());
+		assertEquals("Icon", AbstractImage.Null, mAction.getIcon());
 		assertEquals("Modal", ActionConstantes.FORM_NOMODAL, mAction
 				.getFormType());
 		assertEquals("Close", true, mAction.getClose());
