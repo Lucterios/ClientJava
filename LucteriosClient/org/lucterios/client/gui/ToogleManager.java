@@ -106,6 +106,8 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 				ImageIcon icon=null;
 				if (current_menu.mAction.getIcon()!=null)
 					icon=(ImageIcon)current_menu.mAction.getIcon().getData();
+				else
+					icon=null;
 				mToggles.add(new TogglePanel(current_menu.getText(), Tools.resizeIcon(icon, 32, false),
 					current_menu.mAction.getExtension(),current_menu.mAction.getAction(),mParent));
 			}

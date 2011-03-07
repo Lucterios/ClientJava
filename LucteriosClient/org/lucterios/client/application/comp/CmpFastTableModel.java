@@ -99,7 +99,7 @@ public class CmpFastTableModel extends AbstractTableModel {
 						new_icon = (Icon) mIconCache.get(valuetxt);
 					else {
 						new_icon = (Icon) Singletons.Transport().getIcon(
-								valuetxt, 0);
+								valuetxt, 0).getData();
 						if (new_icon == null)
 							new_icon = NullImage;
 						mIconCache.put(valuetxt, new_icon);
