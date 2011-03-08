@@ -80,6 +80,7 @@ class Main {
 		
 	public static void mainClient(String debugArgs) {		
 		try {
+			System.out.println("Lucterios Client Java - Version:"+Constants.Version());
 			initializeSingleton();
 			ThemeMenu.initializedTheme();
 			ApplicationMain main;
