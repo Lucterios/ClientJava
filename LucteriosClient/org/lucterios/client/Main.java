@@ -38,6 +38,7 @@ import org.lucterios.client.application.observer.ObserverPrint;
 import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.client.gui.ThemeMenu;
+import org.lucterios.client.setting.Constants;
 import org.lucterios.client.transport.HttpTransportImpl;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
@@ -65,6 +66,19 @@ class Main {
 	}
 
 	public static void main(String args[]) {
+		if ((args.length>0) && "-version".equals(args[0])){
+			System.out.println("Lucterios Client Java");
+			System.out.println(" Version:"+Constants.Version());
+		}
+		else {
+			String debugArgs="";
+			if (args.length>0)
+				debugArgs=args[0];
+			mainClient(debugArgs);
+		}
+	}
+		
+	public static void mainClient(String debugArgs) {		
 		try {
 			initializeSingleton();
 			ThemeMenu.initializedTheme();
@@ -77,8 +91,8 @@ class Main {
 			try {
 				initalizeObserver();
 				CustomManager.initalize();
-				if (args.length == 1)
-					Logging.getInstance().setDebugLevel(args[0]);
+				if (debugArgs.length()>0)
+					Logging.getInstance().setDebugLevel(debugArgs);
 				main = new ApplicationMain();
 				main.setIconImage(Toolkit.getDefaultToolkit().getImage(
 						Resources.class.getResource("connect.png")));
