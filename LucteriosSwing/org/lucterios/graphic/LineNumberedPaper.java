@@ -143,16 +143,20 @@ public class LineNumberedPaper extends JTextPane implements KeyListener
 	public void paintComponent(Graphics g) 
 	{
 		if (mFirstLine>0) {
-	      int h=getFontMetrics(getFont()).getHeight();
+		  FontMetrics metric=getFontMetrics(getFont());
+	      int h=metric.getHeight();
 	      Rectangle clip = g.getClipBounds();
 	      Color old_color=g.getColor();
 	 
 	      g.setColor(BAR_COLOR);     
 	      g.fillRect(0,0,lineNumberWidth(),clip.y+clip.height);
 	      g.setColor(NUM_COLOR);
-	      for(int num=0;num<=(1+(clip.y+clip.height)/h);num++)
-	    	  g.drawString(Integer.toString(num + mFirstLine),0, (num+1)*h);
-	      
+	      g.setFont(getFont());
+	      for(int num=0;num<=(1+(clip.y+clip.height)/h);num++) {
+	    	  String text=Integer.toString(num + mFirstLine);
+	    	  int sub_h=(int)(h/HtmlLabel.Scale);
+	    	  g.drawString(text,0, (num+1)*sub_h-2);
+	      }	      
 	      g.setColor(old_color);
 		}
 		super.paintComponent(g);

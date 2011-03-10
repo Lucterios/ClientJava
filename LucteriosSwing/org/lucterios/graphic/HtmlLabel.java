@@ -19,6 +19,7 @@ public class HtmlLabel extends JEditorPane {
 	private static final long serialVersionUID = 1L;
 
 	public static String StyleText;
+	public static float Scale=1;
 	
 	public HtmlLabel(){
 		super(new HTMLEditorKit().getContentType(),"");
@@ -27,6 +28,7 @@ public class HtmlLabel extends JEditorPane {
 	}
 
 	public static void changeFontSize(float scale) {
+		Scale=scale;
 		UIDefaults defaults = UIManager.getDefaults();
 		Enumeration<?> keys = defaults.keys();
 		while(keys.hasMoreElements()) {

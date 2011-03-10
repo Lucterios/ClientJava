@@ -427,6 +427,7 @@ public class ConfigurationPanel extends JAdvancePanel {
 		cmp_tbl.setModel(new javax.swing.table.DefaultTableModel());
 		cmp_tbl.setModel(mConf);
 		selectListener();
+		aRow=Math.max(0,Math.min(aRow,mConf.getRowCount()-1));
 		cmp_tbl.setRowSelectionInterval(aRow, aRow);
 	}
 

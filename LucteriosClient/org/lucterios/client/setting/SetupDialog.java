@@ -230,6 +230,7 @@ public class SetupDialog extends JDialog {
 			asso_pnl.Save();
 			dispose();
 			Singletons.loadSetting(mConf.getStoragePath());
+			Singletons.Configuration.read();
 		} catch (java.io.IOException ioe) {
 			ExceptionDlg.throwException(ioe);
 		}

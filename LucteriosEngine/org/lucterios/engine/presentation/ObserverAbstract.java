@@ -196,6 +196,7 @@ public abstract class ObserverAbstract implements Observer {
 					parent.refresh();
 				parent=null;
 			} catch (LucteriosException e) {
+				e.printStackTrace();
 				//ExceptionDlg.throwException(e);
 			}
 		}

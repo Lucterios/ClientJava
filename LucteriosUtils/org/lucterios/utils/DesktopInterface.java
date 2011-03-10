@@ -12,6 +12,10 @@ public interface DesktopInterface {
 			IniFileManager aApplicationsSettingFile);
 
 	public abstract void launch(String aUrl) throws LucteriosException;
+	
+	public abstract void openFile(String aUrl) throws LucteriosException;
+	
+	public abstract void printFilePDF(String aUrl) throws LucteriosException;
 
 	public abstract int[] getCoord();
 	

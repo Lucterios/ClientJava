@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -28,6 +27,7 @@ public class DesktopTools implements DesktopInterface {
 	class ProcessExitDetector extends Thread {
 
 		private Process process;
+		private PrintStream outStream;
 
 	    private boolean isExited() {
 	        try {
@@ -39,6 +39,7 @@ public class DesktopTools implements DesktopInterface {
 	    }
 		
 	    public ProcessExitDetector(String[] aArgs) throws LucteriosException {
+	    	outStream=System.out;
     		String cmd="";
 	    	try{
 	    		for(String arg:aArgs)
@@ -56,7 +57,7 @@ public class DesktopTools implements DesktopInterface {
 				BufferedReader in = new BufferedReader(new InputStreamReader(aStream));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null) 
-					System.out.println(inputLine);
+					outStream.println(inputLine);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		    	
@@ -112,7 +113,7 @@ public class DesktopTools implements DesktopInterface {
 		else if (aUrl.startsWith("http://") || aUrl.startsWith("https://"))
 			openInWeb(aUrl);
 		else
-			openInFile(aUrl);
+			openFile(aUrl);
 	}
 
 	/* (non-Javadoc)
@@ -142,7 +143,21 @@ public class DesktopTools implements DesktopInterface {
 		return result;
 	}
 
-	private void openInFile(String aUrl) throws LucteriosException {
+	public void printFilePDF(String aUrl) throws LucteriosException {
+		String[] args;
+        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
+		if (OS_NAME.toLowerCase().startsWith("windows")) {
+			String file_path = convertWinFilePath(aUrl);
+			args = new String[]{"rundll32","url.dll","FileProtocolHandler",file_path};
+		}
+		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
+			args = new String[] {"print",aUrl};
+		else
+			args=new String[] {"lpr", aUrl};				
+		new ProcessExitDetector(args);			
+	}
+	
+	public void openFile(String aUrl) throws LucteriosException {
 		int dot_pos=aUrl.lastIndexOf('.');
 		String ext=aUrl.substring(dot_pos+1);
 		String applic="";
@@ -153,55 +168,51 @@ public class DesktopTools implements DesktopInterface {
 			String[] args=new String[] {applic, aUrl};				
 			new ProcessExitDetector(args);			
 		} 
-		else if (OS_NAME.toLowerCase().startsWith("windows")) {
-				try {
-					URL url = new URL(aUrl);
-					File current_file=new File(url.toURI());
-					String[] args = new String[]{"rundll32","url.dll","FileProtocolHandler",'"'+current_file.getAbsolutePath()+'"'};
-					new ProcessExitDetector(args);							
-				} catch (MalformedURLException e) {
-					throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
-				} catch (URISyntaxException e) {
-					throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
-				}
+		else {
+			String file_path = convertWinFilePath(aUrl);
+			openInWeb(file_path);
 		}
-		else
-			openInWeb(aUrl);
+	}
+
+	private String convertWinFilePath(String aUrl) throws LucteriosException {
+		String file_path=aUrl;
+		if (OS_NAME.toLowerCase().startsWith("windows")) {
+			try {
+				URL url = new URL(aUrl);
+				File current_file=new File(url.toURI());
+				file_path='"'+current_file.getAbsolutePath()+'"';
+			} catch (Exception e) {
+				throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
+			}
+		}
+		return file_path;
 	}
 	
 	private void openInWeb(String aUrl) throws LucteriosException {
-		try {
-			String[] args;
-	        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
-			if (OS_NAME.toLowerCase().startsWith("windows"))
-				args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
-			else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
-				args = new String[] {"open",aUrl};
-			else
-				args=new String[] {searchBrowserFromUnix(), aUrl};				
-			new ProcessExitDetector(args);			
-		} catch (InterruptedException e) {
-			throw new LucteriosException("Page non trouvée!",e);
-		} 
+		String[] args;
+        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
+		if (OS_NAME.toLowerCase().startsWith("windows"))
+			args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
+		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
+			args = new String[] {"open",aUrl};
+		else
+			args=new String[] {searchBrowserFromUnix(), aUrl};				
+		new ProcessExitDetector(args);			
 	}
 	
 	private void openInMail(String aUrl) throws LucteriosException {
-		try {
-			String[] args;
-	        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
-	        if (OS_NAME.toLowerCase().startsWith("windows"))
-				args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
-			else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
-				args = new String[] {"open",aUrl};
-			else
-				args = new String[] {searchMailerFromUnix(),aUrl};				
-			new ProcessExitDetector(args);			
-		} catch (InterruptedException e) {
-			throw new LucteriosException("Courriel non trouvée!",e);
-		} 
+		String[] args;
+        Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
+        if (OS_NAME.toLowerCase().startsWith("windows"))
+			args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
+		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
+			args = new String[] {"open",aUrl};
+		else
+			args = new String[] {searchMailerFromUnix(),aUrl};				
+		new ProcessExitDetector(args);			
 	}
 
-	private String searchBrowserFromUnix() throws InterruptedException, LucteriosException 
+	private String searchBrowserFromUnix() throws LucteriosException 
 	{
 		String[] browsers = {"xdg-open","firefox", "mozilla", "konqueror", "opera", "epiphany", "netscape" }; 
 		String browser = null; 
@@ -212,13 +223,14 @@ public class DesktopTools implements DesktopInterface {
 			if (browser == null) 
 				throw new LucteriosException("Impossible de trouver un navigateur Web."); 
 			return browser;
+		} catch (InterruptedException e) {
+			throw new LucteriosException("Navigateur web non trouvé",e);
 		} catch (IOException e) {
 			throw new LucteriosException("Navigateur web non trouvé",e);
 		} 
 	}
 
-	private String searchMailerFromUnix()
-			throws InterruptedException,  LucteriosException {
+	private String searchMailerFromUnix() throws LucteriosException {
 		String[] browsers = {"thunderbird", "xdg-open", "kmail", "evolution", "mozilla", "opera", "netscape" }; 
 		String browser = null; 
 		try {
@@ -228,6 +240,8 @@ public class DesktopTools implements DesktopInterface {
 			if (browser == null) 
 				throw new LucteriosException("Impossible de trouver un gestionnaire de courriels."); 
 			return browser;
+		} catch (InterruptedException e) {
+			throw new LucteriosException("Gestionnaire de courriels non trouvé",e);
 		} catch (IOException e) {
 			throw new LucteriosException("Gestionnaire de courriels non trouvé",e);
 		} 

@@ -69,4 +69,7 @@ public class ObserverMenu extends ObserverAbstract {
 	public void setNameComponentFocused(String aNameComponentFocused) {
 	}
 
+	public void refresh() throws LucteriosException {
+		// Do nothing
+	}
 }

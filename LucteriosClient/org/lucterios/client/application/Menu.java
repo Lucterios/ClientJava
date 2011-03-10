@@ -97,7 +97,7 @@ public class Menu extends JMenu {
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, aXml[menu_idx]);
-				// act.setClose(false);
+				act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 				if (new_menu.getAccelerator() != null)
 					mToolBar.newShortCut(act.getID(), new_menu.getAccelerator()
@@ -178,7 +178,7 @@ public class Menu extends JMenu {
 			else {
 				ActionImpl act = new ActionImpl();
 				act.initialize(aOwner, aFactory, xml_menus[menu_idx]);
-				// act.setClose(false);
+				act.setClose(false);
 				new_menu = new MenuItem(act, help_text);
 			}
 			menu_bar.add(new_menu);

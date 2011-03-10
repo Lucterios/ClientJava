@@ -142,7 +142,7 @@ public class Update {
 	public boolean importFiles(String path) {
 		try {
 			mHttpTransport.saveFiles("UpdateClients/java/LucteriosUpdate.jar",
-					path + "lib/LucteriosUpdate.jar");
+					path + "LucteriosUpdate.jar");
 			mHttpTransport.saveFiles("UpdateClients/java/JavaClient.zip", path
 					+ "JavaClient.zip");
 			return true;
@@ -158,7 +158,7 @@ public class Update {
 		try {
 			String java_dir = System.getProperty("java.home");
 			String[] file_jar = { java_dir + "/bin/java", "-jar",
-					path + "lib/LucteriosUpdate.jar", path + "JavaClient.zip",
+					path + "LucteriosUpdate.jar", path + "JavaClient.zip",
 					path, AppName };
 			Logging.getInstance().writeLog("Update", file_jar.toString(), 1);
 			Process proc = rt.exec(file_jar);
@@ -183,7 +183,7 @@ public class Update {
 		if (path.charAt(path.length() - 1) != '/')
 			path += "/";
 		boolean good_download = importFiles(path);
-		file = new File(path + "lib/LucteriosUpdate.jar");
+		file = new File(path + "LucteriosUpdate.jar");
 		good_download = good_download && file.exists();
 		file = new File(path + "JavaClient.zip");
 		good_download = good_download && file.exists();

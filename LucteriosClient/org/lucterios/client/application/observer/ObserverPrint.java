@@ -139,8 +139,10 @@ public class ObserverPrint extends ObserverAbstract {
 						.getFileNameWithoutForgottenChar(title)
 						+ ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
-				DesktopTools.instance().launch(
-						pdf_file.toURI().toURL().toString());
+				if (mode==SelectPrintDlg.MODE_PRINT)
+					DesktopTools.instance().printFilePDF(pdf_file.toURI().toURL().toString());
+				else
+					DesktopTools.instance().openFile(pdf_file.toURI().toURL().toString());
 				break;
 			}
 		} catch (Exception e) {
