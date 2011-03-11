@@ -53,6 +53,7 @@ public class Singletons {
 		HttpTransport new_transport = null;
 		try {
 			new_transport = (HttpTransport) HttpTransportClass.newInstance();
+			new_transport.setDesktop(mDesktop);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
