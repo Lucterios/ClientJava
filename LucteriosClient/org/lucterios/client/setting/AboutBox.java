@@ -127,10 +127,8 @@ public class AboutBox extends JDialog implements MouseListener {
 		supportBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent aEvent) {
 				mDescription
-						.sendSupport(
-								"demande de support",
-								"Décrivez le plus précisément possible votre problème."
-										+ "<br><br>_______________________________________________________________<br>");
+						.sendSupport("demande de support",
+								"Décrivez le plus précisément possible votre problème.<br>");
 			}
 		});
 		getContentPane().add(supportBtn,

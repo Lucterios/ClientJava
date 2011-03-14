@@ -212,9 +212,8 @@ public class ExceptionDlg extends javax.swing.JDialog {
     
     protected void sendSupport() {
     	if (mInfoDescription!=null) {
-    		String complement="Décrivez le plus précisément possible, comment vous avez obtenu ce problème.<br>Merci de votre aide." +
-    				"<br><br>_______________________________________________________________<br><br>";
-    		complement+=removeHTMLHeader(lbl_message.getText());
+    		String complement="Décrivez le plus précisément possible, comment vous avez obtenu ce problème.<br>Merci de votre aide.<br><br>";
+    		complement+="<h1>"+removeHTMLHeader(lbl_message.getText())+"</h1>";
     		if (edExtra!=null)
     			complement+=removeHTMLHeader(edExtra.getText()) + "<br><br>";
     		if (txtReponse!=null)

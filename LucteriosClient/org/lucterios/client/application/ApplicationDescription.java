@@ -1,6 +1,7 @@
 package org.lucterios.client.application;
 
 import java.awt.Image;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.swing.ImageIcon;
@@ -90,7 +91,7 @@ public class ApplicationDescription implements InfoDescription {
 		String resValue = "";
 		if ((mComplement != null) && (mComplement.length() > 0))
 			resValue += mComplement + "<br>";
-		resValue += "<hr><center><h1>" + mTitle + "</h1></center>\n"
+		resValue += "<hr><center><h1>" + mTitle + "</h1></center>"
 				+ "<table width='100%'>"
 				+ "<tr><td><center>Version</center></td><td><center>"
 				+ mApplisVersion + "</center></td></tr>"
@@ -102,9 +103,7 @@ public class ApplicationDescription implements InfoDescription {
 				+ "</i></font></td></tr>" + "<tr><td colspan='2'>Connexion : "
 				+ mLogin + "</td></tr>" + "</table>" + "<hr>";
 		if ((mInfoServer != null) && (mInfoServer.length() > 0))
-			resValue += "<br>"
-					+ Tools.convertLuctoriosFormatToHtml(mInfoServer)
-					+ "<br><br>";
+			resValue += Tools.convertLuctoriosFormatToHtml(mInfoServer)+ "<br>";
 		Runtime rt = Runtime.getRuntime();
 		long memory_maxHeap = rt.maxMemory();
 		long currentHeapSize = rt.totalMemory();
@@ -148,11 +147,43 @@ public class ApplicationDescription implements InfoDescription {
 		return resValue;
 	}
 
+	private String getText(String aComplement) throws UnsupportedEncodingException {
+			String text_html=getHTML(aComplement);
+			int pos1=1;
+			int pos2=1;
+			while ((pos1>0) && (pos2>0)) { 
+				pos1=text_html.indexOf("<style type=\"text/css\">");
+				pos2=text_html.indexOf("</style>");
+				if ((pos1>0) && (pos2>0)) {
+					text_html=text_html.substring(0,pos1)+text_html.substring(pos2+10);
+				}
+			}
+			text_html=text_html.replaceAll("(<center>|</center>|<table width='100%'>|</table>|<tr><td(| colspan='2')>|<font size='-1'>|</font>|<i>|</i>)", "");
+			text_html=text_html.replaceAll("<h1>\\s*", "#### ");
+			text_html=text_html.replaceAll("[<br>|\\s|\n]*</h1>", " ####\n");
+			text_html=text_html.replaceAll("<b>","[");
+			text_html=text_html.replaceAll("</b>","]");
+			text_html=text_html.replaceAll("&#60;","<");
+			text_html=text_html.replaceAll("&#61;","=");
+			text_html=text_html.replaceAll("&#62;",">");
+			text_html=text_html.replaceAll("&#95;","_");
+			text_html=text_html.replaceAll("&#39;","'");
+			text_html=text_html.replaceAll("&#32;"," ");
+			text_html=text_html.replaceAll("&#33;","!");
+			text_html=text_html.replaceAll("&#91;","[");
+			text_html=text_html.replaceAll("&#93;","]");
+			text_html=text_html.replaceAll("&#47;","/");
+			text_html=text_html.replaceAll("(</td></tr>|<br>)","\n");
+			text_html=Tools.replace(text_html,"</td><td>"," : ");
+			text_html=text_html.replaceAll("(<hr>|<hr/>)","__________________________________________\n");
+			return URLEncoder.encode(text_html, "UTF-8");
+	}
+	
 	public void sendSupport(String aTitle, String aComplement) {
 		try {
 			String url = "mailto:" + mSupportEmail;
 			url += "?subject=" + aTitle;
-			String body = URLEncoder.encode(getHTML(aComplement), "UTF-8");
+			String body = getText(aComplement);
 			url += "&body=" + body.replace("+", " ");
 			DesktopTools.instance().launch(url);
 		} catch (Exception e) {
