@@ -133,6 +133,9 @@
 			<fileset dir="LucteriosClient">
 				<include name="TEST*.xml"/>
 			</fileset>
+			<fileset dir="LucteriosClient/cobertura-xml">
+				<include name="*.xml"/>
+			</fileset>
 			<fileset dir="LucteriosUpdate">
 				<include name="TEST*.xml"/>
 			</fileset>

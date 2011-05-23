@@ -5,15 +5,40 @@
 	<property name="projet.bin.dir" value="${ant.project.name}"/>
 	<property name="projet.doc.dir" value="${ant.project.name}/doc"/>
 	<property name="projet.lib.dir" value="lib"/>
+	<property name="build.instrumented.dir" value="${ant.project.name}/instrumented-classes" />
+
+
+	<path id="cobertura.classpath">
+		<fileset dir="lib">
+			<include name="cobertura.jar" />
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
 
 	<path id="projet.classpath">
 		<pathelement location="${projet.bin.dir}" />
 	</path>
 
-	<target name="tests" >
+	<target name="instrument">
+		<mkdir dir="${build.instrumented.dir}" /> 		
+		<cobertura-instrument todir="${build.instrumented.dir}">
+		    <fileset dir="${projet.src.dir}/org/lucterios">
+			<include name="**/*.class"/>
+			<exclude name="**/*Unit.class" />
+			<exclude name="**/*Tests.class" />
+		    </fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="junit">
 		<delete dir=".LucteriosCache" />
 		<mkdir dir=".LucteriosCache" /> 		
 		<junit fork="yes" printsummary="no" haltonfailure="no">
+			<classpath location="${build.instrumented.dir}"/>
+			<classpath location="${projet.src.dir}" />
+			<classpath refid="cobertura.classpath" />
+
 			<jvmarg value="-Djava.awt.headless=true"/>
 			<batchtest fork="yes" todir="${projet.bin.dir}" >
 				<fileset dir="${projet.src.dir}">
@@ -21,11 +46,20 @@
 				</fileset>
 			</batchtest>
 			<formatter type="xml" />
-			<classpath>
-				  <pathelement location="${projet.src.dir}" />
-			</classpath>
 	      </junit>
 	</target>
+
+	<target name="coverage-report">
+	      <cobertura-report srcdir="${projet.src.dir}" destdir="${ant.project.name}/cobertura-xml" format="xml" />
+	      <cobertura-report destdir="${ant.project.name}/cobertura-html">
+		      <fileset dir="${projet.src.dir}">
+			      <include name="**/*.java"/>
+		      </fileset>
+	      </cobertura-report>
+	</target>
+
+
+	<target name="tests" depends="instrument,junit,coverage-report" />
 
 	<target name="build" depends="clear,compile,packaging" />
 	
@@ -46,6 +80,10 @@
 			<fileset dir="LucteriosEngine/org" includes="**/*.class" />
 			<fileset dir="LucteriosClient/org" includes="**/*.class" />
 		</delete>
+		<delete file="cobertura.ser"/>
+		<delete dir="${build.instrumented.dir}" />
+		<delete dir="${ant.project.name}/cobertura-xml" />
+		<delete dir="${ant.project.name}/cobertura-html" />
 	</target>
 
 	<target name="init">
@@ -80,7 +118,8 @@
 			destdir="${projet.src.dir}"
 			target="1.5"
 			source="1.5"
-			debug="off"
+			debug="true" 
+			debuglevel="vars,lines,source"
 			optimize="on" 
 			includeAntRuntime="false"
 			deprecation="off">
