@@ -96,7 +96,8 @@ public class Singletons {
 
 	static public void loadSetting(File storagePath) throws IOException {
 		LucteriosSettingFile=new IniFileManager(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
-		mDesktop.initApplicationsSetting(LucteriosSettingFile);
+		if (mDesktop!=null)
+			mDesktop.initApplicationsSetting(LucteriosSettingFile);
 	}
 	
 	static public void exit(){

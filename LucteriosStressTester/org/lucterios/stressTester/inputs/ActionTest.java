@@ -1,5 +1,6 @@
 package org.lucterios.stressTester.inputs;
 
+import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.SimpleParsing;
 
@@ -9,6 +10,7 @@ public class ActionTest {
 	private String actionName;
 	private String extension;
 	private String name;
+	private String expectedObserver;
 	private MapContext attributMap=new MapContext(); 
 	
 	public ActionTest(SimpleParsing aAction){
@@ -22,6 +24,7 @@ public class ActionTest {
 		for(SimpleParsing param:params){
 			attributMap.put(param.getAttribut("name"), param.getText());
 		}
+		expectedObserver=aAction.getCDataOfFirstTag("expected");
 	}
 	
 	public int getId(){
@@ -38,6 +41,10 @@ public class ActionTest {
 	}
 	public MapContext getAttributMap(){
 		return attributMap;
+	}
+
+	public boolean isWaiting(Observer obs) {
+		return (expectedObserver==null) || (expectedObserver.length()==0) || (expectedObserver.equals(obs.getObserverName()));
 	} 
 	
 }

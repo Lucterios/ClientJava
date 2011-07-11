@@ -17,7 +17,12 @@
 </xsl:template>
 
 <xsl:template match="/test_result">
+	<xsl:variable name="sum_time" select="sum(/test_result/test/@time)"/>
 	Nombre total de test: <xsl:value-of select="count(test)"/>
+	<br/>
+	Nombre total de succès: <xsl:value-of select="sum(/test_result/test/@success)"/>
+	<br/>
+	Temps total (min): <xsl:value-of select="$sum_time div 60000"/>
 	<br/>
 	<br/>
 	<xsl:for-each select="test">
@@ -35,6 +40,7 @@
 <xsl:template name="TestStat">
 	<xsl:param name="ID" />
 	<xsl:variable name="nb_test" select="count(/test_result/test[@id=$ID])"/>
+	<xsl:variable name="nb_success" select="sum(/test_result/test[@id=$ID]/@success)"/>
 	<xsl:variable name="sum_time" select="sum(/test_result/test[@id=$ID]/@time)"/>
 	<xsl:variable name="max_time">
 		<xsl:for-each select="/test_result/test[@id=$ID]/@time">
@@ -63,16 +69,20 @@
 			<td><xsl:value-of select="$nb_test"/></td>
 		</tr>
 		<tr>
+			<td>Succès</td>
+			<td><xsl:value-of select="$nb_success"/></td>
+		</tr>
+		<tr>
 			<td>Temps moyen</td>
-			<td><xsl:value-of select="($sum_time div $nb_test) div 100"/> secondes</td>
+			<td><xsl:value-of select="($sum_time div $nb_test) div 1000"/> secondes</td>
 		</tr>
 		<tr>
 			<td>Temps min</td>
-			<td><xsl:value-of select="($min_time) div 100"/> secondes</td>
+			<td><xsl:value-of select="($min_time) div 1000"/> secondes</td>
 		</tr>
 		<tr>
 			<td>Temps max</td>
-			<td><xsl:value-of select="($max_time) div 100"/> secondes</td>
+			<td><xsl:value-of select="($max_time) div 1000"/> secondes</td>
 		</tr>
 	</table>
 </xsl:template>

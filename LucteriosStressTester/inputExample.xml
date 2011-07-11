@@ -7,16 +7,20 @@
 	<!--- CORE -->
 	<action id="1">
 		<name>CORE.menu</name>
+		<expected>CORE.Menu</expected>
 	</action>
 	<action id="2">
 		<name>CORE.status</name>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="5">
 		<name>CORE.configuration</name>
+		<expected>Core.Custom</expected>
 	</action>
-	<action id="6">
+	<!-- action id="6">
 		<name>CORE.extension::reload</name>
-	</action>
+		<expected>Core.Custom</expected>
+	</action -->
 
 	<!--- Contact -->
 	<action id="10">
@@ -24,6 +28,7 @@
 		<param name="personneMorale">
 			<![CDATA[1]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="1000">
 		<name>CORE.UNLOCK</name>
@@ -36,6 +41,7 @@
 		<param name="RECORD_ID">
 			<![CDATA[1]]>
 		</param>
+		<expected>Core.Acknowledge</expected>
 	</action>
 
 	<!--- Membre -->
@@ -50,6 +56,7 @@
 		<param name="activite">
 			<![CDATA[0]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="21">
 		<name>fr_sdlibre_membres.adherents::print</name>
@@ -65,21 +72,28 @@
 		<param name="activite">
 			<![CDATA[0]]>
 		</param>
+		<param name="PRINT_MODE">
+			<![CDATA[1]]>
+		</param>
+		<expected>Core.Print</expected>
 	</action>
 	<action id="22">
 		<name>fr_sdlibre_membres.statsSurAdherents</name>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="23">
 		<name>fr_sdlibre_membres.affichStatsSurAdherent</name>
 		<param name="saison">
 			<![CDATA[101]]>
 		</param>		
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="24">
 		<name>fr_sdlibre_membres.adherents::Fiche</name>
 		<param name="membre">
 			<![CDATA[105]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="1000">
 		<name>CORE.UNLOCK</name>
@@ -92,12 +106,14 @@
 		<param name="RECORD_ID">
 			<![CDATA[105]]>
 		</param>
+		<expected>Core.Acknowledge</expected>
 	</action>
 	<action id="24">
 		<name>fr_sdlibre_membres.adherents::Fiche</name>
 		<param name="membre">
 			<![CDATA[103]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="1000">
 		<name>CORE.UNLOCK</name>
@@ -110,12 +126,14 @@
 		<param name="RECORD_ID">
 			<![CDATA[103]]>
 		</param>
+		<expected>Core.Acknowledge</expected>
 	</action>
 	<action id="24">
 		<name>fr_sdlibre_membres.adherents::Fiche</name>
 		<param name="membre">
 			<![CDATA[107]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="1000">
 		<name>CORE.UNLOCK</name>
@@ -128,17 +146,23 @@
 		<param name="RECORD_ID">
 			<![CDATA[107]]>
 		</param>
+		<expected>Core.Acknowledge</expected>
 	</action>
 
 	<!--- Compta -->
 	<action id="30">
 		<name>fr_sdlibre_compta.Exercices::List</name>
+		<expected>Core.Custom</expected>
 	</action>	
 	<action id="31">
 		<name>fr_sdlibre_compta.Exercices::imprimerAct</name>
 		<param name="document">
 			<![CDATA[0]]>
 		</param>
+		<param name="PRINT_MODE">
+			<![CDATA[1]]>
+		</param>
+		<expected>Core.Print</expected>
 	</action>
 
 	<action id="32">
@@ -146,34 +170,40 @@
 		<param name="classe">
 			<![CDATA[4]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="32">
 		<name>fr_sdlibre_compta.Plan::List</name>
 		<param name="classe">
 			<![CDATA[5]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="32">
 		<name>fr_sdlibre_compta.Plan::List</name>
 		<param name="classe">
 			<![CDATA[6]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="32">
 		<name>fr_sdlibre_compta.Plan::List</name>
 		<param name="classe">
 			<![CDATA[7]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	
 	<action id="33">
 		<name>fr_sdlibre_compta.Tiers::List</name>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="24">
 		<name>fr_sdlibre_compta.Tiers::Fiche</name>
 		<param name="tiers">
 			<![CDATA[101]]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="1000">
 		<name>CORE.UNLOCK</name>
@@ -186,6 +216,7 @@
 		<param name="RECORD_ID">
 			<![CDATA[101]]>
 		</param>
+		<expected>Core.Acknowledge</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -198,6 +229,7 @@
 		<param name="pointage">
 			<![CDATA['o']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -210,6 +242,7 @@
 		<param name="pointage">
 			<![CDATA['n']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -222,6 +255,7 @@
 		<param name="pointage">
 			<![CDATA['n']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -234,6 +268,7 @@
 		<param name="pointage">
 			<![CDATA['n']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -246,6 +281,7 @@
 		<param name="pointage">
 			<![CDATA['n']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	<action id="26">
 		<name>fr_sdlibre_compta.Ecriture::List</name>
@@ -258,6 +294,7 @@
 		<param name="pointage">
 			<![CDATA['n']]>
 		</param>
+		<expected>Core.Custom</expected>
 	</action>
 	
 </test>

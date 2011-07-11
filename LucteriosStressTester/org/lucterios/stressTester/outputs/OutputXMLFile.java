@@ -73,10 +73,11 @@ public class OutputXMLFile implements OutputModel {
 	}
 	
 
-	public void addResult(int aId, String aActionName, int aTime, String aObservation) throws LucteriosException {
+	public void addResult(int aId, String aActionName, int aTime, String aObservation, boolean success) throws LucteriosException {
 			Element test = xmldoc.createElementNS(null, "test");
 			test.setAttributeNS(null, "id",""+aId);
 			test.setAttributeNS(null, "time",""+aTime);
+			test.setAttributeNS(null, "success",success?"1":"0");
 			Text test_name = xmldoc.createTextNode(aActionName);
 			test.appendChild(test_name);
 			Element obs = xmldoc.createElementNS(null, "observation");
