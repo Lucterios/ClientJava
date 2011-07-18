@@ -41,8 +41,8 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 
 public class ObserverPrint extends ObserverAbstract {
 	public final static int PRINT_TYPE_FOP = 0;
@@ -93,8 +93,8 @@ public class ObserverPrint extends ObserverAbstract {
 		SelectPrintDlg.FontImage = Toolkit.getDefaultToolkit().getImage(
 				this.getClass().getResource("ObserverFont.jpg"));
 
-		IDialog owner_dialog = null;
-		IForm owner_frame = null;
+		GUIDialog owner_dialog = null;
+		GUIForm owner_frame = null;
 		if (getParent() != null) {
 			owner_dialog = getParent().getGUIDialog();
 			owner_frame = getParent().getGUIFrame();
@@ -110,7 +110,7 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	private void openOrSavePrintReport(IDialog owner_dialog, IForm owner_frame)
+	private void openOrSavePrintReport(GUIDialog owner_dialog, GUIForm owner_frame)
 			throws LucteriosException {
 		try {
 			InputStream print_stream = new DecodeBase64ToInputStream(
@@ -164,11 +164,11 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
 	}
 

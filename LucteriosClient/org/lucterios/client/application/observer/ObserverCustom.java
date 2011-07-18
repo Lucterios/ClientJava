@@ -45,8 +45,8 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.JAdvancePanel;
 import org.lucterios.graphic.Tools;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 
 public class ObserverCustom extends ObserverAbstract implements Runnable {
 	public SimpleParsing mActions;
@@ -237,9 +237,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		Tools.postOrderGC();
 	}
 
-	public void show(String aTitle, IForm aGUI) throws LucteriosException {
+	public void show(String aTitle, GUIForm aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIFrame = new WeakReference<IForm>(aGUI);
+		mGUIFrame = new WeakReference<GUIForm>(aGUI);
 		if (getGUIFrame() != null) {
 			mGUIContainer = ((RootPaneContainer) getGUIFrame())
 					.getContentPane();
@@ -255,9 +255,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		}
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIDialog = new WeakReference<IDialog>(aGUI);
+		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
 		if (getGUIDialog() != null) {
 			mGUIContainer = ((RootPaneContainer) getGUIDialog())
 					.getContentPane();

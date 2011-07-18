@@ -25,8 +25,8 @@ import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -60,11 +60,11 @@ public class ObserverAcknowledge extends ObserverAbstract {
 		close(mRedirectAction == null);
 	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
 	}
 

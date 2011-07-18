@@ -28,6 +28,7 @@ import org.lucterios.engine.presentation.ObserverStub;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransportStub;
 import org.lucterios.gui.AbstractImage;
+import org.lucterios.swing.SGenerator;
 import org.lucterios.utils.SimpleParsing;
 
 import junit.framework.TestCase;
@@ -37,9 +38,9 @@ public class ActionUnit extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		ActionImpl.mWindowGenerator = new WindowGeneratorFeak();
+		Singletons.setWindowGenerator(new SGenerator());
 		mAction = new ActionImpl();
-		Singletons.HttpTransportClass = HttpTransportStub.class;
+		Singletons.setHttpTransportClass(HttpTransportStub.class);
 		ObserverStub.mParameters.clear();
 		ObserverStub.LastActionId = "";
 		ObserverStub.LastSelect = ActionConstantes.SELECT_NONE;

@@ -77,20 +77,20 @@ public class LogonBox extends JDialog implements ActionListener {
 		btn_SetUp.setEnabled(mActionSetUp != null);
 		if (cmp_Server != null)
 			editPnl.remove(cmp_Server);
-		if (Singletons.Configuration.ServerCount() == 0) {
+		if (Singletons.getConfiguration().ServerCount() == 0) {
 			mLastServer = null;
 			txt_Server.setText("");
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(false);
-		} else if (Singletons.Configuration.ServerCount() == 1) {
-			mLastServer = Singletons.Configuration.GetServer(0);
+		} else if (Singletons.getConfiguration().ServerCount() == 1) {
+			mLastServer = Singletons.getConfiguration().GetServer(0);
 			txt_Server.setText(mLastServer.ServerName);
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		} else {
 			if (mLastServer == null)
-				mLastServer = Singletons.Configuration.GetServer(0);
-			cmp_Server = new JComboBox(Singletons.Configuration.getServers());
+				mLastServer = Singletons.getConfiguration().GetServer(0);
+			cmp_Server = new JComboBox(Singletons.getConfiguration().getServers());
 			cmp_Server.setSelectedItem(mLastServer);
 			cmp_Server.setVisible(true);
 			cmp_Server.setMinimumSize(new java.awt.Dimension(150, 19));
@@ -141,15 +141,15 @@ public class LogonBox extends JDialog implements ActionListener {
 		txt_User.setText(mLastUserLogon);
 		txt_PassWord.setText("");
 		String title = " Connexion";
-		title = Singletons.Configuration.TitreDefault + title;
+		title = Singletons.getConfiguration().TitreDefault + title;
 		this.setTitle(title.trim());
 		refresh();
 		setVisible(true);
 		toFront();
 		if (mModalResult == 1) {
 			HttpTransport transp = Singletons.Transport();
-			transp.setProxy(Singletons.Configuration.ProxyAdress,
-					Singletons.Configuration.ProxyPort);
+			transp.setProxy(Singletons.getConfiguration().ProxyAdress,
+					Singletons.getConfiguration().ProxyPort);
 			transp
 					.connectToServer(
 							mLastServer.HostName,

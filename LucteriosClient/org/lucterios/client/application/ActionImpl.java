@@ -38,11 +38,10 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.AbstractImage;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 
 public class ActionImpl implements Action, ActionListener, javax.swing.Action {
-	static public WindowGenerator mWindowGenerator = null;
 
 	public final static char MNEMONIC_CHAR = '_';
 
@@ -199,8 +198,8 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 		aObs.eventForEnabled(true);
 		try {
 			try {
-				IDialog owner_dialog = null;
-				IForm owner_frame = null;
+				GUIDialog owner_dialog = null;
+				GUIForm owner_frame = null;
 				int form_type = getFormType(aObs);
 				if ((mOwner != null)
 						&& (form_type != ActionConstantes.FORM_REFRESH)) {
@@ -232,25 +231,25 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 		return form_type;
 	}
 
-	private void showObserver(Observer aObs, final IDialog owner_dialog,
-			final IForm owner_frame, int form_type) throws LucteriosException {
-		IDialog new_dialog = null;
-		IForm new_frame = null;
+	private void showObserver(Observer aObs, final GUIDialog owner_dialog,
+			final GUIForm owner_frame, int form_type) throws LucteriosException {
+		GUIDialog new_dialog = null;
+		GUIForm new_frame = null;
 		if (aObs.getType() != ObserverConstant.TYPE_NONE) {
 			switch (form_type) {
 			case ActionConstantes.FORM_NOMODAL:
 				new_dialog = null;
-				new_frame = mWindowGenerator.newFrame(mID);
+				new_frame = Singletons.getWindowGenerator().newFrame(mID);
 				break;
 			case ActionConstantes.FORM_MODAL:
 				new_dialog = null;
 				new_frame = null;
 				if (((aObs.getType() == ObserverConstant.TYPE_BOTH))
 						|| (aObs.getType() == ObserverConstant.TYPE_DIALOG))
-					new_dialog = mWindowGenerator.newDialog(owner_dialog,
+					new_dialog = Singletons.getWindowGenerator().newDialog(owner_dialog,
 							owner_frame);
 				else
-					new_frame = mWindowGenerator.newFrame(mID);
+					new_frame = Singletons.getWindowGenerator().newFrame(mID);
 				break;
 			case ActionConstantes.FORM_REFRESH:
 				new_dialog = null;

@@ -70,7 +70,7 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 			ThemeFactory.RUBY, ThemeFactory.WIN, ThemeFactory.YELLOW };
 
 	public static MetalTheme getDefaultTheme() {
-		int default_num = Singletons.LucteriosSettingFile.getValueSectionInt(
+		int default_num = Singletons.getLucteriosSettingFile().getValueSectionInt(
 				PREFERENCE, DEFAULT_THEME, THEME_DEFAULT);
 		if ((default_num > Global_Themes.length) || (default_num < 0))
 			default_num = 0;
@@ -85,10 +85,10 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 				default_num = theme_id;
 		}
 		if (default_num != -1) {
-			Singletons.LucteriosSettingFile.setValueSectionInt(PREFERENCE,
+			Singletons.getLucteriosSettingFile().setValueSectionInt(PREFERENCE,
 					DEFAULT_THEME, default_num);
 			try {
-				Singletons.LucteriosSettingFile.save();
+				Singletons.getLucteriosSettingFile().save();
 			} catch (IOException e) {
 			}
 		}

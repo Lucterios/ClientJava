@@ -21,7 +21,7 @@
 package org.lucterios.client;
 
 import org.lucterios.client.application.ActionUnit;
-import org.lucterios.client.transport.HttpTranportUnit;
+import org.lucterios.engine.transport.HttpTranportUnit;
 import org.lucterios.engine.presentation.ObserverFactoryUnit;
 import org.lucterios.utils.Logging;
 

@@ -40,7 +40,6 @@ import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.application.ApplicationDescription;
 import org.lucterios.client.application.Connection;
 import org.lucterios.client.application.Menu;
-import org.lucterios.client.application.WindowGenerator;
 import org.lucterios.client.application.Menu.ToolBar;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
@@ -49,7 +48,6 @@ import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.setting.AboutBox;
 import org.lucterios.client.setting.Constants;
-import org.lucterios.client.setting.LucteriosConfigurationModel;
 import org.lucterios.client.setting.Update;
 import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.engine.application.Action;
@@ -59,14 +57,14 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.client.setting.SetupDialog;
+import org.lucterios.engine.setting.SetupDialog;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.graphic.DesktopTools;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.graphic.FormList;
+import org.lucterios.swing.SFormList;
 import org.lucterios.graphic.FrameControle;
 import org.lucterios.graphic.Tools;
 import org.lucterios.graphic.ExceptionDlg;
@@ -74,12 +72,12 @@ import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.graphic.MemoryJauge;
 import org.lucterios.graphic.ProgressPanel;
 import org.lucterios.graphic.WaitingWindow;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.NotifyFrameChange;
 
 public class ApplicationMain extends JFrame implements RefreshButtonPanel,
-		Connection, WindowGenerator, NotifyFrameChange, ToolBar, FrameControle,
+		Connection, NotifyFrameChange, ToolBar, FrameControle,
 		LookAndFeelCallBack {
 	/**
 	 * 
@@ -112,7 +110,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	private MainPanel mToolNavigator;
 	private org.lucterios.client.gui.ToolBar mToolBar;
 
-	private FormList mFormList;
+	private SFormList mFormList;
 
 	static private int NB_WIND_MENU = 4;
 
@@ -154,7 +152,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		final JFrame frame = this;
 		return new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				SetupDialog.run(frame,new LucteriosConfigurationModel(Singletons.Configuration));
+				SetupDialog.run(new SDialog(frame));
 			}
 		};
 	}
@@ -213,7 +211,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						IForm frame_current = mFormList.getFrameSelected();
+						GUIForm frame_current = mFormList.getFrameSelected();
 						if (frame_current != null)
 							frame_current.dispose();
 					}
@@ -275,12 +273,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 						aboutMenuItemActionPerformed(evt);
 					}
 				}, null);
-
-		ActionImpl.mWindowGenerator = this;
 	}
 
 	public void initialize() {
-		mFormList = new FormList();
+		mFormList = new SFormList();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Application");
@@ -546,7 +542,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		logon_box.dispose();
 	}
 
-	public void selectIntFrame(IForm aInternalFrame) {
+	public void selectIntFrame(GUIForm aInternalFrame) {
 		if (mFormList.getFrameSelected() != null)
 			mFormList.getFrameSelected().setSelected(false);
 		aInternalFrame.setSelected(true);
@@ -585,7 +581,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 				new_menu.setActionCommand(mFormList.get(frame_idx).getName());
 				new_menu.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						IForm frame_to_select = null;
+						GUIForm frame_to_select = null;
 						for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
 							if (mFormList.get(frame_idx).getName().equals(
 									evt.getActionCommand()))
@@ -737,7 +733,7 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 		return frame;
 	}
 
-	public IDialog newDialog(IDialog aOwnerDialog, IForm aOwnerFrame) {
+	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
 		SDialog dlg;
 		if (aOwnerFrame != null)
 			dlg = new SDialog((SForm) aOwnerFrame);

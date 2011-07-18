@@ -45,8 +45,8 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.Tools;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 
 public class ObserverTemplate extends ObserverAbstract {
 	SimpleParsing data_elements = null;
@@ -103,12 +103,12 @@ public class ObserverTemplate extends ObserverAbstract {
 		setValue(data_str, style_str, mTitle);
 	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
-		mGUIDialog = new WeakReference<IDialog>(aGUI);
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
+		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
 		aGUI.setTitle(aTitle);
 		((RootPaneContainer) aGUI).getContentPane().setLayout(
 				new java.awt.BorderLayout());

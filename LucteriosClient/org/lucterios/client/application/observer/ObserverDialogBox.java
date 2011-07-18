@@ -45,8 +45,8 @@ import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.graphic.JAdvancePanel;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 
 public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 	public String mText;
@@ -169,12 +169,12 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable {
 		SwingUtilities.invokeLater(this);
 	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
-		mGUIDialog = new WeakReference<IDialog>(aGUI);
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
+		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
 		mGUIContainer = ((RootPaneContainer) aGUI).getContentPane();
 		show(aTitle);
 		getGUIDialog().setNotifyFrameClose(this);

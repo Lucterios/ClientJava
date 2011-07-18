@@ -25,8 +25,8 @@ import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.graphic.FrameControle;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.LucteriosException;
 
 public class ObserverMenu extends ObserverAbstract {
@@ -50,11 +50,11 @@ public class ObserverMenu extends ObserverAbstract {
 				.getFirstSubTag("MENUS"));
 	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
 		throw new LucteriosException("Not in Frame");
 	}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
 	}
 

@@ -39,11 +39,12 @@ import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.client.gui.ThemeMenu;
 import org.lucterios.client.setting.Constants;
-import org.lucterios.client.transport.HttpTransportImpl;
+import org.lucterios.engine.transport.HttpTransportImpl;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.transport.ImageCache;
+import org.lucterios.swing.SGenerator;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.DesktopTools;
@@ -86,7 +87,7 @@ class Main {
 			ApplicationMain main;
 			WaitingWindow ww = new WaitingWindow(
 					"Chargement de l'application.<br>Veuillez patienter.",
-					Singletons.Configuration.TitreDefault);
+					Singletons.getConfiguration().TitreDefault);
 			ww.setVisible(true);
 			ww.requestFocus();
 			try {
@@ -119,11 +120,12 @@ class Main {
 	}
 
 	private static void initializeSingleton() throws IOException {
-		Singletons.ActionClass = ActionImpl.class;
-		Singletons.HttpTransportClass=HttpTransportImpl.class;
-		Singletons.mDesktop = DesktopTools.instance();
+		Singletons.setActionClass(ActionImpl.class);
+		Singletons.setHttpTransportClass(HttpTransportImpl.class);
+		Singletons.setDesktop(DesktopTools.instance());
+		Singletons.setWindowGenerator(new SGenerator());
 		Singletons.initalize(new File("."));
-		Singletons.AppTerminate = new RequirementProcesses();
+		Singletons.setAppTerminate(new RequirementProcesses());
 		ImageCache.ImageClass=SwingImage.class;
 	}
 }
