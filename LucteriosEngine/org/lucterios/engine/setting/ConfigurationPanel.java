@@ -11,13 +11,13 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUISpinEdit;
-import org.lucterios.gui.IDialog;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIContainer.FillMode;
 import org.lucterios.gui.GUIContainer.ReSizeMode;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
-import org.lucterios.gui.IDialog.DialogVisitor;
+import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class ConfigurationPanel implements GUISelectListener {
 	private static final long serialVersionUID = 1L;
@@ -46,14 +46,14 @@ public class ConfigurationPanel implements GUISelectListener {
 		private GUIButton btn_AddNew;
 		private GUIButton btn_ExitNew;
 		
-		private IDialog mOwner;
+		private GUIDialog mOwner;
 
 		public ServerEditor(Server aServer) {
 			super();
 			mServer=aServer;
 		}
 
-		public void execute(IDialog aOwner) {
+		public void execute(GUIDialog aOwner) {
 			mOwner=aOwner;
 			Initial();
 			if (mServer!=null) {
@@ -73,7 +73,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			spe_port.init(LucteriosConfiguration.DEFAULT_PORT, 10, 9999);
 			sel_mode.setSelectedIndex(LucteriosConfiguration.MODE_NORMAL);
 			mOwner.pack();
-			int[] screen = Singletons.mDesktop.getScreenSize();
+			int[] screen = Singletons.getDesktop().getScreenSize();
 			mOwner.setLocation((screen[0] - mOwner.getSizeX()) / 2, (screen[1] - mOwner.getSizeY()) / 4);			
 			GUIButton[] btns = { this.btn_AddNew, this.btn_ExitNew };
 			mOwner.getContainer().calculBtnSize(btns);
@@ -85,7 +85,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 1, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
 
 			btn_AddNew = pnl_btn.createButton(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_AddNew.setImage(Singletons.mDesktop.CreateImage(Resources.class
+			btn_AddNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
 					.getResource("ok.png")));
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setTextString("OK");
@@ -96,7 +96,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			});
 
 			btn_ExitNew = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_ExitNew.setImage(Singletons.mDesktop.CreateImage(Resources.class
+			btn_ExitNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
 					.getResource("cancel.png")));
 			btn_ExitNew.setMnemonic('n');
 			btn_ExitNew.setTextString("Annuler");
@@ -176,7 +176,7 @@ public class ConfigurationPanel implements GUISelectListener {
 	}
 
 	
-	private IDialog mOwnerFrame;
+	private GUIDialog mOwnerFrame;
 	
 	private GUILabel lbl_proxyaddr;
 	private GUIEdit txt_proxyaddr;
@@ -195,7 +195,7 @@ public class ConfigurationPanel implements GUISelectListener {
 
 	private GUIContainer mOwnerContainer = null;
 
-	public ConfigurationPanel(IDialog aOwnerFrame) {
+	public ConfigurationPanel(GUIDialog aOwnerFrame) {
 		super();
 		mOwnerFrame = aOwnerFrame;
 	}
@@ -211,7 +211,7 @@ public class ConfigurationPanel implements GUISelectListener {
 	public LucteriosConfiguration.Server newServer(String aServerName,
 			String aHostName, int aHostPort, String aDirectory,
 			int aConnectionMode) {
-		return Singletons.Configuration.newServer(aServerName, aHostName, aHostPort, aDirectory,
+		return Singletons.getConfiguration().newServer(aServerName, aHostName, aHostPort, aDirectory,
 				aConnectionMode);
 	}
 
@@ -305,9 +305,9 @@ public class ConfigurationPanel implements GUISelectListener {
 	}
 
 	private void Setup() {
-		txt_proxyaddr.setTextString(Singletons.Configuration.ProxyAdress);
-		spe_proxyport.setNumber(Singletons.Configuration.ProxyPort);
-		cmp_tbl.setGridInterface(Singletons.Configuration);
+		txt_proxyaddr.setTextString(Singletons.getConfiguration().ProxyAdress);
+		spe_proxyport.setNumber(Singletons.getConfiguration().ProxyPort);
+		cmp_tbl.setGridInterface(Singletons.getConfiguration());
 		selectionChanged();
 		GUIButton[] btns_1 = { btn_Mod, btn_Del, btn_Add };
 		mOwnerContainer.calculBtnSize(btns_1);
@@ -323,58 +323,58 @@ public class ConfigurationPanel implements GUISelectListener {
 		if (select)
 			row = cmp_tbl.getSelectedRows()[0];
 		btn_Up.setEnabled(select && (row > 0));
-		btn_Down.setEnabled(select && ((row + 1) < Singletons.Configuration.ServerCount()));
+		btn_Down.setEnabled(select && ((row + 1) < Singletons.getConfiguration().ServerCount()));
 	}
 
 	private void btn_AddActionPerformed() {
-		IDialog new_dialog=mOwnerFrame.createDialog();
+		GUIDialog new_dialog=mOwnerFrame.createDialog();
 		ServerEditor srv = new ServerEditor(null);
 		new_dialog.setDialogVisitor(srv);
 		new_dialog.setVisible(true);
 		if (srv.mServer != null) {
-			Singletons.Configuration.AddServer(srv.mServer);
-			refreshGUI(Singletons.Configuration.ServerCount() - 1);
+			Singletons.getConfiguration().AddServer(srv.mServer);
+			refreshGUI(Singletons.getConfiguration().ServerCount() - 1);
 		}
 	}
 
 	public void refreshGUI(int aRow) {
-		cmp_tbl.setGridInterface(Singletons.Configuration);
+		cmp_tbl.setGridInterface(Singletons.getConfiguration());
 		cmp_tbl.setRowSelection(aRow);
 	}
 
 	private void btn_ModActionPerformed() {
 		int row = cmp_tbl.getSelectedRows()[0];
-		IDialog new_dialog=mOwnerFrame.createDialog();
-		ServerEditor srv = new ServerEditor(Singletons.Configuration.GetServer(row));
+		GUIDialog new_dialog=mOwnerFrame.createDialog();
+		ServerEditor srv = new ServerEditor(Singletons.getConfiguration().GetServer(row));
 		new_dialog.setDialogVisitor(srv);
 		new_dialog.setVisible(true);
 		if (srv.mServer != null) {
-			Singletons.Configuration.SetServer(row, srv.mServer);
+			Singletons.getConfiguration().SetServer(row, srv.mServer);
 			refreshGUI(row);
 		}
 	}
 
 	private void btn_UpActionPerformed() {
 		int row = cmp_tbl.getSelectedRows()[0];
-		Server srv1 = Singletons.Configuration.GetServer(row);
-		Server srv2 = Singletons.Configuration.GetServer(row - 1);
-		Singletons.Configuration.SetServer(row, srv2);
-		Singletons.Configuration.SetServer(row - 1, srv1);
+		Server srv1 = Singletons.getConfiguration().GetServer(row);
+		Server srv2 = Singletons.getConfiguration().GetServer(row - 1);
+		Singletons.getConfiguration().SetServer(row, srv2);
+		Singletons.getConfiguration().SetServer(row - 1, srv1);
 		refreshGUI(row - 1);
 	}
 
 	private void btn_DownActionPerformed() {
 		int row = cmp_tbl.getSelectedRows()[0];
-		Server srv1 = Singletons.Configuration.GetServer(row);
-		Server srv2 = Singletons.Configuration.GetServer(row + 1);
-		Singletons.Configuration.SetServer(row, srv2);
-		Singletons.Configuration.SetServer(row + 1, srv1);
+		Server srv1 = Singletons.getConfiguration().GetServer(row);
+		Server srv2 = Singletons.getConfiguration().GetServer(row + 1);
+		Singletons.getConfiguration().SetServer(row, srv2);
+		Singletons.getConfiguration().SetServer(row + 1, srv1);
 		refreshGUI(row + 1);
 	}
 
 	private void btn_DelActionPerformed() {
 		int row = cmp_tbl.getSelectedRows()[0];
-		Singletons.Configuration.DeleteServer(row);
+		Singletons.getConfiguration().DeleteServer(row);
 		refreshGUI(row);
 	}
 

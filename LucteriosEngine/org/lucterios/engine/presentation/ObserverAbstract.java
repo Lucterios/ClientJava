@@ -25,8 +25,8 @@ import java.util.Set;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -155,17 +155,17 @@ public abstract class ObserverAbstract implements Observer {
 			mTitle = aTitle;
 	}
 
-	protected WeakReference<IForm> mGUIFrame = null;
-	protected WeakReference<IDialog> mGUIDialog = null;
+	protected WeakReference<GUIForm> mGUIFrame = null;
+	protected WeakReference<GUIDialog> mGUIDialog = null;
 
-	public IForm getGUIFrame() {
+	public GUIForm getGUIFrame() {
         if (mGUIFrame!=null)
             return mGUIFrame.get();
         else
             return null;
 	}
 
-	public IDialog getGUIDialog() {
+	public GUIDialog getGUIDialog() {
         if (mGUIDialog!=null)
             return mGUIDialog.get();
         else

@@ -5,6 +5,8 @@ import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.util.HashMap;
 
+import org.lucterios.utils.protocols.data.Handler;
+
 public class ExtendableURLStreamHandlerFactory implements URLStreamHandlerFactory {
 	
 	private HashMap<String,URLStreamHandler> protocol2Handler = new HashMap<String, URLStreamHandler>();
@@ -25,7 +27,7 @@ public class ExtendableURLStreamHandlerFactory implements URLStreamHandlerFactor
 	}
 
 	public ExtendableURLStreamHandlerFactory() {
-		putHandler(DataURLStreamHandler.PROTOCOL, new DataURLStreamHandler());
+		putHandler(Handler.PROTOCOL, new Handler());
 	}
 
 	public URLStreamHandler createURLStreamHandler(String string) {

@@ -29,12 +29,12 @@ import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUILabel;
-import org.lucterios.gui.IDialog;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIContainer.FillMode;
 import org.lucterios.gui.GUIContainer.ReSizeMode;
-import org.lucterios.gui.IDialog.DialogVisitor;
+import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 
 public class SetupDialog implements DialogVisitor {
@@ -55,19 +55,19 @@ public class SetupDialog implements DialogVisitor {
 	private GUIButton btn_Ok;
 	private GUIButton btn_Cancel;
 
-	private IDialog mDialog;
+	private GUIDialog mDialog;
 
 	public SetupDialog() {
 		super();
 	}
 	
-	public void execute(IDialog dialog) {
+	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
 		Init();
 		InitSubPanel();
 		Setup();
 		mDialog.pack();
-		int[] screen = Singletons.mDesktop.getScreenSize();
+		int[] screen = Singletons.getDesktop().getScreenSize();
 		mDialog.setLocation((screen[0] - mDialog.getSizeX()) / 2, (screen[1] - mDialog.getSizeY()) / 4);
 		GUIButton[] btns = { btn_Ok, btn_Cancel, btn_import };
 		mDialog.getContainer().calculBtnSize(btns);
@@ -77,7 +77,7 @@ public class SetupDialog implements DialogVisitor {
 	public LucteriosConfiguration.Server newServer(String aServerName,
 			String aHostName, int aHostPort, String aDirectory,
 			int aConnectionMode) {
-		return Singletons.Configuration.newServer(aServerName, aHostName, aHostPort, aDirectory,
+		return Singletons.getConfiguration().newServer(aServerName, aHostName, aHostPort, aDirectory,
 				aConnectionMode);
 	}
 
@@ -108,7 +108,7 @@ public class SetupDialog implements DialogVisitor {
 				btn_OkActionPerformed();
 			}
 		});
-		btn_Ok.setImage(Singletons.mDesktop.CreateImage(Resources.class.getResource("ok.png")));
+		btn_Ok.setImage(Singletons.getDesktop().CreateImage(Resources.class.getResource("ok.png")));
 
 		btn_Cancel = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
 		btn_Cancel.setMnemonic('n');
@@ -118,7 +118,7 @@ public class SetupDialog implements DialogVisitor {
 				btn_CancelActionPerformed();
 			}
 		});
-		btn_Cancel.setImage(Singletons.mDesktop.CreateImage(Resources.class
+		btn_Cancel.setImage(Singletons.getDesktop().CreateImage(Resources.class
 				.getResource("cancel.png")));
 
 		btn_import = pnl_btn.createButton(2, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
@@ -129,7 +129,7 @@ public class SetupDialog implements DialogVisitor {
 				btn_importActionPerformed();
 			}
 		});
-		btn_import.setImage(Singletons.mDesktop.CreateImage(Resources.class
+		btn_import.setImage(Singletons.getDesktop().CreateImage(Resources.class
 				.getResource("import.png")));
 	}
 
@@ -143,7 +143,7 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	private void Setup() {
-		txt_Title.setTextString(Singletons.Configuration.TitreDefault);
+		txt_Title.setTextString(Singletons.getConfiguration().TitreDefault);
 	}
 
 	private void btn_importActionPerformed() {
@@ -180,28 +180,28 @@ public class SetupDialog implements DialogVisitor {
 
 	private void btn_CancelActionPerformed() {
 		try {
-			Singletons.Configuration.read();
+			Singletons.getConfiguration().read();
 		} catch (IOException e) {
-			Singletons.mDesktop.throwException(e);
+			Singletons.getDesktop().throwException(e);
 		}
 		mDialog.dispose();
 	}
 
 	private void btn_OkActionPerformed() {
 		try {
-			Singletons.Configuration.TitreDefault = txt_Title.getTextString().trim();
-			Singletons.Configuration.ProxyAdress = conf_pnl.getProxyAddr();
-			Singletons.Configuration.ProxyPort = conf_pnl.getProxyPort();
-			Singletons.Configuration.write();
+			Singletons.getConfiguration().TitreDefault = txt_Title.getTextString().trim();
+			Singletons.getConfiguration().ProxyAdress = conf_pnl.getProxyAddr();
+			Singletons.getConfiguration().ProxyPort = conf_pnl.getProxyPort();
+			Singletons.getConfiguration().write();
 			asso_pnl.Save();
 			mDialog.dispose();
-			Singletons.loadSetting(Singletons.Configuration.getStoragePath());
+			Singletons.loadSetting(Singletons.getConfiguration().getStoragePath());
 		} catch (java.io.IOException ioe) {
-			Singletons.mDesktop.throwException(ioe);
+			Singletons.getDesktop().throwException(ioe);
 		}
 	}
 
-	public static void run(IDialog aDialog) {
+	public static void run(GUIDialog aDialog) {
 		SetupDialog dlg = new SetupDialog();
 		aDialog.setDialogVisitor(dlg);
 		aDialog.setVisible(true);

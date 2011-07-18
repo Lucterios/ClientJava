@@ -22,8 +22,8 @@ package org.lucterios.engine.presentation;
 
 import java.util.TreeMap;
 
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -63,13 +63,13 @@ public interface Observer extends NotifyFrameObserver {
 
 	public void show(String aTitle) throws LucteriosException;
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException;
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException;
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException;
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException;
 
-	public IForm getGUIFrame();
+	public GUIForm getGUIFrame();
 
-	public IDialog getGUIDialog();
+	public GUIDialog getGUIDialog();
 
 	public void setActive(boolean aIsActive);
 

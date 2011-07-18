@@ -18,10 +18,9 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.graphic;
+package org.lucterios.swing;
 
 import java.awt.Container;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -32,27 +31,22 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import org.lucterios.gui.IForm;
-import org.lucterios.gui.NotifyFrameList;
-import org.lucterios.swing.SForm;
+import org.lucterios.graphic.Tools;
+import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GuiFormList;
 
-public class FormList implements NotifyFrameList {
+public class SFormList extends GuiFormList {
 	class ShortCut {
 		String mActionName = "";
 		KeyStroke mShortCut = null;
 		javax.swing.Action mActionListener = null;
 	}
 
-	private ArrayList<IForm> mList;
 	private Map<String, ShortCut> mShortCutDico;
 
-	public FormList() {
-		mList = new ArrayList<IForm>();
+	public SFormList() {
+		super();
 		mShortCutDico = new TreeMap<String, ShortCut>();
-	}
-
-	public void clear() {
-		mList.clear();
 	}
 
 	public void clearShortCut() {
@@ -60,6 +54,10 @@ public class FormList implements NotifyFrameList {
 		Tools.postOrderGC();
 	}
 
+	protected GUIForm newForm(String aId) {
+		return new SForm(aId);
+	}
+	
 	public void newShortCut(String aActionName, KeyStroke aShortCut,
 			javax.swing.Action aActionListener) {
 		ShortCut short_cut = new ShortCut();
@@ -93,48 +91,6 @@ public class FormList implements NotifyFrameList {
 			if (Container.class.isInstance(aComp))
 				addShortCut((Container) aComp.getComponent(idx), aActionName,
 						aShortCut, aActionListener);
-	}
-
-	public IForm create(String aId) {
-		IForm form = null;
-		for (int idx = 0; (form == null) && idx < count(); idx++)
-			if (get(idx).getName().equals(aId))
-				form = get(idx);
-		if (form == null) {
-			form = new SForm(aId);
-			add(form);
-		}
-		return form;
-	}
-
-	private void add(IForm aNewForm) {
-		aNewForm.setNotifyFrameList(this);
-		mList.add(aNewForm);
-		if (mFormSelected == null)
-			mFormSelected = aNewForm;
-	}
-
-	public void removeFrame(IForm aForm) {
-		mList.remove(aForm);
-		System.gc();
-	}
-
-	public int count() {
-		return mList.size();
-	}
-
-	public IForm get(int index) {
-		return mList.get(index);
-	}
-
-	private IForm mFormSelected = null;
-
-	public void selectFrame(IForm aForm) {
-		mFormSelected = aForm;
-	}
-
-	public IForm getFrameSelected() {
-		return mFormSelected;
 	}
 
 }

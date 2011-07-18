@@ -1,9 +1,9 @@
 package org.lucterios.gui;
 
-public interface IDialog {
+public interface GUIDialog {
 	
 	public interface DialogVisitor {
-		public void execute(IDialog dialog);
+		public void execute(GUIDialog dialog);
 	}
 	
 	public void setDialogVisitor(DialogVisitor dialogVisitor);
@@ -35,7 +35,7 @@ public interface IDialog {
 
 	public void refreshSize();
 	
-	public IDialog createDialog();
+	public GUIDialog createDialog();
 	
 	public GUIContainer getContainer();
 

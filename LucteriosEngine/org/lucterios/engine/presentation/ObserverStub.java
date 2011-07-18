@@ -23,8 +23,8 @@ package org.lucterios.engine.presentation;
 import java.lang.ref.WeakReference;
 
 import org.lucterios.engine.application.ActionConstantes;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.SimpleParsing;
 
 public class ObserverStub extends ObserverAbstract {
@@ -63,13 +63,13 @@ public class ObserverStub extends ObserverAbstract {
 			getGUIDialog().setVisible(true);
 	}
 
-	public void show(String aTitle, IForm aGUI) {
-		mGUIFrame = new WeakReference<IForm>(aGUI);
+	public void show(String aTitle, GUIForm aGUI) {
+		mGUIFrame = new WeakReference<GUIForm>(aGUI);
 		show(aTitle);
 	}
 
-	public void show(String aTitle, IDialog aGUI) {
-		mGUIDialog = new WeakReference<IDialog>(aGUI);
+	public void show(String aTitle, GUIDialog aGUI) {
+		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
 		show(aTitle);
 	}
 

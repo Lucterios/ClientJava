@@ -12,13 +12,13 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GridInterface;
-import org.lucterios.gui.IDialog;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIContainer.FillMode;
 import org.lucterios.gui.GUIContainer.ReSizeMode;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
-import org.lucterios.gui.IDialog.DialogVisitor;
+import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class AssociationPanel implements GUISelectListener,GridInterface {
 
@@ -30,7 +30,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		private IDialog mOwner;
+		private GUIDialog mOwner;
 		
 		private GUIContainer pnl_new_btn;
 		private GUILabel lbl_name;
@@ -51,7 +51,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			mAppliName=aAppliName;
 		}
 
-		public void execute(IDialog aOwner) {
+		public void execute(GUIDialog aOwner) {
 			mOwner=aOwner;
 			Initial();
 			if ((mExtName!=null) && (mAppliName!=null)) { 
@@ -71,7 +71,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			Init();
 			InitBtn();
 			mOwner.pack();
-			int[] screen = Singletons.mDesktop.getScreenSize();
+			int[] screen = Singletons.getDesktop().getScreenSize();
 			mOwner.setLocation((screen[0] - mOwner.getSizeX()) / 2, (screen[1] - mOwner.getSizeY()) / 4);			
 			GUIButton[] btns = { btn_AddNew, btn_ExitNew };
 			mOwner.getContainer().calculBtnSize(btns);
@@ -83,7 +83,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 1, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
 
 			btn_AddNew = pnl_btn.createButton(0,0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_AddNew.setImage(Singletons.mDesktop.CreateImage(Resources.class
+			btn_AddNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
 					.getResource("ok.png")));
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setTextString("OK");
@@ -94,7 +94,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			});
 
 			btn_ExitNew = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_ExitNew.setImage(Singletons.mDesktop.CreateImage(Resources.class
+			btn_ExitNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
 					.getResource("cancel.png")));		
 			btn_ExitNew.setMnemonic('n');
 			btn_ExitNew.setTextString("Annuler");
@@ -150,7 +150,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 
 	}
 
-	private IDialog mOwnerFrame;
+	private GUIDialog mOwnerFrame;
 	private GUIContainer mOwnerContainer;
 	private StringDico mExtAssociation;
 
@@ -161,7 +161,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 	private GUIButton btn_Mod;
 	private GUIButton btn_Del;
 
-	public AssociationPanel(IDialog aOwnerFrame) {
+	public AssociationPanel(GUIDialog aOwnerFrame) {
 		super();
 		mOwnerFrame=aOwnerFrame;
 	}
@@ -226,7 +226,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 
 	protected void btn_ModActionPerformed() {
 		int row = cmp_tbl.getSelectedRows()[0];
-		IDialog new_dialog=mOwnerFrame.createDialog();
+		GUIDialog new_dialog=mOwnerFrame.createDialog();
 		AssociationEditor edt = new AssociationEditor((String) getValueAt(row, 0), (String) getValueAt(row, 1));
 		new_dialog.setDialogVisitor(edt);
 		new_dialog.setVisible(true);
@@ -244,7 +244,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 	}
 
 	protected void btn_AddActionPerformed() {
-		IDialog new_dialog=mOwnerFrame.createDialog();
+		GUIDialog new_dialog=mOwnerFrame.createDialog();
 		AssociationEditor edt = new AssociationEditor(null,null);
 		new_dialog.setDialogVisitor(edt);
 		new_dialog.setVisible(true);
@@ -254,7 +254,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 	}
 
 	public void Setup() {
-		mExtAssociation = Singletons.LucteriosSettingFile
+		mExtAssociation = Singletons.getLucteriosSettingFile()
 				.getValuesSection(DesktopInterface.ASSOCIATION_SECTION);
 		cmp_tbl.setGridInterface(this);
 		GUIButton[] btns_1 = { btn_Mod, btn_Del, btn_Add };
@@ -262,13 +262,13 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 	}
 
 	public void Save() throws IOException {
-		Singletons.LucteriosSettingFile.clearSection(DesktopInterface.ASSOCIATION_SECTION);
+		Singletons.getLucteriosSettingFile().clearSection(DesktopInterface.ASSOCIATION_SECTION);
 		for (int idx = 0; idx < getRowCount(); idx++) {
-			Singletons.LucteriosSettingFile.setValueSection(
+			Singletons.getLucteriosSettingFile().setValueSection(
 					DesktopInterface.ASSOCIATION_SECTION, getKey(idx),
 					(String) getValueAt(idx, 1));
 		}
-		Singletons.LucteriosSettingFile.save();
+		Singletons.getLucteriosSettingFile().save();
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {

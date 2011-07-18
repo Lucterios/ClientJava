@@ -4,7 +4,7 @@ import org.lucterios.gui.NotifyFrameChange;
 import org.lucterios.gui.NotifyFrameList;
 import org.lucterios.gui.NotifyFrameObserver;
 
-public interface IForm {
+public interface GUIForm {
 
 	public abstract String getName();
 

@@ -34,10 +34,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SimpleParsing extends DefaultHandler implements Cloneable
 {	
-	public int hashCode() {
-		return 0;
-	}
-
 	public final static String EMPTY_NAME="empty";
 	public final static String XML_ENCODING="<?xml version='1.0' encoding='ISO-8859-1'?>";
 
@@ -57,16 +53,6 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	{
 		super();
 		mParent=null;
-	}
-	
-	public Object clone() throws CloneNotSupportedException{
-		SimpleParsing resValue=new SimpleParsing();
-		resValue.mAttrs=(StringDico) this.mAttrs.clone();
-		resValue.mSimpleName=new String(this.mSimpleName);
-		resValue.mTexts=(StringList) this.mTexts.clone();
-		for(SimpleParsing subfields:this.mFields)
-			resValue.mFields.add((SimpleParsing) subfields.clone());
-		return resValue;
 	}
 	
 	public boolean equals(Object value)
@@ -202,19 +188,6 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
         }
 	}
 	
-	public float getAttributFloat(String aName,float aDefault)
-	{
-		String value=getAttribut(aName);
-        try
-        {
-            return new Double(value).floatValue();
-        }
-        catch(java.lang.Exception e)
-        {
-            return aDefault;
-        }
-	}
-
 	public double getAttributDouble(String aName,double aDefault)
 	{
 		String value=getAttribut(aName);

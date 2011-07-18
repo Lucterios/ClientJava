@@ -1,15 +1,20 @@
-package org.lucterios.gui;
+package org.lucterios.gui.test;
 
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIContainer.FillMode;
 import org.lucterios.gui.GUIContainer.ReSizeMode;
-import org.lucterios.gui.IDialog.DialogVisitor;
+import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class DialogExample implements DialogVisitor {
 
-	private IDialog mDialog;
+	private GUIDialog mDialog;
 	
-	public void execute(IDialog dialog) {
+	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
 		mDialog.setTitle("Exemple dialogue");
 		initScroll();	

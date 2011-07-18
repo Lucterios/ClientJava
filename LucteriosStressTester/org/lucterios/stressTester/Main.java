@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.lucterios.client.application.ActionImpl;
-import org.lucterios.client.transport.HttpTransportImpl;
+import org.lucterios.engine.transport.HttpTransportImpl;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
@@ -47,8 +47,8 @@ public class Main {
 
 	private boolean initialize() throws LucteriosException, IOException {
 		boolean result;
-		Singletons.ActionClass = ActionImpl.class;
-		Singletons.HttpTransportClass=HttpTransportImpl.class;
+		Singletons.setActionClass(ActionImpl.class);
+		Singletons.setHttpTransportClass(HttpTransportImpl.class);
 		Singletons.initalize(new File("."));
 		
 		m_current_transport = Singletons.Transport();

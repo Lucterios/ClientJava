@@ -30,14 +30,14 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.FrameControle;
 import org.lucterios.gui.GUIContainer;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.NotifyFrameChange;
 import org.lucterios.gui.NotifyFrameList;
 import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.gui.GUIContainer.ContainerType;
 
-public class SForm extends JFrame implements IForm {
+public class SForm extends JFrame implements GUIForm {
 
 	private static final long serialVersionUID = 1L;
 
@@ -211,7 +211,7 @@ public class SForm extends JFrame implements IForm {
 		return mContainer;
 	}
 	
-	public IDialog createDialog(){
+	public GUIDialog createDialog(){
 		return new SDialog(this);
 	}
 	

@@ -26,12 +26,14 @@ import java.io.IOException;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.Tools;
 
 public class Singletons {
 	
+	private static final String ERREUR_SINGLETON_NULL = "Erreur Singleton:%s null";
 	static final public String LUCTERIOS_CONFIG = ".LucteriosSetting";
 	static final public String TEMP_DIR=".LucteriosTemp";
 	
@@ -39,21 +41,78 @@ public class Singletons {
 		void exit();
 	}
 
-	static public IniFileManager LucteriosSettingFile=null;
+	private static IniFileManager gLucteriosSettingFile=null;
 	
-	static public DesktopInterface mDesktop=null;
+	private static DesktopInterface gDesktop=null;
 	
-	static public ApplicationTerminate AppTerminate=null;
+	private static ApplicationTerminate gAppTerminate=null;
 	
-	static public Class<? extends HttpTransport> HttpTransportClass=null;
+	private static Class<? extends HttpTransport> gHttpTransportClass=null;
 
-	static public Class<? extends Action> ActionClass=null;
+	private static Class<? extends Action> gActionClass=null;
+
+	private static ObserverFactory gFactory=null;
+
+	private static LucteriosConfiguration gConfiguration = null;
+
+	private static GUIGenerator gWindowGenerator = null;
+	
+	//------------------------------------------------------------------
+	
+	public static LucteriosConfiguration getConfiguration() {
+		if (gConfiguration==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gConfiguration"));
+		return gConfiguration;
+	}
+
+	public static void setActionClass(Class<? extends Action> gActionClass) {
+		Singletons.gActionClass = gActionClass;
+	}
+
+	public static void setHttpTransportClass(Class<? extends HttpTransport> gHttpTransportClass) {
+		Singletons.gHttpTransportClass = gHttpTransportClass;
+	}
+
+	public static void setAppTerminate(ApplicationTerminate gAppTerminate) {
+		Singletons.gAppTerminate = gAppTerminate;
+	}
+
+	public static void setDesktop(DesktopInterface gDesktop) {
+		Singletons.gDesktop = gDesktop;
+	}
+
+	public static DesktopInterface getDesktop() {
+		if (gDesktop==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gDesktop"));
+		return gDesktop;
+	}
+
+	public static IniFileManager getLucteriosSettingFile() {
+		if (gLucteriosSettingFile==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gLucteriosSettingFile"));
+		return gLucteriosSettingFile;
+	}
+
+
+	public static void setWindowGenerator(GUIGenerator gWindowGenerator) {
+		Singletons.gWindowGenerator = gWindowGenerator;
+	}
+
+	public static GUIGenerator getWindowGenerator() {
+		if (gWindowGenerator==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gWindowGenerator"));
+		return gWindowGenerator;
+	}
+	
+	//------------------------------------------------------------------
 	
 	static public HttpTransport Transport() {
+		if (gHttpTransportClass==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gHttpTransportClass"));
 		HttpTransport new_transport = null;
 		try {
-			new_transport = (HttpTransport) HttpTransportClass.newInstance();
-			new_transport.setDesktop(mDesktop);
+			new_transport = (HttpTransport) gHttpTransportClass.newInstance();
+			new_transport.setDesktop(gDesktop);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -61,11 +120,14 @@ public class Singletons {
 		}
 		return new_transport;
 	}
+	
 
 	static public Action CreateAction() {
+		if (gActionClass==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gActionClass"));
 		Action new_action=null;
 		try {
-			new_action = (Action) ActionClass.newInstance();
+			new_action = (Action) gActionClass.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -74,18 +136,17 @@ public class Singletons {
 		return new_action;
 	}
 	
-	static private ObserverFactory mFactory=null;
-
-	static public ObserverFactory Factory() {
-		mFactory.setHttpTransport(Transport());
-		return mFactory;
+	
+ 	static public ObserverFactory Factory() {
+		if (gFactory==null)
+			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gFactory"));
+		gFactory.setHttpTransport(Transport());
+		return gFactory;
 	}
-
-	static public LucteriosConfiguration Configuration = null;
-
-	static public void initalize(File storagePath) throws IOException {
-		Configuration = new LucteriosConfiguration(storagePath);
-		mFactory = new ObserverFactoryImpl();
+ 	
+ 	static public void initalize(File storagePath) throws IOException {
+		gConfiguration=new LucteriosConfiguration(storagePath);
+		gFactory=new ObserverFactoryImpl();
 		File cache_dir=new File(storagePath,TEMP_DIR);
 		if (cache_dir.isDirectory())
 			Tools.deleteDir(cache_dir);
@@ -93,16 +154,19 @@ public class Singletons {
 			cache_dir.mkdir();
 		loadSetting(storagePath);
 	}
+ 	
 
-	static public void loadSetting(File storagePath) throws IOException {
-		LucteriosSettingFile=new IniFileManager(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
-		if (mDesktop!=null)
-			mDesktop.initApplicationsSetting(LucteriosSettingFile);
+ 	static public void loadSetting(File storagePath) throws IOException {
+		gLucteriosSettingFile=new IniFileManager(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
+		if (gDesktop!=null)
+			gDesktop.initApplicationsSetting(gLucteriosSettingFile);
 	}
 	
-	static public void exit(){
-		if (AppTerminate!=null)
-			AppTerminate.exit();
+
+ 	static public void exit(){
+		if (gAppTerminate!=null)
+			gAppTerminate.exit();
 		System.exit(0);
 	}
+
 }

@@ -35,15 +35,14 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.FormList;
 import org.lucterios.graphic.FrameControle;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
-import org.lucterios.gui.IDialog;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.gui.GUIContainer.ContainerType;
 
-public class SDialog extends JDialog implements IDialog {
+public class SDialog extends JDialog implements GUIDialog {
 
 	/**
 	 * 
@@ -114,7 +113,7 @@ public class SDialog extends JDialog implements IDialog {
 					refresh();
 				}
 			};
-			FormList.addShortCut(getContentPane(), "refresh", KeyStroke
+			SFormList.addShortCut(getContentPane(), "refresh", KeyStroke
 					.getKeyStroke("F5"), refresh_action);
 		}
 		super.setVisible(aVisible);
@@ -188,7 +187,7 @@ public class SDialog extends JDialog implements IDialog {
 		return mContainer;
 	}
 
-	public IDialog createDialog(){
+	public GUIDialog createDialog(){
 		return new SDialog(this);
 	}
 

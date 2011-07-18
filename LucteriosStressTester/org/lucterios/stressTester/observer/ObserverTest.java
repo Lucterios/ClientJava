@@ -2,8 +2,8 @@ package org.lucterios.stressTester.observer;
 
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
-import org.lucterios.gui.IDialog;
-import org.lucterios.gui.IForm;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.LucteriosException;
 
 public class ObserverTest extends ObserverAbstract {
@@ -18,8 +18,8 @@ public class ObserverTest extends ObserverAbstract {
 
 	public void setNameComponentFocused(String aNameComponentFocused) {	}
 
-	public void show(String aTitle, IForm new_frame) throws LucteriosException {}
+	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {}
 
-	public void show(String aTitle, IDialog aGUI) throws LucteriosException {}
+	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {}
 
 }
