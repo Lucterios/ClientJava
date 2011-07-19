@@ -46,5 +46,7 @@ public interface GUIDialog {
 	public int getSizeX();
 
 	public void setDefaultButton(GUIButton btnAdd);
+
+	public void initialPosition();
 	
 }

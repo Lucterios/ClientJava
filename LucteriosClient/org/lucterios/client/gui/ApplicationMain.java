@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -45,11 +46,9 @@ import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverAuthentification;
 import org.lucterios.client.application.observer.ObserverMenu;
-import org.lucterios.client.gui.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.client.setting.AboutBox;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.client.setting.Update;
-import org.lucterios.client.utils.TimeLabel;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
@@ -61,11 +60,15 @@ import org.lucterios.engine.setting.SetupDialog;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.graphic.DesktopTools;
+import org.lucterios.style.ThemeMenu;
+import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
+import org.lucterios.swing.SFrame;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.swing.SFormList;
 import org.lucterios.graphic.FrameControle;
+import org.lucterios.graphic.TimeLabel;
 import org.lucterios.graphic.Tools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
@@ -76,7 +79,7 @@ import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.NotifyFrameChange;
 
-public class ApplicationMain extends JFrame implements RefreshButtonPanel,
+public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		Connection, NotifyFrameChange, ToolBar, FrameControle,
 		LookAndFeelCallBack {
 	/**
@@ -149,10 +152,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 	}
 
 	public ActionListener getRunSetupDialog() {
-		final JFrame frame = this;
+		final SFrame frame = this;
 		return new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				SetupDialog.run(new SDialog(frame));
+				SetupDialog.run(Singletons.getWindowGenerator().newDialog(frame));
 			}
 		};
 	}
@@ -673,7 +676,10 @@ public class ApplicationMain extends JFrame implements RefreshButtonPanel,
 			String aLogin, String aRealName, boolean refreshMenu) {
 		refreshConnectionInfoOwnerObs();
 		mDescription = aDescription;
-		setIconImage(mDescription.getLogoImage());
+		Image logoIcon=null;
+		if (mDescription.getLogo() != null)
+			logoIcon = ((ImageIcon)mDescription.getLogo()).getImage();
+		setIconImage(logoIcon);
 		String sub_title = aSubTitle;
 		if (!sub_title.equals(""))
 			setTitle(mDescription.getTitle() + " - " + sub_title);

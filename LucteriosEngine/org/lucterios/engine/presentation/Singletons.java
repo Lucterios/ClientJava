@@ -26,9 +26,9 @@ import java.io.IOException;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
+import org.lucterios.engine.utils.LucteriosSetting;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.utils.DesktopInterface;
-import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.Tools;
 
 public class Singletons {
@@ -41,7 +41,7 @@ public class Singletons {
 		void exit();
 	}
 
-	private static IniFileManager gLucteriosSettingFile=null;
+	private static LucteriosSetting gLucteriosSettingFile=null;
 	
 	private static DesktopInterface gDesktop=null;
 	
@@ -87,7 +87,7 @@ public class Singletons {
 		return gDesktop;
 	}
 
-	public static IniFileManager getLucteriosSettingFile() {
+	public static LucteriosSetting getLucteriosSettingFile() {
 		if (gLucteriosSettingFile==null)
 			throw new RuntimeException(String.format(ERREUR_SINGLETON_NULL,"gLucteriosSettingFile"));
 		return gLucteriosSettingFile;
@@ -157,7 +157,7 @@ public class Singletons {
  	
 
  	static public void loadSetting(File storagePath) throws IOException {
-		gLucteriosSettingFile=new IniFileManager(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
+		gLucteriosSettingFile=new LucteriosSetting(storagePath.getAbsolutePath()+LUCTERIOS_CONFIG);
 		if (gDesktop!=null)
 			gDesktop.initApplicationsSetting(gLucteriosSettingFile);
 	}

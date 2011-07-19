@@ -1,5 +1,7 @@
 package org.lucterios.swing;
 
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -30,6 +32,11 @@ public class SLabel extends JLabel implements GUILabel {
 
 	public void setTextString(String text) {
 		setText(text);		
+	}
+
+	public void setStyle(int style) {
+		Font font=getFont();
+		setFont(new Font(font.getName(), style, font.getSize()));		
 	}	
 	
 }

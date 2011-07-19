@@ -1,8 +1,7 @@
-package org.lucterios.client.gui;
+package org.lucterios.style;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
@@ -10,26 +9,18 @@ import javax.swing.UIManager;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalTheme;
 
-import org.lucterios.client.utils.CharcoalTheme;
-import org.lucterios.client.utils.EmeraldTheme;
-import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.utils.Tools.DefaultThemeCallBack;
 
 import com.pagosoft.plaf.PlafOptions;
 import com.pagosoft.plaf.ThemeFactory;
 
 public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 
-	private static final int THEME_DEFAULT = 4;
-
-	private static final String DEFAULT_THEME = "DefaultTheme";
-
-	private static final String PREFERENCE = "Preference";
-
 	public interface LookAndFeelCallBack {
 		public Component[] getComponentsForLookAndFeel();
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -38,6 +29,16 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 	private MetalTheme mTheme;
 
 	public LookAndFeelCallBack CallBack = null;
+
+	private static DefaultThemeCallBack gDefaultThemeCallBack=null;
+	
+	public static void setDefaultThemeCallBack(DefaultThemeCallBack defaultThemeCallBack) {
+		ThemeMenu.gDefaultThemeCallBack = defaultThemeCallBack;
+	}
+
+	public static DefaultThemeCallBack getDefaultThemeCallBack() {
+		return gDefaultThemeCallBack;
+	}
 
 	public ThemeMenu(MetalTheme aTheme, boolean aSelected,
 			LookAndFeelCallBack aCallBack) {
@@ -70,8 +71,9 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 			ThemeFactory.RUBY, ThemeFactory.WIN, ThemeFactory.YELLOW };
 
 	public static MetalTheme getDefaultTheme() {
-		int default_num = Singletons.getLucteriosSettingFile().getValueSectionInt(
-				PREFERENCE, DEFAULT_THEME, THEME_DEFAULT);
+		int default_num = 0;
+		if (gDefaultThemeCallBack!=null)
+			default_num = gDefaultThemeCallBack.getDefaultValue();
 		if ((default_num > Global_Themes.length) || (default_num < 0))
 			default_num = 0;
 		return Global_Themes[default_num];
@@ -84,13 +86,8 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 			if (Global_Themes[theme_id].equals(aTheme))
 				default_num = theme_id;
 		}
-		if (default_num != -1) {
-			Singletons.getLucteriosSettingFile().setValueSectionInt(PREFERENCE,
-					DEFAULT_THEME, default_num);
-			try {
-				Singletons.getLucteriosSettingFile().save();
-			} catch (IOException e) {
-			}
+		if ((default_num != -1) && (gDefaultThemeCallBack!=null)) {
+			gDefaultThemeCallBack.setDefaultValue(default_num);
 		}
 	}
 

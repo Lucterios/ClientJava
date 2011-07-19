@@ -1,4 +1,4 @@
-package org.lucterios.client.utils;
+package org.lucterios.graphic;
 
 import java.awt.Font;
 import java.awt.HeadlessException;

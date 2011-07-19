@@ -11,13 +11,14 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GridInterface;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
-import org.lucterios.gui.GUIContainer.FillMode;
-import org.lucterios.gui.GUIContainer.ReSizeMode;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class AssociationPanel implements GUISelectListener,GridInterface {
@@ -80,10 +81,10 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		}
 
 		public void InitBtn() {
-			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 1, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 1));
 
-			btn_AddNew = pnl_btn.createButton(0,0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_AddNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
+			btn_AddNew = pnl_btn.createButton(new GUIParam(0,0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			btn_AddNew.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 					.getResource("ok.png")));
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setTextString("OK");
@@ -93,8 +94,8 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 				}
 			});
 
-			btn_ExitNew = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_ExitNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
+			btn_ExitNew = pnl_btn.createButton(new GUIParam(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			btn_ExitNew.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 					.getResource("cancel.png")));		
 			btn_ExitNew.setMnemonic('n');
 			btn_ExitNew.setTextString("Annuler");
@@ -106,28 +107,19 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		}
 
 		public void Init() {
-			pnl_new_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 0, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+			pnl_new_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 0));
 
-			lbl_name = pnl_new_btn.createLabel(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_name = pnl_new_btn.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_name.setTextString("Extension");
-			// TODO Font des label et position
-			/*lbl_name.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_name.setStyle(1);
 			
-			txt_name = pnl_new_btn.createEdit(1, 0, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
+			txt_name = pnl_new_btn.createEdit(new GUIParam(1, 0, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 
-			lbl_application = pnl_new_btn.createLabel(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_application = pnl_new_btn.createLabel(new GUIParam(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_application.setTextString("Application associée");
-			// TODO Font des label et position
-			/*lbl_application.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_application.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_application.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_application.setStyle(1);
 
-			txt_application = pnl_new_btn.createEdit(1,1, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
-			// TODO Defaut size
-			/*txt_application.setPreferredSize(new Dimension(100, 19));
-			txt_application.setMinimumSize(new Dimension(100, 19));*/
+			txt_application = pnl_new_btn.createEdit(new GUIParam(1,1, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 		}
 
 		private void btn_Add() {
@@ -178,17 +170,17 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 	}
 
 	public void Init() {
-		scr_pnl = mOwnerContainer.createContainer(ContainerType.CT_SCROLL, 0, 0, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
-		cmp_tbl = scr_pnl.createGrid(0, 0, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+		scr_pnl = mOwnerContainer.createContainer(ContainerType.CT_SCROLL, new GUIParam(0, 0));
+		cmp_tbl = scr_pnl.createGrid(new GUIParam(0, 0,1,1,ReSizeMode.RSM_BOTH, FillMode.FM_BOTH, 400, 150));
 		cmp_tbl.setMultiSelection(false);
 		cmp_tbl.addSelectListener(this);
 	}
 
 	public void InitGridBtn() {
-		GUIContainer pnl_grid_btn = mOwnerContainer.createContainer(ContainerType.CT_NORMAL, 1, 0, 1,1, 
-				ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		GUIContainer pnl_grid_btn = mOwnerContainer.createContainer(ContainerType.CT_NORMAL, new GUIParam(1, 0, 1,1, 
+				ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 
-		btn_Mod = pnl_grid_btn.createButton(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Mod = pnl_grid_btn.createButton(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Mod.setMnemonic('m');
 		btn_Mod.setTextString("Modifier");
 		btn_Mod.addActionListener(new GUIActionListener() {
@@ -197,7 +189,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			}
 		});
 
-		btn_Add = pnl_grid_btn.createButton(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Add = pnl_grid_btn.createButton(new GUIParam(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Add.setMnemonic('a');
 		btn_Add.setTextString("Ajouter");
 		btn_Add.addActionListener(new GUIActionListener() {
@@ -206,7 +198,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			}
 		});
 
-		btn_Del = pnl_grid_btn.createButton(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Del = pnl_grid_btn.createButton(new GUIParam(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Del.setMnemonic('s');
 		btn_Del.setTextString("Supprimer");
 		btn_Del.addActionListener(new GUIActionListener() {
@@ -214,8 +206,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 				btn_DelActionPerformed();
 			}
 		});
-		pnl_grid_btn.createContainer(ContainerType.CT_NORMAL,0, 3, 2, 1, 
-				ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+		pnl_grid_btn.createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 3, 2, 1));
 	}
 
 	public void selectionChanged() {
@@ -259,6 +250,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		cmp_tbl.setGridInterface(this);
 		GUIButton[] btns_1 = { btn_Mod, btn_Del, btn_Add };
 		mOwnerContainer.calculBtnSize(btns_1);
+		selectionChanged();
 	}
 
 	public void Save() throws IOException {

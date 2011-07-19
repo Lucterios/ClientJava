@@ -20,6 +20,11 @@
 
 package org.lucterios.swing;
 
+import java.net.URL;
+
+import org.lucterios.graphic.SwingImage;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
@@ -31,7 +36,7 @@ public class SGenerator implements GUIGenerator {
 		super();
 	}
 
-	public GUIForm newFrame(String aActionId) {
+	public GUIForm newForm(String aActionId) {
 		return new SForm(aActionId);
 	}
 
@@ -44,4 +49,18 @@ public class SGenerator implements GUIGenerator {
 		return new_dialog;
 	}
 
+	public GUIFrame newFrame() {
+		return new SFrame();
+	}
+
+	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
+		return new SDialog((SFrame) aOwnerFrame);
+	}
+
+	public AbstractImage CreateImage(URL url) {
+		AbstractImage new_image=new SwingImage();
+		new_image.load(url);
+		return new_image;
+	}
+	
 }

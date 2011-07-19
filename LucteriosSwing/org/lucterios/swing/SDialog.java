@@ -58,9 +58,7 @@ public class SDialog extends JDialog implements GUIDialog {
 	public SDialog() {
 		super();
 		initial();
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((screen.width - getSize().width) / 2,
-				(screen.height - getSize().height) / 2);
+		initialPosition();
 	}
 
 	public SDialog(SDialog aDialog) {
@@ -202,5 +200,10 @@ public class SDialog extends JDialog implements GUIDialog {
 	public void setDefaultButton(GUIButton btn) {
 		if (btn instanceof JButton)
 			this.getRootPane().setDefaultButton((JButton)btn);
+	}
+
+	public void initialPosition() {
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
 	}
 }

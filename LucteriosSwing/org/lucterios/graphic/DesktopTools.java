@@ -1,5 +1,6 @@
 package org.lucterios.graphic;
 
+import java.awt.Component;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -15,7 +16,8 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.Arrays;
 
-import org.lucterios.gui.AbstractImage;
+import javax.swing.JFileChooser;
+
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.IniFileReader;
@@ -393,13 +395,25 @@ public class DesktopTools implements DesktopInterface {
 		return -1;
 	}
 
-	public AbstractImage CreateImage(URL url) {
-		AbstractImage new_image=new SwingImage();
-		new_image.load(url);
-		return new_image;
-	}
-
 	public void throwException(Exception e) {
 		ExceptionDlg.throwException(e);
+	}
+
+	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner) {
+		File result=null;
+		JFileChooser file_dlg;
+		file_dlg = new JFileChooser();
+		file_dlg.setFileFilter(new javax.swing.filechooser.FileFilter() {
+			public boolean accept(File aFile) {
+				return filter.accept(aFile);
+			}
+			public String getDescription() {
+				return filter.getDescription();
+			}
+
+		});
+		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
+			result = file_dlg.getSelectedFile();
+		return result;
 	}
 }

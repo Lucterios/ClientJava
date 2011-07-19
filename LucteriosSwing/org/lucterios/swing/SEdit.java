@@ -1,9 +1,11 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -45,7 +47,8 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
     public SEdit() 
     {
         super();
-        addFocusListener(this);	
+        addFocusListener(this);
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));        
 		PopupListener popupListener = new PopupListener();
 		popupListener.setActions(getActions());
 		popupListener.addEditionMenu(true);

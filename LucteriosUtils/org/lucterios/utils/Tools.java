@@ -33,6 +33,11 @@ public class Tools {
 	
 	public final static int EPSILON_RATIO=1;
 
+	public interface DefaultThemeCallBack {
+		public int getDefaultValue();
+		public void setDefaultValue(int value);
+	}
+	
     static public String parseISToString(java.io.InputStream is) throws LucteriosException
     {
         try {
@@ -88,7 +93,9 @@ public class Tools {
         	text=replace(text,"<hr/>","<table width='100%' border='1'></table>");
         text=replace(text,"{[br/]}","<br/>");              
         text=replace(text,"{[","<");              
-        text=replace(text,"]}",">");              
+        text=replace(text,"]}",">");
+        if ((text.length()>0) && text.charAt(0)=='/')
+        	text="&#47;"+text.substring(1);
         return text;
     }    
     

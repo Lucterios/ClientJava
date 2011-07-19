@@ -1,17 +1,14 @@
 package org.lucterios.client.application;
 
-import java.awt.Image;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import javax.swing.ImageIcon;
-
-import org.lucterios.client.setting.Constants;
-import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.graphic.DesktopTools;
-import org.lucterios.utils.Tools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.ExceptionDlg.InfoDescription;
+
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.utils.Tools;
+import org.lucterios.gui.AbstractImage;
 
 public class ApplicationDescription implements InfoDescription {
 
@@ -20,10 +17,12 @@ public class ApplicationDescription implements InfoDescription {
 	private String mServerVersion;
 	private String mCopyRigth;
 	private String mLogoIconName;
-	private Image mLogoIcon;
+	private AbstractImage mLogoIcon;
 	private String mLogin;
 	private String mInfoServer;
 	private String mSupportEmail;
+	
+	public static String gVersion="x.x.x.x";
 
 	public ApplicationDescription(String aTitle, String aCopyRigth,
 			String aLogoName, String aAppliVersion, String aServerVersion) {
@@ -37,11 +36,7 @@ public class ApplicationDescription implements InfoDescription {
 
 	private void setLogoIconName(String aLogoIconName) {
 		this.mLogoIconName = aLogoIconName;
-		ImageIcon img = (ImageIcon)Singletons.Transport().getIcon(mLogoIconName, 0).getData();
-		if (img != null)
-			mLogoIcon = img.getImage();
-		else
-			mLogoIcon = null;
+		mLogoIcon = Singletons.Transport().getIcon(mLogoIconName, 0);
 	}
 
 	public String getTitle() {
@@ -64,13 +59,13 @@ public class ApplicationDescription implements InfoDescription {
 		return mCopyRigth;
 	}
 
-	public Image getLogoImage() {
+	public AbstractImage getLogoImage() {
 		return mLogoIcon;
 	}
 
-	public ImageIcon getLogoIcon() {
+	public Object getLogo() {
 		if (mLogoIcon != null)
-			return new ImageIcon(mLogoIcon);
+			return mLogoIcon.getData();
 		else
 			return null;
 	}
@@ -98,7 +93,7 @@ public class ApplicationDescription implements InfoDescription {
 				+ "<tr><td><center>Serveur</center></td><td><center>"
 				+ mServerVersion + "</center></td></tr>"
 				+ "<tr><td><center>Client JAVA</center></td><td><center>"
-				+ Constants.Version() + "</center></td></tr>"
+				+ gVersion + "</center></td></tr>"
 				+ "<tr><td colspan='2'><font size='-1'><i>" + mCopyRigth
 				+ "</i></font></td></tr>" + "<tr><td colspan='2'>Connexion : "
 				+ mLogin + "</td></tr>" + "</table>" + "<hr>";
@@ -185,7 +180,7 @@ public class ApplicationDescription implements InfoDescription {
 			url += "?subject=" + aTitle;
 			String body = getText(aComplement);
 			url += "&body=" + body.replace("+", " ");
-			DesktopTools.instance().launch(url);
+			Singletons.getDesktop().launch(url);
 		} catch (Exception e) {
 			ExceptionDlg.throwException(e);
 		}

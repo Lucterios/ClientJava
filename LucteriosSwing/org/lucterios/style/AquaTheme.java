@@ -1,4 +1,4 @@
-package org.lucterios.client.utils;
+package org.lucterios.style;
 
 import javax.swing.plaf.*;
 import javax.swing.plaf.metal.*;

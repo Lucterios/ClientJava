@@ -9,5 +9,7 @@ public interface GUILabel extends GUIComponent {
 	public String getTextString();
 
 	public void setTextString(String text);
+
+	public void setStyle(int style);
 	
 }

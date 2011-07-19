@@ -26,8 +26,8 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-import org.lucterios.client.utils.DatePickerSimple;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.graphic.DatePickerSimple;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpDate extends CmpAbstractEvent {

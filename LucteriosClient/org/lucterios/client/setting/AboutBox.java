@@ -20,149 +20,86 @@
 
 package org.lucterios.client.setting;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import org.lucterios.client.application.ApplicationDescription;
+ import org.lucterios.client.application.ApplicationDescription;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.graphic.WebLabel;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIHyperText;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.swing.SFrame;
 
-public class AboutBox extends JDialog implements MouseListener {
+public class AboutBox {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	JEditorPane mTitleLbl;
-	JEditorPane mVersionLbl;
-	JEditorPane mCopyRigthLbl;
-	JLabel mConfigMore;
-	JLabel mImageLogo;
-
+	private GUIDialog mDialog;
+	private GUIHyperText m_TitleLbl;
+	private GUIHyperText m_VersionLbl;
+	private GUIHyperText m_CopyRigthLbl;
+	private GUIHyperText m_ConfigMore;
+	private GUILabel m_ImageLogo;
+	
 	private ApplicationDescription mDescription;
 
-	private GridBagConstraints getConstraints(int x, int y, Insets aInset,
-			int aGridwidth, int aGridheight) {
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = x;
-		gridBagConstraints.gridy = y;
-		gridBagConstraints.gridwidth = aGridwidth;
-		gridBagConstraints.gridheight = aGridheight;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		if (aInset != null)
-			gridBagConstraints.insets = aInset;
-		return gridBagConstraints;
-	}
 
-	public AboutBox(JFrame aOwner) throws HeadlessException {
-		super(aOwner, true);
-		setTitle("A propos");
-		getContentPane().setLayout(new GridBagLayout());
+	public AboutBox(SFrame aOwner) {
+		mDialog=Singletons.getWindowGenerator().newDialog(aOwner);
+		mDialog.setTitle("A propos");
+		mDialog.setResizable(false);
+		
+		m_ImageLogo=mDialog.getContainer().createLabel(new GUIParam(0, 0, 1, 2));
+		m_TitleLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 0));
+		m_VersionLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 1));
+		m_CopyRigthLbl = mDialog.getContainer().createHyperText(new GUIParam(0, 2, 2, 1));
+		GUILabel lucterios_logo = mDialog.getContainer().createLabel(new GUIParam(0, 3, 2, 1));
+		lucterios_logo.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("LucteriosImage.gif")));	
+		GUIHyperText lucterios = mDialog.getContainer().createHyperText(new GUIParam(0, 4, 2, 1));
+		lucterios.setTextString("<font size='-1'><center><i>Outil de gestion presonnalisé sous licence GPL</i></center></font>");		
 
-		mImageLogo = new JLabel();
-		getContentPane().add(mImageLogo,
-				getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 2));
-
-		mTitleLbl = new JEditorPane();
-		mTitleLbl.setBorder(BorderFactory.createEmptyBorder());
-		mTitleLbl.setEditable(false);
-		mTitleLbl.setFocusable(false);
-		mTitleLbl.setContentType("text/html");
-		mTitleLbl.setBackground(this.getBackground());
-		getContentPane().add(mTitleLbl, getConstraints(1, 0, null, 1, 1));
-
-		mVersionLbl = new JEditorPane();
-		mVersionLbl.setBorder(BorderFactory.createEmptyBorder());
-		mVersionLbl.setEditable(false);
-		mVersionLbl.setFocusable(false);
-		mVersionLbl.setContentType("text/html");
-		mVersionLbl.setBackground(this.getBackground());
-		getContentPane().add(mVersionLbl, getConstraints(1, 1, null, 1, 1));
-
-		mCopyRigthLbl = new JEditorPane();
-		mCopyRigthLbl.setBorder(BorderFactory.createEmptyBorder());
-		mCopyRigthLbl.setEditable(false);
-		mCopyRigthLbl.setFocusable(false);
-		mCopyRigthLbl.setContentType("text/html");
-		mCopyRigthLbl.setBackground(this.getBackground());
-		getContentPane().add(mCopyRigthLbl,
-				getConstraints(0, 2, new Insets(0, 10, 0, 0), 2, 1));
-
-		JLabel lucterios_logo = new JLabel(new javax.swing.ImageIcon(
-				Resources.class.getResource("LucteriosImage.gif")));
-		getContentPane().add(lucterios_logo, getConstraints(0, 3, null, 2, 1));
-
-		JEditorPane lucterios = new JEditorPane();
-		lucterios.setBorder(BorderFactory.createEmptyBorder());
-		lucterios.setEditable(false);
-		lucterios.setFocusable(false);
-		lucterios.setBackground(this.getBackground());
-		lucterios.setContentType("text/html");
-		getContentPane().add(lucterios, getConstraints(0, 4, null, 2, 1));
-		lucterios
-				.setText("<font size='-1'><center><i>Outil de gestion presonnalisé sous licence GPL</i></center></font>");
-
-		WebLabel lucterios_web = new WebLabel("http://www.lucterios.org");
-		lucterios_web.setBackground(this.getBackground());
-		getContentPane().add(lucterios_web, getConstraints(0, 5, null, 2, 1));
-
-		JButton supportBtn = new JButton();
-		supportBtn.setText("Ecrire au support");
-		supportBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent aEvent) {
-				mDescription
-						.sendSupport("demande de support",
-								"Décrivez le plus précisément possible votre problème.<br>");
+		GUIHyperText lucterios_web = mDialog.getContainer().createHyperText(new GUIParam(0, 5, 2, 1));		
+		lucterios_web.setTextString("http://www.lucterios.org");
+		lucterios_web.setHyperLink("http://www.lucterios.org");
+				
+		GUIButton supportBtn = mDialog.getContainer().createButton(new GUIParam(0, 6, 2, 1));
+		supportBtn.setTextString("Ecrire au support");
+		supportBtn.addActionListener(new GUIActionListener() {		
+			public void actionPerformed() {
+				mDescription.sendSupport("demande de support",
+					"Décrivez le plus précisément possible votre problème.<br>");
 			}
 		});
-		getContentPane().add(supportBtn,
-				getConstraints(0, 6, new Insets(5, 5, 10, 10), 2, 1));
+		
 
-		mConfigMore = new JLabel();
-		mConfigMore.setText("...");
-		mConfigMore.addMouseListener(this);
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 6;
-		gridBagConstraints.gridwidth = 1;
-		gridBagConstraints.gridheight = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-		getContentPane().add(mConfigMore, gridBagConstraints);
-
-		setResizable(false);
-		setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-	}
+		m_ConfigMore = mDialog.getContainer().createHyperText(new GUIParam(2, 6, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_NONE));	
+		m_ConfigMore.setTextString("...");
+		m_ConfigMore.addActionListener(new GUIActionListener() {		
+			public void actionPerformed() {
+				showConfigDialog();
+			}
+		});
+	}	
 
 	public void show(ApplicationDescription aDescription) {
 		mDescription = aDescription;
-		mTitleLbl.setText("<center><h1>" + mDescription.getTitle()
+		m_TitleLbl.setTextString("<center><h1>" + mDescription.getTitle()
 				+ "</h1></center>");
-		mImageLogo.setIcon(mDescription.getLogoIcon());
-		mVersionLbl.setText("<table width='100%'>"
+		m_ImageLogo.setImage(mDescription.getLogoImage());
+		m_VersionLbl.setTextString("<table width='100%'>"
 				+ "<tr><td><center>Version</center></td><td><center>"
 				+ mDescription.getApplisVersion() + "</center></td></tr>"
 				+ "<tr><td colspan='2'><font size='-1'><center><i>"
 				+ mDescription.getCopyRigth() + "</i></center></font></td><td>"
 				+ "</table>");
 
-		mCopyRigthLbl
-				.setText("<HR SIZE='2' WIDTH='100%' ALIGN=center>"
+		m_CopyRigthLbl.setTextString("<HR SIZE='2' WIDTH='100%' ALIGN=center>"
 						+ "<table width='100%'>"
 						+ "<tr><td colspan='2'><font size='+1'><center>Utilise le cadre d'application <i>Lucterios</i></center></font></td><td>"
 						+ "<tr><td><center>Serveur</td><td><center>"
@@ -171,45 +108,21 @@ public class AboutBox extends JDialog implements MouseListener {
 						+ "<tr><td><center>Client JAVA</td><td><center>"
 						+ Constants.Version() + "</center></td></tr>"
 						+ "</table>");
-		pack();
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((screen.width - getSize().width) / 2,
-				(screen.height - getSize().height) / 2);
-		setVisible(true);
+		mDialog.pack();
+		mDialog.initialPosition();
+		mDialog.setVisible(true);
 	}
 
-	public void mouseClicked(MouseEvent aEvent) {
-		JDialog config = new JDialog(this, true);
+	private void showConfigDialog() {
+		GUIDialog config = Singletons.getWindowGenerator().newDialog(mDialog,null);
 		config.setTitle("Configuration");
-		config.getContentPane().setLayout(new GridBagLayout());
 
-		JEditorPane text = new JEditorPane();
-		text.setEditable(false);
-		text.setFocusable(false);
-		text.setBackground(this.getBackground());
-		text.setContentType("text/html");
-		text.setText(mDescription.getHTML(null));
-
-		config.getContentPane().add(text,
-				getConstraints(0, 0, new Insets(5, 5, 5, 5), 1, 1));
+		GUIHyperText text = config.getContainer().createHyperText(new GUIParam(0, 0));
+		text.setTextString(mDescription.getHTML(null));
 
 		config.pack();
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		config.setLocation((screen.width - config.getSize().width) / 2,
-				(screen.height - config.getSize().height) / 2);
+		config.initialPosition();
 		config.setVisible(true);
-	}
-
-	public void mouseEntered(MouseEvent aEvent) {
-	}
-
-	public void mouseExited(MouseEvent aEvent) {
-	}
-
-	public void mousePressed(MouseEvent aEvent) {
-	}
-
-	public void mouseReleased(MouseEvent aEvent) {
 	}
 
 }

@@ -20,9 +20,17 @@
 
 package org.lucterios.gui;
 
+import java.net.URL;
+
 public interface GUIGenerator {
-	public GUIForm newFrame(String aActionId);
+	public GUIForm newForm(String aActionId);
+
+	public GUIFrame newFrame();
+	
+	public GUIDialog newDialog(GUIFrame aOwnerFrame);
 
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame);
-	
+
+	public AbstractImage CreateImage(URL url);
+		
 }

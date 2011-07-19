@@ -20,6 +20,7 @@
 
 package org.lucterios.engine.setting;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.lucterios.engine.presentation.Singletons;
@@ -30,11 +31,13 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
-import org.lucterios.gui.GUIContainer.FillMode;
-import org.lucterios.gui.GUIContainer.ReSizeMode;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.utils.DesktopInterface.FileFilter;
 
 
 public class SetupDialog implements DialogVisitor {
@@ -66,12 +69,11 @@ public class SetupDialog implements DialogVisitor {
 		Init();
 		InitSubPanel();
 		Setup();
-		mDialog.pack();
-		int[] screen = Singletons.getDesktop().getScreenSize();
-		mDialog.setLocation((screen[0] - mDialog.getSizeX()) / 2, (screen[1] - mDialog.getSizeY()) / 4);
 		GUIButton[] btns = { btn_Ok, btn_Cancel, btn_import };
 		mDialog.getContainer().calculBtnSize(btns);
 		mDialog.setDefaultButton(btn_Ok);
+		mDialog.pack();
+		mDialog.initialPosition();
 	}
 
 	public LucteriosConfiguration.Server newServer(String aServerName,
@@ -82,25 +84,21 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	public void Init() {
-		pnl_main = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, 
-				0, 0, 4, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+		pnl_main = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 0, 4, 1));
 		mDialog.setTitle("Configuration");
 
-		lbl_Title = pnl_main.createLabel(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		lbl_Title = pnl_main.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		lbl_Title.setTextString("Titre de l'application");
-		// TODO Font des label et position
-		/*lbl_Title.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12));
-		lbl_Title.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		lbl_Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+		lbl_Title.setStyle(1);
 
-		txt_Title = pnl_main.createEdit(1, 0, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
+		txt_Title = pnl_main.createEdit(new GUIParam(1, 0, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 		txt_Title.setEnabled(true);
 		txt_Title.setTextString("Lucterios");
 
 		pnl_btn = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,
-				1, 4, 4, 1, ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
+				new GUIParam(1, 4, 4, 1, ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
-		btn_Ok = pnl_btn.createButton(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		btn_Ok = pnl_btn.createButton(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		btn_Ok.setMnemonic('o');
 		btn_Ok.setTextString("OK");
 		btn_Ok.addActionListener(new GUIActionListener() {
@@ -108,9 +106,9 @@ public class SetupDialog implements DialogVisitor {
 				btn_OkActionPerformed();
 			}
 		});
-		btn_Ok.setImage(Singletons.getDesktop().CreateImage(Resources.class.getResource("ok.png")));
+		btn_Ok.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("ok.png")));
 
-		btn_Cancel = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		btn_Cancel = pnl_btn.createButton(new GUIParam(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		btn_Cancel.setMnemonic('n');
 		btn_Cancel.setTextString("Annuler");
 		btn_Cancel.addActionListener(new GUIActionListener() {
@@ -118,10 +116,10 @@ public class SetupDialog implements DialogVisitor {
 				btn_CancelActionPerformed();
 			}
 		});
-		btn_Cancel.setImage(Singletons.getDesktop().CreateImage(Resources.class
+		btn_Cancel.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 				.getResource("cancel.png")));
 
-		btn_import = pnl_btn.createButton(2, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		btn_import = pnl_btn.createButton(new GUIParam(2, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		btn_import.setMnemonic('o');
 		btn_import.setTextString("Import");
 		btn_import.addActionListener(new GUIActionListener() {
@@ -129,13 +127,12 @@ public class SetupDialog implements DialogVisitor {
 				btn_importActionPerformed();
 			}
 		});
-		btn_import.setImage(Singletons.getDesktop().CreateImage(Resources.class
+		btn_import.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 				.getResource("import.png")));
 	}
 
 	public void InitSubPanel() {
-		pnl_Tab = pnl_main.createContainer(ContainerType.CT_TAB, 0, 1, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
-		// pnl_Tab.setPreferredSize(new Dimension(600, 200));
+		pnl_Tab = pnl_main.createContainer(ContainerType.CT_TAB, new GUIParam(0, 1, 2, 1));
 		conf_pnl = new ConfigurationPanel(mDialog);
 		conf_pnl.fillContainer(pnl_Tab.addTab(ContainerType.CT_NORMAL, "Connexions"));
 		asso_pnl = new AssociationPanel(mDialog);
@@ -147,35 +144,28 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	private void btn_importActionPerformed() {
-		// TODO Selecteur de fichier
-		/*
-		JFileChooser file_dlg;
-		file_dlg = new JFileChooser();
-		file_dlg.setFileFilter(new FileFilter() {
-			public boolean accept(File aFile) {
-				return aFile.isDirectory()
-						|| aFile.getName().equalsIgnoreCase(
-								LucteriosConfiguration.CONF_FILE_NAME);
-			}
-
+		java.io.File file_exp = Singletons.getDesktop().selectOpenFileDialog(new FileFilter() {
+			
 			public String getDescription() {
 				return "Fichier de configuration";
 			}
-
-		});
-		if (file_dlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			
+			public boolean accept(File aFile) {
+				return aFile.isDirectory()
+				|| aFile.getName().equalsIgnoreCase(LucteriosConfiguration.CONF_FILE_NAME);
+			}
+		}, mDialog);
+		if (file_exp!=null) {
 			try {
-				java.io.File file_exp = file_dlg.getSelectedFile();
 				LucteriosConfiguration conf_import = new LucteriosConfiguration(new File("."));
 				conf_import.read(file_exp);
 				for (int conf_idx = 0; conf_idx < conf_import.ServerCount(); conf_idx++)
-					Singletons.Configuration.AddServer(conf_import.GetServer(conf_idx));
-				conf_pnl.refreshGUI(Singletons.Configuration.ServerCount() - 1);
+					Singletons.getConfiguration().AddServer(conf_import.GetServer(conf_idx));
+				conf_pnl.refreshGUI(Singletons.getConfiguration().ServerCount() - 1);
 			} catch (IOException e) {
-				ExceptionDlg.throwException(e);
+				Singletons.getDesktop().throwException(e);
 			}
 		}
-		*/
 	}
 
 	private void btn_CancelActionPerformed() {

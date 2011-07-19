@@ -1,12 +1,15 @@
 package org.lucterios.utils;
 
-import java.net.URL;
-
-import org.lucterios.gui.AbstractImage;
+import java.io.File;
 
 public interface DesktopInterface {
 
 	static final public String ASSOCIATION_SECTION="Application";
+	
+	public interface FileFilter{
+		public boolean accept(File aFile);
+		public String getDescription();		
+	}
 	
 	public abstract void initApplicationsSetting(
 			IniFileManager aApplicationsSettingFile);
@@ -21,8 +24,7 @@ public interface DesktopInterface {
 	
 	public abstract int[] getScreenSize();
 
-	public abstract AbstractImage CreateImage(URL url);
-	
 	public abstract void throwException(Exception e);
 	
+	public abstract File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner);	
 }

@@ -1,4 +1,4 @@
-package org.lucterios.client.utils;
+package org.lucterios.graphic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +7,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import org.lucterios.utils.StringList;
-import org.lucterios.graphic.MyDateSelectorPanel;
 
 public class DatePickerSimple extends JDialog {
 	private static final long serialVersionUID = 1L;

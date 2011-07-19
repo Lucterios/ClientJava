@@ -37,13 +37,13 @@ import org.lucterios.client.application.observer.ObserverMenu;
 import org.lucterios.client.application.observer.ObserverPrint;
 import org.lucterios.client.application.observer.ObserverTemplate;
 import org.lucterios.client.gui.ApplicationMain;
-import org.lucterios.client.gui.ThemeMenu;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.engine.transport.HttpTransportImpl;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.transport.ImageCache;
+import org.lucterios.style.ThemeMenu;
 import org.lucterios.swing.SGenerator;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
@@ -127,5 +127,6 @@ class Main {
 		Singletons.initalize(new File("."));
 		Singletons.setAppTerminate(new RequirementProcesses());
 		ImageCache.ImageClass=SwingImage.class;
+		ThemeMenu.setDefaultThemeCallBack(Singletons.getLucteriosSettingFile());
 	}
 }

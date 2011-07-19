@@ -10,13 +10,14 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
-import org.lucterios.gui.GUIContainer.FillMode;
-import org.lucterios.gui.GUIContainer.ReSizeMode;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class ConfigurationPanel implements GUISelectListener {
@@ -73,8 +74,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			spe_port.init(LucteriosConfiguration.DEFAULT_PORT, 10, 9999);
 			sel_mode.setSelectedIndex(LucteriosConfiguration.MODE_NORMAL);
 			mOwner.pack();
-			int[] screen = Singletons.getDesktop().getScreenSize();
-			mOwner.setLocation((screen[0] - mOwner.getSizeX()) / 2, (screen[1] - mOwner.getSizeY()) / 4);			
+			mOwner.initialPosition();
 			GUIButton[] btns = { this.btn_AddNew, this.btn_ExitNew };
 			mOwner.getContainer().calculBtnSize(btns);
 			mOwner.setDefaultButton(btn_Add);
@@ -82,10 +82,10 @@ public class ConfigurationPanel implements GUISelectListener {
 		}
 
 		public void InitBtn() {
-			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 1, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 1));
 
-			btn_AddNew = pnl_btn.createButton(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_AddNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
+			btn_AddNew = pnl_btn.createButton(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			btn_AddNew.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 					.getResource("ok.png")));
 			btn_AddNew.setMnemonic('o');
 			btn_AddNew.setTextString("OK");
@@ -95,8 +95,8 @@ public class ConfigurationPanel implements GUISelectListener {
 				}
 			});
 
-			btn_ExitNew = pnl_btn.createButton(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			btn_ExitNew.setImage(Singletons.getDesktop().CreateImage(Resources.class
+			btn_ExitNew = pnl_btn.createButton(new GUIParam(1, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			btn_ExitNew.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
 					.getResource("cancel.png")));
 			btn_ExitNew.setMnemonic('n');
 			btn_ExitNew.setTextString("Annuler");
@@ -108,52 +108,38 @@ public class ConfigurationPanel implements GUISelectListener {
 		}
 
 		public void Init() {
-			pnl_new_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, 0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			pnl_new_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 
-			lbl_name = pnl_new_btn.createLabel(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_name = pnl_new_btn.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_name.setTextString("Nom");
-			/*lbl_name.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_name.setStyle(1);
 
-			txt_name = pnl_new_btn.createEdit(1, 0, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
+			txt_name = pnl_new_btn.createEdit(new GUIParam(1, 0, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 
-			lbl_srv = pnl_new_btn.createLabel(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_srv = pnl_new_btn.createLabel(new GUIParam(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_srv.setTextString("Serveur");
-			/*lbl_srv.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_srv.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_srv.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_srv.setStyle(1);
 
-			txt_srv = pnl_new_btn.createEdit(1, 1, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
-			/*txt_srv.setPreferredSize(new Dimension(100, 19));
-			txt_srv.setMinimumSize(new Dimension(100, 19));*/
+			txt_srv = pnl_new_btn.createEdit(new GUIParam(1, 1, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 
-			lbl_mode = pnl_new_btn.createLabel(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_mode = pnl_new_btn.createLabel(new GUIParam(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_mode.setTextString("Mode");
-			/*lbl_mode.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_mode.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_mode.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_mode.setStyle(1);
 
-			sel_mode = pnl_new_btn.createCombo(1, 2, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
+			sel_mode = pnl_new_btn.createCombo(new GUIParam(1, 2, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 			sel_mode.addList(LucteriosConfiguration.MODE_TEXTS);
 
-			lbl_port = pnl_new_btn.createLabel(2, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			lbl_port = pnl_new_btn.createLabel(new GUIParam(2, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_port.setTextString("Port");
-			/*lbl_port.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_port.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_port.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_port.setStyle(1);
 
-			spe_port = pnl_new_btn.createSpinEdit(3, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
-			/*spe_port.setPreferredSize(new Dimension(40, 0));
-			spe_port.setMinimumSize(new Dimension(40, 0));*/
-
-			lbl_dir = pnl_new_btn.createLabel(0, 3, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+			spe_port = pnl_new_btn.createSpinEdit(new GUIParam(3, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			
+			lbl_dir = pnl_new_btn.createLabel(new GUIParam(0, 3, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_dir.setTextString("Répertoire");
-			/*lbl_dir.setFont(new java.awt.Font("Dialog", 0, 10));
-			lbl_dir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lbl_dir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+			lbl_dir.setStyle(1);
 
-			txt_dir = pnl_new_btn.createEdit(1, 3, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH);
+			txt_dir = pnl_new_btn.createEdit(new GUIParam(1, 3, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 			txt_dir.setTextString("/");
 		}
 
@@ -216,46 +202,36 @@ public class ConfigurationPanel implements GUISelectListener {
 	}
 
 	public void Init() {
-		lbl_proxyaddr = mOwnerContainer.createLabel(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL);
+		lbl_proxyaddr = mOwnerContainer.createLabel(new GUIParam(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL));
 		lbl_proxyaddr.setTextString("Proxy");
-		
-		// TODO Font des label et position
-		/*lbl_proxyaddr.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD,10));
-		lbl_proxyaddr.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		lbl_proxyaddr.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+		lbl_proxyaddr.setStyle(1);
 
-		txt_proxyaddr = mOwnerContainer.createEdit(1, 1, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL);
+		txt_proxyaddr = mOwnerContainer.createEdit(new GUIParam(1, 1, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL));
 		txt_proxyaddr.setEnabled(true);
 		txt_proxyaddr.setTextString("");
 
-		lbl_proxyport  = mOwnerContainer.createLabel(2, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL);
+		lbl_proxyport  = mOwnerContainer.createLabel(new GUIParam(2, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL));
 		lbl_proxyport.setTextString("Port");
-		// TODO Font des label et position
-		/*lbl_proxyport.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD,10));
-		lbl_proxyport.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		lbl_proxyport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+		lbl_proxyport.setStyle(1);
 
-		spe_proxyport = mOwnerContainer.createSpinEdit(3, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL);
+		spe_proxyport = mOwnerContainer.createSpinEdit(new GUIParam(3, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_HORIZONTAL));
 	}
 
 	public void InitGrid() {
-		lbl_tbl = mOwnerContainer.createLabel(0, 2, 3, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH);
+		lbl_tbl = mOwnerContainer.createLabel(new GUIParam(0, 2, 3, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		lbl_tbl.setTextString("Serveurs");
-		// TODO Font des label et position
-		/*lbl_tbl.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12));
-		lbl_tbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		lbl_tbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);*/
+		lbl_tbl.setStyle(1);
 
-		cmp_tbl = mOwnerContainer.createGrid(0, 3, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+		cmp_tbl = mOwnerContainer.createGrid(new GUIParam(0, 3, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH, 400, 150));
 		cmp_tbl.setMultiSelection(false);
 		cmp_tbl.addSelectListener(this);	
 	}
 
 	public void InitGridBtn() {
 		GUIContainer pnl_grid_btn = mOwnerContainer.createContainer(ContainerType.CT_NORMAL, 
-				2, 3, 2, 1, ReSizeMode.RSM_VERTICAL, FillMode.FM_BOTH);
+				new GUIParam(2, 3, 2, 1, ReSizeMode.RSM_VERTICAL, FillMode.FM_BOTH));
 
-		btn_Mod = pnl_grid_btn.createButton(0, 0, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Mod = pnl_grid_btn.createButton(new GUIParam(0, 0, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Mod.setMnemonic('m');
 		btn_Mod.setTextString("Modifier");
 		btn_Mod.addActionListener(new GUIActionListener() {
@@ -264,7 +240,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			}
 		});
 
-		btn_Add = pnl_grid_btn.createButton(0, 1, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Add = pnl_grid_btn.createButton(new GUIParam(0, 1, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Add.setMnemonic('a');
 		btn_Add.setTextString("Ajouter");
 		btn_Add.addActionListener(new GUIActionListener() {
@@ -273,7 +249,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			}
 		});
 
-		btn_Del = pnl_grid_btn.createButton(0, 2, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Del = pnl_grid_btn.createButton(new GUIParam(0, 2, 2, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Del.setMnemonic('s');
 		btn_Del.setTextString("Supprimer");
 		btn_Del.addActionListener(new GUIActionListener() {
@@ -282,9 +258,9 @@ public class ConfigurationPanel implements GUISelectListener {
 			}
 		});
 
-		pnl_grid_btn.createContainer(ContainerType.CT_NORMAL,0, 3, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH);
+		pnl_grid_btn.createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 3, 2, 1));
 		
-		btn_Up = pnl_grid_btn.createButton(0, 4, 1, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Up = pnl_grid_btn.createButton(new GUIParam(0, 4, 1, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Up.setMnemonic('h');
 		btn_Up.setTextString("Haut");
 		btn_Up.addActionListener(new GUIActionListener() {
@@ -293,7 +269,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			}
 		});
 
-		btn_Down = pnl_grid_btn.createButton(1, 4, 1, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE);
+		btn_Down = pnl_grid_btn.createButton(new GUIParam(1, 4, 1, 1,ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		btn_Down.setMnemonic('b');
 		btn_Down.setTextString("Bas");
 		btn_Down.addActionListener(new GUIActionListener() {

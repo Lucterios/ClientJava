@@ -239,7 +239,7 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 			switch (form_type) {
 			case ActionConstantes.FORM_NOMODAL:
 				new_dialog = null;
-				new_frame = Singletons.getWindowGenerator().newFrame(mID);
+				new_frame = Singletons.getWindowGenerator().newForm(mID);
 				break;
 			case ActionConstantes.FORM_MODAL:
 				new_dialog = null;
@@ -249,7 +249,7 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 					new_dialog = Singletons.getWindowGenerator().newDialog(owner_dialog,
 							owner_frame);
 				else
-					new_frame = Singletons.getWindowGenerator().newFrame(mID);
+					new_frame = Singletons.getWindowGenerator().newForm(mID);
 				break;
 			case ActionConstantes.FORM_REFRESH:
 				new_dialog = null;
