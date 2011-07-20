@@ -18,20 +18,20 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.setting;
+package org.lucterios.engine.setting;
 
- import org.lucterios.client.application.ApplicationDescription;
+import org.lucterios.engine.application.ApplicationDescription;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
-import org.lucterios.swing.SFrame;
 
 public class AboutBox {
 
@@ -50,7 +50,7 @@ public class AboutBox {
 	private ApplicationDescription mDescription;
 
 
-	public AboutBox(SFrame aOwner) {
+	public AboutBox(GUIFrame aOwner) {
 		mDialog=Singletons.getWindowGenerator().newDialog(aOwner);
 		mDialog.setTitle("A propos");
 		mDialog.setResizable(false);
@@ -106,7 +106,7 @@ public class AboutBox {
 						+ mDescription.getServerVersion()
 						+ "</center></td></tr>"
 						+ "<tr><td><center>Client JAVA</td><td><center>"
-						+ Constants.Version() + "</center></td></tr>"
+						+ ApplicationDescription.gVersion + "</center></td></tr>"
 						+ "</table>");
 		mDialog.pack();
 		mDialog.initialPosition();

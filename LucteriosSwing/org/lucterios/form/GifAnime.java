@@ -18,16 +18,20 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.graphic;
+package org.lucterios.form;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  *
  * @author  pov
  */
-public class GifAnime extends javax.swing.JPanel {
+public class GifAnime extends JPanel {
     
     /**
 	 * 

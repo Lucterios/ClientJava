@@ -19,13 +19,13 @@ import org.lucterios.client.utils.FileMonitoring.MonitoringCallback;
 import org.lucterios.engine.presentation.FileDownload;
 import org.lucterios.engine.presentation.FileDownload.FileDownloadCallBack;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.graphic.DesktopTools;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.FilesFilter;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.graphic.ImagePreview;
+import org.lucterios.form.ImagePreview;
 import org.lucterios.graphic.Tools;
 
 public class CmpDownLoad extends CmpAbstractEvent implements
@@ -164,7 +164,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 					closeMonitoring();
 					m_file_monitoring = new FileMonitoring(m_LocalFile, this);
 				}
-				DesktopTools.instance().launch(
+				DesktopInterface.getInstance().launch(
 						m_LocalFile.toURI().toURL().toString());
 			} catch (LucteriosException e1) {
 				ExceptionDlg.throwException(e1);

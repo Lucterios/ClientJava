@@ -35,7 +35,7 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
-import org.lucterios.graphic.LineNumberedPaper;
+import org.lucterios.form.LineNumberedPaper;
 import org.lucterios.graphic.PopupListener;
 
 public class CmpMemo extends CmpAbstractEvent implements CaretListener {

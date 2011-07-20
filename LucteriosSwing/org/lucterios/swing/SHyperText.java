@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 
-import org.lucterios.graphic.DesktopTools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
 public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener {
@@ -62,7 +62,7 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 			mActionLink=new GUIActionListener() {		
 				public void actionPerformed() {
 					try {
-						DesktopTools.instance().launch(mUrl);
+						DesktopInterface.getInstance().launch(mUrl);
 					} catch (LucteriosException e1) 
 					{
 						ExceptionDlg.throwException(e1);

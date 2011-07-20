@@ -18,7 +18,7 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,6 +33,9 @@ import javax.swing.JWindow;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+
+import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.resources.Resources;
 
 public class WaitingWindow extends JWindow
 {
@@ -83,7 +86,7 @@ public class WaitingWindow extends JWindow
         main.add(title, BorderLayout.NORTH);
 
 
-        GifAnime image = new GifAnime(new javax.swing.ImageIcon(getClass().getResource("resources/attente-optim.gif")));
+        GifAnime image = new GifAnime(new javax.swing.ImageIcon(Resources.class.getResource("attente-optim.gif")));
         image.setBackground(BACKGROUND_COLOR);
         image.setLayout(new GridBagLayout());
         main.add(image, BorderLayout.CENTER);

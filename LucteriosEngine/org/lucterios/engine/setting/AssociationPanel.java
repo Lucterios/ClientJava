@@ -72,8 +72,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			Init();
 			InitBtn();
 			mOwner.pack();
-			int[] screen = Singletons.getDesktop().getScreenSize();
-			mOwner.setLocation((screen[0] - mOwner.getSizeX()) / 2, (screen[1] - mOwner.getSizeY()) / 4);			
+			mOwner.initialPosition();
 			GUIButton[] btns = { btn_AddNew, btn_ExitNew };
 			mOwner.getContainer().calculBtnSize(btns);
 			mOwner.setDefaultButton(btn_Add);

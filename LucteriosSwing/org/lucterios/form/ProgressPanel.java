@@ -1,4 +1,4 @@
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.Color;
 import java.awt.Graphics;

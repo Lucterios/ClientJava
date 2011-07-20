@@ -20,9 +20,18 @@
 
 package org.lucterios.gui;
 
+import java.io.File;
 import java.net.URL;
 
 public interface GUIGenerator {
+
+	public interface FileFilter{
+		public boolean accept(File aFile);
+		public String getDescription();		
+	}	
+	
+	public int[] getDefaultInsets();
+	
 	public GUIForm newForm(String aActionId);
 
 	public GUIFrame newFrame();
@@ -32,5 +41,8 @@ public interface GUIGenerator {
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame);
 
 	public AbstractImage CreateImage(URL url);
-		
+
+	public void showErrorDialog(String message, String title);
+
+	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner);	
 }

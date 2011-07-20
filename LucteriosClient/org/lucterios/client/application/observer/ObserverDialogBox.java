@@ -44,7 +44,7 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 

@@ -31,9 +31,9 @@ import org.lucterios.utils.LucteriosException;
 
 public class CmpTime extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
-	private org.lucterios.graphic.SpinEdit spe_hour;
+	private org.lucterios.form.SpinEdit spe_hour;
 	private javax.swing.JLabel lbl_text;
-	private org.lucterios.graphic.SpinEdit spe_minute;
+	private org.lucterios.form.SpinEdit spe_minute;
 
 	public CmpTime() {
 		super();
@@ -67,7 +67,7 @@ public class CmpTime extends CmpAbstractEvent {
 		setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints gdbConstr;
 
-		spe_hour = new org.lucterios.graphic.SpinEdit(0, 0, 23);
+		spe_hour = new org.lucterios.form.SpinEdit(0, 0, 23);
 		spe_hour.setMinimumSize(new Dimension(30, 0));
 		spe_hour.setPreferredSize(new Dimension(30, 0));
 		gdbConstr = new GridBagConstraints();
@@ -88,7 +88,7 @@ public class CmpTime extends CmpAbstractEvent {
 		gdbConstr.fill = GridBagConstraints.NONE;
 		add(lbl_text, gdbConstr);
 
-		spe_minute = new org.lucterios.graphic.SpinEdit(0, 0, 59);
+		spe_minute = new org.lucterios.form.SpinEdit(0, 0, 59);
 		spe_minute.setMinimumSize(new Dimension(30, 0));
 		spe_minute.setPreferredSize(new Dimension(30, 0));
 		gdbConstr = new GridBagConstraints();

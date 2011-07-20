@@ -1,13 +1,11 @@
-package org.lucterios.client.application;
+package org.lucterios.engine.application;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.ExceptionDlg.InfoDescription;
-
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.Tools;
+import org.lucterios.utils.Tools.InfoDescription;
 import org.lucterios.gui.AbstractImage;
 
 public class ApplicationDescription implements InfoDescription {
@@ -31,7 +29,7 @@ public class ApplicationDescription implements InfoDescription {
 		mServerVersion = aServerVersion;
 		mCopyRigth = aCopyRigth;
 		setLogoIconName(aLogoName);
-		ExceptionDlg.mInfoDescription = this;
+		Singletons.getDesktop().setInfoDescription(this);
 	}
 
 	private void setLogoIconName(String aLogoIconName) {
@@ -182,7 +180,7 @@ public class ApplicationDescription implements InfoDescription {
 			url += "&body=" + body.replace("+", " ");
 			Singletons.getDesktop().launch(url);
 		} catch (Exception e) {
-			ExceptionDlg.throwException(e);
+			Singletons.getDesktop().throwException(e);
 		}
 	}
 

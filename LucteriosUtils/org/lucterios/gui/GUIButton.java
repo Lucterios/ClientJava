@@ -17,4 +17,8 @@ public interface GUIButton extends GUIComponent {
 	public void setImage(AbstractImage image);
 
 	public void setMnemonic(char c);
+
+	public void setToggle(boolean isToogle);
+
+	public boolean isSelected();
 }

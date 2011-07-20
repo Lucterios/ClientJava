@@ -26,7 +26,7 @@ import javax.swing.*;
 
 import org.lucterios.Print.resources.Resources;
 import org.lucterios.utils.Tools;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 
 public class SelectPrintDlg extends JDialog 
 {

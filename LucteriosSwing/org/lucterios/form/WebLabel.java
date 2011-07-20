@@ -18,11 +18,13 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
 public class WebLabel extends LinkLabel {
@@ -48,7 +50,7 @@ public class WebLabel extends LinkLabel {
 		setLinker(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				try {
-					DesktopTools.instance().launch(mUrl);
+					DesktopInterface.getInstance().launch(mUrl);
 				} catch (LucteriosException e1) 
 				{
 					ExceptionDlg.throwException(e1);

@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.swing.JOptionPane;
-
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.Logging;
@@ -190,10 +188,7 @@ public class Update {
 		if (good_download)
 			extractAndExit(path, AppName);
 		else
-			JOptionPane.showMessageDialog(null, "Erreur de téléchargement",
-					"Mise à jours", JOptionPane.ERROR_MESSAGE);
-		JOptionPane.showMessageDialog(null,
-				"Echec pour extraire la mise à jours", "Mise à jours",
-				JOptionPane.ERROR_MESSAGE);
+			Singletons.getWindowGenerator().showErrorDialog("Erreur de téléchargement","Mise à jours");
+		Singletons.getWindowGenerator().showErrorDialog("Echec pour extraire la mise à jours", "Mise à jours");
 	}
 }

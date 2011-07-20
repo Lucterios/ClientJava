@@ -233,4 +233,12 @@ public class SContainer extends JPanel implements GUIContainer {
 		}
 	}
 
+	public int getSizeX() {
+		return getSize().width;
+	}
+
+	public int getSizeY() {
+		return getSize().height;
+	}
+
 }

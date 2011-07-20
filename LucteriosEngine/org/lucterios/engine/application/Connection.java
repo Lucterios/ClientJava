@@ -1,3 +1,5 @@
+package org.lucterios.engine.application;
+
 /*
  *    This file is part of Lucterios.
  *
@@ -17,8 +19,6 @@
  *
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
-
-package org.lucterios.client.application;
 
 public interface Connection {
 

@@ -17,7 +17,7 @@
 //
 //	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 //
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
@@ -48,6 +48,7 @@ import javax.swing.text.StyledDocument;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
+import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.utils.Tools;
  
 public class LineNumberedPaper extends JTextPane implements KeyListener 

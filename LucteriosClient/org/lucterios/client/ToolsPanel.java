@@ -41,9 +41,9 @@ import javax.swing.SwingUtilities;
 import org.lucterios.client.application.ActionLocal;
 import org.lucterios.client.gui.RefreshButtonPanel;
 import org.lucterios.engine.application.Action;
-import org.lucterios.graphic.DesktopTools;
-import org.lucterios.graphic.JAdvancePanel;
-import org.lucterios.graphic.NavigatorBar;
+import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.form.JAdvancePanel;
+import org.lucterios.form.NavigatorBar;
 
 public class ToolsPanel extends JAdvancePanel implements Runnable,
 		ActionListener, ToolButtonCollection.ChangeAction {
@@ -134,7 +134,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		mNavigatorBar = new NavigatorBar();
 		mNavigatorBar.setOpaque(false);
 
-		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(DesktopTools.instance().getCoord());
+		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(Singletons.getDesktop().getCoord(Singletons.getWindowGenerator()));
 		Dimension screen = tkt.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		int height = (int) (screen.getHeight() - insets.top - insets.bottom);
@@ -166,7 +166,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 	public void clearTools() {
 		mCurrentButton = null;
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(DesktopTools.instance().getCoord());
+		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(Singletons.getDesktop().getCoord(Singletons.getWindowGenerator()));
 		Dimension screen = kit.getScreenSize();
 		int width = (int) (screen.getWidth() - insets.left - insets.right);
 		mNbHorizontalButton = (width - 3 * SIZE_SMALL) / SIZEX;

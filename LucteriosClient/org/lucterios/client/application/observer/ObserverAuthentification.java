@@ -20,8 +20,8 @@
 
 package org.lucterios.client.application.observer;
 
-import org.lucterios.client.application.ApplicationDescription;
-import org.lucterios.client.application.Connection;
+import org.lucterios.engine.application.ApplicationDescription;
+import org.lucterios.engine.application.Connection;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;

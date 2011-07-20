@@ -1,15 +1,16 @@
 package org.lucterios.utils;
 
-import java.io.File;
+import org.lucterios.gui.GUIGenerator;
+import org.lucterios.utils.Tools.InfoDescription;
 
-public interface DesktopInterface {
+public abstract class DesktopInterface {
 
 	static final public String ASSOCIATION_SECTION="Application";
 	
-	public interface FileFilter{
-		public boolean accept(File aFile);
-		public String getDescription();		
-	}
+	protected static DesktopInterface gInstance=null;
+	public static DesktopInterface getInstance() {
+		return gInstance;
+	}	
 	
 	public abstract void initApplicationsSetting(
 			IniFileManager aApplicationsSettingFile);
@@ -20,11 +21,10 @@ public interface DesktopInterface {
 	
 	public abstract void printFilePDF(String aUrl) throws LucteriosException;
 
-	public abstract int[] getCoord();
+	public abstract int[] getCoord(GUIGenerator generator);
 	
-	public abstract int[] getScreenSize();
-
 	public abstract void throwException(Exception e);
 	
-	public abstract File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner);	
+	public abstract void setInfoDescription(InfoDescription applicationDescription);
+
 }

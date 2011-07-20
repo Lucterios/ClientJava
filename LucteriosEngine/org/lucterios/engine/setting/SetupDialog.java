@@ -35,10 +35,9 @@ import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
+import org.lucterios.gui.GUIGenerator.FileFilter;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
-import org.lucterios.utils.DesktopInterface.FileFilter;
-
 
 public class SetupDialog implements DialogVisitor {
 	/**
@@ -144,8 +143,7 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	private void btn_importActionPerformed() {
-		java.io.File file_exp = Singletons.getDesktop().selectOpenFileDialog(new FileFilter() {
-			
+		java.io.File file_exp = Singletons.getWindowGenerator().selectOpenFileDialog(new FileFilter() {
 			public String getDescription() {
 				return "Fichier de configuration";
 			}

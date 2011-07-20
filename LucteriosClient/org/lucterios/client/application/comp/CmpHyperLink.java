@@ -34,7 +34,7 @@ import javax.swing.JMenuItem;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.PopupListener;
-import org.lucterios.graphic.WebLabel;
+import org.lucterios.form.WebLabel;
 
 public class CmpHyperLink extends Cmponent implements ClipboardOwner {
 	private static final long serialVersionUID = 1L;

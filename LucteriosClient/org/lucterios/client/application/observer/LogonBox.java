@@ -33,7 +33,7 @@ import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 import org.lucterios.graphic.Tools;
 
 import java.awt.event.*;

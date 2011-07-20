@@ -33,9 +33,9 @@ import org.lucterios.utils.LucteriosException;
 public class CmpDate extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 
-	private org.lucterios.graphic.SpinEdit spe_day;
+	private org.lucterios.form.SpinEdit spe_day;
 	private javax.swing.JComboBox cmp_month;
-	private org.lucterios.graphic.SpinEdit spe_year;
+	private org.lucterios.form.SpinEdit spe_year;
 
 	private javax.swing.JButton edit_date;
 	private DatePickerSimple date_simple;
@@ -81,7 +81,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 		setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints gdbConstr;
-		spe_day = new org.lucterios.graphic.SpinEdit(date_simple.day(),
+		spe_day = new org.lucterios.form.SpinEdit(date_simple.day(),
 				1, 31);
 		spe_day.setName("spe_day");
 		spe_day.setMinimumSize(new Dimension(30, 0));
@@ -125,7 +125,7 @@ public class CmpDate extends CmpAbstractEvent {
 		gdbConstr.fill = GridBagConstraints.BOTH;
 		add(cmp_month, gdbConstr);
 
-		spe_year = new org.lucterios.graphic.SpinEdit(date_simple.year(),
+		spe_year = new org.lucterios.form.SpinEdit(date_simple.year(),
 				1000, 3000);
 		spe_year.setName("spe_year");
 		spe_year.setMinimumSize(new Dimension(60, 0));

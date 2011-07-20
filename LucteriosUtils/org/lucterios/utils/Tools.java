@@ -38,6 +38,10 @@ public class Tools {
 		public void setDefaultValue(int value);
 	}
 	
+	public interface InfoDescription {
+		void sendSupport(String aTitle,String aComplement);
+	}
+		
     static public String parseISToString(java.io.InputStream is) throws LucteriosException
     {
         try {

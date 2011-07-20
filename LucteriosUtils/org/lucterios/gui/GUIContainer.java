@@ -19,4 +19,8 @@ public interface GUIContainer {
 	public GUIContainer addTab(ContainerType type,String name);
 	public ContainerType getType();
 	public void calculBtnSize(GUIButton[] btns);
+	public void setVisible(boolean isVisible);
+	public void setSize(int width, int height);
+	public int getSizeX();
+	public int getSizeY();
 }

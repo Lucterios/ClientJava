@@ -6,7 +6,7 @@ import org.lucterios.client.application.observer.ObserverCustom;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 
 public class TogglePanel extends JAdvancePanel {
 

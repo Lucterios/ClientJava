@@ -12,7 +12,7 @@ import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.MenuItem;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 
 public class CategoryPanel extends JAdvancePanel {
 

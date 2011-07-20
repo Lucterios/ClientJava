@@ -38,7 +38,7 @@ import javax.swing.JLabel;
 
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 
 public class ToolButton extends JAdvancePanel implements ActionListener,
 		MouseListener {

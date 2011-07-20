@@ -42,7 +42,7 @@ import javax.swing.SwingUtilities;
 import org.lucterios.client.application.Menu;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.resources.Resources;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 
 public class MainPanel extends JAdvancePanel implements Runnable,
 		MouseListener, ComponentListener {

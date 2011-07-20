@@ -20,7 +20,18 @@
 
 package org.lucterios.swing;
 
+import java.awt.Component;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.io.File;
 import java.net.URL;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
@@ -32,10 +43,31 @@ import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 
 public class SGenerator implements GUIGenerator {
+
 	public SGenerator() {
 		super();
 	}
 
+	public int[] getDefaultInsets() {
+		int[] result=new int[]{0,0,0,0};
+		try {
+			GraphicsDevice[] gdev_list=GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+			for (int gs_index=0;gs_index<gdev_list.length;gs_index++)
+			{
+				GraphicsDevice gs=gdev_list[gs_index];
+				GraphicsConfiguration[] gconf_list=gs.getConfigurations();
+				if (gconf_list.length>0) {
+					Insets inset=(Toolkit.getDefaultToolkit().getScreenInsets(gconf_list[0]));
+					result=new int[]{inset.top,inset.left,inset.bottom,inset.right};
+				}
+			}
+		}
+		catch (HeadlessException h) {
+			System.err.println("Error: Headless error (you aren't running a GUI)");
+		}
+		return result;
+	}
+	
 	public GUIForm newForm(String aActionId) {
 		return new SForm(aActionId);
 	}
@@ -61,6 +93,28 @@ public class SGenerator implements GUIGenerator {
 		AbstractImage new_image=new SwingImage();
 		new_image.load(url);
 		return new_image;
+	}
+
+	public void showErrorDialog(String message, String title) {
+		JOptionPane.showMessageDialog(null, message, title,JOptionPane.ERROR_MESSAGE);		
+	}
+
+	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner) {
+		File result=null;
+		JFileChooser file_dlg;
+		file_dlg = new JFileChooser();
+		file_dlg.setFileFilter(new javax.swing.filechooser.FileFilter() {
+			public boolean accept(File aFile) {
+				return filter.accept(aFile);
+			}
+			public String getDescription() {
+				return filter.getDescription();
+			}
+
+		});
+		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
+			result = file_dlg.getSelectedFile();
+		return result;
 	}
 	
 }

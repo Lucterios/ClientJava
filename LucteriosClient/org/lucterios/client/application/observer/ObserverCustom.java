@@ -43,7 +43,7 @@ import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 import org.lucterios.graphic.Tools;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;

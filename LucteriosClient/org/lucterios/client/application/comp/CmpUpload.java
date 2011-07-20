@@ -39,7 +39,7 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.ZipManager;
 import org.lucterios.graphic.FilesFilter;
-import org.lucterios.graphic.ImagePreview;
+import org.lucterios.form.ImagePreview;
 
 public class CmpUpload extends CmpAbstractEvent {
 

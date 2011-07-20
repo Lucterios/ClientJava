@@ -24,7 +24,7 @@ import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.JAdvancePanel;
+import org.lucterios.form.JAdvancePanel;
 import org.lucterios.graphic.Tools;
 
 public class ToogleManager extends JAdvancePanel implements ActionListener,

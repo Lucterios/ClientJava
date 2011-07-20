@@ -17,7 +17,7 @@
 *
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

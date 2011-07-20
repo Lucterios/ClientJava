@@ -1,27 +1,32 @@
 package org.lucterios.swing;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JToggleButton;
 
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 
-public class SButton extends JButton implements GUIButton, FocusListener,ActionListener {
+public class SButton extends JComponent implements GUIButton, FocusListener,ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
+	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
+	private AbstractButton mButton;
 	
 	public void setImage(AbstractImage image) {
 		if (image instanceof SwingImage)
-			setIcon((ImageIcon)image.getData());
+			mButton.setIcon((ImageIcon)image.getData());
 	}
 
 	public void addFocusListener(GUIFocusListener l){
@@ -52,16 +57,39 @@ public class SButton extends JButton implements GUIButton, FocusListener,ActionL
 	
 	public SButton(){
         super();
+        setLayout(new GridLayout());
+        mButton=new JButton();
+        mButton.addActionListener(this);
+        mButton.addFocusListener(this);
+        add(mButton);
         addFocusListener(this);	
-        addActionListener(this);
 	}
 
 	public String getTextString() {
-		return getText();
+		return mButton.getText();
 	}
 
 	public void setTextString(String text) {
-		setText(text);		
+		mButton.setText(text);		
+	}
+
+	public void setToggle(boolean isToogle) {
+        removeAll();		
+        if (isToogle)
+        	mButton=new JToggleButton();
+        else
+        	mButton=new JButton();
+        mButton.addActionListener(this);
+        mButton.addFocusListener(this);
+        add(mButton);
+	}
+
+	public boolean isSelected() {
+		return mButton.isSelected();
+	}
+
+	public void setMnemonic(char c) {
+		mButton.setMnemonic(c);
 	}
 	
 }

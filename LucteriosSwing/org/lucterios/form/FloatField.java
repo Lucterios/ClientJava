@@ -18,11 +18,13 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import javax.swing.*;
 
 import javax.swing.text.*;
+
+import org.lucterios.graphic.PopupListener;
 
 public class FloatField extends JTextField 
 {	

@@ -39,7 +39,7 @@ import org.lucterios.Print.Data.PrintPage;
 import org.lucterios.Print.Data.PrintVector;
 import org.lucterios.Print.Observer.PrintManager;
 import org.lucterios.Print.Observer.PrintObserverAbstract;
-import org.lucterios.graphic.SpinEdit;
+import org.lucterios.form.SpinEdit;
 
 
 public class PreviewObserver extends JPanel implements PrintObserverAbstract,PrintPanelBase.ObserverCallBack 

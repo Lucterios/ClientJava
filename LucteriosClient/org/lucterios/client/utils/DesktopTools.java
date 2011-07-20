@@ -1,12 +1,5 @@
-package org.lucterios.graphic;
+package org.lucterios.client.utils;
 
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +9,16 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.Arrays;
 
-import javax.swing.JFileChooser;
-
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.IniFileReader;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.Tools.InfoDescription;
 
-public class DesktopTools implements DesktopInterface {
+public class DesktopTools extends DesktopInterface {
 
 	class ProcessExitDetector extends Thread {
 
@@ -87,17 +81,11 @@ public class DesktopTools implements DesktopInterface {
 	
 	private IniFileManager m_ApplicationsSettingFile=null;
 	
-	private DesktopTools() {
+	public DesktopTools() {
 		super();
+		DesktopInterface.gInstance=this;
 	}
-	
-	private static DesktopInterface mInstance=null;
-	public static DesktopInterface instance() {
-		if (mInstance==null)
-			mInstance=new DesktopTools();
-		return mInstance;
-	}
-	
+		
 	/* (non-Javadoc)
 	 * @see org.lucterios.utils.graphic.DesktopInterface#initApplicationsSetting(org.lucterios.utils.IniFileManager)
 	 */
@@ -121,7 +109,7 @@ public class DesktopTools implements DesktopInterface {
 	/* (non-Javadoc)
 	 * @see org.lucterios.utils.graphic.DesktopInterface#getInsets()
 	 */
-	public int[] getCoord() {
+	public int[] getCoord(GUIGenerator generator) {
 		if (current_coord==null)
 		switch (isCompatibleOS()) {
 			case 0: 
@@ -131,20 +119,12 @@ public class DesktopTools implements DesktopInterface {
 				extractGnomeInsets();
 				break;
 			default: 
-				extractDefaultInsets();
+				current_coord=generator.getDefaultInsets();
 				break;
 		}
 		return current_coord;
 	}
 	
-	public int[] getScreenSize(){
-		int[] result=new int[2]; 
-		java.awt.Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		result[0]=screen.width;
-		result[1]=screen.height;
-		return result;
-	}
-
 	public void printFilePDF(String aUrl) throws LucteriosException {
 		String[] args;
         Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
@@ -248,30 +228,7 @@ public class DesktopTools implements DesktopInterface {
 			throw new LucteriosException("Gestionnaire de courriels non trouvé",e);
 		} 
 	}
-	
-	/*
-	 * Default insets if an error occured
-	 */
-	private void extractDefaultInsets() {
-		System.err.println("Default Insets");
-		try {
-			GraphicsDevice[] gdev_list=GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-			for (int gs_index=0;gs_index<gdev_list.length;gs_index++)
-			{
-				GraphicsDevice gs=gdev_list[gs_index];
-				GraphicsConfiguration[] gconf_list=gs.getConfigurations();
-				if (gconf_list.length>0) {
-					Insets inset=(Toolkit.getDefaultToolkit().getScreenInsets(gconf_list[0]));
-					current_coord=new int[]{inset.top,inset.left,inset.bottom,inset.right};
-				}
-			}
-		}
-		catch (HeadlessException h) {
-			System.err.println("Error: Headless error (you aren't running a GUI)");
-		}
-		current_coord=new int[]{0,0,0,0};
-	}
-	
+		
 	/*
 	 * Created for Gnome 2.12.x.x
 	 */
@@ -399,21 +356,7 @@ public class DesktopTools implements DesktopInterface {
 		ExceptionDlg.throwException(e);
 	}
 
-	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner) {
-		File result=null;
-		JFileChooser file_dlg;
-		file_dlg = new JFileChooser();
-		file_dlg.setFileFilter(new javax.swing.filechooser.FileFilter() {
-			public boolean accept(File aFile) {
-				return filter.accept(aFile);
-			}
-			public String getDescription() {
-				return filter.getDescription();
-			}
-
-		});
-		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
-			result = file_dlg.getSelectedFile();
-		return result;
+	public void setInfoDescription(InfoDescription infoDescription) {
+		ExceptionDlg.mInfoDescription=infoDescription;
 	}
 }

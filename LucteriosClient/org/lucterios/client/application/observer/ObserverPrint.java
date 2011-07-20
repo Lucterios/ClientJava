@@ -36,7 +36,7 @@ import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.DecodeBase64ToInputStream;
-import org.lucterios.graphic.DesktopTools;
+import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
@@ -140,9 +140,9 @@ public class ObserverPrint extends ObserverAbstract {
 						+ ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
 				if (mode==SelectPrintDlg.MODE_PRINT)
-					DesktopTools.instance().printFilePDF(pdf_file.toURI().toURL().toString());
+					DesktopInterface.getInstance().printFilePDF(pdf_file.toURI().toURL().toString());
 				else
-					DesktopTools.instance().openFile(pdf_file.toURI().toURL().toString());
+					DesktopInterface.getInstance().openFile(pdf_file.toURI().toURL().toString());
 				break;
 			}
 		} catch (Exception e) {

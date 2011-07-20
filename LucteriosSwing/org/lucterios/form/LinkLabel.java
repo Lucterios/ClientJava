@@ -18,12 +18,14 @@
 *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 */
 
-package org.lucterios.graphic;
+package org.lucterios.form;
 
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import org.lucterios.graphic.HtmlLabel;
 
 public class LinkLabel extends HtmlLabel {
 

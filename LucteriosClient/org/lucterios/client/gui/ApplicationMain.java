@@ -38,28 +38,27 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.ActionLocal;
-import org.lucterios.client.application.ApplicationDescription;
-import org.lucterios.client.application.Connection;
 import org.lucterios.client.application.Menu;
 import org.lucterios.client.application.Menu.ToolBar;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.application.observer.ObserverAuthentification;
 import org.lucterios.client.application.observer.ObserverMenu;
-import org.lucterios.client.setting.AboutBox;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.client.setting.Update;
 import org.lucterios.engine.application.Action;
+import org.lucterios.engine.application.ApplicationDescription;
+import org.lucterios.engine.application.Connection;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.resources.Resources;
+import org.lucterios.engine.setting.AboutBox;
 import org.lucterios.engine.setting.SetupDialog;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
-import org.lucterios.graphic.DesktopTools;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.swing.SDialog;
@@ -68,13 +67,13 @@ import org.lucterios.swing.SFrame;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.swing.SFormList;
 import org.lucterios.graphic.FrameControle;
-import org.lucterios.graphic.TimeLabel;
+import org.lucterios.form.TimeLabel;
 import org.lucterios.graphic.Tools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.graphic.MemoryJauge;
-import org.lucterios.graphic.ProgressPanel;
-import org.lucterios.graphic.WaitingWindow;
+import org.lucterios.form.MemoryJauge;
+import org.lucterios.form.ProgressPanel;
+import org.lucterios.form.WaitingWindow;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.NotifyFrameChange;
@@ -155,7 +154,8 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		final SFrame frame = this;
 		return new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				SetupDialog.run(Singletons.getWindowGenerator().newDialog(frame));
+				SetupDialog.run(Singletons.getWindowGenerator()
+						.newDialog(frame));
 			}
 		};
 	}
@@ -169,10 +169,10 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		mExitAction = new ActionImpl();
 		mExitAction.initialize(null, fact, "Exit", "CORE", "exitConnection");
 
-		mConnectionInfoOwnerObserber = new ObserverAcknowledge(){
+		mConnectionInfoOwnerObserber = new ObserverAcknowledge() {
 			public void setActive(boolean aIsActive) {
 				ApplicationMain.this.setActive(aIsActive);
-			}			
+			}
 		};
 		mConnectionInfoAction = new ActionImpl();
 		mConnectionInfoAction.initialize(mConnectionInfoOwnerObserber, fact,
@@ -321,7 +321,7 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		cnt.fill = GridBagConstraints.BOTH;
 		getContentPane().add(mProgressPanelTop, cnt);
 
-		mToolNavigator = new MainPanel(this,mConnectionInfoOwnerObserber);
+		mToolNavigator = new MainPanel(this, mConnectionInfoOwnerObserber);
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 2;
@@ -612,7 +612,8 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 	private Rectangle getArea() {
 		Rectangle rect = new Rectangle();
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Insets insets = Tools.convertcoordToInsets(DesktopTools.instance().getCoord());
+		Insets insets = Tools.convertcoordToInsets(Singletons.getDesktop()
+				.getCoord(Singletons.getWindowGenerator()));
 		Dimension screen = kit.getScreenSize();
 		rect.width = (int) (screen.getWidth() - insets.left - insets.right);
 		rect.height = (int) (screen.getHeight() - insets.top - insets.bottom);
@@ -676,9 +677,9 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 			String aLogin, String aRealName, boolean refreshMenu) {
 		refreshConnectionInfoOwnerObs();
 		mDescription = aDescription;
-		Image logoIcon=null;
+		Image logoIcon = null;
 		if (mDescription.getLogo() != null)
-			logoIcon = ((ImageIcon)mDescription.getLogo()).getImage();
+			logoIcon = ((ImageIcon) mDescription.getLogo()).getImage();
 		setIconImage(logoIcon);
 		String sub_title = aSubTitle;
 		if (!sub_title.equals(""))
