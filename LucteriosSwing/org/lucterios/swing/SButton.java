@@ -1,10 +1,12 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -24,11 +26,6 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
 	private AbstractButton mButton;
 	
-	public void setImage(AbstractImage image) {
-		if (image instanceof SwingImage)
-			mButton.setIcon((ImageIcon)image.getData());
-	}
-
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}
@@ -90,6 +87,24 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 
 	public void setMnemonic(char c) {
 		mButton.setMnemonic(c);
+	}
+
+	public void setBackgroundColor(int color) {
+		mButton.setBackground(new Color(color));
+		
+	}
+
+	public int getBackgroundColor() {
+		return mButton.getBackground().getRGB();		
+	}
+	
+	public void setImage(URL image) {
+		mButton.setIcon(new ImageIcon(image));
+	}
+
+	public void setImage(AbstractImage image) {
+		if (image instanceof SwingImage)
+			mButton.setIcon((ImageIcon)image.getData());
 	}
 	
 }

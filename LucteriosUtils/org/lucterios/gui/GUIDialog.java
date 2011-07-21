@@ -1,6 +1,6 @@
 package org.lucterios.gui;
 
-public interface GUIDialog {
+public interface GUIDialog extends GUIObject {
 	
 	public interface DialogVisitor {
 		public void execute(GUIDialog dialog);
@@ -8,6 +8,8 @@ public interface GUIDialog {
 	
 	public void setDialogVisitor(DialogVisitor dialogVisitor);
 
+	public GUIGenerator getGenerator();
+	
 	public void setTitle(String title);
 
 	public void setLocation(int x, int y);
@@ -16,18 +18,7 @@ public interface GUIDialog {
 
 	public void setResizable(boolean isResizable);
 	
-	public void dispose();
-	
-	public void setVisible(boolean aVisible);
-
-	public void close();
-
-	public void refresh();
-
-	public void setNotifyFrameClose(
-			NotifyFrameObserver aNotifyFrameClose);
-
-	public void setActive(boolean aIsActive);
+	public void setNotifyFrameClose(NotifyFrameObserver aNotifyFrameClose);
 
 	public void requestFocus();
 
@@ -40,6 +31,8 @@ public interface GUIDialog {
 	public GUIContainer getContainer();
 
 	public void pack();
+	
+	public void close();	
 
 	public int getSizeY();
 

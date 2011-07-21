@@ -4,8 +4,10 @@ import org.lucterios.gui.NotifyFrameChange;
 import org.lucterios.gui.NotifyFrameList;
 import org.lucterios.gui.NotifyFrameObserver;
 
-public interface GUIForm {
+public interface GUIForm extends GUIObject {
 
+	public GUIGenerator getGenerator();	
+	
 	public abstract String getName();
 
 	public abstract String getTitle();
@@ -20,11 +22,7 @@ public interface GUIForm {
 
 	public abstract void toFront();
 	
-	public abstract void dispose();
-	
 	public abstract void activate();
-
-	public abstract void Close();
 
 	public abstract void Change();
 
@@ -36,12 +34,8 @@ public interface GUIForm {
 
 	public abstract void setSelected(boolean aSelected);
 
-	public abstract void setVisible(boolean aVisible);
-
-	public abstract void refresh();
-
-	public abstract void setActive(boolean aIsActive);
-
 	public abstract void refreshSize();
+
+	public void Close();
 
 }

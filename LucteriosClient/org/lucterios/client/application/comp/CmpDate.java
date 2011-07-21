@@ -26,8 +26,9 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.graphic.DatePickerSimple;
+import org.lucterios.graphic.date.DatePickerSimple;
 import org.lucterios.utils.LucteriosException;
 
 public class CmpDate extends CmpAbstractEvent {
@@ -77,7 +78,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 	protected void initComponent() {
 		date_simple = new DatePickerSimple();
-		date_simple.setFocusable(false);
+		Singletons.getWindowGenerator().newDialog(null).setDialogVisitor(date_simple);
 
 		setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints gdbConstr;
@@ -165,7 +166,7 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	protected void fillData() {
-		date_simple.getSelector().set((int) (spe_year.getNumber()),
+		date_simple.set((int) (spe_year.getNumber()),
 				cmp_month.getSelectedIndex(), (int) (spe_day.getNumber()));
 	}
 

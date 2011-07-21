@@ -39,6 +39,7 @@ import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIObject;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 
@@ -69,24 +70,24 @@ public class SGenerator implements GUIGenerator {
 	}
 	
 	public GUIForm newForm(String aActionId) {
-		return new SForm(aActionId);
+		return new SForm(aActionId,this);
 	}
 
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
 		GUIDialog new_dialog;
 		if (aOwnerDialog != null)
-			new_dialog = new SDialog((SDialog) aOwnerDialog);
+			new_dialog = new SDialog((SDialog) aOwnerDialog,this);
 		else
-			new_dialog = new SDialog((SForm) aOwnerFrame);
+			new_dialog = new SDialog((SForm) aOwnerFrame,this);
 		return new_dialog;
 	}
 
 	public GUIFrame newFrame() {
-		return new SFrame();
+		return new SFrame(this);
 	}
 
 	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
-		return new SDialog((SFrame) aOwnerFrame);
+		return new SDialog((SFrame) aOwnerFrame,this);
 	}
 
 	public AbstractImage CreateImage(URL url) {
@@ -99,7 +100,11 @@ public class SGenerator implements GUIGenerator {
 		JOptionPane.showMessageDialog(null, message, title,JOptionPane.ERROR_MESSAGE);		
 	}
 
-	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner) {
+	public void showMessageDialog(String message, String title) {
+		JOptionPane.showMessageDialog(null, message, title,JOptionPane.INFORMATION_MESSAGE);		
+	}
+	
+	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner) {
 		File result=null;
 		JFileChooser file_dlg;
 		file_dlg = new JFileChooser();

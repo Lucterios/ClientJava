@@ -62,6 +62,14 @@ public class SContainer extends JPanel implements GUIContainer {
 	public ContainerType getType() {
 		return mType;
 	}
+	
+	public int count(){
+		if (mTab != null)
+			return mTab.getTabCount();
+		if (mPanel != null)
+			return mPanel.getComponentCount();
+		return 0;
+	}
 
 	protected GridBagConstraints getCnt(GUIParam param) {
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();

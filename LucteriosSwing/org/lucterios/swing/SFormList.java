@@ -33,6 +33,7 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.graphic.Tools;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GuiFormList;
 
 public class SFormList extends GuiFormList {
@@ -43,10 +44,16 @@ public class SFormList extends GuiFormList {
 	}
 
 	private Map<String, ShortCut> mShortCutDico;
+	private GUIGenerator mGenerator; 
 
-	public SFormList() {
+	public SFormList(GUIGenerator generator ) {
 		super();
+		mGenerator=generator; 
 		mShortCutDico = new TreeMap<String, ShortCut>();
+	}
+	
+	public GUIGenerator getGenerator(){
+		return mGenerator;
 	}
 
 	public void clearShortCut() {
@@ -55,7 +62,7 @@ public class SFormList extends GuiFormList {
 	}
 
 	protected GUIForm newForm(String aId) {
-		return new SForm(aId);
+		return new SForm(aId,mGenerator);
 	}
 	
 	public void newShortCut(String aActionName, KeyStroke aShortCut,

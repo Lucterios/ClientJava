@@ -1,6 +1,8 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -26,6 +28,10 @@ public class SLabel extends JLabel implements GUILabel {
 			setIcon((ImageIcon)image.getData());		
 	}
 
+	public void setImage(URL image) {
+		setIcon(new ImageIcon(image));
+	}
+	
 	public String getTextString() {
 		return getText();
 	}
@@ -38,5 +44,9 @@ public class SLabel extends JLabel implements GUILabel {
 		Font font=getFont();
 		setFont(new Font(font.getName(), style, font.getSize()));		
 	}	
+
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));		
+	}
 	
 }

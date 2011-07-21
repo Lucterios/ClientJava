@@ -76,6 +76,7 @@ import org.lucterios.form.ProgressPanel;
 import org.lucterios.form.WaitingWindow;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.NotifyFrameChange;
 
 public class ApplicationMain extends SFrame implements RefreshButtonPanel,
@@ -136,8 +137,8 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 	private ProgressPanel mProgressPanelTop;
 	private ProgressPanel mProgressPanelBottom;
 
-	public ApplicationMain() {
-		super();
+	public ApplicationMain(GUIGenerator generator) {
+		super(generator);
 		HtmlLabel.changeFontSize(0.9f);
 
 		setVisible(false);
@@ -279,7 +280,7 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 	}
 
 	public void initialize() {
-		mFormList = new SFormList();
+		mFormList = new SFormList(this.getGenerator());
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Application");
@@ -740,16 +741,13 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		return frame;
 	}
 
-	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
-		SDialog dlg;
-		if (aOwnerFrame != null)
-			dlg = new SDialog((SForm) aOwnerFrame);
-		else if (aOwnerDialog != null)
-			dlg = new SDialog((SDialog) aOwnerDialog);
+	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerForm) {
+		GUIDialog dlg;
+		if ((aOwnerForm != null) || (aOwnerDialog != null))
+			dlg = getGenerator().newDialog(aOwnerDialog, aOwnerForm);
 		else
-			dlg = new SDialog(this);
-		javax.swing.SwingUtilities.updateComponentTreeUI(dlg);
-		dlg.mFrameControle = this;
+			dlg = getGenerator().newDialog(this);
+		((SDialog)dlg).mFrameControle = this;
 		return dlg;
 	}
 

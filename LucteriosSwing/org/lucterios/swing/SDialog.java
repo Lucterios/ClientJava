@@ -39,6 +39,7 @@ import org.lucterios.graphic.FrameControle;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.gui.GUIContainer.ContainerType;
 
@@ -54,25 +55,35 @@ public class SDialog extends JDialog implements GUIDialog {
 	private SContainer mContainer;	
 
 	public FrameControle mFrameControle;
+	
+	private GUIGenerator mGenerator;
 
-	public SDialog() {
+	public GUIGenerator getGenerator() {
+		return mGenerator;
+	}
+	
+	public SDialog(GUIGenerator generator) {
 		super();
+		mGenerator=generator;
 		initial();
 		initialPosition();
 	}
 
-	public SDialog(SDialog aDialog) {
+	public SDialog(SDialog aDialog,GUIGenerator generator) {
 		super(aDialog);
+		mGenerator=generator;
 		initial();
 	}
 
-	public SDialog(SForm aForm) {
+	public SDialog(SForm aForm,GUIGenerator generator) {
 		super(aForm);
+		mGenerator=generator;
 		initial();
 	}
 
-	public SDialog(JFrame aFrame) {
+	public SDialog(SFrame aFrame,GUIGenerator generator) {
 		super(aFrame);
+		mGenerator=generator;
 		initial();
 	}
 
@@ -86,6 +97,7 @@ public class SDialog extends JDialog implements GUIDialog {
 		});
 		mContainer=new SContainer(ContainerType.CT_NORMAL);
 		getContentPane().add(mContainer);
+		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}
 
 	private boolean isCreate=false; 
@@ -102,6 +114,8 @@ public class SDialog extends JDialog implements GUIDialog {
 		if (aVisible) {
 			if ((!isCreate) && (mDialogVisitor!=null)) {
 				mDialogVisitor.execute(this);
+				this.pack();
+				this.initialPosition();
 				isCreate=true;
 			}
 			AbstractAction refresh_action = new AbstractAction() {
@@ -186,7 +200,7 @@ public class SDialog extends JDialog implements GUIDialog {
 	}
 
 	public GUIDialog createDialog(){
-		return new SDialog(this);
+		return new SDialog(this,getGenerator());
 	}
 
 	public int getSizeX() {
@@ -206,4 +220,5 @@ public class SDialog extends JDialog implements GUIDialog {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
 	}
+
 }

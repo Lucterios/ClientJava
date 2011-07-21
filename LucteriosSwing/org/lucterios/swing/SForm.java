@@ -32,6 +32,7 @@ import org.lucterios.graphic.FrameControle;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.NotifyFrameChange;
 import org.lucterios.gui.NotifyFrameList;
 import org.lucterios.gui.NotifyFrameObserver;
@@ -48,9 +49,11 @@ public class SForm extends JFrame implements GUIForm {
 	public FrameControle mFrameControle;
 
 	private SContainer mContainer=new SContainer(ContainerType.CT_NORMAL);
+	private GUIGenerator mGenerator;
 	
-	public SForm(String aFrameID) {
+	public SForm(String aFrameID,GUIGenerator generator) {
 		super();
+		mGenerator=generator;
 		setName(aFrameID);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -64,6 +67,11 @@ public class SForm extends JFrame implements GUIForm {
 		});
 	}
 
+	public GUIGenerator getGenerator() {
+		return mGenerator;
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -212,7 +220,7 @@ public class SForm extends JFrame implements GUIForm {
 	}
 	
 	public GUIDialog createDialog(){
-		return new SDialog(this);
+		return new SDialog(this,getGenerator());
 	}
-	
+
 }

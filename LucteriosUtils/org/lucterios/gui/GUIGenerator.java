@@ -44,5 +44,8 @@ public interface GUIGenerator {
 
 	public void showErrorDialog(String message, String title);
 
-	public File selectOpenFileDialog(final FileFilter filter,final Object aGUIOwner);	
+	public void showMessageDialog(String message, String title);	
+	
+	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner);
+
 }

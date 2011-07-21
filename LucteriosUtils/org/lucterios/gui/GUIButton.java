@@ -1,5 +1,7 @@
 package org.lucterios.gui;
 
+import java.net.URL;
+
 public interface GUIButton extends GUIComponent {
 
 	public interface GUIActionListener {
@@ -14,6 +16,8 @@ public interface GUIButton extends GUIComponent {
 	
 	public void setTextString(String text);
 
+	public void setImage(URL image);
+	
 	public void setImage(AbstractImage image);
 
 	public void setMnemonic(char c);
@@ -21,4 +25,9 @@ public interface GUIButton extends GUIComponent {
 	public void setToggle(boolean isToogle);
 
 	public boolean isSelected();
+
+	public void setBackgroundColor(int color);
+
+	public int getBackgroundColor();
+
 }
