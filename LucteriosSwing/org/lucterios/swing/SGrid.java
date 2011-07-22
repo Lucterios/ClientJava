@@ -1,5 +1,6 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -201,4 +202,12 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 			cmp_tbl.setRowSelectionInterval(row, row);
 	}
 
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+	
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
+	
 }

@@ -166,4 +166,13 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
 	public void setTextString(String text) {
 		setText(text);		
 	}	
+
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
+	
 }

@@ -40,6 +40,7 @@ import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIObject;
+import org.lucterios.gui.GUIWindows;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 
@@ -73,6 +74,10 @@ public class SGenerator implements GUIGenerator {
 		return new SForm(aActionId,this);
 	}
 
+	public GUIWindows newWindows() {
+		return new SWindows(this);
+	}
+	
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
 		GUIDialog new_dialog;
 		if (aOwnerDialog != null)

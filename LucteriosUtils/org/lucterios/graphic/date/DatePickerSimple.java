@@ -366,5 +366,7 @@ public class DatePickerSimple implements DialogVisitor {
 		today.setTime(calendar.getTime());
 		update_calendar_display();
 	}
+
+	public void closing() { }
 	
 }

@@ -10,6 +10,10 @@ public interface GUIComponent {
 
 	public void removeFocusListener(GUIFocusListener l);
 
+	public void setBackgroundColor(int color);
+	
+	public int getBackgroundColor();
+	
 	public void setVisible(boolean visible);
 	
 	public boolean isVisible();
@@ -18,4 +22,5 @@ public interface GUIComponent {
 	
 	public boolean isEnabled();
 	
+	public void repaint();
 }

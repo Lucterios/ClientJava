@@ -96,6 +96,7 @@ public class SDialog extends JDialog implements GUIDialog {
 			}
 		});
 		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		mContainer.setName("");
 		getContentPane().add(mContainer);
 		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}
@@ -137,6 +138,8 @@ public class SDialog extends JDialog implements GUIDialog {
 	 * @see org.lucterios.client.utils.IDialog#close()
 	 */
 	public void close() {
+		if (mDialogVisitor!=null)
+			mDialogVisitor.closing();
 		if (mNotifyFrameClose != null) {
 			mNotifyFrameClose.close(true);
 			mNotifyFrameClose = null;

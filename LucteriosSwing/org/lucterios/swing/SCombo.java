@@ -1,5 +1,6 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -69,4 +70,11 @@ public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionL
 			addElement(obj);
 	}
 		
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
 }

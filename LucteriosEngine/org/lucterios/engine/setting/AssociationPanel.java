@@ -139,6 +139,8 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			mOwner.dispose();
 		}
 
+		public void closing() { }
+
 	}
 
 	private GUIDialog mOwnerFrame;

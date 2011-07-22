@@ -1,14 +1,22 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUICheckBox;
@@ -22,8 +30,9 @@ import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUIButton.GUIActionListener;
 
-public class SContainer extends JPanel implements GUIContainer {
+public class SContainer extends JPanel implements GUIContainer,FocusListener,MouseListener {
 
 	/**
 	 * 
@@ -33,9 +42,51 @@ public class SContainer extends JPanel implements GUIContainer {
 	private ContainerType mType;
 	private JPanel mPanel = null;
 	private JTabbedPane mTab = null;
+	private Redrawing mRedrawing=null;
 
+	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	
+	public void addFocusListener(GUIFocusListener l){
+		mFocusListener.add(l);
+	}
+
+	public void removeFocusListener(GUIFocusListener l){
+		mFocusListener.remove(l);
+	}
+
+    public void focusLost(java.awt.event.FocusEvent evt) 
+    {
+		for(GUIFocusListener l:mFocusListener)
+			l.focusLost();
+    }
+    
+	public void focusGained(FocusEvent e) { }
+
+	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
+	public void addActionListener(GUIActionListener l) {
+		mActionListener.add(l);
+	}
+
+	public void removeActionListener(GUIActionListener l) {
+		mActionListener.remove(l);
+	}
+
+	public void mousePressed(MouseEvent e) {
+		if (e.getClickCount()==2) {
+			for(GUIActionListener l:mActionListener)
+				l.actionPerformed();
+		}
+	}
+
+	public void invokeLater(Runnable runnable) {
+		SwingUtilities.invokeLater(runnable);
+	}
+	
 	public SContainer(ContainerType type) {
 		super();
+		setName("");
+		addFocusListener(this);
+		addMouseListener(this);
 		mType = type;
 		switch (mType) {
 		case CT_NORMAL:
@@ -59,6 +110,10 @@ public class SContainer extends JPanel implements GUIContainer {
 		}
 	}
 
+	public void setRedraw(Redrawing redrawing) {
+		mRedrawing=redrawing;
+	}
+	
 	public ContainerType getType() {
 		return mType;
 	}
@@ -118,12 +173,14 @@ public class SContainer extends JPanel implements GUIContainer {
 			return null;
 		SContainer result = new SContainer(type);
 		mTab.addTab(name, result);
+		result.setName(this.getName()+"|"+name+"|");
 		return result;
 	}
 
 	private void changePreferenceSize(GUIParam param, JComponent result) {
-		if ((param.getPrefSizeX()>0) && (param.getPrefSizeY()>0))
+		if ((param.getPrefSizeX()>0) && (param.getPrefSizeY()>0)) {
 			result.setPreferredSize(new Dimension(param.getPrefSizeX(),param.getPrefSizeY()));
+		}
 	}
 
 	public GUIButton createButton(GUIParam param) {
@@ -168,6 +225,7 @@ public class SContainer extends JPanel implements GUIContainer {
 		SContainer result = new SContainer(type);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
+		result.setName(this.getName()+"["+param.getX()+","+param.getY()+"]");
 		return result;
 	}
 
@@ -248,5 +306,35 @@ public class SContainer extends JPanel implements GUIContainer {
 	public int getSizeY() {
 		return getSize().height;
 	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		if (mRedrawing!=null) {
+			mRedrawing.paint(new SGraphic(g));
+		}
+	}
+
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
+	
+
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width, height);
+		setPreferredSize(new Dimension(width, height));
+	}
+
+	public void mouseClicked(MouseEvent e) {}
+
+	public void mouseEntered(MouseEvent e) { }
+
+	public void mouseExited(MouseEvent e) {	}
+
+	public void mouseReleased(MouseEvent e) {	}
 
 }

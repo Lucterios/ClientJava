@@ -2,7 +2,7 @@ package org.lucterios.gui;
 
 import org.lucterios.gui.GUIButton.GUIActionListener;
 
-public interface GUIHyperText {
+public interface GUIHyperText extends GUIComponent {
 
 	public String getTextString();
 
@@ -13,5 +13,6 @@ public interface GUIHyperText {
 	public void removeActionListener(GUIActionListener l);
 
 	public void setHyperLink(String string);
+
 	
 }

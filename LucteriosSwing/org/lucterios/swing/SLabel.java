@@ -49,4 +49,7 @@ public class SLabel extends JLabel implements GUILabel {
 		setBackground(new Color(color));		
 	}
 	
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
 }

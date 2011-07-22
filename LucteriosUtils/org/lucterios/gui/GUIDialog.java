@@ -4,6 +4,7 @@ public interface GUIDialog extends GUIObject {
 	
 	public interface DialogVisitor {
 		public void execute(GUIDialog dialog);
+		public void closing();
 	}
 	
 	public void setDialogVisitor(DialogVisitor dialogVisitor);

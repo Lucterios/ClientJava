@@ -47,11 +47,12 @@ import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.swing.SGenerator;
+import org.lucterios.swing.SWindows;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.SwingImage;
-import org.lucterios.form.WaitingWindow;
+import org.lucterios.graphic.WaitingWindow;
 
 class Main {
 	static private void initalizeObserver() {
@@ -86,11 +87,13 @@ class Main {
 			initializeSingleton();
 			ThemeMenu.initializedTheme();
 			ApplicationMain main;
+			SWindows wind=(SWindows)Singletons.getWindowGenerator().newWindows();
 			WaitingWindow ww = new WaitingWindow(
 					"Chargement de l'application.<br>Veuillez patienter.",
 					Singletons.getConfiguration().TitreDefault);
-			ww.setVisible(true);
-			ww.requestFocus();
+			wind.setWindowVisitor(ww);
+			wind.setVisible(true);
+			wind.requestFocus();
 			try {
 				initalizeObserver();
 				CustomManager.initalize();
@@ -111,7 +114,7 @@ class Main {
 						ExceptionDlg.throwException(e);
 					}
 			} finally {
-				ww.dispose();
+				wind.dispose();
 			}
 			main.setVisible(true);
 		} catch (Exception e) {

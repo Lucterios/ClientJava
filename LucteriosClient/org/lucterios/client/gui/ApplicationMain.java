@@ -61,23 +61,28 @@ import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
+import org.lucterios.swing.SContainer;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 import org.lucterios.swing.SFrame;
+import org.lucterios.swing.SWindows;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.swing.SFormList;
 import org.lucterios.graphic.FrameControle;
-import org.lucterios.form.TimeLabel;
+import org.lucterios.graphic.TimeLabel;
 import org.lucterios.graphic.Tools;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.form.MemoryJauge;
-import org.lucterios.form.ProgressPanel;
-import org.lucterios.form.WaitingWindow;
+import org.lucterios.graphic.MemoryJauge;
+import org.lucterios.graphic.ProgressPanel;
+import org.lucterios.graphic.WaitingWindow;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIGenerator;
+import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.NotifyFrameChange;
+import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.gui.GUIContainer.ContainerType;
 
 public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		Connection, NotifyFrameChange, ToolBar, FrameControle,
@@ -309,18 +314,18 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 				(int) (org.lucterios.client.gui.ToolBar.ICON_SIZE * 1.8)));
 		getContentPane().add(mToolBar, cnt);
 
-		mProgressPanelTop = new ProgressPanel(true);
-		mProgressPanelTop.setMinimumSize(new Dimension(PROGRESS_SIZE,
-				PROGRESS_SIZE));
-		mProgressPanelTop.setPreferredSize(new Dimension(PROGRESS_SIZE,
-				PROGRESS_SIZE));
+		SContainer pnl;
+		pnl=new SContainer(ContainerType.CT_NORMAL);
+		mProgressPanelTop = new ProgressPanel(true,pnl);
+		pnl.setMinimumSize(new Dimension(PROGRESS_SIZE,PROGRESS_SIZE));
+		pnl.setPreferredSize(new Dimension(PROGRESS_SIZE,PROGRESS_SIZE));
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 1;
 		cnt.weightx = 1;
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
-		getContentPane().add(mProgressPanelTop, cnt);
+		getContentPane().add(pnl, cnt);
 
 		mToolNavigator = new MainPanel(this, mConnectionInfoOwnerObserber);
 		cnt = new GridBagConstraints();
@@ -331,18 +336,17 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		cnt.fill = GridBagConstraints.BOTH;
 		getContentPane().add(mToolNavigator, cnt);
 
-		mProgressPanelBottom = new ProgressPanel(false);
-		mProgressPanelBottom.setMinimumSize(new Dimension(PROGRESS_SIZE,
-				PROGRESS_SIZE));
-		mProgressPanelBottom.setPreferredSize(new Dimension(PROGRESS_SIZE,
-				PROGRESS_SIZE));
+		pnl=new SContainer(ContainerType.CT_NORMAL);
+		mProgressPanelBottom = new ProgressPanel(false,pnl);
+		pnl.setMinimumSize(new Dimension(PROGRESS_SIZE,PROGRESS_SIZE));
+		pnl.setPreferredSize(new Dimension(PROGRESS_SIZE,PROGRESS_SIZE));
 		cnt = new GridBagConstraints();
 		cnt.gridx = 0;
 		cnt.gridy = 3;
 		cnt.weightx = 1;
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
-		getContentPane().add(mProgressPanelBottom, cnt);
+		getContentPane().add(pnl, cnt);
 
 		mStatBarPnl = new JPanel();
 		mStatBarPnl.setLayout(new GridBagLayout());
@@ -384,17 +388,19 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
 		mStatBarPnl.add(mServer, cnt);
-		mTimeValue = new TimeLabel();
+		
+		mTimeValue = new TimeLabel(new SContainer(ContainerType.CT_NORMAL),new GUIParam(0,0));
 		cnt = new GridBagConstraints();
 		cnt.gridx = 3;
 		cnt.gridy = 0;
 		cnt.weightx = 0;
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
-		mStatBarPnl.add(mTimeValue, cnt);
+		mStatBarPnl.add((Component)mTimeValue.getLabel(), cnt);
 
-		mMemoryJauge = new MemoryJauge();
-		mMemoryJauge.setPreferredSize(new Dimension(PROGRESS_SIZE * 12,
+		pnl=new SContainer(ContainerType.CT_NORMAL);
+		mMemoryJauge = new MemoryJauge(pnl);
+		pnl.setPreferredSize(new Dimension(PROGRESS_SIZE * 12,
 				PROGRESS_SIZE * 2));
 		cnt = new GridBagConstraints();
 		cnt.gridx = 4;
@@ -403,10 +409,14 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.NONE;
 		cnt.insets = new Insets(0, 5, 0, 5);
-		mStatBarPnl.add(mMemoryJauge, cnt);
+		mStatBarPnl.add(pnl, cnt);
 
 		mTimeValue.addActionListener(mMemoryJauge);
-		mTimeValue.addActionListener(Tools.createOrderGCAction());
+		mTimeValue.addActionListener(new GUIActionListener() {			
+			public void actionPerformed() {
+				Tools.createOrderGCAction();
+			}
+		});		
 		mTimeValue.start();
 	}
 
@@ -708,12 +718,14 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 			text += "\nVoulez-vous la télécharger?";
 			if (JOptionPane.showConfirmDialog(this, text, "Mise à jours",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				WaitingWindow ww = new WaitingWindow(
-						"Téléchargement de la nouvelle version.<br>Veuillez patienter.");
+				WaitingWindow ww = new WaitingWindow("Téléchargement de la nouvelle version.<br>Veuillez patienter.","");
+				SWindows wind=(SWindows)Singletons.getWindowGenerator().newWindows();
+				wind.setWindowVisitor(ww);
+				wind.setVisible(true);
 				try {
 					up.runDownloadAndExtract(mDescription.getTitle());
 				} finally {
-					ww.dispose();
+					wind.dispose();
 				}
 			}
 		}

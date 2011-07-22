@@ -1,5 +1,6 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -400,6 +401,14 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 		upButton.setBounds(fieldWidth, 0, width - fieldWidth, height / 2);
 		downButton.setBounds(fieldWidth, height / 2, width - fieldWidth,
 				height / 2);
+	}
+	
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
 	}
 	
 }

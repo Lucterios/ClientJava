@@ -67,6 +67,8 @@ public class ConfigurationPanel implements GUISelectListener {
 			}
 		}
 
+		public void closing(){}
+
 		private void Initial() {
 			mOwner.setTitle("Ajouter");
 			Init();

@@ -1,5 +1,6 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -58,18 +59,20 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 	private void initValues() {
 		if (mUrl!=null) {
 			setText("<font size='-1' color='blue'><u><center>"+mText+"</center></u></font>");
-			setToolTipText(mUrl);
-			mActionLink=new GUIActionListener() {		
-				public void actionPerformed() {
-					try {
-						DesktopInterface.getInstance().launch(mUrl);
-					} catch (LucteriosException e1) 
-					{
-						ExceptionDlg.throwException(e1);
+			if (mUrl.length()>0) {
+				setToolTipText(mUrl);
+				mActionLink=new GUIActionListener() {		
+					public void actionPerformed() {
+						try {
+							DesktopInterface.getInstance().launch(mUrl);
+						} catch (LucteriosException e1) 
+						{
+							ExceptionDlg.throwException(e1);
+						}
 					}
-				}
-			};
-			addActionListener(mActionLink);
+				};
+				addActionListener(mActionLink);
+			}
 		}
 		else {
 			setText(mText);
@@ -101,5 +104,23 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 	}
 
 	public void mouseReleased(MouseEvent e) {
+	}
+
+	public void addFocusListener(GUIFocusListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeFocusListener(GUIFocusListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getBackgroundColor() {
+		return getBackground().getRGB();
+	}
+
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));
 	}
 }

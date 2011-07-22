@@ -75,6 +75,8 @@ public class SetupDialog implements DialogVisitor {
 		mDialog.initialPosition();
 	}
 
+	public void closing(){}
+	
 	public LucteriosConfiguration.Server newServer(String aServerName,
 			String aHostName, int aHostPort, String aDirectory,
 			int aConnectionMode) {

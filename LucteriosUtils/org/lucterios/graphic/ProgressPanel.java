@@ -1,33 +1,35 @@
-package org.lucterios.form;
+package org.lucterios.graphic;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIGraphic;
 
-import javax.swing.JComponent;
-
-public class ProgressPanel extends JComponent {
+public class ProgressPanel implements GUIContainer.Redrawing {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public int MaxValue = 30;
-	public Color progressColor=Color.GREEN;
-	public Color backgroudColor=Color.LIGHT_GRAY;
+	public int progressColor=0xFF0000;
+	public int backgroudColor=0xC0C0C0;
 
 	protected Thread  animation = null;
     protected boolean started = false;
     protected int value = 0;
     protected boolean increase;
+    protected GUIContainer mContainer;
 
-	public ProgressPanel(boolean aIncrease)
+	public ProgressPanel(boolean aIncrease,GUIContainer container)
     {
+		mContainer=container;
+		mContainer.setRedraw(this);
 		increase=aIncrease;
 		stop();
     }
 	
 	public void start()
     {
+    	mContainer.repaint();        
         if (animation == null) {
 	        animation = new Thread(new Animator());
 	        animation.setPriority(Thread.MAX_PRIORITY);
@@ -37,9 +39,9 @@ public class ProgressPanel extends JComponent {
 
     public void stop()
     {
-        setVisible(true);
+    	mContainer.setVisible(true);
     	value=-1;
-        repaint();        
+    	mContainer.repaint();        
         if (animation != null) {
 	        animation.interrupt();
 	        animation = null;
@@ -54,10 +56,10 @@ public class ProgressPanel extends JComponent {
 			start();
     }
     
-    public void paintComponent(Graphics g)
+    public void paint(GUIGraphic g)
     {
-        int width  = getWidth();
-        int height = getHeight();
+        int width  = mContainer.getSizeX();
+        int height = mContainer.getSizeY();
         int progress_step = (width/(MaxValue+1)); 
         
     	int begin=progress_step*value;
@@ -102,7 +104,11 @@ public class ProgressPanel extends JComponent {
             		value=0;
             	if (value<0)
             		value=MaxValue;
-                repaint();
+            	mContainer.invokeLater(new Runnable() {				
+					public void run() {
+		            	mContainer.repaint();
+					}
+				});
                 try
                 {
                     Thread.sleep(100);

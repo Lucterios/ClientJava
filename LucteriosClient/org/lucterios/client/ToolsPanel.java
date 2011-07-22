@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -43,7 +44,10 @@ import org.lucterios.client.gui.RefreshButtonPanel;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.form.JAdvancePanel;
-import org.lucterios.form.NavigatorBar;
+import org.lucterios.graphic.NavigatorBar;
+import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.swing.SContainer;
 
 public class ToolsPanel extends JAdvancePanel implements Runnable,
 		ActionListener, ToolButtonCollection.ChangeAction {
@@ -131,8 +135,8 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		cnt.insets = new Insets(0, 3, 0, 3);
 		add(scroll_panel, cnt);
 
-		mNavigatorBar = new NavigatorBar();
-		mNavigatorBar.setOpaque(false);
+		mNavigatorBar = new NavigatorBar(new SContainer(ContainerType.CT_NORMAL));
+		((JComponent) mNavigatorBar.getOwner()).setOpaque(false);
 
 		Insets insets = org.lucterios.graphic.Tools.convertcoordToInsets(Singletons.getDesktop().getCoord(Singletons.getWindowGenerator()));
 		Dimension screen = tkt.getScreenSize();
@@ -185,7 +189,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		cnt.weighty = 0;
 		cnt.fill = GridBagConstraints.BOTH;
 		cnt.insets = new Insets(0, 0, 3, 0);
-		mPanelContains.add(mNavigatorBar, cnt);
+		mPanelContains.add(((JComponent) mNavigatorBar.getOwner()), cnt);
 		mNavigatorBar.clear();
 	}
 
@@ -240,7 +244,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 			icon=(ImageIcon)aAction.getIcon().getData();
 		ToolButton btn = new ToolButton((ActionListener) aAction, aAction.getTitle(), icon);
 		setCoinAction(btn, aPosition);
-		btn.setVisible(mNavigatorBar.getComponentCount() > 0);
+		btn.setVisible(((JComponent) mNavigatorBar.getOwner()).getComponentCount() > 0);
 		mCoinActions[aPosition] = btn;
 	}
 
@@ -299,8 +303,7 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		mNbMainButton = mCurrentButton.count();
 		int nb_ligne = ((mNbMainButton - 1) / mNbHorizontalButton) + 1;
 		if (((nb_ligne + 1) * (SIZEY + 2 * SPACING)
-				+ (mCurrentButton.getHeight() + SPACING) + mNavigatorBar
-				.getHeight()) < mScrollbar.getHeight()) {
+				+ (mCurrentButton.getHeight() + SPACING) + ((JComponent) mNavigatorBar.getOwner()).getHeight()) < mScrollbar.getHeight()) {
 			GridBagConstraints cnt = new GridBagConstraints();
 			cnt.gridx = 0;
 			cnt.gridy = 100;
@@ -312,16 +315,25 @@ public class ToolsPanel extends JAdvancePanel implements Runnable,
 		}
 	}
 
+	private class ActBtn implements GUIActionListener {
+		ActionListener act;
+		public ActBtn(ActionListener act){
+			this.act=act;
+		}
+		public void actionPerformed() {
+			act.actionPerformed(null);					
+		}
+	}	
 	private void finishRepaint() {
 		ToolButtonCollection item_btn = mCurrentButton;
 		while ((item_btn != null)) {
-			mNavigatorBar.addLink(item_btn);
+			mNavigatorBar.addLink(item_btn.getName(),new ActBtn(item_btn));
 			item_btn = item_btn.getButtonsParent();
 		}
 		if (mNavigatorBar.getNbLink() == 1)
 			mNavigatorBar.clear();
 
-		setAllVisible(mNavigatorBar.getComponentCount() > 0);
+		setAllVisible(((JComponent) mNavigatorBar.getOwner()).getComponentCount() > 0);
 
 		if (mCurrentButton != null) {
 			addButtonList();

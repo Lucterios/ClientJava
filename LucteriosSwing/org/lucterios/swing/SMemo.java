@@ -277,4 +277,12 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
 		}
 	}	
 	
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+	
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
+	}
+	
 }

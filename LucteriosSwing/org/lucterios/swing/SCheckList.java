@@ -1,5 +1,6 @@
 package org.lucterios.swing;
 
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 
@@ -70,6 +71,13 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 	
 	public Object[] getSelectedValues(){
 		return cmp_list.getSelectedValues();
+	}
+
+	public void setBackgroundColor(int color) {
+		setBackground(new Color(color));	
+	}
+	public int getBackgroundColor(){
+		return getBackground().getRGB();
 	}
 	
 }

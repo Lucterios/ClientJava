@@ -48,4 +48,6 @@ public interface GUIGenerator {
 	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner);
 
+	public GUIWindows newWindows();
+
 }
