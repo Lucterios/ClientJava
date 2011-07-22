@@ -91,7 +91,6 @@
 		<unzip src="${projet.lib.dir}/commons-httpclient-3.1.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/commons-logging-1.0.4.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/contrib.jar" dest="${projet.src.dir}" />
-		<unzip src="${projet.lib.dir}/Date_selector.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/js.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/junit.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/PgsLookAndFeel.jar" dest="${projet.src.dir}" />
