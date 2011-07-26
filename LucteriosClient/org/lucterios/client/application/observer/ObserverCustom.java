@@ -249,7 +249,6 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 			getGUIFrame().setNotifyFrameObserver(this);
 			((RootPaneContainer) getGUIFrame()).getRootPane().setDefaultButton(
 					mDefaultBtn);
-			getGUIFrame().refreshSize();
 			getGUIFrame().setVisible(true);
 			SwingUtilities.invokeLater(this);
 		}

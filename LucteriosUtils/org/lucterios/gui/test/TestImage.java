@@ -49,4 +49,9 @@ public class TestImage extends AbstractImage {
 		return false;
 	}
 
+	@Override
+	public AbstractImage resizeIcon(int aHeight, boolean aOnlyIfBigger) {
+		return this;
+	}
+
 }

@@ -20,6 +20,7 @@
 
 package org.lucterios.swing;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,9 +35,12 @@ import javax.swing.KeyStroke;
 import org.lucterios.graphic.Tools;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIGenerator;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GuiFormList;
+import org.lucterios.style.ThemeMenu;
+import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
 
-public class SFormList extends GuiFormList {
+public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 	class ShortCut {
 		String mActionName = "";
 		KeyStroke mShortCut = null;
@@ -44,7 +48,8 @@ public class SFormList extends GuiFormList {
 	}
 
 	private Map<String, ShortCut> mShortCutDico;
-	private GUIGenerator mGenerator; 
+	private GUIGenerator mGenerator;
+	private Object[] mObjects=null;
 
 	public SFormList(GUIGenerator generator ) {
 		super();
@@ -98,6 +103,31 @@ public class SFormList extends GuiFormList {
 			if (Container.class.isInstance(aComp))
 				addShortCut((Container) aComp.getComponent(idx), aActionName,
 						aShortCut, aActionListener);
+	}
+
+	@Override
+	public void addThemeMenuSelector(GUIMenu menu) {
+		if (SMenu.class.isInstance(menu))
+			ThemeMenu.getThemeMenu((SMenu)menu,this);
+	}
+
+	public Component[] getComponentsForLookAndFeel() {
+		Component[] cmp = new Component[count() + ((mObjects!=null)?mObjects.length:0)];
+		for (int frame_idx = 0; frame_idx < count(); frame_idx++)
+			cmp[frame_idx] = (Component) get(frame_idx);
+		if (mObjects!=null) {
+			int index=count();
+			for(Object item:mObjects)
+				if(Component.class.isInstance(item)) 
+					cmp[index++] = (Component)item;
+				else
+					cmp[index++] = null;
+		}
+		return cmp;
+	}
+
+	public void setObjects(Object[] mObjects) {
+		this.mObjects = mObjects;
 	}
 
 }

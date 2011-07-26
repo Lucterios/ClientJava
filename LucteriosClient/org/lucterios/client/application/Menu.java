@@ -25,18 +25,19 @@ import java.io.UnsupportedEncodingException;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.ui.GUIAction;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.FrameControle;
+import org.lucterios.graphic.MenuItem;
 import org.lucterios.graphic.Tools;
+import org.lucterios.gui.AbstractImage;
 
-public class Menu extends JMenu {
+public class Menu extends org.lucterios.graphic.MenuNode {
 	/**
 	 * 
 	 */
@@ -47,15 +48,13 @@ public class Menu extends JMenu {
 		public void initialToolBar();
 
 		public void newShortCut(String aActionName, String aShortCut,
-				Action aActionListener);
+				GUIAction aActionListener);
 
 		public void terminatToolBar();
 	}
 
 	private String mIcon;
 	private int mSizeIcon;
-	public String mDescription;
-
 	Menu(String atext, String aIcon, int aSizeIcon, String aDescription,
 			SimpleParsing[] aXml, Observer aOwner, ObserverFactory aFactory,
 			boolean aMainMenu) {
@@ -63,7 +62,7 @@ public class Menu extends JMenu {
 		int pos;
 		mIcon = aIcon;
 		mSizeIcon = aSizeIcon;
-		mDescription = aDescription;
+		setDescription(aDescription);
 		pos = atext.indexOf(ActionImpl.MNEMONIC_CHAR);
 		if (pos != -1)
 			this.setMnemonic(atext.charAt(pos + 1));
@@ -111,8 +110,9 @@ public class Menu extends JMenu {
 		return mIcon;
 	}
 
-	public ImageIcon getMenuIcon() {
-		return (ImageIcon)Singletons.Transport().getIcon(mIcon, mSizeIcon).getData();
+	@Override
+	public AbstractImage getMenuIcon() {
+		return Singletons.Transport().getIcon(mIcon, mSizeIcon);
 	}
 
 	static public ToolBar mToolBar = null;

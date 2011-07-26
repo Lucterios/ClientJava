@@ -6,7 +6,15 @@ import org.lucterios.gui.NotifyFrameObserver;
 
 public interface GUIForm extends GUIObject {
 
-	public GUIGenerator getGenerator();	
+	public interface FormVisitor {
+		public void execute(GUIForm form);
+	}
+	
+	public GUIGenerator getGenerator();
+
+	public GUIContainer getContainer();
+	
+	public void setFormVisitor(FormVisitor formVisitor);
 	
 	public abstract String getName();
 
@@ -26,6 +34,8 @@ public interface GUIForm extends GUIObject {
 
 	public abstract void Change();
 
+	public void setDefaultButton(GUIButton defaultBtn);
+	
 	public abstract void setNotifyFrameList(NotifyFrameList aNotifyFrameList);
 
 	public abstract void setNotifyFrameChange(NotifyFrameChange aNotifyFrameChange);
@@ -37,5 +47,6 @@ public interface GUIForm extends GUIObject {
 	public abstract void refreshSize();
 
 	public void Close();
+
 
 }

@@ -21,14 +21,18 @@
 package org.lucterios.swing;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.FrameControle;
+import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
@@ -48,12 +52,14 @@ public class SForm extends JFrame implements GUIForm {
 
 	public FrameControle mFrameControle;
 
-	private SContainer mContainer=new SContainer(ContainerType.CT_NORMAL);
+	private SContainer mContainer;
 	private GUIGenerator mGenerator;
 	
 	public SForm(String aFrameID,GUIGenerator generator) {
 		super();
 		mGenerator=generator;
+		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		getContentPane().add(mContainer);		
 		setName(aFrameID);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -156,12 +162,26 @@ public class SForm extends JFrame implements GUIForm {
 			toBack();
 	}
 
+	private boolean isCreate=false;
+	
+	private FormVisitor mFormVisitor; 
+	public void setFormVisitor(FormVisitor formVisitor){
+		mFormVisitor=formVisitor;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.lucterios.client.utils.IForm#setVisible(boolean)
 	 */
 	public void setVisible(boolean aVisible) {
+		if (!isCreate) {
+			if (mFormVisitor!=null)
+				mFormVisitor.execute(this);
+			this.pack();
+			this.initialPosition();
+			isCreate=true;
+		}
 		if (mNotifyFrameObserver != null)
 			mNotifyFrameObserver.eventForEnabled(true);
 		try {
@@ -172,6 +192,11 @@ public class SForm extends JFrame implements GUIForm {
 			if (mNotifyFrameObserver != null)
 				mNotifyFrameObserver.eventForEnabled(false);
 		}
+	}
+
+	private void initialPosition() {
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
 	}
 
 	/*
@@ -221,6 +246,11 @@ public class SForm extends JFrame implements GUIForm {
 	
 	public GUIDialog createDialog(){
 		return new SDialog(this,getGenerator());
+	}
+
+	public void setDefaultButton(GUIButton defaultBtn) {
+		if (defaultBtn instanceof JButton)
+			this.getRootPane().setDefaultButton((JButton)defaultBtn);
 	}
 
 }

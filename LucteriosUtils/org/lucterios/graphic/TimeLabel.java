@@ -6,7 +6,7 @@ import java.util.Date;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class TimeLabel implements Runnable, GUIActionListener {
 

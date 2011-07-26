@@ -32,17 +32,18 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.application.Menu;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.form.JAdvancePanel;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIFrame;
+import org.lucterios.gui.GUIMenu;
 
 public class MainPanel extends JAdvancePanel implements Runnable,
 		MouseListener, ComponentListener {
@@ -141,24 +142,23 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 				}
 	}
 
-	public void setMainMenuBar(JMenuBar aMenuBar) {
+	public void setMainMenuBar(GUIFrame aframe,int begin,int end) {
 		repaint();
 		addTabs();
-		for (int index = 0; (aMenuBar != null)
-				&& (index < aMenuBar.getMenuCount()); index++)
-			if (Menu.class.isInstance(aMenuBar.getMenu(index))) {
-				Menu current_menu = (Menu) aMenuBar.getMenu(index);
-				if (current_menu.getIconName().length() > 0) {
+		for (int index = begin; (aframe != null) && (index < (aframe.getMenuCount()-end)); index++) {
+			GUIMenu current_menu = aframe.getMenu(index);
+			if (current_menu.isNode()) {
+				if (current_menu.getIcon().getData()!=null) {
 					CategoryPanel new_subpanel = new CategoryPanel(current_menu);
 					new_subpanel.setFontImage(this.getFontImage(), TEXTURE);
-					ImageIcon icon = org.lucterios.graphic.Tools
-							.resizeIcon(current_menu.getMenuIcon(), 32, true);
-					mtabs.addTab(current_menu.getText(), icon, new JScrollPane(
+					AbstractImage icon = current_menu.getIcon().resizeIcon(32, true);
+					mtabs.addTab(current_menu.getText(), (ImageIcon)icon.getData(), new JScrollPane(
 							new_subpanel));
 				} else if (current_menu.getText().length() == 0) {
 					mToogleManager.addMenu(current_menu);
 				}
 			}
+		}
 		if (mtabs.getTabCount() == 0) {
 			clearTabs();
 		}

@@ -28,6 +28,11 @@ public abstract class AbstractImage {
 		public boolean load(URL url) {
 			return false;
 		}
+
+		@Override
+		public AbstractImage resizeIcon(int aHeight, boolean aOnlyIfBigger) {
+			return this;
+		}
 		
 	};
 	
@@ -59,5 +64,7 @@ public abstract class AbstractImage {
 	public abstract int getHeight();
 	
 	public abstract int getWidth();
+
+	public abstract AbstractImage resizeIcon(int aHeight,boolean aOnlyIfBigger);
 
 }

@@ -13,12 +13,12 @@ import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.gui.GUIDialog;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
+import org.lucterios.ui.GUIActionListener;
 
 public class ConfigurationPanel implements GUISelectListener {
 	private static final long serialVersionUID = 1L;

@@ -57,12 +57,16 @@ public class WaitingWindow implements WindowVisitor
 	private void initial()
 	{
 		mWindows.setWaitingCursor();
-		GUIContainer main=mWindows.getContainer();		
-        GUIHyperText title = main.createHyperText(new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_HORIZONTAL));
+		GUIParam param=new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_HORIZONTAL);
+		param.setPad(0);
+
+		GUIContainer main=mWindows.getContainer();
+        GUIHyperText title = main.createHyperText(param);
         title.setBackgroundColor(BACKGROUND_COLOR);
         title.setTextString("<center><b>"+mTitle+"</b></center>");
 
-        GUIContainer imgPnl = main.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+        param.setY(1);
+        GUIContainer imgPnl = main.createContainer(ContainerType.CT_NORMAL,param);
         imgPnl.setBackgroundColor(BACKGROUND_COLOR);
         new GifAnime(mWindows.getGenerator().CreateImage(getClass().getResource("attente-optim.gif")),imgPnl);
 
@@ -74,7 +78,8 @@ public class WaitingWindow implements WindowVisitor
 	        text.setTextString(line);
         }
         
-        GUIContainer progPnl = main.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,2,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_HORIZONTAL,20,20));
+        param.setY(2);
+        GUIContainer progPnl = main.createContainer(ContainerType.CT_NORMAL,param);
         ProgressPanel progress= new ProgressPanel(true,progPnl);
         progress.backgroudColor=BACKGROUND_COLOR;
         progress.progressColor=PROGRESS_COLOR;

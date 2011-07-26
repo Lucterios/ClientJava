@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.StringDico;
 import org.lucterios.gui.GUIButton;
@@ -14,7 +15,6 @@ import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GridInterface;
 import org.lucterios.gui.GUIDialog;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
 import org.lucterios.gui.GUIParam.FillMode;
@@ -63,19 +63,10 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			}
 		}
 		
-		public void execute() {
-			Initial();
-		}
-		
 		private void Initial() {
 			mOwner.setTitle("Ajouter");
 			Init();
 			InitBtn();
-			mOwner.pack();
-			mOwner.initialPosition();
-			GUIButton[] btns = { btn_AddNew, btn_ExitNew };
-			mOwner.getContainer().calculBtnSize(btns);
-			mOwner.setDefaultButton(btn_Add);
 			mOwner.setResizable(false);
 		}
 
@@ -103,6 +94,9 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 					btn_Exit();
 				}
 			});
+			GUIButton[] btns = { btn_AddNew, btn_ExitNew };
+			mOwner.getContainer().calculBtnSize(btns);
+			mOwner.setDefaultButton(btn_AddNew);
 		}
 
 		public void Init() {

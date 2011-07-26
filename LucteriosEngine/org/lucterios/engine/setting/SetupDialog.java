@@ -32,12 +32,12 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIParam;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
 import org.lucterios.gui.GUIGenerator.FileFilter;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 
 public class SetupDialog implements DialogVisitor {
 	/**

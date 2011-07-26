@@ -36,6 +36,7 @@ import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.ui.GUIAction;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -141,7 +142,7 @@ public class CmpFastGrid extends Cmponent implements
 
 	public void mouseClicked(MouseEvent e) {
 		if ((e.getClickCount() == 2) && (cmp_tbl.getSelectedRowCount() > 0)) {
-			Action first_action = null;
+			GUIAction first_action = null;
 			for (int act_idx = 0; (first_action == null)
 					&& (act_idx < mActions.length); act_idx++) {
 				if (mActions[act_idx].getSelect() != ActionConstantes.SELECT_NONE)

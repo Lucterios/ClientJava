@@ -30,7 +30,7 @@ import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class SContainer extends JPanel implements GUIContainer,FocusListener,MouseListener {
 
@@ -164,7 +164,8 @@ public class SContainer extends JPanel implements GUIContainer,FocusListener,Mou
 			gridBagConstraints.fill = GridBagConstraints.BOTH;
 			break;
 		}
-		gridBagConstraints.insets = new Insets(1, 1, 1, 1);
+		if (param.getPad()>0)
+			gridBagConstraints.insets = new Insets(param.getPad(), param.getPad(), param.getPad(), param.getPad());
 		return gridBagConstraints;
 	}
 

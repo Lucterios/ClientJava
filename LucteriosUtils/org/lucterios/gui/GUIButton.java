@@ -2,12 +2,10 @@ package org.lucterios.gui;
 
 import java.net.URL;
 
+import org.lucterios.ui.GUIActionListener;
+
 public interface GUIButton extends GUIComponent {
 
-	public interface GUIActionListener {
-	    public void actionPerformed();
-	}
-	
 	public void addActionListener(GUIActionListener l);
 
 	public void removeActionListener(GUIActionListener l);

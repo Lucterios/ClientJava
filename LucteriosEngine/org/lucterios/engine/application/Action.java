@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.gui.AbstractImage;
+import org.lucterios.ui.GUIAction;
 import org.lucterios.utils.SimpleParsing;
 
-public interface Action  {
+public interface Action extends GUIAction  {
 	
 	@SuppressWarnings("serial")
 	public class ActionList extends ArrayList<Action> {}
@@ -45,19 +45,9 @@ public interface Action  {
 
 	public String getID();
 
-	public String getTitle();
-
-	public char getMnemonic();
-
 	public String getExtension();
 
 	public String getAction();
-
-	public String getIconName();
-
-	public AbstractImage getIcon();
-
-	public String getKeyStroke();
 
 	public int getFormType();
 
@@ -82,6 +72,4 @@ public interface Action  {
 	public void setKeyStroke(String aKey);
 
 	public void runAction(MapContext aParam);
-	
-	public void actionPerformed();
 }

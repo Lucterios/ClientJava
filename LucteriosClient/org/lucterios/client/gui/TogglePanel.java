@@ -1,12 +1,11 @@
 package org.lucterios.client.gui;
 
-import javax.swing.ImageIcon;
-
 import org.lucterios.client.application.observer.ObserverCustom;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.form.JAdvancePanel;
+import org.lucterios.gui.AbstractImage;
 
 public class TogglePanel extends JAdvancePanel {
 
@@ -17,9 +16,9 @@ public class TogglePanel extends JAdvancePanel {
 
 	private ObserverCustom mObserverCustom = null;
 	private String title;
-	private ImageIcon mIcon;
+	private AbstractImage mIcon;
 
-	public TogglePanel(String title, ImageIcon icon, String extension,
+	public TogglePanel(String title, AbstractImage abstractImage, String extension,
 			String action,Observer aParent) {
 		mObserverCustom = new ObserverCustom();
 		mObserverCustom.setGUIContainer(this);
@@ -27,7 +26,7 @@ public class TogglePanel extends JAdvancePanel {
 		mObserverCustom.setContext(new MapContext());
 		mObserverCustom.setParent(aParent);
 		this.title = title;
-		this.mIcon = icon;
+		this.mIcon = abstractImage;
 	}
 
 	public String getTitle() {
@@ -39,8 +38,7 @@ public class TogglePanel extends JAdvancePanel {
 		mObserverCustom.refresh();
 	}
 
-	public ImageIcon getIcon() {
-		// TODO Auto-generated method stub
+	public AbstractImage getIcon() {
 		return mIcon;
 	}
 

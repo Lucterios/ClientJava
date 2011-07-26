@@ -57,4 +57,6 @@ public abstract class GuiFormList implements NotifyFrameList  {
 		return mFormSelected;
 	}
 
+	public abstract void addThemeMenuSelector(GUIMenu menu);
+	
 }

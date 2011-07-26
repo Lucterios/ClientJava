@@ -18,31 +18,42 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
+package org.lucterios.graphic;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.lucterios.engine.application.Action;
-import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.graphic.Tools;
+import org.lucterios.ui.GUIAction;
 
 public class MenuItem extends JMenuItem {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	public Action mAction;
-	public String mDescription;
+    public static final int CTRL_MASK		= 1 << 1;
 
-	public MenuItem(Action aAction, String aDescription) {
+    public static final int META_MASK		= 1 << 2;
+	
+	private static final long serialVersionUID = 1L;
+	private GUIAction mAction;
+	private String mDescription="";
+
+	public MenuItem() {
 		super();
+	}
+
+	public MenuItem(GUIAction aAction,String description) {
+		super();
+		setActionItem(aAction);
+		setDescription(description);
+	}
+	
+	public void setActionItem(GUIAction aAction) {
 		mAction = aAction;
-		if (mAction.getFormType() == ActionConstantes.FORM_REFRESH)
-			mAction.setFormType(ActionConstantes.FORM_NOMODAL);
 		this.setText(mAction.getTitle());
 		if (mAction.getMnemonic() != 0)
 			this.setMnemonic(mAction.getMnemonic());
@@ -61,10 +72,36 @@ public class MenuItem extends JMenuItem {
 			if ((modifier & java.awt.event.InputEvent.SHIFT_MASK) == java.awt.event.InputEvent.SHIFT_MASK)
 				new_modifier += java.awt.event.InputEvent.SHIFT_MASK;
 			if ((modifier & java.awt.event.InputEvent.CTRL_MASK) == java.awt.event.InputEvent.CTRL_MASK)
-				new_modifier += ActionConstantes.getControlKey();
+				new_modifier += getControlKey();
 			this.setAccelerator(KeyStroke.getKeyStroke(key_code, new_modifier));
 		}
-		mDescription = aDescription;
-		this.addActionListener((ActionListener) mAction);
+		this.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				mAction.actionPerformed();
+			}
+		});
 	}
+
+	public GUIAction getActionItem() {
+		return mAction;
+	}
+	
+	public static int getControlKey() {
+		String os_arch = System.getProperty("os.arch");
+		if (os_arch.equalsIgnoreCase("PowerPC")
+				|| os_arch.equalsIgnoreCase("ppc")) {
+			return META_MASK;
+		} else {
+			return CTRL_MASK;
+		}
+	}
+
+	public void setDescription(String mDescription) {
+		this.mDescription = mDescription;
+	}
+
+	public String getDescription() {
+		return mDescription;
+	}
+
 }

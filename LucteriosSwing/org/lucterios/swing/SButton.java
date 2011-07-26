@@ -18,6 +18,7 @@ import javax.swing.JToggleButton;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.ui.GUIActionListener;
 
 public class SButton extends JComponent implements GUIButton, FocusListener,ActionListener {
 	private static final long serialVersionUID = 1L;

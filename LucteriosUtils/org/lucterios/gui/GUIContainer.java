@@ -1,6 +1,6 @@
 package org.lucterios.gui;
 
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public interface GUIContainer extends GUIComponent {
 	

@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.gui.GUIHyperText;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 

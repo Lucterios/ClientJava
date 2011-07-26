@@ -29,9 +29,9 @@ import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 
 public class AboutBox {
 

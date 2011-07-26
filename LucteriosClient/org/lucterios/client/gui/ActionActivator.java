@@ -31,12 +31,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import org.lucterios.client.ToolsPanel;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.form.JAdvancePanel;
 
 public class ActionActivator extends JAdvancePanel implements ActionListener,
@@ -46,28 +48,30 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ActionListener mActionListener = null;
+	public static final Color FORE_GROUND = Color.BLACK;
+	
+	private GUIActionListener mActionListener = null;
 	private String mText;
 	private String mDescription;
-	private javax.swing.ImageIcon mIcon;
+	private AbstractImage mIcon=null;
 
-	public ActionActivator(ActionListener aActionListener, String aText,
-			String aDescription, String aToolTip, javax.swing.ImageIcon aIcon) {
+	public ActionActivator(GUIActionListener aActionListener, String aText,
+			String aDescription, String aToolTip, AbstractImage image) {
 		super();
 		mActionListener = aActionListener;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 32, true);
+		mIcon = image.resizeIcon(32, true);
 		initial(aToolTip);
 	}
 
 	public ActionActivator(String aText, String aDescription,
-			javax.swing.ImageIcon aIcon) {
+			AbstractImage image) {
 		super();
 		mActionListener = null;
 		mText = aText;
 		mDescription = Tools.convertLuctoriosFormatToHtml(aDescription);
-		mIcon = org.lucterios.graphic.Tools.resizeIcon(aIcon, 64, true);
+		mIcon = image.resizeIcon(64, true);
 		initial("");
 	}
 
@@ -75,7 +79,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 		return mText;
 	}
 
-	public ActionListener getActionListener() {
+	public GUIActionListener getActionListener() {
 		return mActionListener;
 	}
 
@@ -92,7 +96,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 		if (mActionListener == null)
 			setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 
-		mImage = new JLabel(mIcon);
+		mImage = new JLabel((ImageIcon)mIcon.getData());
 		mImage.setAlignmentX(0.5f);
 		mImage.setAlignmentY(0.5f);
 		setToolTipNotEmpty(aToolTip, mImage);
@@ -109,7 +113,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 		addMouseListenerByComponent(mImage);
 
 		mtext = new HtmlLabel();
-		mtext.setForeground(ToolsPanel.FORE_GROUND);
+		mtext.setForeground(FORE_GROUND);
 		mtext.setEditable(false);
 		mtext.setAlignmentY(0.5f);
 		setToolTipNotEmpty(aToolTip, mtext);
@@ -131,7 +135,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 
 		if (mDescription.length() != 0) {
 			mdescription = new HtmlLabel();
-			mdescription.setForeground(ToolsPanel.FORE_GROUND);
+			mdescription.setForeground(FORE_GROUND);
 			mdescription.setEditable(false);
 			mdescription.setAlignmentY(0.75f);
 			if (mActionListener != null)
@@ -174,7 +178,7 @@ public class ActionActivator extends JAdvancePanel implements ActionListener,
 		if (((mLastTimeActionRunning == 0) || ((new_time - mLastTimeActionRunning) > 2000))
 				&& (mActionListener != null)) {
 			mLastTimeActionRunning = new_time;
-			mActionListener.actionPerformed(null);
+			mActionListener.actionPerformed();
 		}
 	}
 

@@ -10,6 +10,7 @@ public class GUIParam {
 	private int h;
 	private ReSizeMode reSize;
 	private FillMode fill;
+	private int pad;
 
 	private int prefSizeX=-1;
 	private int prefSizeY=-1;
@@ -23,6 +24,7 @@ public class GUIParam {
 		this.setFill(fill);
 		this.prefSizeX=prefSizeX;
 		this.prefSizeY=prefSizeY;
+		this.setPad(1);
 	}
 
 	public GUIParam(int x, int y, int w, int h, ReSizeMode reSize,FillMode fill){
@@ -99,5 +101,13 @@ public class GUIParam {
 
 	public int getPrefSizeY() {
 		return prefSizeY;
+	}
+
+	public void setPad(int pad) {
+		this.pad = pad;
+	}
+
+	public int getPad() {
+		return pad;
 	}
 }

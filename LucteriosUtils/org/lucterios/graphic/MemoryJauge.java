@@ -2,7 +2,7 @@ package org.lucterios.graphic;
 
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIGraphic;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class MemoryJauge implements GUIActionListener,GUIContainer.Redrawing {
 

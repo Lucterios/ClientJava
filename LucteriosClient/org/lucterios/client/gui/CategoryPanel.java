@@ -5,13 +5,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.lucterios.client.application.Menu;
-import org.lucterios.client.application.MenuItem;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.form.JAdvancePanel;
 
 public class CategoryPanel extends JAdvancePanel {
@@ -27,7 +25,7 @@ public class CategoryPanel extends JAdvancePanel {
 
 	private static final int activator_width = 400;
 
-	private Menu mMenu = null;
+	private GUIMenu mMenu = null;
 
 	private int pos_y;
 
@@ -42,17 +40,17 @@ public class CategoryPanel extends JAdvancePanel {
 		mMenu = null;
 	}
 
-	public Menu getMenu() {
+	public GUIMenu getMenu() {
 		if (mMenu != null)
 			return mMenu;
 		else
 			return null;
 	}
 
-	public CategoryPanel(Menu current_menu) {
+	public CategoryPanel(GUIMenu currentMenu) {
 		super();
 		setLayout(new java.awt.GridBagLayout());
-		mMenu = current_menu;
+		mMenu = currentMenu;
 		pos_y = 5;
 		pos_x = 0;
 		num = 0;
@@ -96,7 +94,7 @@ public class CategoryPanel extends JAdvancePanel {
 	}
 
 	public void refreshButtons(int aWidth) {
-		Menu aMenu = getMenu();
+		GUIMenu aMenu = getMenu();
 		if (aMenu != null) {
 			setVisible(false);
 			try {
@@ -118,7 +116,7 @@ public class CategoryPanel extends JAdvancePanel {
 	private void fillTitle() {
 		String descript = "";
 		if (getMenu() != null)
-			descript = getMenu().mDescription;
+			descript = getMenu().getDescription();
 		HtmlLabel mdescription = new HtmlLabel();
 		mdescription.setEditable(false);
 		mdescription.setAlignmentY(0.75f);
@@ -137,42 +135,35 @@ public class CategoryPanel extends JAdvancePanel {
 		this.add(mdescription, cnt);
 	}
 
-	private void refreshMenus(Menu aMenu) {
-		for (int index = 0; index < aMenu.getMenuComponentCount(); index++) {
-			if (Menu.class.isInstance(aMenu.getMenuComponent(index))) {
-				Menu current_menu = (Menu) aMenu.getMenuComponent(index);
-				if (current_menu.getIconName().length() > 0) {
+	private void refreshMenus(GUIMenu aMenu) {
+		for (int index = 0; index < aMenu.getMenuCount(); index++) {
+			if (aMenu.getMenu(index).isNode()) {
+				GUIMenu current_menu = aMenu.getMenu(index);
+				if (current_menu.getIcon().getData()!=null) {
 					if (num != 0)
 						pos_y++;
 					num = 0;
 					addSeparator(pos_x, pos_y);
 					addActivator(pos_x, pos_y++, max_width - pos_x,
-							new ActionActivator(current_menu.getText(),
-									current_menu.mDescription, current_menu
-											.getMenuIcon()));
+							new ActionActivator(current_menu.getText(),current_menu.getDescription(), 
+									current_menu.getIcon()));
 					pos_x++;
 					refreshMenus(current_menu);
 					pos_x--;
 				} else
 					refreshMenus(current_menu);
 			}
-			if (MenuItem.class.isInstance(aMenu.getMenuComponent(index))) {
-				MenuItem current_menu = (MenuItem) aMenu
-						.getMenuComponent(index);
-				if (current_menu.mAction.getIconName().length() > 0) {
-					String key_string = current_menu.mAction.getTitle();
-					key_string += org.lucterios.graphic.Tools.getKeyString(current_menu
-							.getAccelerator());
+			if (aMenu.getMenu(index).isPoint()) {
+				GUIMenu current_menu = aMenu.getMenu(index);
+				if (current_menu.getIcon().getData()!=null) {
+					String key_string = current_menu.getText();
+					key_string += current_menu.getAcceleratorText();
 					if (num == 0)
 						addSeparator(pos_x, pos_y);
-					ImageIcon icon=null;
-					if (current_menu.mAction.getIcon()!=null)
-						icon=(ImageIcon)current_menu.mAction.getIcon().getData();
 					addActivator(pos_x + num * (max_width - pos_x) / nb_col,
 							pos_y, (max_width - pos_x) / nb_col,
-							new ActionActivator((javax.swing.Action) current_menu.mAction,
-									current_menu.mAction.getTitle(),current_menu.mDescription, 
-									key_string,icon));
+							new ActionActivator(current_menu.getActionListener(),
+									current_menu.getText(),current_menu.getDescription(),key_string,current_menu.getIcon()));
 					num++;
 					if (num >= nb_col) {
 						num = 0;

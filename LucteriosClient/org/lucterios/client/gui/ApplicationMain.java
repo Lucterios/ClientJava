@@ -28,12 +28,8 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
 import org.lucterios.client.application.ActionImpl;
@@ -59,13 +55,13 @@ import org.lucterios.engine.setting.AboutBox;
 import org.lucterios.engine.setting.SetupDialog;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
-import org.lucterios.style.ThemeMenu;
-import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.swing.SContainer;
 import org.lucterios.swing.SDialog;
 import org.lucterios.swing.SForm;
 import org.lucterios.swing.SFrame;
 import org.lucterios.swing.SWindows;
+import org.lucterios.ui.GUIAction;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.swing.SFormList;
 import org.lucterios.graphic.FrameControle;
@@ -79,14 +75,13 @@ import org.lucterios.graphic.WaitingWindow;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIGenerator;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.NotifyFrameChange;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 
 public class ApplicationMain extends SFrame implements RefreshButtonPanel,
-		Connection, NotifyFrameChange, ToolBar, FrameControle,
-		LookAndFeelCallBack {
+		Connection, NotifyFrameChange, ToolBar, FrameControle {
 	/**
 	 * 
 	 */
@@ -95,19 +90,18 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 
 	private static final int PROGRESS_SIZE = 7;
 
-	private JMenuItem refreshWinItem;
-	private JMenuItem closeAllWinItem;
-	private JMenuItem closeWinItem;
-	private JMenuItem aboutMenuItem;
-	private JMenuItem contentMenuItem;
-	private JMenuItem exitMenuItem;
-	private JMenuItem setupMenuItem;
-	private JMenuItem disconnectMenuItem;
-	private JMenu fileMenu;
-	private JMenu windowsMenu;
-	private JMenu helpMenu;
-	private JMenuBar menuBar;
-	private JMenuItem refreshMenuItem;
+	private GUIMenu refreshWinItem;
+	private GUIMenu closeAllWinItem;
+	private GUIMenu closeWinItem;
+	private GUIMenu contentMenuItem;
+	private GUIMenu exitMenuItem;
+	private GUIMenu setupMenuItem;
+	private GUIMenu disconnectMenuItem;
+	private GUIMenu fileMenu;
+	private GUIMenu windowsMenu;
+	private GUIMenu helpMenu;
+	private GUIMenu aboutMenuItem;
+	private GUIMenu refreshMenuItem;
 
 	private JLabel mConnectionLogo;
 	private JLabel mLogName;
@@ -286,6 +280,7 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 
 	public void initialize() {
 		mFormList = new SFormList(this.getGenerator());
+		mFormList.setObjects(new Object[]{this,mToolNavigator});
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Application");
@@ -421,77 +416,59 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 	}
 
 	public void initMenu() {
-		menuBar = new JMenuBar();
-		menuBar.setName("MainMenu");
-
-		fileMenu = new JMenu();
+		fileMenu = addMenu(true);
 		fileMenu.setText("Fichier");
 		fileMenu.setMnemonic('f');
 
-		disconnectMenuItem = new org.lucterios.client.application.MenuItem(
-				mDisconnectAction, "");
-		fileMenu.add(disconnectMenuItem);
+		disconnectMenuItem = fileMenu.addMenu(false);
+		disconnectMenuItem.setAction(mDisconnectAction);
 
-		setupMenuItem = new org.lucterios.client.application.MenuItem(
-				mSetupAction, "");
-		fileMenu.add(setupMenuItem);
+		setupMenuItem = fileMenu.addMenu(false);
+		setupMenuItem.setAction(mSetupAction);
 
 		fileMenu.addSeparator();
 
-		exitMenuItem = new org.lucterios.client.application.MenuItem(
-				mQuitAction, "");
-		fileMenu.add(exitMenuItem);
+		exitMenuItem = fileMenu.addMenu(false);
+		exitMenuItem.setAction(mQuitAction);
 
-		menuBar.add(fileMenu);
-
-		windowsMenu = new JMenu();
+		windowsMenu = addMenu(true);
 		windowsMenu.setText("Fenêtre");
 		windowsMenu.setMnemonic('n');
 		windowsMenu.setName("windowsMenu");
 
-		closeWinItem = new org.lucterios.client.application.MenuItem(
-				mCloseWinAction, "");
-		windowsMenu.add(closeWinItem);
+		closeWinItem = windowsMenu.addMenu(false);
+		closeWinItem.setAction(mCloseWinAction);
 
-		closeAllWinItem = new org.lucterios.client.application.MenuItem(
-				mCloseAllWinAction, "");
-		windowsMenu.add(closeAllWinItem);
+		closeAllWinItem = windowsMenu.addMenu(false);
+		closeAllWinItem.setAction(mCloseAllWinAction);
 
-		refreshWinItem = new org.lucterios.client.application.MenuItem(
-				mRefreshWinAction, "");
-		windowsMenu.add(refreshWinItem);
+		refreshWinItem  = windowsMenu.addMenu(false);
+		refreshWinItem.setAction(mRefreshWinAction);
 
-		refreshMenuItem = new org.lucterios.client.application.MenuItem(
-				mRefreshMenuAction, "");
-		windowsMenu.add(refreshMenuItem);
+		refreshMenuItem = windowsMenu.addMenu(false);
+		refreshMenuItem.setAction(mRefreshMenuAction);
 
-		menuBar.add(windowsMenu);
-
-		helpMenu = new JMenu();
+		helpMenu = addMenu(true);
 		helpMenu.setText("Aide");
 		helpMenu.setMnemonic('a');
 		helpMenu.setName("helpMenu");
 
-		contentMenuItem = new org.lucterios.client.application.MenuItem(
-				mContentMenuAction, "");
-		helpMenu.add(contentMenuItem);
-		helpMenu.add(ThemeMenu.getThemeMenu(this));
+		contentMenuItem = helpMenu.addMenu(false);
+		contentMenuItem.setAction(mContentMenuAction);
+		
+		mFormList.addThemeMenuSelector(helpMenu.addMenu(true));
 
-		aboutMenuItem = new org.lucterios.client.application.MenuItem(
-				mAboutAction, "");
-		helpMenu.add(aboutMenuItem);
+		aboutMenuItem = helpMenu.addMenu(false);
+		aboutMenuItem.setAction(mAboutAction);
 
-		menuBar.add(helpMenu);
-
-		setJMenuBar(menuBar);
 		mToolBar.addAction(mDisconnectAction);
 		mToolBar.addAction(mQuitAction);
 		mToolBar.addAction(mContentMenuAction);
-		mToolBar.refresh(menuBar);
+		mToolBar.refresh(this,1,2);
 	}
 
 	public void newShortCut(String aActionName, String aShortCut,
-			Action aActionListener) {
+			GUIAction aActionListener) {
 		mFormList.newShortCut(aActionName, KeyStroke.getKeyStroke(aShortCut),
 				(javax.swing.Action) aActionListener);
 	}
@@ -503,7 +480,7 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 
 	public void terminatToolBar() {
 		mToolNavigator.setVisible(true);
-		mToolNavigator.setMainMenuBar(menuBar);
+		mToolNavigator.setMainMenuBar(this,1,2);
 		mFormList.assignShortCut(mToolNavigator);
 		mConnectionInfoAction.actionPerformed();
 		terminateShortCut();
@@ -578,39 +555,42 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 		reorganize();
 		toFront();
 	}
+	
+	private class WinActionListener implements GUIActionListener{
+		private String cmd;
+		public WinActionListener(String cmd){
+			this.cmd=cmd;
+		}
+		public void actionPerformed() {
+			GUIForm frame_to_select = null;
+			for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
+				if (mFormList.get(frame_idx).getName().equals(cmd))
+					frame_to_select = mFormList.get(frame_idx);
+			if (frame_to_select != null)
+				selectIntFrame(frame_to_select);
+			else
+				refreshIntFrame();
+		}
+	}
 
 	public void refreshIntFrame() {
-		while (windowsMenu.getItemCount() > NB_WIND_MENU)
+		while (windowsMenu.getMenuCount() > NB_WIND_MENU)
 			windowsMenu.remove(NB_WIND_MENU);
 		if (mFormList.count() > 0) {
-			for (int menu_idx = 0; menu_idx < windowsMenu.getItemCount(); menu_idx++)
-				windowsMenu.getItem(menu_idx).setEnabled(true);
-			windowsMenu.add(new JSeparator());
-			JMenuItem new_menu;
+			for (int menu_idx = 0; menu_idx < windowsMenu.getMenuCount(); menu_idx++)
+				windowsMenu.getMenu(menu_idx).setEnabled(true);
+			windowsMenu.addSeparator();
+			GUIMenu new_menu;
 			for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++) {
 				String num_str = "" + (frame_idx + 1);
-				new_menu = new JMenuItem(num_str + " - "
-						+ mFormList.get(frame_idx).getTitle());
-				contentMenuItem.setMnemonic(num_str.charAt(0));
-				new_menu.setActionCommand(mFormList.get(frame_idx).getName());
-				new_menu.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						GUIForm frame_to_select = null;
-						for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
-							if (mFormList.get(frame_idx).getName().equals(
-									evt.getActionCommand()))
-								frame_to_select = mFormList.get(frame_idx);
-						if (frame_to_select != null)
-							selectIntFrame(frame_to_select);
-						else
-							refreshIntFrame();
-					}
-				});
-				windowsMenu.add(new_menu);
+				new_menu = windowsMenu.addMenu(false);
+				new_menu.setText(num_str + " - " + mFormList.get(frame_idx).getTitle());
+				new_menu.setMnemonic(num_str.charAt(0));
+				new_menu.setActionListener(new WinActionListener(mFormList.get(frame_idx).getName()));
 			}
 		} else
-			for (int menu_idx = 0; menu_idx < windowsMenu.getItemCount(); menu_idx++) {
-				JMenuItem mn_item = windowsMenu.getItem(menu_idx);
+			for (int menu_idx = 0; menu_idx < windowsMenu.getMenuCount(); menu_idx++) {
+				GUIMenu mn_item = windowsMenu.getMenu(menu_idx);
 				if (mn_item != null) {
 					String ref_name = refreshMenuItem.getText();
 					String item_name = mn_item.getText();
@@ -634,7 +614,7 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 	}
 
 	public void reorganize() {
-		mToolBar.refresh(menuBar);
+		mToolBar.refresh(this,1,2);
 		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
 		Rectangle globale_area = getArea();
@@ -761,15 +741,6 @@ public class ApplicationMain extends SFrame implements RefreshButtonPanel,
 			dlg = getGenerator().newDialog(this);
 		((SDialog)dlg).mFrameControle = this;
 		return dlg;
-	}
-
-	public Component[] getComponentsForLookAndFeel() {
-		Component[] cmp = new Component[mFormList.count() + 2];
-		for (int frame_idx = 0; frame_idx < mFormList.count(); frame_idx++)
-			cmp[frame_idx] = (Component) mFormList.get(frame_idx);
-		cmp[mFormList.count()] = this;
-		cmp[mFormList.count() + 1] = mToolNavigator;
-		return cmp;
 	}
 
 	private void ExitConnection() {

@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 import org.lucterios.gui.GUICombo;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionListener  {
 

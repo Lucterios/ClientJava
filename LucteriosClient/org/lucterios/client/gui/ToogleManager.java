@@ -16,8 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import org.lucterios.client.application.Menu;
-import org.lucterios.client.application.MenuItem;
+import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
@@ -26,6 +25,8 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.form.JAdvancePanel;
 import org.lucterios.graphic.Tools;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIMenu;
 
 public class ToogleManager extends JAdvancePanel implements ActionListener,
 		WatchDogRefresher {
@@ -35,8 +36,8 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 
 		private int num;
 
-		public ToggleAction(String text, ImageIcon icon, int num) {
-			super(text, icon);
+		public ToggleAction(String text, AbstractImage abstractImage, int num) {
+			super(text, (ImageIcon)abstractImage.getData());
 			this.num = num;
 		}
 
@@ -95,21 +96,15 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 		mParent=aParent;
 	}
 
-	public void addMenu(Menu aMenu) {
-		for (int index = 0; index < aMenu.getMenuComponentCount(); index++) {
-			if (Menu.class.isInstance(aMenu.getMenuComponent(index))) {
-				Menu current_menu = (Menu) aMenu.getMenuComponent(index);
-				addMenu(current_menu);
+	public void addMenu(GUIMenu currentMenu) {
+		for (int index = 0; index < currentMenu.getMenuCount(); index++) {
+			GUIMenu current_menu = currentMenu.getMenu(index);
+			if (current_menu.isNode()) {
+				addMenu(currentMenu.getMenu(index));
 			}
-			if (MenuItem.class.isInstance(aMenu.getMenuComponent(index))) {
-				MenuItem current_menu = (MenuItem)aMenu.getMenuComponent(index);
-				ImageIcon icon=null;
-				if (current_menu.mAction.getIcon()!=null)
-					icon=(ImageIcon)current_menu.mAction.getIcon().getData();
-				else
-					icon=null;
-				mToggles.add(new TogglePanel(current_menu.getText(), Tools.resizeIcon(icon, 32, false),
-					current_menu.mAction.getExtension(),current_menu.mAction.getAction(),mParent));
+			if (current_menu.isPoint() && Action.class.isInstance(current_menu.getAction())) {
+				mToggles.add(new TogglePanel(current_menu.getText(), current_menu.getIcon().resizeIcon(32, false),
+					((Action)current_menu.getAction()).getExtension(),((Action)current_menu.getAction()).getAction(),mParent));
 			}
 		}
 	}

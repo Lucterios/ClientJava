@@ -13,7 +13,7 @@ import javax.swing.JCheckBox;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUICheckBox;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,ActionListener {
 	private static final long serialVersionUID = 1L;

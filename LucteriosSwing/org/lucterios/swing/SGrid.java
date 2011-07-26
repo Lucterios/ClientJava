@@ -20,7 +20,7 @@ import org.lucterios.graphic.ImageFormRenderer;
 import org.lucterios.graphic.LabelFormRenderer;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GridInterface;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		ListSelectionListener, GUIGrid {

@@ -1,5 +1,6 @@
 package org.lucterios.graphic;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,12 +25,14 @@ public class SwingImage extends AbstractImage {
 	}	
 
 	public SwingImage(Icon iconImage) {
-		 if( iconImage instanceof ImageIcon ) 
-			 mObject=iconImage;
-		 else {
-	       BufferedImage image = new BufferedImage( iconImage.getIconWidth() , iconImage.getIconHeight() , BufferedImage.TYPE_INT_RGB );
-	       iconImage.paintIcon(null, image.getGraphics() , 0 , 0 );
-	       mObject=new ImageIcon(image);
+		if (iconImage==null)
+			mObject=null;
+		else if( iconImage instanceof ImageIcon ) 
+			mObject=iconImage;
+		else {
+			BufferedImage image = new BufferedImage( iconImage.getIconWidth() , iconImage.getIconHeight() , BufferedImage.TYPE_INT_RGB );
+			iconImage.paintIcon(null, image.getGraphics() , 0 , 0 );
+			mObject=new ImageIcon(image);
 		}
 	}	
 	
@@ -84,4 +87,15 @@ public class SwingImage extends AbstractImage {
 		return true;
 	}
 
+	public AbstractImage resizeIcon(int aHeight,boolean aOnlyIfBigger) {
+    	ImageIcon result_icon=(ImageIcon)mObject;
+    	ImageIcon aIcon=(ImageIcon)mObject;
+    	if ((aIcon!=null) && (!aOnlyIfBigger || (aIcon.getIconHeight()>aHeight))){
+			Image inImage = aIcon.getImage();
+			int scaledW = (int)(aHeight * (double)inImage.getWidth(null)/(double)inImage.getHeight(null));
+			result_icon=new ImageIcon(inImage.getScaledInstance(scaledW , aHeight, Image.SCALE_SMOOTH));
+    	}
+		return new SwingImage(result_icon);	
+	}
+	
 }

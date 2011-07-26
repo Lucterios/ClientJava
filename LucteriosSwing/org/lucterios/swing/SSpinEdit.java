@@ -16,7 +16,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 import org.lucterios.graphic.PopupListener;
 import org.lucterios.gui.GUISpinEdit;
-import org.lucterios.gui.GUIButton.GUIActionListener;
+import org.lucterios.ui.GUIActionListener;
 
 public class SSpinEdit extends JComponent implements ActionListener,FocusListener,GUISpinEdit {
 

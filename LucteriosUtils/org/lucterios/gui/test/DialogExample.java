@@ -14,15 +14,16 @@ import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIWindows;
-import org.lucterios.gui.GUIButton.GUIActionListener;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
 import org.lucterios.gui.GUIGenerator.FileFilter;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 
 public class DialogExample implements DialogVisitor {
@@ -32,7 +33,7 @@ public class DialogExample implements DialogVisitor {
 	
 	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
-		mDialog.setTitle("Exemple dialogue");
+		mDialog.setTitle("Example dialog");
 		mTab=mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0, 0));
 		initScroll();	
 		initGraph();	
@@ -127,7 +128,14 @@ public class DialogExample implements DialogVisitor {
 				showWaitingWindow();
 			}
 		});
-        btnPnl.calculBtnSize(new GUIButton[]{bt1,bt2,bt3,bt4});
+		GUIButton bt5=btnPnl.createButton(new GUIParam(4, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+        bt5.setTextString("Open form");
+        bt5.addActionListener(new GUIActionListener() {		
+			public void actionPerformed() {
+				openForm();
+			}
+		});
+        btnPnl.calculBtnSize(new GUIButton[]{bt1,bt2,bt3,bt4,bt5});
 	}
 
 	private void openFile() {
@@ -181,5 +189,15 @@ public class DialogExample implements DialogVisitor {
 		});
 	}
 	
+	private void openForm() {
+		mDialog.getContainer().invokeLater(new Runnable() {
+			public void run() {
+				GUIForm form=mDialog.getGenerator().newForm("example");
+				form.setFormVisitor(new FormExample());
+				form.setVisible(true);
+			}
+		});
+	}
+
 	
 }

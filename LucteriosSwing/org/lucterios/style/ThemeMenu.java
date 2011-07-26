@@ -3,13 +3,13 @@ package org.lucterios.style;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalTheme;
 
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.swing.SMenu;
 import org.lucterios.utils.Tools.DefaultThemeCallBack;
 
 import com.pagosoft.plaf.PlafOptions;
@@ -57,8 +57,8 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 			if (CallBack != null) {
 				Component[] cmps = CallBack.getComponentsForLookAndFeel();
 				for (int cmp_i = 0; cmp_i < cmps.length; cmp_i++)
-					javax.swing.SwingUtilities
-							.updateComponentTreeUI(cmps[cmp_i]);
+					if (cmps[cmp_i]!=null)
+						javax.swing.SwingUtilities.updateComponentTreeUI(cmps[cmp_i]);
 			}
 		} catch (Exception e) {
 			ExceptionDlg.throwException(e);
@@ -102,17 +102,15 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 		}
 	}
 
-	public static JMenu getThemeMenu(LookAndFeelCallBack aCallBack) {
-		JMenu LookFeelMenuItem = new JMenu("Thèmes");
+	public static void getThemeMenu(SMenu lookFeelMenuItem, LookAndFeelCallBack aCallBack) {
+		lookFeelMenuItem.setText("Style");
 		javax.swing.ButtonGroup bg = new javax.swing.ButtonGroup();
-
 		MetalTheme default_theme = getDefaultTheme();
 		for (MetalTheme theme : Global_Themes) {
 			javax.swing.JRadioButtonMenuItem item = new ThemeMenu(theme, theme
 					.equals(default_theme), aCallBack);
 			bg.add(item);
-			LookFeelMenuItem.add(item);
+			lookFeelMenuItem.getJMenuItem().add(item);
 		}
-		return LookFeelMenuItem;
 	}
 }
