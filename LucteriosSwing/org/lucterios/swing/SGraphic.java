@@ -1,9 +1,9 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIComponent;
@@ -20,7 +20,7 @@ public class SGraphic implements GUIGraphic {
 	public boolean drawImage(AbstractImage img, int x, int y, int width,
 			int height, GUIComponent owner) {
 		ImageIcon icon=(ImageIcon)img.getData();
-		return mGraphic.drawImage(icon.getImage(), x, y, width, height, (JComponent)owner);
+		return mGraphic.drawImage(icon.getImage(), x, y, width, height, (Component)owner);
 	}
 
 	public void fillRect(int x, int y, int width, int height) {

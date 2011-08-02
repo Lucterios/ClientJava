@@ -2,6 +2,8 @@ package org.lucterios.gui;
 
 import java.util.ArrayList;
 
+import org.lucterios.ui.GUIAction;
+
 public abstract class GuiFormList implements NotifyFrameList  {
 
 	protected ArrayList<GUIForm> mList;
@@ -58,5 +60,11 @@ public abstract class GuiFormList implements NotifyFrameList  {
 	}
 
 	public abstract void addThemeMenuSelector(GUIMenu menu);
+
+	public abstract void setObjects(Object[] objects);
+
+	public abstract void newShortCut(String aActionName, String aShortCut, GUIAction aActionListener);
+
+	public abstract void clearShortCut();
 	
 }

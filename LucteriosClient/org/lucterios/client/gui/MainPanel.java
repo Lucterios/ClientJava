@@ -20,101 +20,74 @@
 
 package org.lucterios.client.gui;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Toolkit;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-
+import org.lucterios.engine.gui.CategoryPanel;
+import org.lucterios.engine.gui.RefreshButtonPanel;
 import org.lucterios.engine.presentation.Observer;
-import org.lucterios.engine.resources.Resources;
-import org.lucterios.form.JAdvancePanel;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.ui.GUIActionListener;
 
-public class MainPanel extends JAdvancePanel implements Runnable,
-		MouseListener, ComponentListener {
+public class MainPanel implements Runnable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final Color BACK_GROUND = Color.WHITE;
-
-	public static final Color FORE_GROUND = Color.BLACK;
-
 	RefreshButtonPanel mRefreshButtonPanel;
 
-	private JTabbedPane mtabs = null;
+	private GUIContainer mtabs = null;
 
 	private ToogleManager mToogleManager;
 
-	private JSplitPane split;
+	private GUIContainer mContainer;
 
 	private double mDividerLocation = -1;
+	
+	private Observer mParent=null;
+
+	public GUIContainer getContainer() {
+		return mContainer;
+	}
 
 	public MainPanel(RefreshButtonPanel refreshButtonPanel,Observer aParent) {
 		super();
-		Toolkit tkt = Toolkit.getDefaultToolkit();
-		setFontImage(tkt.getImage(Resources.class.getResource("MainFont.jpg")),
-				TEXTURE);
 		mRefreshButtonPanel = refreshButtonPanel;
-		setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createLineBorder(FORE_GROUND));
-		setBackground(BACK_GROUND);
-		mToogleManager = new ToogleManager(getFontImage(),aParent);
-		split = new JSplitPane();
-		split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		split.setLeftComponent(mToogleManager);
-		split.setOneTouchExpandable(true);
-		GridBagConstraints cnt = new GridBagConstraints();
-		cnt.gridx = 0;
-		cnt.gridy = 0;
-		cnt.weightx = 1;
-		cnt.weighty = 1;
-		cnt.fill = GridBagConstraints.BOTH;
-		add(split, cnt);
+		mParent=aParent;
+	}
+
+	public void initialize(GUIContainer container) {
+		this.mContainer = container;
+		mToogleManager = new ToogleManager(mParent);
+		mToogleManager.initialize(mContainer.getSplite(ContainerType.CT_NORMAL,false));
 		addTabs();
 	}
 
 	private void addTabs() {
 		if (mtabs == null) {
-			mtabs = new JTabbedPane();
-			mtabs.addComponentListener(this);
-			split.setRightComponent(mtabs);
-			mtabs.addMouseListener(this);
+			mtabs = mContainer.getSplite(ContainerType.CT_TAB,true);
+			mtabs.setMouseClickAction(new GUIActionListener() {
+				public void actionPerformed() {
+					doubleClickSpliter();
+				}
+			});
+			mtabs.setResizeAction(new GUIActionListener() {
+				public void actionPerformed() {
+					resizeSpliter();
+				}
+			});
 		}
 	}
 
 	private void clearTabs() {
-		split.setRightComponent(null);
+		mContainer.removeSplite(true);
 		if (mtabs != null) {
-			mtabs.removeComponentListener(this);
-			mtabs.removeMouseListener(this);
-			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
-					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-					if (CategoryPanel.class.isInstance(scroll.getViewport()
-							.getView())) {
-						CategoryPanel subpanel = (CategoryPanel) scroll
-								.getViewport().getView();
-						subpanel.dispose();
-					}
-				}
+			mtabs.setMouseClickAction(null);
+			mtabs.setResizeAction(null);
 			mtabs.removeAll();
 		}
 		mtabs = null;
@@ -122,128 +95,90 @@ public class MainPanel extends JAdvancePanel implements Runnable,
 
 	public void clearTools() {
 		if (mDividerLocation != -1)
-			mDividerLocation = (1.0 * split.getDividerLocation())
-					/ split.getSize().width;
+			mDividerLocation = (1.0 * mContainer.getDividerLocation()) / mContainer.getSizeX();
 		else
 			mDividerLocation = 0.25;
-		split.setVisible(false);
-		split.setDividerLocation(0);
+		mContainer.setVisible(false);
+		mContainer.setDividerLocation(0);
 		clearTabs();
 		mToogleManager.clear();
 	}
 
-	public void setCursor(Cursor aCursor) {
-		super.setCursor(aCursor);
-		if (mtabs != null)
-			for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-				if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
-					JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-					scroll.getViewport().getView().setCursor(aCursor);
-				}
-	}
-
-	public void setMainMenuBar(GUIFrame aframe,int begin,int end) {
-		repaint();
+	public void setMainMenuBar(GUIFrame aframe) {
 		addTabs();
-		for (int index = begin; (aframe != null) && (index < (aframe.getMenuCount()-end)); index++) {
+		for (int index = 0; (aframe != null) && (index < aframe.getMenuCount()); index++) {
 			GUIMenu current_menu = aframe.getMenu(index);
-			if (current_menu.isNode()) {
-				if (current_menu.getIcon().getData()!=null) {
+			if (current_menu.isNode() && (current_menu.getTag()==0)) {
+				if (!current_menu.getMenuImage().isNull()) {
+					AbstractImage icon = current_menu.getMenuImage().resizeIcon(32, true);
+					GUIContainer panel=mtabs.addTab(ContainerType.CT_SCROLL,current_menu.getText(),icon);
 					CategoryPanel new_subpanel = new CategoryPanel(current_menu);
-					new_subpanel.setFontImage(this.getFontImage(), TEXTURE);
-					AbstractImage icon = current_menu.getIcon().resizeIcon(32, true);
-					mtabs.addTab(current_menu.getText(), (ImageIcon)icon.getData(), new JScrollPane(
-							new_subpanel));
+					new_subpanel.initialize(panel);
+					panel.setObject(new_subpanel);
 				} else if (current_menu.getText().length() == 0) {
 					mToogleManager.addMenu(current_menu);
 				}
 			}
 		}
-		if (mtabs.getTabCount() == 0) {
+		if (mtabs.count() == 0) {
 			clearTabs();
 		}
-		SwingUtilities.invokeLater(this);
+		Singletons.getWindowGenerator().invokeLater(this);
 		mRefreshButtonPanel.reorganize();
 	}
 
 	public void run() {
+		mContainer.repaint();
 		mToogleManager.showToggles();
 		if (mToogleManager.getToggleCount() > 0) {
-			split
-					.setDividerLocation((int) (mDividerLocation * split
-							.getSize().width));
-			mToogleManager.setVisible(true);
+			mContainer.setDividerLocation((int) (mDividerLocation * mContainer.getSizeX()));
+			mToogleManager.getContainer().setVisible(true);
 		} else {
-			mToogleManager.setVisible(false);
-			split.setDividerLocation(0);
+			mToogleManager.getContainer().setVisible(false);
+			mContainer.setDividerLocation(0);
 		}
-		lastDividerLocation = split.getDividerLocation();
+		lastDividerLocation = mContainer.getDividerLocation();
 		invokeReinitScrollBar();
-		split.setVisible(true);
-		repaint();
+		mContainer.setVisible(true);
 	}
 
-	public void componentResized(ComponentEvent aEvent) {
-		for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-			if (JScrollPane.class.isInstance(mtabs.getComponent(idx))) {
-				JScrollPane scroll = (JScrollPane) mtabs.getComponent(idx);
-				CategoryPanel subpanel = (CategoryPanel) scroll.getViewport()
-						.getView();
-				subpanel.refreshButtons(mtabs.getSize().width);
+	public void resizeSpliter() {
+		
+		for(int idx = 0;idx<mtabs.count();idx++)
+		{
+			GUIContainer tab=(GUIContainer)mtabs.get(idx);
+			if (CategoryPanel.class.isInstance(tab.getObject())) {
+				CategoryPanel subpanel = (CategoryPanel) tab.getObject();
+				subpanel.refreshButtons(mtabs.getSizeX());
 			}
+		}
 		invokeReinitScrollBar();
 	}
 
 	private int lastDividerLocation = 0;
 
-	public void mouseClicked(MouseEvent aEvent) {
-		if (aEvent.getClickCount() == 2) {
-			if (mToogleManager.isVisible())
-				lastDividerLocation = split.getDividerLocation();
-			mToogleManager.setVisible(!mToogleManager.isVisible());
-			if (mToogleManager.isVisible())
-				split.setDividerLocation(lastDividerLocation);
-			invokeReinitScrollBar();
-		}
+	public void doubleClickSpliter() {
+		if (mToogleManager.getContainer().isVisible())
+			lastDividerLocation = mContainer.getDividerLocation();
+		mToogleManager.getContainer().setVisible(!mToogleManager.getContainer().isVisible());
+		if (mToogleManager.getContainer().isVisible())
+			mContainer.setDividerLocation(lastDividerLocation);
+		invokeReinitScrollBar();
 	}
 
 	private void invokeReinitScrollBar() {
-		SwingUtilities.invokeLater(new Runnable() {
+		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
-				if (mtabs != null)
-					for (int idx = 0; idx < mtabs.getComponentCount(); idx++)
-						if (JScrollPane.class.isInstance(mtabs
-								.getComponent(idx))) {
-							JScrollPane scroll = (JScrollPane) mtabs
-									.getComponent(idx);
-							JScrollBar vert = scroll.getVerticalScrollBar();
-							vert.setValue(vert.getMinimum());
-							JScrollBar hori = scroll.getHorizontalScrollBar();
-							hori.setValue(hori.getMinimum());
-						}
+				mToogleManager.repaint();
+				mContainer.repaint();
+				if (mtabs!=null)
+					for(int idx = 0;idx<mtabs.count();idx++)
+					{
+						GUIContainer tab=(GUIContainer)mtabs.get(idx);
+						tab.setMinimumScroll();
+					}
 			}
 		});
-	}
-
-	public void mouseEntered(MouseEvent aEvent) {
-	}
-
-	public void mouseExited(MouseEvent aEvent) {
-	}
-
-	public void mousePressed(MouseEvent aEvent) {
-	}
-
-	public void mouseReleased(MouseEvent aEvent) {
-	}
-
-	public void componentHidden(ComponentEvent aEvent) {
-	}
-
-	public void componentMoved(ComponentEvent aEvent) {
-	}
-
-	public void componentShown(ComponentEvent aEvent) {
 	}
 
 }

@@ -26,6 +26,7 @@ import java.io.IOException;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.utils.LucteriosConfiguration;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
@@ -135,9 +136,9 @@ public class SetupDialog implements DialogVisitor {
 	public void InitSubPanel() {
 		pnl_Tab = pnl_main.createContainer(ContainerType.CT_TAB, new GUIParam(0, 1, 2, 1));
 		conf_pnl = new ConfigurationPanel(mDialog);
-		conf_pnl.fillContainer(pnl_Tab.addTab(ContainerType.CT_NORMAL, "Connexions"));
+		conf_pnl.fillContainer(pnl_Tab.addTab(ContainerType.CT_NORMAL, "Connexions", AbstractImage.Null));
 		asso_pnl = new AssociationPanel(mDialog);
-		asso_pnl.fillContainer(pnl_Tab.addTab(ContainerType.CT_NORMAL, "Extensions de fichiers"));
+		asso_pnl.fillContainer(pnl_Tab.addTab(ContainerType.CT_NORMAL, "Extensions de fichiers", AbstractImage.Null));
 	}
 
 	private void Setup() {

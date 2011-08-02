@@ -1,5 +1,7 @@
 package org.lucterios.graphic;
 
+import java.util.Date;
+
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIGraphic;
 import org.lucterios.ui.GUIActionListener;
@@ -7,6 +9,8 @@ import org.lucterios.ui.GUIActionListener;
 public class MemoryJauge implements GUIActionListener,GUIContainer.Redrawing {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final long TIME_TO_REFRESH = 60*1000; // 1min
 
 	private int currentHeapPercent;
 	
@@ -19,6 +23,7 @@ public class MemoryJauge implements GUIActionListener,GUIContainer.Redrawing {
 	private Runtime mRuntime;
 	
 	private GUIContainer mContainer;
+	private Date mLastDate=new Date();
 	
 	public MemoryJauge(GUIContainer container) {
 	    super();
@@ -29,8 +34,12 @@ public class MemoryJauge implements GUIActionListener,GUIContainer.Redrawing {
 	}
 
 	public void actionPerformed() {
-		org.lucterios.utils.Tools.clearGC();
-		refreshMemoryInformations();
+		Date current=new Date();
+		if ((current.getTime()-mLastDate.getTime())>TIME_TO_REFRESH) {
+			org.lucterios.utils.Tools.clearGC();
+			refreshMemoryInformations();
+			mLastDate=new Date();
+		}
 	}	
 
 	public void refreshMemoryInformations() {

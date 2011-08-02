@@ -186,7 +186,7 @@ public class ExceptionDlg {
     {
     	if (aText.length()>0)
     	{
-            Stack = PnlExtra.addTab(ContainerType.CT_SCROLL,"Pile d'appel");
+            Stack = PnlExtra.addTab(ContainerType.CT_SCROLL,"Pile d'appel", AbstractImage.Null);
             txtStack = Stack.createMemo(new GUIParam(0,0));
             txtStack.setText(aText);
     	}
@@ -196,7 +196,7 @@ public class ExceptionDlg {
     {
     	if (aText.length()>0)
     	{
-		    Extra = PnlExtra.addTab(ContainerType.CT_SCROLL, "Extra");
+		    Extra = PnlExtra.addTab(ContainerType.CT_SCROLL, "Extra", AbstractImage.Null);
 		    edExtra = Extra.createHyperText(new GUIParam(0,0));
 	        edExtra.setTextString(aText.replaceAll("\n", "<br>").replaceAll(" ","&nbsp;"));
     	}
@@ -206,7 +206,7 @@ public class ExceptionDlg {
     {
     	if (aText.length()>0)
     	{
-		    Requette = PnlExtra.addTab(ContainerType.CT_SCROLL,"Requette");
+		    Requette = PnlExtra.addTab(ContainerType.CT_SCROLL,"Requette", AbstractImage.Null);
 		    txtRequette = Requette.createMemo(new GUIParam(0,0));
 		    txtRequette.setText(aText);
     	}
@@ -216,7 +216,7 @@ public class ExceptionDlg {
     {
     	if (aText.length()>0)
     	{
-		    Reponse = PnlExtra.addTab(ContainerType.CT_SCROLL,"Reponse");
+		    Reponse = PnlExtra.addTab(ContainerType.CT_SCROLL,"Reponse", AbstractImage.Null);
 		    txtReponse = Reponse.createMemo(new GUIParam(0,0));
 	        txtReponse.setText(aText);
     	}

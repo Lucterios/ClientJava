@@ -66,17 +66,14 @@ public class InputTest {
 	}
 	
 	public int getPort() {
-		// TODO Auto-generated method stub
 		return server.getPort();
 	}
 
 	public String getRootPath() {
-		// TODO Auto-generated method stub
 		return server.getPath();
 	}
 
 	public boolean getSecurity() {
-		// TODO Auto-generated method stub
 		return server.getProtocol().equals("https");
 	}
 	

@@ -28,6 +28,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import org.lucterios.graphic.Tools;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.ui.GUIAction;
 
 public class MenuItem extends JMenuItem {
@@ -42,10 +43,20 @@ public class MenuItem extends JMenuItem {
 	private GUIAction mAction;
 	private String mDescription="";
 
+	private int mTag=0;
+
 	public MenuItem() {
 		super();
 	}
 
+	public int getTag() {
+		return mTag;
+	}
+
+	public void setTag(int tag) {
+		mTag=tag;
+	}
+	
 	public MenuItem(GUIAction aAction,String description) {
 		super();
 		setActionItem(aAction);
@@ -58,6 +69,7 @@ public class MenuItem extends JMenuItem {
 		if (mAction.getMnemonic() != 0)
 			this.setMnemonic(mAction.getMnemonic());
 
+		setImage(mAction.getIcon());
 		if (mAction.getIcon() != null)
 			this.setIcon(Tools.resizeIcon((ImageIcon)mAction.getIcon().getData(), 24, true));
 		else
@@ -96,12 +108,24 @@ public class MenuItem extends JMenuItem {
 		}
 	}
 
-	public void setDescription(String mDescription) {
-		this.mDescription = mDescription;
+	public void setDescription(String description) {
+		if (description==null)
+			this.mDescription = "";
+		else
+			this.mDescription = description;
 	}
 
 	public String getDescription() {
 		return mDescription;
+	}
+
+	private AbstractImage mImage=AbstractImage.Null;
+	public void setImage(AbstractImage image) {
+		mImage=image;
+	}
+
+	public AbstractImage getImage() {
+		return mImage;
 	}
 
 }

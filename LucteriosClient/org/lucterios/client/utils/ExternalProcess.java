@@ -6,7 +6,7 @@ import java.lang.Process;
 import java.io.IOException;
 import java.lang.IllegalThreadStateException;
 
-import javax.swing.SwingUtilities;
+import org.lucterios.engine.presentation.Singletons;
 
 public class ExternalProcess extends Thread
 {
@@ -54,7 +54,7 @@ public class ExternalProcess extends Thread
 
 	private void returnErrorAndExit(final String aError)
 	{
-		SwingUtilities.invokeLater(new Runnable(){
+		Singletons.getWindowGenerator().invokeLater(new Runnable(){
 			public void run(){			
 				if (Notification!=null)
 					Notification.returnError(aError);

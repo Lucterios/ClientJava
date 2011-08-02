@@ -10,6 +10,7 @@ import org.lucterios.graphic.NavigatorBar;
 import org.lucterios.graphic.ProgressPanel;
 import org.lucterios.graphic.TimeLabel;
 import org.lucterios.graphic.WaitingWindow;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
@@ -48,7 +49,7 @@ public class DialogExample implements DialogVisitor {
 	}	
 
 	private void initScroll() {
-		GUIContainer sv=mTab.addTab(ContainerType.CT_SCROLL,"Scroll");
+		GUIContainer sv=mTab.addTab(ContainerType.CT_SCROLL,"Scroll", AbstractImage.Null);
 		for(int index=0;index<10;index++) {
 			GUILabel tv=sv.createLabel(new GUIParam(0, index,1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 			tv.setTextString("Text"+(index+1));
@@ -69,7 +70,7 @@ public class DialogExample implements DialogVisitor {
 	}
 	
 	private void initGraph(){
-		GUIContainer prg=mTab.addTab(ContainerType.CT_SCROLL,"Graph");
+		GUIContainer prg=mTab.addTab(ContainerType.CT_SCROLL,"Graph", AbstractImage.Null);
 		GUIContainer pnl;
 
 		pnl=prg.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,0,1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL));

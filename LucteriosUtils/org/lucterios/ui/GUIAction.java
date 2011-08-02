@@ -8,8 +8,6 @@ public interface GUIAction extends GUIActionListener {
 
 	public abstract char getMnemonic();
 
-	public abstract String getIconName();
-
 	public abstract AbstractImage getIcon();
 
 	public abstract String getKeyStroke();

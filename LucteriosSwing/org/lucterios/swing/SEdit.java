@@ -1,12 +1,15 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -14,8 +17,9 @@ import javax.swing.text.PlainDocument;
 
 import org.lucterios.graphic.PopupListener;
 import org.lucterios.gui.GUIEdit;
+import org.lucterios.ui.GUIActionListener;
 
-public class SEdit extends JTextField implements GUIEdit,FocusListener {
+public class SEdit extends JPasswordField implements GUIEdit,FocusListener,MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,9 +56,14 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
 		PopupListener popupListener = new PopupListener();
 		popupListener.setActions(getActions());
 		popupListener.addEditionMenu(true);
-		addMouseListener(popupListener);	        
+		addMouseListener(popupListener);
+		addMouseListener(this);
+		setEchoChar((char)0);
     }
-   
+
+	public void setPassword(char c) {
+		setEchoChar(c);
+	}	    
 	
 	private String convertValue(double init_value)
     {
@@ -109,7 +118,7 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
     
     public double getValue()
     {
-        return getValue(getText());
+        return getValue(getTextString());
     }
                     
     protected Document createDefaultModel() 
@@ -137,7 +146,7 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
                         return;
                 }
                 boolean is_numeric=true;
-                boolean has_point=(mFltFld.getText().indexOf(".")!=-1);
+                boolean has_point=(mFltFld.getTextString().indexOf(".")!=-1);
                 char[] chars = str.toCharArray();
                 for (int i = 0; (i < chars.length) && is_numeric; i++) 
                 {
@@ -160,7 +169,7 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
     }
 
 	public String getTextString() {
-		return getText();
+		return new String(getPassword());
 	}
 
 	public void setTextString(String text) {
@@ -174,5 +183,36 @@ public class SEdit extends JTextField implements GUIEdit,FocusListener {
 	public int getBackgroundColor(){
 		return getBackground().getRGB();
 	}
+
+	public void addActionListener(GUIActionListener l) { }
+
+	public void removeActionListener(GUIActionListener l) { }
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		}
+	}
+
+	public void mouseExited(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+	}
+
+	public void mouseClicked(MouseEvent e) { }
+	
+	public void mousePressed(MouseEvent e) { }
+
+	public void mouseReleased(MouseEvent e) { }
 	
 }

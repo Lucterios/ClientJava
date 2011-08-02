@@ -21,6 +21,10 @@ public interface GUIForm extends GUIObject {
 	public abstract String getTitle();
 
 	public abstract void setTitle(String title);
+
+	public void setImage(AbstractImage image);
+	
+	public AbstractImage getImage();
 	
 	public abstract void setLocation(int x, int y);
 

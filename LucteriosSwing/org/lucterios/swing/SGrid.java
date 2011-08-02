@@ -1,6 +1,7 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -84,9 +85,19 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 	}
 
 	public void mouseEntered(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		}
 	}
 
 	public void mouseExited(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
 	}
 		
 	private class SGridModel extends AbstractTableModel {
@@ -208,6 +219,11 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 	
 	public int getBackgroundColor(){
 		return getBackground().getRGB();
+	}
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
 	}
 	
 }

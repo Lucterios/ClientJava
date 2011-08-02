@@ -1,5 +1,7 @@
 package org.lucterios.gui;
 
+import org.lucterios.ui.GUIActionListener;
+
 public interface GUIComponent {
 
 	public interface GUIFocusListener {
@@ -10,6 +12,10 @@ public interface GUIComponent {
 
 	public void removeFocusListener(GUIFocusListener l);
 
+	public void addActionListener(GUIActionListener l);
+
+	public void removeActionListener(GUIActionListener l);
+	
 	public void setBackgroundColor(int color);
 	
 	public int getBackgroundColor();
@@ -23,4 +29,8 @@ public interface GUIComponent {
 	public boolean isEnabled();
 	
 	public void repaint();
+
+	public void setToolTipText(String toolTip);
+
+	public void setActiveMouseAction(boolean isActive);
 }

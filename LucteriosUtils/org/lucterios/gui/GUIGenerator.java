@@ -32,9 +32,11 @@ public interface GUIGenerator {
 	
 	public int[] getDefaultInsets();
 	
+	public int[] getScreenSize();
+	
 	public GUIForm newForm(String aActionId);
 
-	public GUIFrame newFrame();
+	public GUIFrame getFrame();
 	
 	public GUIDialog newDialog(GUIFrame aOwnerFrame);
 
@@ -45,9 +47,15 @@ public interface GUIGenerator {
 	public void showErrorDialog(String message, String title);
 
 	public void showMessageDialog(String message, String title);	
+
+	public boolean showConfirmDialog(String message, String title);
 	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner);
 
 	public GUIWindows newWindows();
+
+	public void invokeLater(Runnable runnable);
+
+	public boolean isEventDispatchThread();
 
 }

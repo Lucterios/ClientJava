@@ -56,14 +56,16 @@ public class SMenu implements GUIMenu {
 	}
 
 	public String getDescription() {
+		String result="";
 		if (MenuItem.class.isInstance(mMenu)) {
-			return ((MenuItem)mMenu).getDescription();
+			result=((MenuItem)mMenu).getDescription();
 		}
 		else if (MenuNode.class.isInstance(mMenu)) {
-			return ((MenuNode)mMenu).getDescription();
+			result=((MenuNode)mMenu).getDescription();
 		}
-		else
-			return "";
+		if (result==null)
+			result="";
+		return result;
 	}
 
 	public GUIMenu getMenu(int index) {
@@ -91,10 +93,7 @@ public class SMenu implements GUIMenu {
 		}
 		else {
 			mMenu.setText(action.getTitle());
-			if (action.getIcon().getData() != null)
-				mMenu.setIcon((ImageIcon)action.getIcon().resizeIcon(24, true).getData());
-			else
-				mMenu.setIcon(null);
+			setMenuImage(action.getIcon(),true);
 		}
 	}
 
@@ -110,6 +109,27 @@ public class SMenu implements GUIMenu {
 		}		
 	}
 
+	public String getName() {
+		return mMenu.getName();
+	}
+
+	public void setMenuImage(AbstractImage image,boolean showIcon) {
+		if (image==null)
+			image=AbstractImage.Null;
+		if (MenuItem.class.isInstance(mMenu)) {
+			((MenuItem)mMenu).setImage(image);
+		}
+		else if (MenuNode.class.isInstance(mMenu)) {
+			((MenuNode)mMenu).setImage(image);
+		}		
+		if (showIcon && SwingImage.class.isInstance(image))
+			mMenu.setIcon((ImageIcon)image.resizeIcon(24, true).getData());
+	}
+	
+	public void setVisible(boolean isVisible) {
+		mMenu.setVisible(isVisible);
+	}
+	
 	public String getAcceleratorText() {
 		if (MenuItem.class.isInstance(mMenu)) {
 			return Tools.getKeyString(((MenuItem)mMenu).getAccelerator());
@@ -134,13 +154,14 @@ public class SMenu implements GUIMenu {
 			return null;
 	}
 
-	public AbstractImage getIcon() {
-		if (MenuNode.class.isInstance(mMenu))
-			return ((MenuNode)mMenu).getMenuIcon();
-		else if (MenuItem.class.isInstance(mMenu))
-			return ((MenuItem)mMenu).getActionItem().getIcon();
-		else
-			return new SwingImage(mMenu.getIcon());
+	public AbstractImage getMenuImage() {
+		if (MenuItem.class.isInstance(mMenu)) {
+			return ((MenuItem)mMenu).getImage();
+		}
+		else if (MenuNode.class.isInstance(mMenu)) {
+			return ((MenuNode)mMenu).getImage();
+		}		
+		return AbstractImage.Null;
 	}
 
 	public String getText() {
@@ -175,6 +196,26 @@ public class SMenu implements GUIMenu {
 
 	public void setText(String text) {
 		mMenu.setText(text);
+	}
+
+	public int getTag() {
+		int tag=0;
+		if (MenuItem.class.isInstance(mMenu)) {
+			tag=((MenuItem)mMenu).getTag();
+		}
+		else if (MenuNode.class.isInstance(mMenu)) {
+			tag=((MenuNode)mMenu).getTag();
+		}		
+		return tag;
+	}
+
+	public void setTag(int tag) {
+		if (MenuItem.class.isInstance(mMenu)) {
+			((MenuItem)mMenu).setTag(tag);
+		}
+		else if (MenuNode.class.isInstance(mMenu)) {
+			((MenuNode)mMenu).setTag(tag);
+		}		
 	}
 	
 }

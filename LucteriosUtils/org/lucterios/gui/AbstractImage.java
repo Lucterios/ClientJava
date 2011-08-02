@@ -54,6 +54,10 @@ public abstract class AbstractImage {
 	public Object getData(){
 		return mObject;
 	}
+	
+	public boolean isNull(){
+		return (this==AbstractImage.Null) || (mObject==null); 
+	}
 
 	public abstract boolean load(File file);
 	

@@ -32,7 +32,9 @@ import java.net.URL;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
+import org.lucterios.graphic.HtmlLabel;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIFrame;
@@ -48,6 +50,7 @@ public class SGenerator implements GUIGenerator {
 
 	public SGenerator() {
 		super();
+		HtmlLabel.changeFontSize(0.9f);
 	}
 
 	public int[] getDefaultInsets() {
@@ -70,6 +73,15 @@ public class SGenerator implements GUIGenerator {
 		return result;
 	}
 	
+	public int[] getScreenSize(){
+		int[] result=new int[]{0,0};
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		java.awt.Dimension screen = kit.getScreenSize();
+		result[0]=screen.width;
+		result[1]=screen.height;
+		return result;
+	}
+	
 	public GUIForm newForm(String aActionId) {
 		return new SForm(aActionId,this);
 	}
@@ -87,9 +99,12 @@ public class SGenerator implements GUIGenerator {
 		return new_dialog;
 	}
 
-	public GUIFrame newFrame() {
-		return new SFrame(this);
-	}
+	public GUIFrame mFrame=null;
+	public GUIFrame getFrame() {
+		if (mFrame==null)
+			mFrame=new SFrame(this);
+		return mFrame;
+	}	
 
 	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
 		return new SDialog((SFrame) aOwnerFrame,this);
@@ -109,6 +124,11 @@ public class SGenerator implements GUIGenerator {
 		JOptionPane.showMessageDialog(null, message, title,JOptionPane.INFORMATION_MESSAGE);		
 	}
 	
+	public boolean showConfirmDialog(String message, String title) {
+		return JOptionPane.showConfirmDialog(null, message, title,
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+	}
+	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner) {
 		File result=null;
 		JFileChooser file_dlg;
@@ -125,6 +145,14 @@ public class SGenerator implements GUIGenerator {
 		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
 			result = file_dlg.getSelectedFile();
 		return result;
+	}
+
+	public void invokeLater(Runnable runnable){
+		SwingUtilities.invokeLater(runnable);
+	}
+
+	public boolean isEventDispatchThread() {
+		return SwingUtilities.isEventDispatchThread();
 	}
 	
 }

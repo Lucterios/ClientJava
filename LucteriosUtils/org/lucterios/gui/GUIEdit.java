@@ -16,4 +16,6 @@ public interface GUIEdit extends GUIComponent {
 
 	public boolean isFloatEditor();
 
+	public void setPassword(char c);
+
 }

@@ -22,11 +22,14 @@ package org.lucterios.swing;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -39,12 +42,14 @@ import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GuiFormList;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
+import org.lucterios.ui.GUIAction;
 
 public class SFormList extends GuiFormList implements LookAndFeelCallBack {
+
 	class ShortCut {
 		String mActionName = "";
 		KeyStroke mShortCut = null;
-		javax.swing.Action mActionListener = null;
+		GUIAction mActionListener = null;
 	}
 
 	private Map<String, ShortCut> mShortCutDico;
@@ -56,6 +61,14 @@ public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 		mGenerator=generator; 
 		mShortCutDico = new TreeMap<String, ShortCut>();
 	}
+	
+	@Override
+	public GUIForm create(String aId) {
+		SForm frame=(SForm)super.create(aId);
+		javax.swing.SwingUtilities.updateComponentTreeUI(frame);
+		return frame;
+	}
+
 	
 	public GUIGenerator getGenerator(){
 		return mGenerator;
@@ -70,12 +83,12 @@ public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 		return new SForm(aId,mGenerator);
 	}
 	
-	public void newShortCut(String aActionName, KeyStroke aShortCut,
-			javax.swing.Action aActionListener) {
+	public void newShortCut(String aActionName, String aShortCut,
+			GUIAction aActionListener) {
 		ShortCut short_cut = new ShortCut();
 		short_cut.mActionListener = aActionListener;
 		short_cut.mActionName = aActionName;
-		short_cut.mShortCut = aShortCut;
+		short_cut.mShortCut = KeyStroke.getKeyStroke(aShortCut);
 		mShortCutDico.put(aActionName, short_cut);
 	}
 
@@ -86,23 +99,40 @@ public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 			Map.Entry<String, ShortCut> entree = iterateur.next();
 			ShortCut short_cut = (ShortCut) entree.getValue();
 			addShortCut((Container) aComp, short_cut.mActionName,
-					short_cut.mShortCut, short_cut.mActionListener);
+					short_cut.mShortCut, new SpecialAction(short_cut.mActionListener));
 		}
+	}
+	
+	private class SpecialAction extends AbstractAction {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		GUIAction mAction=null;
+		public SpecialAction(GUIAction action){
+			mAction=action;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			mAction.actionPerformed();
+		}
+		
 	}
 
 	static public void addShortCut(Container aComp, String aActionName,
-			KeyStroke aShortCut, javax.swing.Action aActionListener) {
+			KeyStroke aShortCut, Action aAction) {
 		if (JComponent.class.isInstance(aComp)) {
 			JComponent jcomp = (JComponent) aComp;
 			InputMap inputMap = jcomp.getInputMap();
 			inputMap.put(aShortCut, aActionName);
 			ActionMap actionMap = jcomp.getActionMap();
-			actionMap.put(aActionName, aActionListener);
+			actionMap.put(aActionName, aAction);
 		}
 		for (int idx = 0; idx < aComp.getComponentCount(); idx++)
 			if (Container.class.isInstance(aComp))
 				addShortCut((Container) aComp.getComponent(idx), aActionName,
-						aShortCut, aActionListener);
+						aShortCut, aAction);
 	}
 
 	@Override

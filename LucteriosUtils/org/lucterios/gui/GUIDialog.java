@@ -42,5 +42,7 @@ public interface GUIDialog extends GUIObject {
 	public void setDefaultButton(GUIButton btnAdd);
 
 	public void initialPosition();
+
+	public void setPosition(double position);
 	
 }

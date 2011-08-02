@@ -22,6 +22,7 @@ package org.lucterios.client.application;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.ObserverFactoryMock;
 import org.lucterios.engine.presentation.ObserverStub;

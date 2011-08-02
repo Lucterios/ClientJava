@@ -2,6 +2,7 @@ package org.lucterios.swing;
 
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -13,6 +14,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,9 +36,10 @@ import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
 import org.lucterios.gui.GUIMemo;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.Tools;
 
-public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListener {
+public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListener,MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,7 +68,8 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
     public SMemo() 
     {
     	super(new DefaultStyledDocument(new StyleContext()));
-        addFocusListener(this);	    	
+        addFocusListener(this);
+        addMouseListener(this);
     	setBackground(Color.WHITE);
     	setOpaque(false);
   		setDragEnabled(true);
@@ -284,5 +289,36 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
 	public int getBackgroundColor(){
 		return getBackground().getRGB();
 	}
+
+	public void addActionListener(GUIActionListener l) { }
+
+	public void removeActionListener(GUIActionListener l) { }
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		}
+	}
+
+	public void mouseExited(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+	}
+
+	public void mouseClicked(MouseEvent e) { }
+	
+	public void mousePressed(MouseEvent e) { }
+
+	public void mouseReleased(MouseEvent e) { }	
 	
 }

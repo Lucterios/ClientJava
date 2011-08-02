@@ -24,12 +24,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.utils.SimpleParsing;
@@ -60,7 +62,11 @@ public class Button extends JButton {
 		if (isMini && (this.getText().length()==0)){
 			this.setPreferredSize(new Dimension(26,22));
 		}
-		this.addActionListener((ActionListener) mAction);
+		this.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				mAction.actionPerformed();
+			}
+		});
 	}
 
 	public Action getCurrentAction() {

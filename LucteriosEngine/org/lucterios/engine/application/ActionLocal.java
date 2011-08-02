@@ -18,45 +18,35 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+package org.lucterios.engine.application;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.graphic.FrameControle;
-import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.SimpleParsing;
 
-public class ActionLocal implements Action, ActionListener, javax.swing.Action {
-
-	static public FrameControle mFrameControle = null;
+public class ActionLocal implements Action, GUIActionListener {
 
 	private String mTitle = "";
 	private char mMenomnic = 0;
-	private ImageIcon mIcon = null;
-	private ActionListener mAction = null;
+	private AbstractImage mIcon = null;
+	private GUIActionListener mAction = null;
 	private String mKey = "";
 
-	public ActionLocal(String aTitle, char aMenomnic, ImageIcon aIcon,
-			ActionListener aAction, KeyStroke aKey) {
+	public ActionLocal(String aTitle, char aMenomnic, AbstractImage aIcon,
+			GUIActionListener aAction, String aKey) {
 		super();
 		mTitle = aTitle;
 		mMenomnic = aMenomnic;
 		mIcon = aIcon;
 		mAction = aAction;
 		if (aKey != null)
-			mKey = aKey.toString();
+			mKey = aKey;
 	}
 
 	public void setOwner(Observer aOwner) {
@@ -87,11 +77,7 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 	}
 
 	public AbstractImage getIcon() {
-		return new SwingImage(mIcon);
-	}
-
-	public String getIconName() {
-		return mIcon.getDescription();
+		return mIcon;
 	}
 
 	public String getKeyStroke() {
@@ -149,26 +135,19 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 		mKey = key;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		actionPerformed();
-	}
-
 	public void actionPerformed() {
 		if (mAction != null)
-			SwingUtilities.invokeLater(new Runnable() {
+			Singletons.getWindowGenerator().invokeLater(new Runnable() {
 				public void run() {
-					mFrameControle.setActive(false);
+					Singletons.getWindowGenerator().getFrame().setActive(false);
 					try {
-						mAction.actionPerformed(null);
+						mAction.actionPerformed();
 					} finally {
-						mFrameControle.setActive(true);
+						Singletons.getWindowGenerator().getFrame().setActive(true);
 					}
 				}
 			});
 
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener arg0) {
 	}
 
 	public Object getValue(String arg0) {
@@ -180,9 +159,6 @@ public class ActionLocal implements Action, ActionListener, javax.swing.Action {
 	}
 
 	public void putValue(String arg0, Object arg1) {
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener arg0) {
 	}
 
 	public void setEnabled(boolean arg0) {

@@ -21,9 +21,7 @@
 package org.lucterios.client.application.observer;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -41,10 +39,12 @@ import org.lucterios.client.application.comp.Cmponent;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.swing.SContainer;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.form.JAdvancePanel;
 import org.lucterios.graphic.Tools;
+import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 
@@ -99,7 +99,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 	private void getfocusToMainCmponent() {
 		synchronized (mSynchronizedObj) {
 			if (mGUIContainer != null) {
-				mGUIContainer.setFocusable(false);
+				//mGUIContainer.setFocusable(false);
 				if (getGUIFrame() != null)
 					getGUIFrame().requestFocus();
 				if (getGUIDialog() != null)
@@ -123,38 +123,33 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		}
 	}
 
-	Container mGUIContainer = null;
+	SContainer mGUIContainer = null;
 
-	public Container getGUIContainer() {
+	public GUIContainer getGUIContainer() {
 		return mGUIContainer;
 	}
 
-	public void setGUIContainer(Container container) {
-		mGUIContainer = container;
+	public void setGUIContainer(GUIContainer container) {
+		mGUIContainer = (SContainer) container;
 	}
 
 	private void fillPanel() throws LucteriosException {
 		synchronized (mSynchronizedObj) {
 			if (mGUIContainer != null) {
-				mGUIContainer.setLayout(new BorderLayout());
+				mGUIContainer.getPanel().setLayout(new BorderLayout());
 				mScrollbar = (javax.swing.JScrollPane) CustomManager
-						.getComponentByName(mGUIContainer, "components");
+						.getComponentByName(mGUIContainer.getPanel(), "components");
 				JPanel mPnlBtn = (JPanel) CustomManager.getComponentByName(
-						mGUIContainer, "buttons");
+						mGUIContainer.getPanel(), "buttons");
 
 				if (mScrollbar == null) {
 					mScrollbar = new javax.swing.JScrollPane();
 					mScrollbar.setName("components");
 					mScrollbar.setFocusable(false);
-					mScrollbar.setViewportView(getCustomManager());
-					GridBagConstraints cnt = new GridBagConstraints();
-					cnt.gridy = 0;
-					cnt.fill = GridBagConstraints.BOTH;
-					cnt.weightx = 1;
-					cnt.weighty = 1;
-					mGUIContainer.remove(mScrollbar);
+					mScrollbar.setViewportView(getCustomManager());	
+					mGUIContainer.getPanel().remove(mScrollbar);
+					mGUIContainer.getPanel().add(mScrollbar, BorderLayout.CENTER);
 				}
-				mGUIContainer.add(mScrollbar, BorderLayout.CENTER);
 				if (mPnlBtn == null) {
 					mPnlBtn = new JAdvancePanel();
 					((JAdvancePanel) mPnlBtn).setFontImage(Toolkit
@@ -165,14 +160,9 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 					mPnlBtn.setFocusable(false);
 					mPnlBtn.setName("buttons");
 					mPnlBtn.setLayout(new GridBagLayout());
-					GridBagConstraints cnt = new GridBagConstraints();
-					cnt.gridy = 1;
-					cnt.fill = GridBagConstraints.BOTH;
-					cnt.weightx = 0;
-					cnt.weighty = 0;
-					mGUIContainer.remove(mPnlBtn);
+					mGUIContainer.getPanel().remove(mPnlBtn);
+					mGUIContainer.getPanel().add(mPnlBtn, BorderLayout.PAGE_END);
 				}
-				mGUIContainer.add(mPnlBtn, BorderLayout.PAGE_END);
 				Button.fillPanelByButton(mPnlBtn, this, Singletons.Factory(),
 						mActions, true);
 				mDefaultBtn = null;
@@ -241,8 +231,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		super.show(aTitle);
 		mGUIFrame = new WeakReference<GUIForm>(aGUI);
 		if (getGUIFrame() != null) {
-			mGUIContainer = ((RootPaneContainer) getGUIFrame())
-					.getContentPane();
+			mGUIContainer = (SContainer) getGUIFrame().getContainer();
 			if (aTitle != null)
 				getGUIFrame().setTitle(getTitle());
 			fillPanel();
@@ -258,8 +247,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable {
 		super.show(aTitle);
 		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
 		if (getGUIDialog() != null) {
-			mGUIContainer = ((RootPaneContainer) getGUIDialog())
-					.getContentPane();
+			mGUIContainer = (SContainer)getGUIDialog().getContainer();
 			if (aTitle != null)
 				getGUIDialog().setTitle(getTitle());
 			fillPanel();

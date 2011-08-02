@@ -22,7 +22,7 @@ public abstract class DesktopInterface {
 	public abstract void printFilePDF(String aUrl) throws LucteriosException;
 
 	public abstract int[] getCoord(GUIGenerator generator);
-	
+
 	public abstract void throwException(Exception e);
 	
 	public abstract void setInfoDescription(InfoDescription applicationDescription);

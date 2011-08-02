@@ -124,6 +124,7 @@ public class DesktopTools extends DesktopInterface {
 		}
 		return current_coord;
 	}
+
 	
 	public void printFilePDF(String aUrl) throws LucteriosException {
 		String[] args;

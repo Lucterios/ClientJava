@@ -4,7 +4,7 @@ import org.lucterios.ui.GUIActionListener;
 
 public interface GUIContainer extends GUIComponent {
 	
-	public enum ContainerType {CT_NORMAL,CT_SCROLL,CT_TAB}
+	public enum ContainerType {CT_NORMAL,CT_SCROLL,CT_TAB,CT_SPLITER}
 	
 	public interface Redrawing  {
 		public void paint(GUIGraphic g);
@@ -12,8 +12,10 @@ public interface GUIContainer extends GUIComponent {
 
 	public void invokeLater(Runnable runnable);
 	public void setRedraw(Redrawing redrawing);
-	public void addActionListener(GUIActionListener l);
-	public void removeActionListener(GUIActionListener l);
+	public void setMouseClickAction(GUIActionListener l);
+	public void setResizeAction(GUIActionListener l);
+	public Object getObject();
+	public void setObject(Object obj);
 	
 	public GUIContainer createContainer(ContainerType type,GUIParam param);	
 	public GUIButton createButton(GUIParam param);
@@ -27,16 +29,25 @@ public interface GUIContainer extends GUIComponent {
 	public GUISpinEdit createSpinEdit(GUIParam param);
 	public GUIHyperText createHyperText(GUIParam param);
 
-	public GUIContainer addTab(ContainerType type,String name);
+	public GUIContainer addTab(ContainerType type,String name,AbstractImage icon);
+	public GUIContainer getSplite(ContainerType type,boolean right);
 	public ContainerType getType();
 	public int count();
 	public void removeAll();
+	public GUIComponent get(int index);
 	public void calculBtnSize(GUIButton[] btns);
 	public void setSize(int width, int height);
 	public int getSizeX();
 	public int getSizeY();
+	public void setBorder(int top, int left, int bottom, int rigth, int color);
 
+	public void setDividerLocation(int location);
+	public int getDividerLocation();
+	
 	public void setToolTipText(String string);
 	public void repaint();
-
+	public void setMinimumScroll();
+	public void setMaximumScroll();
+	public void removeSplite(boolean right);
+	
 }

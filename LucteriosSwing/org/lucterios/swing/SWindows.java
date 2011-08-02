@@ -72,7 +72,7 @@ public class SWindows extends JWindow implements GUIWindows {
 	
 	public void initialPosition() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
+		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height)*2 / 3);
 	}
 
 	public void refreshSize() {

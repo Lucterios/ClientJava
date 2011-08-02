@@ -18,13 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.SwingUtilities;
+package org.lucterios.engine.application;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
@@ -41,7 +35,7 @@ import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 
-public class ActionImpl implements Action, ActionListener, javax.swing.Action {
+public class ActionImpl implements Action {
 
 	public final static char MNEMONIC_CHAR = '_';
 
@@ -284,16 +278,16 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 					obs.setParent(mOwner);
 			}
 
-			if (SwingUtilities.isEventDispatchThread())
+			if (Singletons.getWindowGenerator().isEventDispatchThread())
 				showObserver(obs);
 			else
-				SwingUtilities.invokeLater(new Runnable() {
+				Singletons.getWindowGenerator().invokeLater(new Runnable() {
 					public void run() {
 						showObserver(obs);
 					}
 				});
 		} catch (final LucteriosException e) {
-			SwingUtilities.invokeLater(new Runnable() {
+			Singletons.getWindowGenerator().invokeLater(new Runnable() {
 				public void run() {
 					ExceptionDlg.throwException(e);
 				}
@@ -323,10 +317,6 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 			return false;
 		}
 		return true;
-	}
-
-	public void actionPerformed(ActionEvent aEvent) {
-		actionPerformed();
 	}
 
 	public void actionPerformed() {
@@ -373,12 +363,6 @@ public class ActionImpl implements Action, ActionListener, javax.swing.Action {
 	}
 
 	public void putValue(String arg0, Object arg1) {
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
 	}
 
 }

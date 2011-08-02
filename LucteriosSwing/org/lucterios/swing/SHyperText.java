@@ -76,7 +76,6 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 		}
 		else {
 			setText(mText);
-			setToolTipText("");
 			removeActionListener(mActionLink);
 			mActionLink=null;					
 		}
@@ -89,15 +88,28 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 
 	public void mouseEntered(MouseEvent event)
 	{
-		if (mActionLink!=null) {
+		if (mIsActiveMouse) {
+				if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+		}
+		else if (mActionLink!=null) {
 			Cursor cur=Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 			setCursor(cur);
 		}
+		
 	}
 	public void mouseExited(MouseEvent event)
 	{
-		Cursor cur=Cursor.getDefaultCursor();
-		setCursor(cur);
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+		else {
+			Cursor cur=Cursor.getDefaultCursor();
+			setCursor(cur);
+		}
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -106,15 +118,9 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 	public void mouseReleased(MouseEvent e) {
 	}
 
-	public void addFocusListener(GUIFocusListener l) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void addFocusListener(GUIFocusListener l) { }
 
-	public void removeFocusListener(GUIFocusListener l) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void removeFocusListener(GUIFocusListener l) { }
 
 	public int getBackgroundColor() {
 		return getBackground().getRGB();
@@ -123,4 +129,10 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 	public void setBackgroundColor(int color) {
 		setBackground(new Color(color));
 	}
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
+	}
+
 }

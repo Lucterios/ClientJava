@@ -20,50 +20,48 @@
 
 package org.lucterios.client.application.observer;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
-import org.lucterios.form.JAdvancePanel;
-import org.lucterios.graphic.Tools;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUIHyperText;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
-import java.awt.event.*;
-import java.awt.*;
-import java.net.URL;
-
-public class LogonBox extends JDialog implements ActionListener {
+public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	GridBagLayout editGridLayout = new GridBagLayout();
-	GridBagLayout MainGridLayout = new GridBagLayout();
-	GridBagLayout btnGridLayout = new GridBagLayout();
-	JAdvancePanel editPnl = new JAdvancePanel();
-	JAdvancePanel btnPnl = new JAdvancePanel();
-	JButton btn_SetUp = new JButton();
-	JButton btn_OK = new JButton();
-	JButton btn_Cancel = new JButton();
-	JLabel lb_Reason = new JLabel();
-	JLabel lb_Server = new JLabel();
-	JLabel lb_PassWord = new JLabel();
-	JLabel lb_User = new JLabel();
-	JTextField txt_Server = new JTextField();
-	JComboBox cmp_Server = null;
-	JTextField txt_User = new JTextField();
-	JPasswordField txt_PassWord = new JPasswordField();
+	GUIContainer editPnl;
+	GUIContainer btnPnl;
+	GUIButton btn_SetUp;
+	GUIButton btn_OK;
+	GUIButton btn_Cancel;
+	GUIHyperText lb_Reason;
+	GUILabel lb_Server;
+	GUILabel lb_PassWord;
+	GUILabel lb_User;
+	GUIEdit txt_Server;
+	GUICombo cmp_Server;
+	GUIEdit txt_User;
+	GUIEdit txt_PassWord;
 
 	private static String mLastUserLogon = "";
 	private static Server mLastServer = null;
+
+	private String mReason="";
 
 	public static Server getLastServer() {
 		return mLastServer;
@@ -71,228 +69,183 @@ public class LogonBox extends JDialog implements ActionListener {
 
 	public int mModalResult = 0;
 
-	public ActionListener mActionSetUp = null;
-
+	public GUIActionListener mActionSetUp = null;
+	
 	private void refresh() {
 		btn_SetUp.setEnabled(mActionSetUp != null);
-		if (cmp_Server != null)
-			editPnl.remove(cmp_Server);
+		cmp_Server.setVisible(false);
 		if (Singletons.getConfiguration().ServerCount() == 0) {
 			mLastServer = null;
-			txt_Server.setText("");
+			txt_Server.setTextString("");
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(false);
 		} else if (Singletons.getConfiguration().ServerCount() == 1) {
 			mLastServer = Singletons.getConfiguration().GetServer(0);
-			txt_Server.setText(mLastServer.ServerName);
+			txt_Server.setTextString(mLastServer.ServerName);
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		} else {
+			cmp_Server.removeAllElements();
+			for (int server_idx=0;server_idx<Singletons.getConfiguration().ServerCount();server_idx++)
+				cmp_Server.addElement(Singletons.getConfiguration().GetServer(server_idx));
 			if (mLastServer == null)
 				mLastServer = Singletons.getConfiguration().GetServer(0);
-			cmp_Server = new JComboBox(Singletons.getConfiguration().getServers());
-			cmp_Server.setSelectedItem(mLastServer);
+			cmp_Server.setSelectedIndex(Singletons.getConfiguration().getServers().indexOf(mLastServer));
 			cmp_Server.setVisible(true);
-			cmp_Server.setMinimumSize(new java.awt.Dimension(150, 19));
-			cmp_Server.setPreferredSize(new java.awt.Dimension(150, 19));
-			cmp_Server.addActionListener(this);
-			editPnl.add(cmp_Server, getCnt(2, 1, GridBagConstraints.REMAINDER,
-					1, GridBagConstraints.HORIZONTAL, 0));
 			btn_OK.setEnabled(true);
 		}
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation((screen.width - this.getSize().width) / 2,
-				(screen.height - this.getSize().height) / 2);
-		pack();
-		Toolkit k = Toolkit.getDefaultToolkit();
-		Dimension tailleEcran = k.getScreenSize();
-		Dimension taille = getSize();
-		setLocation((tailleEcran.width - taille.width) / 2,
-				(tailleEcran.height - taille.height) / 3);
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		JComboBox cb = (JComboBox) event.getSource();
-		mLastServer = (Server) cb.getSelectedItem();
+	public void actionPerformed() {
+		mLastServer = (Server) cmp_Server.getSelectedItem();
 	}
 
-	private void setReason(String aReason) {
+	private void setReason() {
 		lb_Reason.setVisible(true);
-		if ("BADAUTH".equals(aReason))
-			lb_Reason.setText("Alias ou Mot de passe incorrect!");
-		else if ("BADSESS".equals(aReason))
-			lb_Reason.setText("Session expirée!");
-		else if ("BADFROMLOCATION".equals(aReason))
-			lb_Reason.setText("Localisation de connection interdite!");
+		String text="";
+		if ("BADAUTH".equals(mReason))
+			text="Alias ou Mot de passe incorrect!";
+		else if ("BADSESS".equals(mReason))
+			text="Session expirée!";
+		else if ("BADFROMLOCATION".equals(mReason))
+			text="Localisation de connection interdite!";
+		if (text!="")
+			lb_Reason.setTextString("<center><font color=red>"+text+"</font></center>");
 		else {
-			lb_Reason.setText("");
+			lb_Reason.setTextString("");
 			lb_Reason.setVisible(false);
 		}
 	}
 
-	public void logon(String aReason) throws LucteriosException {
-		setReason(aReason);
-		URL url = this.getClass().getResource("ok.png");
-		btn_OK.setIcon(new ImageIcon(url));
-		btn_Cancel.setIcon(new ImageIcon(this.getClass().getResource(
-				"cancel.png")));
-		btn_SetUp.setIcon(new ImageIcon(this.getClass().getResource(
-				"configure.png")));
-		txt_User.setText(mLastUserLogon);
-		txt_PassWord.setText("");
-		String title = " Connexion";
-		title = Singletons.getConfiguration().TitreDefault + title;
-		this.setTitle(title.trim());
-		refresh();
-		setVisible(true);
-		toFront();
+	public boolean logon(String aReason) {
+		boolean result=true;
+		mReason=aReason;
+		
+		GUIDialog dialog=Singletons.getWindowGenerator().newDialog(Singletons.getWindowGenerator().getFrame());
+		dialog.setResizable(false);
+		dialog.setDialogVisitor(this);
+		dialog.setVisible(true);
 		if (mModalResult == 1) {
 			HttpTransport transp = Singletons.Transport();
 			transp.setProxy(Singletons.getConfiguration().ProxyAdress,
 					Singletons.getConfiguration().ProxyPort);
-			transp
-					.connectToServer(
+			transp.connectToServer(
 							mLastServer.HostName,
 							mLastServer.Directory,
 							mLastServer.HostPort,
 							mLastServer.ConnectionMode == LucteriosConfiguration.MODE_SECURITY);
-			mLastUserLogon = txt_User.getText();
-			Singletons.Factory().setAuthentification(txt_User.getText(),
-					new String(txt_PassWord.getPassword()));
-		} else
+			mLastUserLogon = txt_User.getTextString();
+			try {
+				Singletons.Factory().setAuthentification(txt_User.getTextString(),
+						new String(txt_PassWord.getTextString()));
+			} catch (LucteriosException e) {
+				ExceptionDlg.throwException(e);
+				result=false;
+			}
+		} else {
 			Singletons.exit();
-	}
-
-	public GridBagConstraints getCnt(int x, int y, int w, int h, int fill,
-			double we) {
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = x;
-		gridBagConstraints.gridy = y;
-		gridBagConstraints.gridheight = h;
-		gridBagConstraints.gridwidth = w;
-		gridBagConstraints.weightx = we;
-		gridBagConstraints.weighty = we;
-		gridBagConstraints.fill = fill;
-		gridBagConstraints.insets = new Insets(2, 2, 2, 2);
-		return gridBagConstraints;
+			result=false;
+		}
+		return result;
 	}
 
 	public LogonBox() {
 		super();
-		this.setVisible(false);
-		this.getContentPane().setLayout(MainGridLayout);
-		this.setModal(true);
-		this.setResizable(false);
-		this.setTitle("Connexion");
-		editPnl.setLayout(editGridLayout);
-		btnPnl.setLayout(btnGridLayout);
-		FocusTraversalPolicy ftp;
-		ftp = new DefaultFocusTraversalPolicy();
-		ftp.getLastComponent(txt_User);
-		btn_OK.setFocusTraversalPolicy(ftp);
-		btn_OK.setMnemonic('o');
-		btn_OK.setText("Ok");
-		btn_OK.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				btn_OK_actionPerformed(event);
-				refresh();
-			}
-		});
-		ftp = new DefaultFocusTraversalPolicy();
-		ftp.getLastComponent(btn_Cancel);
-		btn_Cancel.setFocusTraversalPolicy(ftp);
-		btn_Cancel.setMnemonic('a');
-		btn_Cancel.setText("Annuler");
-		btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btn_Cancel_actionPerformed(e);
-			}
-		});
+	}
+	
+	private GUIContainer mContainer;
+	private GUIDialog mDialog;
+	public void execute(GUIDialog dialog) {
+		mDialog=dialog;
+		mContainer=dialog.getContainer();
+		
+		dialog.setVisible(false);
 
+		String title = Singletons.getConfiguration().TitreDefault + " Connexion";
+		dialog.setTitle(title.trim());
+		
+		editPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,0));
+
+		btnPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
+		btn_SetUp = btnPnl.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
+		btn_SetUp.setImage(this.getClass().getResource("configure.png"));
 		btn_SetUp.setMnemonic('c');
-		btn_SetUp.setText("Configurer");
-		btn_SetUp.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (mActionSetUp != null)
-					mActionSetUp.actionPerformed(e);
+		btn_SetUp.setTextString("Configurer");
+		btn_SetUp.addActionListener(mActionSetUp);
+		
+		btn_OK = btnPnl.createButton(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
+		btn_OK.setImage(this.getClass().getResource("ok.png"));
+		btn_OK.setMnemonic('o');
+		btn_OK.setTextString("Ok");
+		btn_OK.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				btn_OK_actionPerformed();
 				refresh();
 			}
 		});
 
-		lb_Reason.setText("");
-		lb_Reason.setForeground(Color.RED);
-		lb_Reason.setAlignmentX(0.5f);
-		lb_Reason.setAlignmentY(0.5f);
-		lb_Server.setText("Serveur");
-		lb_PassWord.setText("Mot de passe");
-		lb_User.setText("Alias");
+		btn_Cancel = btnPnl.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
+		btn_Cancel.setImage(this.getClass().getResource("cancel.png"));
+		btn_Cancel.setMnemonic('a');
+		btn_Cancel.setTextString("Annuler");
+		btn_Cancel.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				btn_Cancel_actionPerformed();
+			}
+		});
 
-		txt_Server.setText("");
+		
+		txt_Server = editPnl.createEdit(new GUIParam(2,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_Server.setTextString("");
 		txt_Server.setVisible(false);
 		txt_Server.setEnabled(false);
-		txt_Server.setMinimumSize(new java.awt.Dimension(150, 19));
-		txt_Server.setPreferredSize(new java.awt.Dimension(150, 19));
-		ftp = new DefaultFocusTraversalPolicy();
-		ftp.getLastComponent(txt_PassWord);
-		txt_User.setFocusTraversalPolicy(ftp);
-		txt_User.setText("");
-		txt_User.setMinimumSize(new java.awt.Dimension(150, 19));
-		txt_User.setPreferredSize(new java.awt.Dimension(150, 19));
-		ftp = new DefaultFocusTraversalPolicy();
-		ftp.getLastComponent(txt_User);
-		txt_PassWord.setFocusTraversalPolicy(ftp);
-		txt_PassWord.setText("");
-		txt_PassWord.setMinimumSize(new java.awt.Dimension(150, 19));
-		txt_PassWord.setPreferredSize(new java.awt.Dimension(150, 19));
-		this.getContentPane().add(editPnl,
-				getCnt(0, 0, 1, 1, GridBagConstraints.BOTH, 1));
-		this.getContentPane().add(btnPnl,
-				getCnt(0, 1, 1, 1, GridBagConstraints.BOTH, 1));
 
-		editPnl.add(lb_Reason, getCnt(1, 0, GridBagConstraints.REMAINDER, 1,
-				GridBagConstraints.HORIZONTAL, 0));
+		cmp_Server = editPnl.createCombo(new GUIParam(2,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		cmp_Server.addActionListener(this);
+		
+		txt_User = editPnl.createEdit(new GUIParam(2,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_User.setTextString("");
 
-		editPnl.add(lb_Server, getCnt(0, 1, 2, 1,
-				GridBagConstraints.HORIZONTAL, 0));
-		editPnl.add(lb_User, getCnt(0, 2, 2, 1, GridBagConstraints.HORIZONTAL,
-				0));
-		editPnl.add(lb_PassWord, getCnt(0, 3, 2, 1,
-				GridBagConstraints.HORIZONTAL, 0));
+		txt_PassWord = editPnl.createEdit(new GUIParam(2,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_PassWord.setPassword('*');
+		txt_PassWord.setTextString("");
+		
+		lb_Reason = editPnl.createHyperText(new GUIParam(1,0,2,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_Reason.setTextString("");
 
-		editPnl.add(txt_Server, getCnt(2, 1, GridBagConstraints.REMAINDER, 1,
-				GridBagConstraints.HORIZONTAL, 0));
-		editPnl.add(txt_User, getCnt(2, 2, GridBagConstraints.REMAINDER, 1,
-				GridBagConstraints.HORIZONTAL, 0));
-		editPnl.add(txt_PassWord, getCnt(2, 3, GridBagConstraints.REMAINDER, 1,
-				GridBagConstraints.HORIZONTAL, 0));
-		btnPnl.add(btn_OK, getCnt(0, 0, 1, 1, GridBagConstraints.NONE, 0));
-		btnPnl.add(btn_SetUp, getCnt(1, 0, 1, 1, GridBagConstraints.NONE, 0));
-		btnPnl.add(btn_Cancel, getCnt(2, 0, 1, 1, GridBagConstraints.NONE, 0));
+		lb_Server = editPnl.createLabel(new GUIParam(0,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_Server.setTextString("Serveur");
 
-		editPnl.setFontImage(Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("ObserverFont.jpg")),
-				JAdvancePanel.TEXTURE);
-		btnPnl.setFontImage(Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("ObserverFont.jpg")),
-				JAdvancePanel.TEXTURE);
+		lb_PassWord = editPnl.createLabel(new GUIParam(0,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_PassWord.setTextString("Mot de passe");
 
-		pack();
-		JButton[] btns = new JButton[] { btn_SetUp, btn_Cancel, btn_OK };
-		Tools.calculBtnSize(btns);
-		this.getRootPane().setDefaultButton(btn_OK);
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation((screen.width - this.getSize().width) / 2,
-				(screen.height - this.getSize().height) / 2);
-		setResizable(false);
+		lb_User = editPnl.createLabel(new GUIParam(0,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_User.setTextString("Alias");
+
+		dialog.setDefaultButton(btn_OK);
+
+		setReason();	
+		txt_User.setTextString(mLastUserLogon);
+		txt_PassWord.setTextString("");
+		
+		dialog.setPosition(1.0/3.0);
+		
+		refresh();
 	}
 
-	void btn_Cancel_actionPerformed(ActionEvent e) {
+	void btn_Cancel_actionPerformed() {
 		mModalResult = 2;
-		dispose();
+		mDialog.setVisible(false);
 	}
 
-	void btn_OK_actionPerformed(ActionEvent e) {
+	void btn_OK_actionPerformed() {
 		mModalResult = 1;
-		dispose();
+		if (mLastServer==null) {
+			mLastServer = Singletons.getConfiguration().GetServer(0);			
+		}
+		mDialog.setVisible(false);
 	}
+
+	public void closing() { }
+
 }

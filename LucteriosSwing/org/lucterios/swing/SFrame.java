@@ -1,18 +1,27 @@
 package org.lucterios.swing;
 
+import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
+import org.lucterios.graphic.SwingImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GuiFormList;
 import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.ui.GUIActionListener;
 
 public class SFrame extends JFrame implements GUIFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private SFormList mFormList;	
+	
 	private GUIGenerator mGenerator;
 
 	private SContainer mContainer;
@@ -25,11 +34,30 @@ public class SFrame extends JFrame implements GUIFrame {
 		super();
 		mGenerator=generator;
 		mContainer=new SContainer(ContainerType.CT_NORMAL);
-		getContentPane().add(mContainer);		
+		mFormList=new SFormList(this.getGenerator());
+		
+		getContentPane().add(mContainer);	
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				if (mWindowsCloseAction!=null)
+					mWindowsCloseAction.actionPerformed();
+			}
+		});
 	}
+
+	public GuiFormList getFormList() {
+		return mFormList;
+	}
+
 	
 	public GUIGenerator getGenerator() {
 		return mGenerator;
+	}
+
+	private GUIActionListener mWindowsCloseAction=null;
+	public void addWindowClose(GUIActionListener windowsCloseAction) {
+		mWindowsCloseAction=windowsCloseAction;
 	}
 	
 	private JMenuBar getMenu(){
@@ -47,9 +75,18 @@ public class SFrame extends JFrame implements GUIFrame {
 	}
 
 	public void setActive(boolean aIsActive) {
-		
+		java.awt.Cursor current_cursor;
+		if (aIsActive)
+			current_cursor = java.awt.Cursor.getDefaultCursor();
+		else
+			current_cursor = java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR);
+		setCursor(current_cursor);
 	}
-
+	
+	public void Maximise() {
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+	}
+	
 	public GUIContainer getContainer() {
 		return mContainer;
 	}
@@ -60,6 +97,11 @@ public class SFrame extends JFrame implements GUIFrame {
 		return menu;
 	}
 
+	public void removeMenu(int menuIdx) {
+		JMenuBar menu_bar=getMenu();
+		menu_bar.remove(menu_bar.getMenu(menuIdx));
+	}	
+	
 	public GUIMenu getMenu(int index) {		
 		return new SMenu(getMenu().getMenu(index));
 	}
@@ -68,6 +110,11 @@ public class SFrame extends JFrame implements GUIFrame {
 		return getMenu().getMenuCount();
 	}
 
+	public void moveMenu(int menuIdx){
+		JMenuBar menu_bar=getMenu();
+		menu_bar.add(menu_bar.getMenu(menuIdx));
+	}
+	
 	public void setFrameVisitor(FrameVisitor frameVisitor) {
 		mFrameVisitor=frameVisitor;
 	}
@@ -80,5 +127,21 @@ public class SFrame extends JFrame implements GUIFrame {
 			isCreate=true;
 		}
 		super.setVisible(aVisible);
-	}	
+	}
+	
+	public void setImage(AbstractImage image){
+		if (SwingImage.class.isInstance(image))
+			setIconImage(((ImageIcon)image.getData()).getImage());
+	}
+	
+	public AbstractImage getImage() {
+		return new SwingImage(new ImageIcon(getIconImage()));
+	}
+	
+	public void refreshSize() {
+		Dimension dim = getSize();
+		pack();
+		setSize(dim);
+	}
+	
 }

@@ -20,12 +20,9 @@
 
 package org.lucterios.client;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import org.lucterios.client.application.ActionImpl;
 import org.lucterios.client.application.observer.CustomManager;
 import org.lucterios.client.application.observer.LogonBox;
 import org.lucterios.client.application.observer.ObserverAcknowledge;
@@ -40,16 +37,16 @@ import org.lucterios.client.gui.ApplicationMain;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.client.utils.DesktopTools;
 import org.lucterios.engine.transport.HttpTransportImpl;
+import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.application.ApplicationDescription;
 import org.lucterios.engine.presentation.ObserverFactory;
 import org.lucterios.engine.presentation.Singletons;
-import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.swing.SGenerator;
 import org.lucterios.swing.SWindows;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.Logging;
-import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.graphic.WaitingWindow;
@@ -100,23 +97,18 @@ class Main {
 				if (debugArgs.length()>0)
 					Logging.getInstance().setDebugLevel(debugArgs);
 				main = new ApplicationMain(Singletons.getWindowGenerator());
-				main.setIconImage(Toolkit.getDefaultToolkit().getImage(
-						Resources.class.getResource("connect.png")));
-				ActionListener run_setup_dlg = main.getRunSetupDialog();
+				GUIActionListener run_setup_dlg = main.getRunSetupDialog();
 				ObserverAuthentification.mConnection = main;
 				while ("".equals(Singletons.Transport().getSession()))
-					try {
-						LogonBox logon_box = new LogonBox();
-						logon_box.mActionSetUp = run_setup_dlg;
-						logon_box.logon("");
-						logon_box.dispose();
-					} catch (LucteriosException e) {
-						ExceptionDlg.throwException(e);
-					}
+				{
+					LogonBox logon_box = new LogonBox();
+					logon_box.mActionSetUp = run_setup_dlg;
+					logon_box.logon("");
+				}
 			} finally {
 				wind.dispose();
 			}
-			main.setVisible(true);
+			main.show();
 		} catch (Exception e) {
 			ExceptionDlg.throwException(e);
 			Singletons.exit();

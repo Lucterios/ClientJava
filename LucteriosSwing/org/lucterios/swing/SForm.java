@@ -26,12 +26,14 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.FrameControle;
+import org.lucterios.graphic.SwingImage;
+import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
@@ -49,8 +51,6 @@ public class SForm extends JFrame implements GUIForm {
 	private NotifyFrameList mNotifyFrameList = null;
 	private NotifyFrameChange mNotifyFrameChange = null;
 	private NotifyFrameObserver mNotifyFrameObserver = null;
-
-	public FrameControle mFrameControle;
 
 	private SContainer mContainer;
 	private GUIGenerator mGenerator;
@@ -104,7 +104,6 @@ public class SForm extends JFrame implements GUIForm {
 		}
 		Change();
 		mNotifyFrameChange = null;
-		mFrameControle = null;
 	}
 
 	/*
@@ -194,6 +193,16 @@ public class SForm extends JFrame implements GUIForm {
 		}
 	}
 
+	public void setImage(AbstractImage image){
+		if (SwingImage.class.isInstance(image))
+			setIconImage(((ImageIcon)image.getData()).getImage());
+	}
+
+	public AbstractImage getImage() {
+		return new SwingImage(new ImageIcon(getIconImage()));
+	}
+
+
 	private void initialPosition() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
@@ -225,8 +234,8 @@ public class SForm extends JFrame implements GUIForm {
 		else
 			current_cursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		setCursor(current_cursor);
-		if (mFrameControle != null)
-			mFrameControle.setActive(aIsActive);
+		if (mGenerator.getFrame() != null)
+			mGenerator.getFrame().setActive(aIsActive);
 	}
 
 	public void refreshSize() {

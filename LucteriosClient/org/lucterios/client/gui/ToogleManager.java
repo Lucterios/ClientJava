@@ -1,81 +1,44 @@
 package org.lucterios.client.gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
-
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.presentation.Observer;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
 import org.lucterios.engine.resources.Resources;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.form.JAdvancePanel;
-import org.lucterios.graphic.Tools;
 import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class ToogleManager extends JAdvancePanel implements ActionListener,
+public class ToogleManager implements GUIActionListener,
 		WatchDogRefresher {
 
-	class ToggleAction extends AbstractAction {
+	class ToggleAction implements GUIActionListener {
 		private static final long serialVersionUID = 1L;
 
 		private int num;
 
-		public ToggleAction(String text, AbstractImage abstractImage, int num) {
-			super(text, (ImageIcon)abstractImage.getData());
+		public ToggleAction(int num) {
 			this.num = num;
 		}
 
-		public void actionPerformed(ActionEvent e) {
-			SwingUtilities.invokeLater(new Runnable() {
+		public void actionPerformed() {
+			Singletons.getWindowGenerator().invokeLater(new Runnable() {
 				public void run() {
-					changeButton();
+					changeButton(num);
 				}
 			});
-		}
-
-		public void changeButton() {
-			setVisible(false);
-			try {
-				mainToogle.removeAll();
-				int btn_num = 0;
-				int index = 0;
-				while (index < getComponentCount()) {
-					if (JToggleButton.class.isInstance(getComponent(index))) {
-						JToggleButton btn = (JToggleButton) getComponent(index);
-						btn.setSelected(btn_num == num);
-						btn_num++;
-					}
-					index++;
-				}
-				GridBagConstraints cnt = new GridBagConstraints();
-				cnt.gridx = 0;
-				cnt.gridy = 0;
-				cnt.weightx = 1;
-				cnt.weighty = 1;
-				cnt.fill = GridBagConstraints.BOTH;
-				mainToogle.add(mToggles.get(num), cnt);
-				mToggles.get(num).repaint();
-				mainToogle.repaint();
-				repaint();
-			} finally {
-				setVisible(true);
-			}
 		}
 	}
 
@@ -85,16 +48,41 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 	private static final long serialVersionUID = 1L;
 
 	private List<TogglePanel> mToggles = new ArrayList<TogglePanel>();
+	private List<GUIButton> mButtons = new ArrayList<GUIButton>();
 
-	private JPanel mainToogle;
+	private GUIContainer mainToogle;
 
 	private Observer mParent;
+	
+	private GUIContainer mContainer=null;
+	
+	private int mButtonSelected=-1;
 
-	public ToogleManager(Image fontImage, Observer aParent) {
-		setFontImage(fontImage, TEXTURE);
-		setLayout(new GridBagLayout());
+	public void changeButton(int newSelected) {
+		if (mButtonSelected!=-1) {
+			mToggles.get(mButtonSelected).clear();
+		}
+		mButtonSelected=newSelected;
+		mainToogle.removeAll();
+		for(int btnIdx=0;btnIdx<mButtons.size();btnIdx++) {
+			mToggles.get(btnIdx).clear();
+			mButtons.get(btnIdx).setSelected(btnIdx == mButtonSelected);
+		}
+		mToggles.get(mButtonSelected).initialize(mainToogle);
+		actionPerformed();
+	}
+	
+	public GUIContainer getContainer() {
+		return mContainer;
+	}
+
+	public ToogleManager(Observer aParent) {
 		mParent=aParent;
 	}
+	
+	public void initialize(GUIContainer container) {
+		mContainer=container;
+	}	
 
 	public void addMenu(GUIMenu currentMenu) {
 		for (int index = 0; index < currentMenu.getMenuCount(); index++) {
@@ -103,7 +91,7 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 				addMenu(currentMenu.getMenu(index));
 			}
 			if (current_menu.isPoint() && Action.class.isInstance(current_menu.getAction())) {
-				mToggles.add(new TogglePanel(current_menu.getText(), current_menu.getIcon().resizeIcon(32, false),
+				mToggles.add(new TogglePanel(current_menu.getText(), current_menu.getMenuImage().resizeIcon(32, false),
 					((Action)current_menu.getAction()).getExtension(),((Action)current_menu.getAction()).getAction(),mParent));
 			}
 		}
@@ -111,8 +99,9 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 
 	public void clear() {
 		WatchDog.setWatchDogRefresher(null);
-		this.removeAll();
+		mContainer.removeAll();
 		mToggles.clear();
+		mButtons.clear();
 	}
 
 	public int getToggleCount() {
@@ -121,50 +110,31 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 
 	public void showToggles() {
 		if (mToggles.size() > 0) {
-			JToggleButton first_button = null;
-			GridBagConstraints cnt = new GridBagConstraints();
-			cnt.gridx = 0;
-			cnt.weightx = 1;
-			cnt.weighty = 0;
-			cnt.fill = GridBagConstraints.BOTH;
 			for (int index = 0; index < mToggles.size(); index++) {
 				TogglePanel current = mToggles.get(index);
-				JToggleButton button = new JToggleButton(new ToggleAction(
-						current.getTitle(), current.getIcon(), index));
-				if (first_button == null)
-					first_button = button;
+				GUIButton button = mContainer.createButton(new GUIParam(0,index,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
+				button.setToggle(true);
+				button.setTextString(current.getTitle());
+				button.setImage(current.getIcon());
+				button.addActionListener(new ToggleAction(index));
 				button.setSelected(false);
-				cnt.gridy = index;
-				add(button, cnt);
+				mButtons.add(button);
 			}
 
-			mainToogle = new JPanel();
-			mainToogle.setLayout(new GridBagLayout());
-			mainToogle.setOpaque(false);
-			cnt.gridx = 0;
-			cnt.gridy = mToggles.size();
-			cnt.weightx = 1;
-			cnt.weighty = 1;
-			cnt.fill = GridBagConstraints.BOTH;
-			add(mainToogle, cnt);
+			mainToogle = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,mToggles.size()));
 
-			Toolkit tkt = Toolkit.getDefaultToolkit();
-			ImageIcon icon = new ImageIcon(tkt.getImage(Resources.class
-					.getResource("refresh.png")));
-			JButton refresh = new JButton("Rafraichir", Tools.resizeIcon(icon,
-					24, false));
+			GUIButton refresh = mContainer.createButton(new GUIParam(0,mToggles.size()+1,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
+			refresh.setTextString("Rafraichir");
+			AbstractImage icon=Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("refresh.png"));
+			refresh.setImage(icon.resizeIcon(24, false));
 			refresh.addActionListener(this);
-			cnt.weighty = 0;
-			cnt.gridy = mToggles.size() + 1;
-			add(refresh, cnt);
-			actionPerformed(null);
-			first_button.doClick();
+			changeButton(0);
 			WatchDog.setWatchDogRefresher(this);
 		}
 	}
 
-	public void actionPerformed(ActionEvent aEvent) {
-		SwingUtilities.invokeLater(new Runnable() {
+	public void actionPerformed() {
+		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
 				try {
 					refreshClient();
@@ -177,9 +147,26 @@ public class ToogleManager extends JAdvancePanel implements ActionListener,
 	}
 
 	public void refreshClient() throws LucteriosException {
-		for (TogglePanel current : mToggles) {
-			current.refreshPanel();
+		if (mContainer.getSizeX()>10){
+			mainToogle.setVisible(false);
+			mContainer.setVisible(false);
+			try {
+				for (TogglePanel current : mToggles) {
+					current.refreshPanel();
+				}
+			} finally {
+				mContainer.setVisible(true);
+				mainToogle.setVisible(true);
+			}
 		}
+	}
+
+	public void repaint() {
+		if (mainToogle!=null) {
+			mainToogle.repaint();
+		}
+		if (mContainer!=null)
+			mContainer.repaint();
 	}
 
 }

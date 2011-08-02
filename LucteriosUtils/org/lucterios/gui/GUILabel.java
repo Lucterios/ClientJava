@@ -17,5 +17,7 @@ public interface GUILabel extends GUIComponent {
 	public void setImage(URL image);
 
 	public void setBackgroundColor(int color);
+
+	public void setSize(int width, int height);
 	
 }

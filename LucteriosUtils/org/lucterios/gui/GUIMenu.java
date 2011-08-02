@@ -16,12 +16,22 @@ public interface GUIMenu {
 	public void setMnemonic(char c);
 
 	public void setName(String string);
+
+	public void setMenuImage(AbstractImage image, boolean showIcon);
+
+	public void setVisible(boolean isVisible);
+
+	public void setTag(int tag);
 	
 	public String getDescription();
 
+	public String getName();
+	
 	public String getText();
+	
+	public int getTag();
 
-	public AbstractImage getIcon();
+	public AbstractImage getMenuImage();
 	
 	public GUIActionListener getActionListener();
 	

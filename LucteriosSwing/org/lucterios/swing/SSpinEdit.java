@@ -1,12 +1,15 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -18,7 +21,7 @@ import org.lucterios.graphic.PopupListener;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.ui.GUIActionListener;
 
-public class SSpinEdit extends JComponent implements ActionListener,FocusListener,GUISpinEdit {
+public class SSpinEdit extends JComponent implements ActionListener,FocusListener,GUISpinEdit,MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -131,6 +134,7 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 	}
 
 	public void init(long num, long bottomL, long upperL) {
+		addMouseListener(this);
 		upperLimit = upperL;
 		bottomLimit = bottomL;
 		if (num <= upperLimit && num >= bottomLimit)
@@ -140,12 +144,15 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 
 		setLayout(null);
 
-		if (numberField != null)
+		if (numberField != null) {
+			numberField.removeMouseListener(this);
 			remove(numberField);
+		}
 		numberField = new ExtraField(this);
 		numberField.setName(getName());
 		numberField.setText(Long.toString(number));
 		numberField.setEnabled(true);
+		numberField.addMouseListener(this);
 		add(numberField);
 
 		upButton = new BasicArrowButton(BasicArrowButton.NORTH);
@@ -410,5 +417,32 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 	public int getBackgroundColor(){
 		return getBackground().getRGB();
 	}
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		}
+	}
+
+	public void mouseExited(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+	}
+
+	public void mouseClicked(MouseEvent e) { }
+	
+	public void mousePressed(MouseEvent e) { }
+
+	public void mouseReleased(MouseEvent e) { }	
 	
 }

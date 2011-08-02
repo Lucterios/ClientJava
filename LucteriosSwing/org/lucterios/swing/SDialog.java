@@ -35,7 +35,6 @@ import javax.swing.KeyStroke;
 
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.FrameControle;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
@@ -53,9 +52,9 @@ public class SDialog extends JDialog implements GUIDialog {
 	private NotifyFrameObserver mNotifyFrameClose = null;
 	private DialogVisitor mDialogVisitor=null;
 	private SContainer mContainer;	
+	private boolean isCreate=false;
+	private double mPosition=0.5; 
 
-	public FrameControle mFrameControle;
-	
 	private GUIGenerator mGenerator;
 
 	public GUIGenerator getGenerator() {
@@ -101,7 +100,6 @@ public class SDialog extends JDialog implements GUIDialog {
 		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}
 
-	private boolean isCreate=false; 
 	public void setDialogVisitor(DialogVisitor dialogVisitor){
 		mDialogVisitor=dialogVisitor;
 	}
@@ -145,7 +143,6 @@ public class SDialog extends JDialog implements GUIDialog {
 			mNotifyFrameClose = null;
 		}
 		mNotifyFrameClose = null;
-		mFrameControle = null;
 	}
 
 	/*
@@ -185,8 +182,8 @@ public class SDialog extends JDialog implements GUIDialog {
 		else
 			current_cursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		setCursor(current_cursor);
-		if (mFrameControle != null)
-			mFrameControle.setActive(aIsActive);
+		if (mGenerator.getFrame() != null)
+			mGenerator.getFrame().setActive(aIsActive);
 	}
 
 	public void refreshSize() {
@@ -221,7 +218,11 @@ public class SDialog extends JDialog implements GUIDialog {
 
 	public void initialPosition() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
+		setLocation((screen.width - getSize().width) / 2,(int)((screen.height - getSize().height)*mPosition));
+	}
+
+	public void setPosition(double position) {
+		mPosition=position;
 	}
 
 }

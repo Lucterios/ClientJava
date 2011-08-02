@@ -2,13 +2,7 @@ package org.lucterios.gui;
 
 import java.net.URL;
 
-import org.lucterios.ui.GUIActionListener;
-
 public interface GUIButton extends GUIComponent {
-
-	public void addActionListener(GUIActionListener l);
-
-	public void removeActionListener(GUIActionListener l);
 
 	public String getTextString();
 	
@@ -27,5 +21,9 @@ public interface GUIButton extends GUIComponent {
 	public void setBackgroundColor(int color);
 
 	public int getBackgroundColor();
+
+	public void setSelected(boolean select);
+
+	public void doClick();
 
 }

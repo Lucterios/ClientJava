@@ -1,10 +1,13 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -13,7 +16,7 @@ import javax.swing.JComboBox;
 import org.lucterios.gui.GUICombo;
 import org.lucterios.ui.GUIActionListener;
 
-public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionListener  {
+public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionListener,MouseListener  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,6 +55,7 @@ public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionL
         super();
         addFocusListener(this);	
         addActionListener(this);
+        addMouseListener(this);
 		m_comboModel = new DefaultComboBoxModel();
 		setModel(m_comboModel);
 	}
@@ -77,4 +81,31 @@ public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionL
 	public int getBackgroundColor(){
 		return getBackground().getRGB();
 	}
+
+	private boolean mIsActiveMouse=false;
+	public void setActiveMouseAction(boolean isActive) {
+		mIsActiveMouse=isActive;		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		}
+	}
+
+	public void mouseExited(MouseEvent e) {
+		if (mIsActiveMouse) {
+			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+	}
+
+	public void mouseClicked(MouseEvent e) { }
+	
+	public void mousePressed(MouseEvent e) { }
+
+	public void mouseReleased(MouseEvent e) { }	
 }
