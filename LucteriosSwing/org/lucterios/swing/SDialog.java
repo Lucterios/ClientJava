@@ -96,6 +96,7 @@ public class SDialog extends JDialog implements GUIDialog {
 		});
 		mContainer=new SContainer(ContainerType.CT_NORMAL);
 		mContainer.setName("");
+		getContentPane().setFocusable(false);
 		getContentPane().add(mContainer);
 		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}
@@ -212,8 +213,8 @@ public class SDialog extends JDialog implements GUIDialog {
 	}
 
 	public void setDefaultButton(GUIButton btn) {
-		if (btn instanceof JButton)
-			this.getRootPane().setDefaultButton((JButton)btn);
+		if (SButton.class.isInstance(btn) && JButton.class.isInstance(((SButton)btn).getButton()))
+			this.getRootPane().setDefaultButton((JButton) ((SButton)btn).getButton());
 	}
 
 	public void initialPosition() {

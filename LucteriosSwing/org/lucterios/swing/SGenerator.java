@@ -83,7 +83,7 @@ public class SGenerator implements GUIGenerator {
 	}
 	
 	public GUIForm newForm(String aActionId) {
-		return new SForm(aActionId,this);
+		return getFrame().getFormList().create(aActionId);
 	}
 
 	public GUIWindows newWindows() {

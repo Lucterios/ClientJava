@@ -163,6 +163,7 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		cmp_tbl= new JTable();
 		addFocusListener(this);
 		addMouseListener(this);
+		setFocusable(false);
 		setColumnHeader(null);
 		JTableHeader th = cmp_tbl.getTableHeader();
 		Font old = th.getFont();
@@ -226,4 +227,9 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		mIsActiveMouse=isActive;		
 	}
 	
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		cmp_tbl.setFocusable(aFlag);
+	}
 }

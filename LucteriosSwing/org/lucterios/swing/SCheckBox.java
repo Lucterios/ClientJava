@@ -105,5 +105,10 @@ public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,A
 
 	public void mouseReleased(MouseEvent e) { }	
 
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		setFocusable(aFlag);
+	}
 	
 }

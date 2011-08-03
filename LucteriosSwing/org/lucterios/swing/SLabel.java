@@ -26,6 +26,7 @@ public class SLabel extends JLabel implements GUILabel,MouseListener {
 
 	public SLabel(){
 		super();
+		setFocusable(false);
 		addMouseListener(this);
 	}
 	

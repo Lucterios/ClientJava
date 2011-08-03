@@ -116,4 +116,9 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 
 	public void mouseReleased(MouseEvent e) { }	
 	
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		setFocusable(aFlag);
+	}
 }

@@ -64,9 +64,11 @@ public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 	
 	@Override
 	public GUIForm create(String aId) {
-		SForm frame=(SForm)super.create(aId);
-		javax.swing.SwingUtilities.updateComponentTreeUI(frame);
-		return frame;
+		SForm form=(SForm)super.create(aId);
+		form.setNotifyFrameChange(this);
+		form.setImage(mGenerator.getFrame().getImage());
+		javax.swing.SwingUtilities.updateComponentTreeUI(form);
+		return form;
 	}
 
 	

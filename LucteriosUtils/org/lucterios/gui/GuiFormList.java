@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import org.lucterios.ui.GUIAction;
 
-public abstract class GuiFormList implements NotifyFrameList  {
+public abstract class GuiFormList implements NotifyFrameList, NotifyFrameChange  {
 
 	protected ArrayList<GUIForm> mList;
 	private GUIForm mFormSelected = null;
+	private NotifyFrameChange mNotifyFrameChange = null;
 
 	public GuiFormList() {
 		mList = new ArrayList<GUIForm>();
@@ -66,5 +67,14 @@ public abstract class GuiFormList implements NotifyFrameList  {
 	public abstract void newShortCut(String aActionName, String aShortCut, GUIAction aActionListener);
 
 	public abstract void clearShortCut();
+
+	public void Change() {
+		if (mNotifyFrameChange!=null)
+			mNotifyFrameChange.Change();
+	}
+
+	public void setNotifyFrameChange(NotifyFrameChange notifyFrameChange) {
+		this.mNotifyFrameChange = notifyFrameChange;
+	}
 	
 }

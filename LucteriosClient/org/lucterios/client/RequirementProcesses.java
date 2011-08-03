@@ -7,17 +7,14 @@ import org.lucterios.client.utils.ExternalProcess;
 import org.lucterios.engine.presentation.Singletons.ApplicationTerminate;
 import org.lucterios.utils.Logging;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.graphic.ExceptionDlg;
 
-public class RequirementProcesses implements
-		ExternalProcess.ProcessNotification, ApplicationTerminate {
+public class RequirementProcesses implements ApplicationTerminate {
 
 	private ArrayList<ExternalProcess> mProcessList = new ArrayList<ExternalProcess>();
 
 	public final static String CONF_FILE_NAME = "RequirementProcesses.xml";
 
 	public RequirementProcesses() {
-		ExternalProcess.Notification = this;
 		try {
 			read();
 		} catch (IOException e) {
@@ -75,10 +72,6 @@ public class RequirementProcesses implements
 		for (ExternalProcess proc : mProcessList) {
 			proc.Terminate();
 		}
-	}
-
-	public void returnError(String error) {
-		ExceptionDlg.show(ExceptionDlg.IMPORTANT, error, "", "");
 	}
 
 }

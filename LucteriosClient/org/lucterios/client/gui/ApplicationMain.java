@@ -53,7 +53,6 @@ import org.lucterios.graphic.MemoryJauge;
 import org.lucterios.graphic.ProgressPanel;
 import org.lucterios.graphic.WaitingWindow;
 import org.lucterios.gui.GUIContainer;
-import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIGenerator;
@@ -61,6 +60,7 @@ import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIWindows;
+import org.lucterios.gui.GuiFormList;
 import org.lucterios.gui.NotifyFrameChange;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIParam.FillMode;
@@ -127,6 +127,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mFrame=generator.getFrame();
 		mFrame.setImage(generator.CreateImage(Resources.class.getResource("connect.png")));
 		mFrame.setVisible(false);
+		getFormList().setNotifyFrameChange(this);
 		ObserverMenu.mToolBar = this;
 		
 		initAction();
@@ -142,6 +143,10 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 	private GUIGenerator getGenerator() {
 		return mFrame.getGenerator();
+	}
+
+	private GuiFormList getFormList() {
+		return mFrame.getFormList();
 	}
 	
 	public GUIActionListener getRunSetupDialog() {
@@ -196,7 +201,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mCloseWinAction = new ActionLocal("Fermer", 'f', null,
 				new GUIActionListener(){
 					public void actionPerformed() {
-						GUIForm frame_current = mFrame.getFormList().getFrameSelected();
+						GUIForm frame_current = getFormList().getFrameSelected();
 						if (frame_current != null)
 							frame_current.dispose();
 					}
@@ -205,8 +210,8 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mCloseAllWinAction = new ActionLocal("Fermer toutes", 't', null,
 				new GUIActionListener(){
 					public void actionPerformed() {
-						while (mFrame.getFormList().count() > 0) {
-							mFrame.getFormList().get(0).Close();
+						while (getFormList().count() > 0) {
+							getFormList().get(0).Close();
 						}
 					}
 				}, "shift ctrl w");
@@ -214,8 +219,8 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mRefreshWinAction = new ActionLocal("Rafraichir", 'r', null,
 				new GUIActionListener(){
 					public void actionPerformed() {
-						if (mFrame.getFormList().count() > 0)
-							mFrame.getFormList().getFrameSelected().refresh();
+						if (getFormList().count() > 0)
+							getFormList().getFrameSelected().refresh();
 					}
 				}, "F5");
 
@@ -242,7 +247,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 				}, null);
 	}
 
-	public void initialize() {
+	private void initialize() {
 		mFrame.setTitle("Application");
 		mFrame.addWindowClose(new GUIActionListener() {			
 			public void actionPerformed() {
@@ -281,10 +286,10 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.start();
-		mFrame.getFormList().setObjects(new Object[]{this,mMainPanel});
+		getFormList().setObjects(new Object[]{this,mMainPanel});
 	}
 
-	public void initMenu() {
+	private void initMenu() {
 		fileMenu = mFrame.addMenu(true);
 		fileMenu.setText("Fichier");
 		fileMenu.setMnemonic('f');
@@ -336,7 +341,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		contentMenuItem.setAction(mContentMenuAction);
 		contentMenuItem.setTag(2);
 		
-		mFrame.getFormList().addThemeMenuSelector(helpMenu.addMenu(true));
+		getFormList().addThemeMenuSelector(helpMenu.addMenu(true));
 
 		aboutMenuItem = helpMenu.addMenu(false);
 		aboutMenuItem.setAction(mAboutAction);
@@ -350,7 +355,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 	public void newShortCut(String aActionName, String aShortCut,
 			GUIAction aActionListener) {
-		mFrame.getFormList().newShortCut(aActionName, aShortCut, aActionListener);
+		getFormList().newShortCut(aActionName, aShortCut, aActionListener);
 	}
 
 	public void initialToolBar() {
@@ -361,13 +366,8 @@ public class ApplicationMain implements RefreshButtonPanel,
 	public void terminatToolBar() {
 		mMainPanel.getContainer().setVisible(true);
 		mMainPanel.setMainMenuBar(mFrame);
-		mFrame.getFormList().assignShortCut(mMainPanel.getContainer());
+		getFormList().assignShortCut(mMainPanel.getContainer());
 		mConnectionInfoAction.actionPerformed();
-		terminateShortCut();
-		setActive(true);
-	}
-
-	private void terminateShortCut() {
 		newShortCut("disconnect", mDisconnectAction.getKeyStroke(),
 				mDisconnectAction);
 		newShortCut("exit", mQuitAction.getKeyStroke(), mQuitAction);
@@ -380,6 +380,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 				mRefreshMenuAction);
 		newShortCut("help", mContentMenuAction.getKeyStroke(),
 				mContentMenuAction);
+		setActive(true);
 	}
 
 	private void aboutMenuItemActionPerformed() {
@@ -391,7 +392,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		try {
 			Singletons.Transport().openPageInWebBrowser("Help.php");
 		} catch (LucteriosException e) {
-			throwException(e);
+			ExceptionDlg.throwException(e);
 		}
 	}
 
@@ -408,25 +409,13 @@ public class ApplicationMain implements RefreshButtonPanel,
 			disconnectSession();
 	}
 
-	public void selectIntFrame(GUIForm aInternalFrame) {
-		if (mFrame.getFormList().getFrameSelected() != null)
-			mFrame.getFormList().getFrameSelected().setSelected(false);
-		aInternalFrame.setSelected(true);
-		mFrame.getFormList().selectFrame(aInternalFrame);
-	}
-
-	private void throwException(Exception e) {
-		ExceptionDlg.throwException(e);
-	}
-
-	public void refreshMainFrame() {
+	private void refreshMainFrame() {
 		ImageCache.clearMiniImages();
 		setActive(false);
-		mFrame.getFormList().clearShortCut();
+		getFormList().clearShortCut();
 		mMenuAction.actionPerformed();
-		for (int frame_idx = 0; frame_idx < mFrame.getFormList().count(); frame_idx++)
-			mFrame.getFormList().get(frame_idx).refresh();
-		reorganize();
+		for (int frame_idx = 0; frame_idx < getFormList().count(); frame_idx++)
+			getFormList().get(frame_idx).refresh();
 		mFrame.toFront();
 	}
 	
@@ -440,27 +429,31 @@ public class ApplicationMain implements RefreshButtonPanel,
 			for (int frame_idx = 0; frame_idx < mFrame.getFormList().count(); frame_idx++)
 				if (mFrame.getFormList().get(frame_idx).getName().equals(cmd))
 					frame_to_select = mFrame.getFormList().get(frame_idx);
-			if (frame_to_select != null)
-				selectIntFrame(frame_to_select);
+			if (frame_to_select != null){
+				if (getFormList().getFrameSelected() != null)
+					getFormList().getFrameSelected().setSelected(false);
+				frame_to_select.setSelected(true);
+				getFormList().selectFrame(frame_to_select);
+			}			
 			else
 				refreshIntFrame();
 		}
 	}
 
-	public void refreshIntFrame() {
+	private void refreshIntFrame() {
 		while (windowsMenu.getMenuCount() > NB_WIND_MENU)
 			windowsMenu.remove(NB_WIND_MENU);
-		if (mFrame.getFormList().count() > 0) {
+		if (getFormList().count() > 0) {
 			for (int menu_idx = 0; menu_idx < windowsMenu.getMenuCount(); menu_idx++)
 				windowsMenu.getMenu(menu_idx).setEnabled(true);
 			windowsMenu.addSeparator();
 			GUIMenu new_menu;
-			for (int frame_idx = 0; frame_idx < mFrame.getFormList().count(); frame_idx++) {
+			for (int frame_idx = 0; frame_idx < getFormList().count(); frame_idx++) {
 				String num_str = "" + (frame_idx + 1);
 				new_menu = windowsMenu.addMenu(false);
-				new_menu.setText(num_str + " - " + mFrame.getFormList().get(frame_idx).getTitle());
+				new_menu.setText(num_str + " - " + getFormList().get(frame_idx).getTitle());
 				new_menu.setMnemonic(num_str.charAt(0));
-				new_menu.setActionListener(new WinActionListener(mFrame.getFormList().get(frame_idx).getName()));
+				new_menu.setActionListener(new WinActionListener(getFormList().get(frame_idx).getName()));
 			}
 		} else
 			for (int menu_idx = 0; menu_idx < windowsMenu.getMenuCount(); menu_idx++) {
@@ -491,17 +484,17 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 		int[] globale_area = getArea();
 		mStatBarPnl.setSize(mStatBarPnl.getSizeX(),mStatBarPnl.getSizeY());
-		int nb = mFrame.getFormList().count();
+		int nb = getFormList().count();
 		for (int frame_idx = 0; frame_idx < nb; frame_idx++) {
-			mFrame.getFormList().get(frame_idx).setLocation(
+			getFormList().get(frame_idx).setLocation(
 					globale_area[0] + (frame_idx + 1) * OFFSET,
 					globale_area[1] + (frame_idx + 1) * OFFSET);
-			mFrame.getFormList().get(frame_idx).setSize(9 * (globale_area[2]) / 10,
+			getFormList().get(frame_idx).setSize(9 * (globale_area[2]) / 10,
 					9 * (globale_area[3]) / 10);
-			mFrame.getFormList().get(frame_idx).setSelected(false);
+			getFormList().get(frame_idx).setSelected(false);
 		}
 		if (nb > 0)
-			mFrame.getFormList().getFrameSelected().setSelected(true);
+			getFormList().getFrameSelected().setSelected(true);
 	}
 
 	public void Change() {
@@ -516,16 +509,14 @@ public class ApplicationMain implements RefreshButtonPanel,
 			mProgressPanelBottom.setActive(aIsActive);
 	}
 
-	private void refreshConnectionInfoOwnerObs() {
+	public void setValue(ApplicationDescription aDescription, String aSubTitle,
+			String aLogin, String aRealName, boolean refreshMenu) {
+
 		MapContext context = new MapContext();
 		context.put("ses", Singletons.Transport().getSession());
 		context.put("info", "true");
 		mConnectionInfoOwnerObserber.setContext(context);
-	}
 
-	public void setValue(ApplicationDescription aDescription, String aSubTitle,
-			String aLogin, String aRealName, boolean refreshMenu) {
-		refreshConnectionInfoOwnerObs();
 		mDescription = aDescription;
 		mFrame.setImage(mDescription.getLogoImage());
 		String sub_title = aSubTitle;
@@ -566,28 +557,6 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 		if (!Constants.CheckCoreVersion(mDescription.getServerVersion()))
 			Singletons.getWindowGenerator().showErrorDialog("Ce client est plus ancien que le serveur.\nVeuillez le mettre à jour : Des fonctionnalités peuvent ne pas fonctionner correctement.", "Mise à jour");
-	}
-
-	public GUIForm newFrame(String aActionId) {
-		GUIForm frame = mFrame.getFormList().create(aActionId);
-		frame.setNotifyFrameChange(this);
-		int[] globale_area = getArea();
-		int nb = mFrame.getFormList().count() - 1;
-		frame.setLocation(globale_area[0] + (nb + 1) * OFFSET, globale_area[1]
-				+ (nb + 1) * OFFSET);
-		frame.setSize(9 * (globale_area[2]) / 10,
-				9 * (globale_area[3]) / 10);
-		frame.setImage(mFrame.getImage());
-		return frame;
-	}
-
-	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerForm) {
-		GUIDialog dlg;
-		if ((aOwnerForm != null) || (aOwnerDialog != null))
-			dlg = getGenerator().newDialog(aOwnerDialog, aOwnerForm);
-		else
-			dlg = getGenerator().newDialog(mFrame);
-		return dlg;
 	}
 
 	private void ExitConnection() {

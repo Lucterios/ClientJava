@@ -168,5 +168,5 @@ public class Singletons {
 			gAppTerminate.exit();
 		System.exit(0);
 	}
-
+ 	
 }

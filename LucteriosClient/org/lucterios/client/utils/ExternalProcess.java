@@ -7,15 +7,10 @@ import java.io.IOException;
 import java.lang.IllegalThreadStateException;
 
 import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.graphic.ExceptionDlg;
 
 public class ExternalProcess extends Thread
 {
-	public interface ProcessNotification
-	{
-		void returnError(String aError);
-	}
-	
-	public static ProcessNotification Notification=null;
 	private static final int NO_EXIT=Integer.MIN_VALUE;
 	private static final int NO_TIMEOUT=Integer.MIN_VALUE;
 	
@@ -55,9 +50,8 @@ public class ExternalProcess extends Thread
 	private void returnErrorAndExit(final String aError)
 	{
 		Singletons.getWindowGenerator().invokeLater(new Runnable(){
-			public void run(){			
-				if (Notification!=null)
-					Notification.returnError(aError);
+			public void run(){
+				ExceptionDlg.show(ExceptionDlg.IMPORTANT, aError, "", "");
 				Runtime.getRuntime().exit(0);
 			}
 		});

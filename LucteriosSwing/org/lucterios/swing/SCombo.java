@@ -108,4 +108,10 @@ public class SCombo extends JComboBox implements GUICombo, FocusListener,ActionL
 	public void mousePressed(MouseEvent e) { }
 
 	public void mouseReleased(MouseEvent e) { }	
+
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		setFocusable(aFlag);
+	}
 }

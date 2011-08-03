@@ -27,6 +27,9 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 	private static final long serialVersionUID = 1L;
 
 	private AbstractButton mButton;
+	public AbstractButton getButton(){
+		return mButton;
+	}
 
 	// FOCUS 
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
@@ -64,6 +67,7 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 	public SButton(){
         super();
         setLayout(new GridLayout());
+        setFocusable(false);
         mButton=new JButton();
         mButton.addActionListener(this);
         mButton.addFocusListener(this);
@@ -151,5 +155,11 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 	public void mousePressed(MouseEvent e) { }
 
 	public void mouseReleased(MouseEvent e) { }	
+
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		mButton.setFocusable(aFlag);
+	}
 	
 }

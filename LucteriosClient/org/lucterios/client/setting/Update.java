@@ -115,7 +115,7 @@ public class Update {
 		}
 	}
 
-	public boolean isArchiveMostRecent(int vMax, int vMin, int vRev, int vBuild) {
+	private boolean isArchiveMostRecent(int vMax, int vMin, int vRev, int vBuild) {
 		if (vMax < mVersionMax)
 			return true;
 		else if (vMax == mVersionMax) {
@@ -137,7 +137,7 @@ public class Update {
 			return false;
 	}
 
-	public boolean importFiles(String path) {
+	private boolean importFiles(String path) {
 		try {
 			mHttpTransport.saveFiles("UpdateClients/java/LucteriosUpdate.jar",
 					path + "LucteriosUpdate.jar");
@@ -151,7 +151,7 @@ public class Update {
 
 	}
 
-	public boolean extractAndExit(String path, String AppName) {
+	private boolean extractAndExit(String path, String AppName) {
 		Runtime rt = Runtime.getRuntime();
 		try {
 			String java_dir = System.getProperty("java.home");

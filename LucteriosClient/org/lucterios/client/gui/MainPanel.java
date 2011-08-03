@@ -169,8 +169,6 @@ public class MainPanel implements Runnable {
 	private void invokeReinitScrollBar() {
 		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
-				mToogleManager.repaint();
-				mContainer.repaint();
 				if (mtabs!=null)
 					for(int idx = 0;idx<mtabs.count();idx++)
 					{

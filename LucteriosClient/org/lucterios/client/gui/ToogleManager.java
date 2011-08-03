@@ -8,11 +8,9 @@ import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.WatchDog;
 import org.lucterios.engine.presentation.WatchDog.WatchDogRefresher;
-import org.lucterios.engine.resources.Resources;
 import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIMenu;
@@ -21,7 +19,7 @@ import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class ToogleManager implements GUIActionListener,
+public class ToogleManager implements Runnable,
 		WatchDogRefresher {
 
 	class ToggleAction implements GUIActionListener {
@@ -69,7 +67,7 @@ public class ToogleManager implements GUIActionListener,
 			mButtons.get(btnIdx).setSelected(btnIdx == mButtonSelected);
 		}
 		mToggles.get(mButtonSelected).initialize(mainToogle);
-		actionPerformed();
+		Singletons.getWindowGenerator().invokeLater(this);
 	}
 	
 	public GUIContainer getContainer() {
@@ -123,50 +121,26 @@ public class ToogleManager implements GUIActionListener,
 
 			mainToogle = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,mToggles.size()));
 
-			GUIButton refresh = mContainer.createButton(new GUIParam(0,mToggles.size()+1,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
-			refresh.setTextString("Rafraichir");
-			AbstractImage icon=Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("refresh.png"));
-			refresh.setImage(icon.resizeIcon(24, false));
-			refresh.addActionListener(this);
+			mContainer.createLabel(new GUIParam(0,mToggles.size()+2));
 			changeButton(0);
 			WatchDog.setWatchDogRefresher(this);
 		}
 	}
 
-	public void actionPerformed() {
-		Singletons.getWindowGenerator().invokeLater(new Runnable() {
-			public void run() {
-				try {
-					refreshClient();
-				} catch (LucteriosException e) {
-					ExceptionDlg.throwException(e);
-				}
-			}
-
-		});
+	public void run() {
+		try {
+			refreshClient();
+		} catch (LucteriosException e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 
 	public void refreshClient() throws LucteriosException {
 		if (mContainer.getSizeX()>10){
-			mainToogle.setVisible(false);
-			mContainer.setVisible(false);
-			try {
-				for (TogglePanel current : mToggles) {
-					current.refreshPanel();
-				}
-			} finally {
-				mContainer.setVisible(true);
-				mainToogle.setVisible(true);
+			for (TogglePanel current : mToggles) {
+				current.refreshPanel();
 			}
 		}
-	}
-
-	public void repaint() {
-		if (mainToogle!=null) {
-			mainToogle.repaint();
-		}
-		if (mContainer!=null)
-			mContainer.repaint();
 	}
 
 }

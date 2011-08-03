@@ -53,7 +53,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 	GUILabel lb_Server;
 	GUILabel lb_PassWord;
 	GUILabel lb_User;
-	GUIEdit txt_Server;
+	GUILabel txt_Server;
 	GUICombo cmp_Server;
 	GUIEdit txt_User;
 	GUIEdit txt_PassWord;
@@ -74,6 +74,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 	private void refresh() {
 		btn_SetUp.setEnabled(mActionSetUp != null);
 		cmp_Server.setVisible(false);
+		txt_Server.setVisible(false);
 		if (Singletons.getConfiguration().ServerCount() == 0) {
 			mLastServer = null;
 			txt_Server.setTextString("");
@@ -166,13 +167,36 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		
 		editPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,0));
 
-		btnPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
-		btn_SetUp = btnPnl.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
-		btn_SetUp.setImage(this.getClass().getResource("configure.png"));
-		btn_SetUp.setMnemonic('c');
-		btn_SetUp.setTextString("Configurer");
-		btn_SetUp.addActionListener(mActionSetUp);
+		lb_Reason = editPnl.createHyperText(new GUIParam(0,0,2,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_Reason.setTextString("");
+
+		lb_Server = editPnl.createLabel(new GUIParam(0,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_Server.setTextString("Serveur");
+
+
+		cmp_Server = editPnl.createCombo(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		cmp_Server.addActionListener(this);
 		
+		txt_Server = editPnl.createLabel(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_Server.setTextString("");
+		txt_Server.setVisible(false);
+		txt_Server.setBackgroundColor(cmp_Server.getBackgroundColor());
+		
+		lb_User = editPnl.createLabel(new GUIParam(0,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_User.setTextString("Alias");
+
+		txt_User = editPnl.createEdit(new GUIParam(1,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_User.setTextString("");
+
+		lb_PassWord = editPnl.createLabel(new GUIParam(0,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_PassWord.setTextString("Mot de passe");
+
+		txt_PassWord = editPnl.createEdit(new GUIParam(1,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		txt_PassWord.setPassword('*');
+		txt_PassWord.setTextString("");
+		
+		btnPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
+
 		btn_OK = btnPnl.createButton(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
 		btn_OK.setImage(this.getClass().getResource("ok.png"));
 		btn_OK.setMnemonic('o');
@@ -184,6 +208,12 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 			}
 		});
 
+		btn_SetUp = btnPnl.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
+		btn_SetUp.setImage(this.getClass().getResource("configure.png"));
+		btn_SetUp.setMnemonic('c');
+		btn_SetUp.setTextString("Configurer");
+		btn_SetUp.addActionListener(mActionSetUp);
+				
 		btn_Cancel = btnPnl.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
 		btn_Cancel.setImage(this.getClass().getResource("cancel.png"));
 		btn_Cancel.setMnemonic('a');
@@ -193,35 +223,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 				btn_Cancel_actionPerformed();
 			}
 		});
-
 		
-		txt_Server = editPnl.createEdit(new GUIParam(2,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
-		txt_Server.setTextString("");
-		txt_Server.setVisible(false);
-		txt_Server.setEnabled(false);
-
-		cmp_Server = editPnl.createCombo(new GUIParam(2,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
-		cmp_Server.addActionListener(this);
-		
-		txt_User = editPnl.createEdit(new GUIParam(2,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
-		txt_User.setTextString("");
-
-		txt_PassWord = editPnl.createEdit(new GUIParam(2,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
-		txt_PassWord.setPassword('*');
-		txt_PassWord.setTextString("");
-		
-		lb_Reason = editPnl.createHyperText(new GUIParam(1,0,2,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
-		lb_Reason.setTextString("");
-
-		lb_Server = editPnl.createLabel(new GUIParam(0,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
-		lb_Server.setTextString("Serveur");
-
-		lb_PassWord = editPnl.createLabel(new GUIParam(0,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
-		lb_PassWord.setTextString("Mot de passe");
-
-		lb_User = editPnl.createLabel(new GUIParam(0,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
-		lb_User.setTextString("Alias");
-
 		dialog.setDefaultButton(btn_OK);
 
 		setReason();	

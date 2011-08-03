@@ -156,9 +156,11 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 		add(numberField);
 
 		upButton = new BasicArrowButton(BasicArrowButton.NORTH);
+		upButton.setFocusable(false);
 		add(upButton);
 
 		downButton = new BasicArrowButton(BasicArrowButton.SOUTH);
+		downButton.setFocusable(false);
 		add(downButton);
 
 		numberField.setActionCommand("numF");
@@ -445,4 +447,9 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 
 	public void mouseReleased(MouseEvent e) { }	
 	
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+		numberField.setFocusable(aFlag);
+	}
 }

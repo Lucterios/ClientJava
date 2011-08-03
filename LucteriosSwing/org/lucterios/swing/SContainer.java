@@ -123,9 +123,11 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		addFocusListener(this);
 		addMouseListener(this);
 		addComponentListener(this);
+		setFocusable(false);
 		switch (mType) {
 		case CT_NORMAL:
 			mPanel = new JPanel();
+			mPanel.setFocusable(false);
 			mPanel.setLayout(new GridBagLayout());
 			mPanel.setOpaque(false);
 			this.setLayout(new GridBagLayout());
@@ -134,6 +136,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		case CT_SCROLL:
 			mPanel = new JPanel();
 			mPanel.setLayout(new GridBagLayout());
+			mPanel.setFocusable(false);
 			mPanel.setOpaque(false);
 			JScrollPane scoll = new JScrollPane(mPanel);
 			scoll.setFocusable(true);
@@ -144,6 +147,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		case CT_TAB:
 			this.setLayout(new GridBagLayout());
 			mTab = new JTabbedPane();
+			mTab.setFocusable(false);
 			mTab.addMouseListener(this);
 			mTab.addComponentListener(this);
 			mTab.setOpaque(false);
@@ -152,6 +156,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		case CT_SPLITER:
 			this.setLayout(new GridBagLayout());
 			mSpliter=new JSplitPane();
+			mSpliter.setFocusable(false);
 			mSpliter.setOpaque(false);
 			mSpliter.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			mSpliter.setOneTouchExpandable(true);
