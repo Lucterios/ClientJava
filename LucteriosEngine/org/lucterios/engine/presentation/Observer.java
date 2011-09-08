@@ -24,6 +24,7 @@ import java.util.TreeMap;
 
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIObject;
 import org.lucterios.gui.NotifyFrameObserver;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
@@ -80,4 +81,6 @@ public interface Observer extends NotifyFrameObserver {
 	public MapContext getParameters(String aActionId, int aUnique, boolean aCheckNull) throws LucteriosException;
 
 	public void setNameComponentFocused(String aNameComponentFocused);
+
+	public GUIObject getGUIObject();
 }

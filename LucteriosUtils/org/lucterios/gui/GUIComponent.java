@@ -5,7 +5,7 @@ import org.lucterios.ui.GUIActionListener;
 public interface GUIComponent {
 
 	public interface GUIFocusListener {
-	    public void focusLost();
+	    public void focusLost(GUIComponent origine,GUIComponent target);
 	}
 	
 	public void addFocusListener(GUIFocusListener l);
@@ -28,9 +28,16 @@ public interface GUIComponent {
 	
 	public boolean isEnabled();
 	
+	public boolean isActive();
+	
 	public void repaint();
 
 	public void setToolTipText(String toolTip);
 
 	public void setActiveMouseAction(boolean isActive);
+
+	public void requestFocus();
+
+	public GUIComponent getOwner();
+	
 }

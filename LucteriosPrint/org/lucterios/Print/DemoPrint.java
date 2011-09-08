@@ -72,7 +72,6 @@ public class DemoPrint extends JFrame
         java.awt.GridBagConstraints gridBagConstraints;
 
         Image font_img=Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
-        SelectPrintDlg.FontImage=font_img;
         newContentPane = new MainPrintPanel();
         newContentPane.setFontImage(font_img,MainPrintPanel.TEXTURE);
         newContentPane.setOpaqueChild(false);

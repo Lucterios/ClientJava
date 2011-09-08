@@ -1,7 +1,8 @@
 package org.lucterios.client.utils;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+
+import org.lucterios.engine.presentation.Singletons;
 
 public class FileMonitoring implements Runnable {
 	
@@ -36,15 +37,11 @@ public class FileMonitoring implements Runnable {
 	private void notifyCaller() {
 		if (!mflag) 
 		try{
-			mflag=true;
-			try {
-				javax.swing.SwingUtilities.invokeAndWait(new Runnable(){
-					public void run() {
-						m_Callback.fileModified();
-					}
-				});
-			} catch (InterruptedException e) {}
-			catch (InvocationTargetException e) {}			
+			Singletons.getWindowGenerator().invokeAndWait(new Runnable(){
+				public void run() {
+					m_Callback.fileModified();
+				}
+			});
 		}finally{
 			mflag=false;
 		}

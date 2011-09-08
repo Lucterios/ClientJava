@@ -42,7 +42,7 @@ public class ObserverAuthentification extends ObserverAbstract {
 		return ObserverConstant.TYPE_NONE;
 	}
 
-	public void show(String aTitle) throws LucteriosException {
+	public void show(String aTitle) {
 		super.show(aTitle);
 		String cdate = mContent.getText();
 		if (!cdate.equalsIgnoreCase("OK")

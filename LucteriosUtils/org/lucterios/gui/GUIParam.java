@@ -110,4 +110,14 @@ public class GUIParam {
 	public int getPad() {
 		return pad;
 	}
+
+	public void setWeight(double weightx, double weighty) {
+		this.reSize = ReSizeMode.RSM_NONE;
+		if ((weightx<0.5) && (weighty>=0.5))
+			this.reSize = ReSizeMode.RSM_VERTICAL;
+		else if ((weightx>=0.5) && (weighty<0.5))
+			this.reSize = ReSizeMode.RSM_HORIZONTAL;
+		else if ((weightx>=0.5) && (weighty>=0.5))
+			this.reSize = ReSizeMode.RSM_BOTH;
+	}
 }

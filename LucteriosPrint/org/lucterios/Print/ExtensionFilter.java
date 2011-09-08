@@ -22,7 +22,9 @@ package org.lucterios.Print;
 
 import java.io.File;
 
-public class ExtensionFilter extends javax.swing.filechooser.FileFilter
+import org.lucterios.gui.GUIGenerator.FileFilter;
+
+public class ExtensionFilter implements FileFilter
 {
 	public static final String EXTENSION_EXPORT_PDF = ".pdf";
 	public static final String EXTENSION_EXPORT_CSV = ".csv";
@@ -30,7 +32,6 @@ public class ExtensionFilter extends javax.swing.filechooser.FileFilter
 	private String FExtensionFile;
 	
 	public ExtensionFilter(String aExtensionFile){
-		super();
 		assert aExtensionFile!=null;
 		assert aExtensionFile.length()>0;
 		FExtensionFile=aExtensionFile.toLowerCase();

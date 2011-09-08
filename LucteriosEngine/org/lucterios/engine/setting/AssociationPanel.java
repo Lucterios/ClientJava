@@ -215,7 +215,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		GUIDialog new_dialog=mOwnerFrame.createDialog();
 		AssociationEditor edt = new AssociationEditor((String) getValueAt(row, 0), (String) getValueAt(row, 1));
 		new_dialog.setDialogVisitor(edt);
-		new_dialog.setVisible(true);
+			new_dialog.setVisible(true);
 		cmp_tbl.refreshData();
 		cmp_tbl.setRowSelection(row);
 		selectionChanged();

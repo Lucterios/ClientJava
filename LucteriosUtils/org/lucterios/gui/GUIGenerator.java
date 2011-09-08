@@ -44,6 +44,8 @@ public interface GUIGenerator {
 
 	public AbstractImage CreateImage(URL url);
 
+	public AbstractImage CreateImage(byte[] dataImage);
+	
 	public void showErrorDialog(String message, String title);
 
 	public void showMessageDialog(String message, String title);	
@@ -52,10 +54,14 @@ public interface GUIGenerator {
 	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner);
 
+	public File selectSaveFileDialog(final FileFilter filter,final GUIObject aGUIOwner,String aDefaultFileName);
+	
 	public GUIWindows newWindows();
 
 	public void invokeLater(Runnable runnable);
 
+	public void invokeAndWait(Runnable runnable);
+	
 	public boolean isEventDispatchThread();
 
 }

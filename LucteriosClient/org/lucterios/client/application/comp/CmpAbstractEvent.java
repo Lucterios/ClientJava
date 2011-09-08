@@ -20,21 +20,19 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.Action.ActionList;
 import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIComponent.GUIFocusListener;
 
 public abstract class CmpAbstractEvent extends Cmponent implements
-		FocusListener, ActionListener {
+		GUIFocusListener, GUIActionListener {
 	/**
 	 * 
 	 */
@@ -47,7 +45,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 			atns.add(mEventAction);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		focuslosted = false;
 		SimpleParsing[] xml_items;
 		SimpleParsing xml_item;
@@ -71,13 +69,13 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 
 	protected abstract boolean hasChanged();
 
-	public void focusGained(FocusEvent aEvent) {
+	public void focusGained() {
 		getObsCustom().setNameComponentFocused(getName());
 	}
 
 	private boolean focuslosted = false;
 
-	public void focusLost(FocusEvent aEvent) {
+	public void focusLost(GUIComponent origine,GUIComponent target) {
 		try {
 			runJavaScript();
 		} catch (LucteriosException e) {
@@ -85,12 +83,10 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 		}
 		if (mEnabled && (mEventAction != null) && hasChanged() && !focuslosted) {
 			focuslosted = true;
-			aEvent.getComponent().removeFocusListener(this);
-			Cmponent new_Cmponent_focused = getParentOfControle(aEvent
-					.getOppositeComponent());
+			origine.removeFocusListener(this);
+			Cmponent new_Cmponent_focused = getParentOfControle(target);
 			if (new_Cmponent_focused != null) {
-				getObsCustom().setNameComponentFocused(
-						new_Cmponent_focused.getName());
+				getObsCustom().setNameComponentFocused(new_Cmponent_focused.getName());
 				System.out.printf("edit:New focus Component(edit):%s:%s\n",
 						new Object[] {
 								new_Cmponent_focused.getClass().getName(),
@@ -103,7 +99,7 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 
 	boolean mActionPerforming = false;
 
-	public void actionPerformed(ActionEvent aEvent) {
+	public void actionPerformed() {
 		if (!mActionPerforming) {
 			mActionPerforming = true;
 			try {
@@ -115,20 +111,10 @@ public abstract class CmpAbstractEvent extends Cmponent implements
 				if (mEnabled && (mEventAction != null) && hasChanged()
 						&& !focuslosted) {
 					focuslosted = true;
-					Component comp = (Component) aEvent.getSource();
-					comp.removeFocusListener(this);
-					Cmponent new_Cmponent_focused = getParentOfControle(comp);
-					if (new_Cmponent_focused != null) {
-						getObsCustom().setNameComponentFocused(
-								new_Cmponent_focused.getName());
-						System.out.printf(
-								"edit:New focus Component(edit):%s:%s\n",
-								new Object[] {
-										new_Cmponent_focused.getClass()
-												.getName(),
-										new_Cmponent_focused.getName() });
-					} else
-						System.out.print("edit:No focus Component(edit)\n");
+					mPanel.removeFocusListener(this);
+						getObsCustom().setNameComponentFocused(getName());
+					System.out.printf("edit:New focus Component(edit):%s:%s\n",
+							new Object[] {getClass().getName(),getName() });
 					mEventAction.actionPerformed();
 				}
 			} finally {

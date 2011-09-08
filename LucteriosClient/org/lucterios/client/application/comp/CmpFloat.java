@@ -20,28 +20,24 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
-import org.lucterios.form.FloatField;
-import org.lucterios.form.SpinEdit;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUISpinEdit;
 
 public class CmpFloat extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 
-	private FloatField cmp_float;
+	private GUIEdit cmp_float;
 
-	private SpinEdit cmp_int;
+	private GUISpinEdit cmp_int;
 
 	private boolean mIsInteger = false;
 
 	public CmpFloat() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
+		setWeightx(1.0);
+		mParam.setW(20);
+		mParam.setH(20);
 	}
 
 	public void requestFocus() {
@@ -65,41 +61,33 @@ public class CmpFloat extends CmpAbstractEvent {
 			tree_map.put(getName(), new Long(getCmpInt().getNumber())
 					.toString());
 		else
-			tree_map.put(getName(), getCmpFloat().getText());
+			tree_map.put(getName(), getCmpFloat().getTextString());
 		return tree_map;
 	}
 
 	protected void initComponent() {
-		setLayout(new GridLayout());
 		cmp_float = null;
 		cmp_int = null;
 	}
 
-	protected FloatField getCmpFloat() {
+	protected GUIEdit getCmpFloat() {
 		if (cmp_float == null) {
-			removeAll();
-			cmp_float = new FloatField();
-			cmp_float.setName("cmp_float");
-			cmp_float.setEditable(true);
-			cmp_float.setText("");
-			cmp_float.setFocusable(true);
-			add(cmp_float);
+			mPanel.removeAll();
+			cmp_float = mPanel.createEdit(mParam);
+			cmp_float.setTextString("");
 		}
 		return cmp_float;
 	}
 
-	protected SpinEdit getCmpInt() {
+	protected GUISpinEdit getCmpInt() {
 		if (cmp_int == null) {
-			removeAll();
-			cmp_int = new SpinEdit();
-			cmp_int.setName("cmp_int");
-			cmp_int.setPreferredSize(new Dimension(20, 20));
-			add(cmp_int);
+			mPanel.removeAll();
+			cmp_int = mPanel.createSpinEdit(mParam);
 		}
 		return cmp_int;
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		double min_val = getXmlItem()
 				.getAttributDouble("min", Double.MIN_VALUE);

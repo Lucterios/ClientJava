@@ -22,27 +22,19 @@ package org.lucterios.client.application.comp;
 
 import java.util.regex.Pattern;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.text.Caret;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
-import org.lucterios.graphic.PopupListener;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.ui.GUIActionListener;
 
-public class CmpEdit extends CmpAbstractEvent implements KeyListener {
+public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JTextField cmp_text;
+	private GUIEdit cmp_text;
 	private String m_RegularExpression = "";
 	private int m_StringSize = 0;
-	private PopupListener popupListener;
 
 	public CmpEdit() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
+		setWeightx(1.0);
 	}
 
 	public void requestFocus() {
@@ -56,12 +48,12 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
-		tree_map.put(getName(), cmp_text.getText());
+		tree_map.put(getName(), cmp_text.getTextString());
 		return tree_map;
 	}
 
 	public boolean isEmpty() {
-		return mNeeded && (cmp_text.getText().trim().length() == 0);
+		return mNeeded && (cmp_text.getTextString().trim().length() == 0);
 	}
 
 	public void forceFocus() {
@@ -69,26 +61,16 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_text = new javax.swing.JTextField();
-		cmp_text.setEditable(true);
-		cmp_text.setText("");
-		cmp_text.setFocusable(true);
-		cmp_text.setName(getName());
-		cmp_text.addKeyListener(this);
-		add(cmp_text, java.awt.BorderLayout.CENTER);
-
-		popupListener = new PopupListener();
-		popupListener.setActions(cmp_text.getActions());
-		popupListener.addEditionMenu(true);
-		cmp_text.addMouseListener(popupListener);
+		cmp_text = mPanel.createEdit(mParam);
+		cmp_text.setTextString("");
+		cmp_text.addActionListener(this);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		m_RegularExpression = getXmlItem().getCDataOfFirstTag("REG_EXPR");
 		m_StringSize = getXmlItem().getAttributInt("stringSize", 0);
-		cmp_text.setText(getXmlItem().getText().trim());
+		cmp_text.setTextString(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
 		dim = cmp_text.getColumns();
@@ -96,14 +78,11 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(getXmlItem().getText().trim());
+		return !cmp_text.getTextString().equals(getXmlItem().getText().trim());
 	}
 
-	public void keyPressed(KeyEvent e) {
-	}
-
-	public void keyReleased(KeyEvent e) {
-		String current_text = cmp_text.getText();
+	public void actionPerformed() {
+		String current_text = cmp_text.getTextString();		
 		boolean accept = true;
 		if (m_RegularExpression.length() > 0) {
 			Pattern pat = Pattern.compile(m_RegularExpression);
@@ -112,20 +91,13 @@ public class CmpEdit extends CmpAbstractEvent implements KeyListener {
 		if (accept && (m_StringSize > 0))
 			accept = (current_text.length() <= m_StringSize);
 		if (!accept) {
-			Caret car = cmp_text.getCaret();
-			int dot = car.getDot();
-			int mark = car.getMark();
-			if (mark == dot)
-				mark -= 1;
-			current_text = current_text.substring(0, Math.min(dot, mark))
-					+ current_text.substring(Math.max(dot, mark));
-			cmp_text.setText(current_text);
-			cmp_text.setCaretPosition(mark);
-			cmp_text.setSelectionStart(mark);
-			cmp_text.setSelectionEnd(mark);
+			int car[] = cmp_text.getCaretPositions();
+			current_text = current_text.substring(0, Math.min(car[0], car[1]))
+					+ current_text.substring(Math.max(car[0], car[1]));
+			cmp_text.setTextString(current_text);
+			cmp_text.setCaretPosition(car[1]);
+			cmp_text.setSelectionStart(car[1]);
+			cmp_text.setSelectionEnd(car[1]);
 		}
-	}
-
-	public void keyTyped(KeyEvent e) {
 	}
 }

@@ -26,4 +26,7 @@ public interface GUIButton extends GUIComponent {
 
 	public void doClick();
 
+	public void setObject(Object aAction);
+
+	public Object getObject();
 }

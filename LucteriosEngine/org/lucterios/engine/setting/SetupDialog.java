@@ -26,6 +26,7 @@ import java.io.IOException;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.utils.LucteriosConfiguration;
+import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
@@ -193,9 +194,13 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	public static void run(GUIDialog aDialog) {
-		SetupDialog dlg = new SetupDialog();
-		aDialog.setDialogVisitor(dlg);
-		aDialog.setVisible(true);
+		try{
+			SetupDialog dlg = new SetupDialog();
+			aDialog.setDialogVisitor(dlg);
+			aDialog.setVisible(true);
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 
 }

@@ -1,16 +1,8 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -18,21 +10,26 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToggleButton;
 
+import org.lucterios.graphic.CursorMouseListener;
+import org.lucterios.graphic.FocusListenerList;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.ui.GUIActionListener;
 
-public class SButton extends JComponent implements GUIButton, FocusListener,ActionListener,MouseListener {
+public class SButton extends JComponent implements GUIButton {
 	private static final long serialVersionUID = 1L;
 
+	private CursorMouseListener mCursorMouseListener;
+	
 	private AbstractButton mButton;
 	public AbstractButton getButton(){
 		return mButton;
 	}
 
 	// FOCUS 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}
@@ -41,43 +38,36 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 		mFocusListener.remove(l);
 	}
 
-	public void focusLost(FocusEvent e) {
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
-	}
-	public void focusGained(FocusEvent e) {	}
-
 	// ACTION
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
 	public void addActionListener(GUIActionListener l){
-		if (l!=null)
-			mActionListener.add(l);
+		mCursorMouseListener.add(l);
 	}
 
 	public void removeActionListener(GUIActionListener l){
-		if (l!=null)
-			mActionListener.remove(l);
+		mCursorMouseListener.remove(l);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		for(GUIActionListener l:mActionListener)
-			l.actionPerformed();
-	}
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
 	
-	public SButton(){
+	public SButton(GUIComponent aOwner){
         super();
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
         setLayout(new GridLayout());
         setFocusable(false);
         mButton=new JButton();
-        mButton.addActionListener(this);
-        mButton.addFocusListener(this);
+        mButton.addActionListener(mCursorMouseListener);
+        mButton.addFocusListener(mFocusListener);
         add(mButton);
-        addFocusListener(this);
-        addMouseListener(this);
+        addFocusListener(mFocusListener);
+        addMouseListener(mCursorMouseListener);
 	}
 
 	public void doClick() {		
-		actionPerformed(null);
+		mCursorMouseListener.actionPerformed(null);
 	}
 	
 	public String getTextString() {
@@ -94,8 +84,8 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
         	mButton=new JToggleButton();
         else
         	mButton=new JButton();
-        mButton.addActionListener(this);
-        mButton.addFocusListener(this);
+        mButton.addActionListener(mCursorMouseListener);
+        mButton.addFocusListener(mFocusListener);
         add(mButton);
 	}
 
@@ -129,37 +119,34 @@ public class SButton extends JComponent implements GUIButton, FocusListener,Acti
 			mButton.setIcon((ImageIcon)image.getData());
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { }
-	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }	
 
 	@Override
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
+		mButton.setVisible(aFlag);
 		mButton.setFocusable(aFlag);
+	}
+	
+	@Override
+	public void setEnabled(boolean aEnabled) {
+		super.setEnabled(aEnabled);
+		mButton.setEnabled(aEnabled);
+	}	
+
+	private Object mObject=null;
+	public Object getObject() {
+		return mObject;
+	}
+
+	public void setObject(Object object) {
+		mObject=object;
+	}
+
+	public boolean isActive() {
+		return getOwner().isActive();
 	}
 	
 }

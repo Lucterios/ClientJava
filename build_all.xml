@@ -4,8 +4,8 @@
 	<property name="projet.lpk.dir" value="bin"/>
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="1"/>
-	<property name="projet.version.min" value="2"/>
-	<property name="projet.version.release" value="3"/>
+	<property name="projet.version.min" value="3"/>
+	<property name="projet.version.release" value="1"/>
 	<tstamp>
 		<format property="TODAY" pattern="dd-MM-yyyy"/>
 	</tstamp>

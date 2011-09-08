@@ -20,40 +20,47 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.UnsupportedEncodingException;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUIMemo;
+import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
-import org.lucterios.form.LineNumberedPaper;
-import org.lucterios.graphic.PopupListener;
 
-public class CmpMemo extends CmpAbstractEvent implements CaretListener {
+public class CmpMemo extends CmpAbstractEvent {
 	final static public String ENCODE = "ISO-8859-1";
 	private static final long serialVersionUID = 1L;
 	private static final String SUB_MENU_SPECIAL = "@MENU@";
-	private LineNumberedPaper cmp_text;
-	private PopupListener popupListener;
-	private JMenu SubMenu;
-	private javax.swing.JScrollPane scrl_txt;
+	private GUIMemo cmp_text;
+	private GUIMenu SubMenu;
 	private boolean mEncode = false;
 
+	class MemoAction implements GUIActionListener {
+
+		private String actionName = "";
+		
+		public MemoAction(String actionName) {
+			this.actionName=actionName;
+		}
+		
+		public void actionPerformed() {
+			if (actionName.startsWith(SUB_MENU_SPECIAL)) {
+				String special_to_add = actionName.substring(SUB_MENU_SPECIAL.length());
+				cmp_text.insertText(special_to_add);
+			} else
+				CmpMemo.this.actionPerformed();
+		}
+		
+	}
+	
 	public CmpMemo() {
 		super();
-		mFill = GridBagConstraints.BOTH;
-		mWeightx = 1.0;
-		mWeighty = 1.0;
-		setFocusable(false);
+		mFill = FillMode.FM_BOTH;
+		setWeightx(1.0);
+		setWeighty(1.0);
 	}
 
 	public void requestFocus() {
@@ -67,7 +74,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
-		String out_text = cmp_text.getText().trim();
+		String out_text = cmp_text.getValue().trim();
 		if (mEncode)
 			try {
 				out_text = java.net.URLEncoder.encode(out_text.trim(), ENCODE);
@@ -82,7 +89,7 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 	}
 
 	public boolean isEmpty() {
-		return mNeeded && (cmp_text.getText().trim().length() == 0);
+		return mNeeded && (cmp_text.getValue().trim().length() == 0);
 	}
 
 	public void forceFocus() {
@@ -90,44 +97,24 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_text = new LineNumberedPaper();
-		cmp_text.setEditable(true);
+		cmp_text = mPanel.createMemo(mParam);
 		cmp_text.setText("");
-		cmp_text.setFocusable(true);
-		cmp_text.setName(getName());
-		scrl_txt = new javax.swing.JScrollPane();
-		scrl_txt.setName("scrl_cst");
-		scrl_txt.setViewportView(cmp_text);
-		scrl_txt.setFocusable(false);
-		add(scrl_txt, java.awt.BorderLayout.CENTER);
-		scrl_txt.setMinimumSize(new Dimension(HMin, VMin));
-		scrl_txt.setMaximumSize(new Dimension(HMax, VMax));
 
-		popupListener = new PopupListener();
-		popupListener.setActions(cmp_text.getActions());
-		popupListener.addEditionMenu(true);
-		SubMenu = new JMenu();
-		SubMenu.setText(" => ");
-		popupListener.getPopup().add(SubMenu);
-		cmp_text.getDocument().addUndoableEditListener(popupListener.getUndo());
-		cmp_text.addMouseListener(popupListener);
-		cmp_text.addCaretListener(this);
+		SubMenu = cmp_text.getPopupMenu();
 	}
 
-	protected JMenu getSubMenu(JMenu aMenu, String aName) {
-		JMenu sub_menu = null;
+	protected GUIMenu getSubMenu(GUIMenu aMenu, String aName) {
+		GUIMenu sub_menu = null;
 		for (int index = 0; (sub_menu == null)
-				&& (index < aMenu.getMenuComponentCount()); index++)
-			if (JMenu.class.isInstance(aMenu.getMenuComponent(index))) {
-				JMenu current_menu = (JMenu) aMenu.getMenuComponent(index);
+				&& (index < aMenu.getMenuCount()); index++)
+			if (aMenu.getMenu(index).isNode()) {
+				GUIMenu current_menu = aMenu.getMenu(index);
 				if (current_menu.getText().equals(aName))
 					sub_menu = current_menu;
 			}
 		if (sub_menu == null) {
-			sub_menu = new JMenu();
+			sub_menu = aMenu.addMenu(true);
 			sub_menu.setText(aName);
-			aMenu.add(sub_menu);
 		}
 		return sub_menu;
 	}
@@ -141,25 +128,21 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 						.getCDataOfFirstTag("NAME"), ENCODE);
 				String value = java.net.URLDecoder.decode(aSubMenu[index]
 						.getCDataOfFirstTag("VALUE"), ENCODE);
-				JMenu current = getSubMenu(SubMenu, type);
+				GUIMenu current = getSubMenu(SubMenu, type);
 				if ("-".equals(name))
 					current.addSeparator();
 				else {
-					JMenuItem variable_item = new JMenuItem();
+					GUIMenu variable_item = current.addMenu(false);
 					variable_item.setText(name);
-					variable_item.setActionCommand(SUB_MENU_SPECIAL + value);
-					variable_item.addActionListener(this);
-					current.add(variable_item);
+					variable_item.setActionListener(new MemoAction(SUB_MENU_SPECIAL+value));
 				}
 			} catch (java.io.UnsupportedEncodingException e) {
 			}
 		}
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
-		cmp_text.getDocument().removeUndoableEditListener(
-				popupListener.getUndo());
 		String in_text = getXmlItem().getText().trim();
 		mEncode = (getXmlItem().getAttributInt("Encode", 0) != 0);
 		if (mEncode)
@@ -174,45 +157,14 @@ public class CmpMemo extends CmpAbstractEvent implements CaretListener {
 		cmp_text.setText(in_text);
 		cmp_text.setStringSize(getXmlItem().getAttributInt("stringSize", 0));
 		cmp_text.setFirstLine(getXmlItem().getAttributInt("FirstLine", -1));
-		Dimension dim = cmp_text.getPreferredSize();
-		scrl_txt.setSize(dim.width, Math.max(500, dim.height * 2));
 		cmp_text.addFocusListener(this);
-		cmp_text.getDocument().addUndoableEditListener(popupListener.getUndo());
-		popupListener.resetUndoManager();
 		fillSubMenu(getXmlItem().getSubTag("SUBMENU"));
-		SubMenu.setVisible(SubMenu.getMenuComponentCount() > 0);
+		SubMenu.setVisible(SubMenu.getMenuCount() > 0);
 		org.lucterios.graphic.Tools.postOrderGC();
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		String action_name = "";
-		if (event != null)
-			action_name = event.getActionCommand();
-		if (action_name.startsWith(SUB_MENU_SPECIAL)) {
-			String special_to_add = action_name.substring(SUB_MENU_SPECIAL
-					.length());
-			StyledDocument style = (StyledDocument) cmp_text.getDocument();
-			try {
-				if (mDot != mMark)
-					style.remove(Math.min(mDot, mMark), Math.abs(mMark - mDot));
-				style.insertString(Math.min(mDot, mMark), special_to_add, null);
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
-		} else
-			super.actionPerformed(event);
-	}
-
-	int mDot = 0;
-	int mMark = 0;
-
-	public void caretUpdate(CaretEvent e) {
-		mDot = e.getDot();
-		mMark = e.getMark();
-	}
-
 	protected boolean hasChanged() {
-		return !cmp_text.getText().equals(getXmlItem().getText().trim());
+		return !cmp_text.getValue().equals(getXmlItem().getText().trim());
 	}
 
 }

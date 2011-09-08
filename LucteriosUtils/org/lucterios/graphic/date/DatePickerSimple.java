@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
@@ -31,7 +32,7 @@ public class DatePickerSimple implements DialogVisitor {
 
 	private Date selected = null;
 
-	private GUILabel title;
+	private GUILabel title=null;
 
 	private String[] months = { "Janvier", "Febrier", "Mars", "Avril", "Mai", "Juin",
 			"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre" };
@@ -120,7 +121,11 @@ public class DatePickerSimple implements DialogVisitor {
 
 		addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
-				mDialog.setVisible(false);
+				try{
+					mDialog.setVisible(false);
+				}catch (Exception e) {
+					ExceptionDlg.throwException(e);
+				}
 			}
 		});
 		setFromCalendar(java.util.Calendar.getInstance());
@@ -143,7 +148,11 @@ public class DatePickerSimple implements DialogVisitor {
 	}
 
 	public void setVisible(boolean isVisible) {
-		mDialog.setVisible(isVisible);
+		try{
+			mDialog.setVisible(isVisible);
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 	
 	// -------------
@@ -328,7 +337,8 @@ public class DatePickerSimple implements DialogVisitor {
 	public void set(int year, int month, int date) {
 		calendar.set(year, month, date);
 		today.set(year, month, date);
-		update_calendar_display();
+		if (title!=null)
+			update_calendar_display();
 	}
 
 	/** Works just like {@link Calendar#get(int)} */

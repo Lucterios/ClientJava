@@ -1,5 +1,6 @@
 package org.lucterios.gui.test;
 
+import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
@@ -79,7 +80,11 @@ public class FormExample implements FormVisitor {
 	}
 
 	protected void btn_Exit() {
-		mOwner.setVisible(false);
+		try{
+			mOwner.setVisible(false);
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 
 	protected void btn_Add() {

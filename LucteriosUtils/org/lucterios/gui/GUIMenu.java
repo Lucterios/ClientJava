@@ -55,4 +55,6 @@ public interface GUIMenu {
 
 	public GUIAction getAction();
 
+	public void removeAll();
+
 }

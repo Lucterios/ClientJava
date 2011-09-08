@@ -1,15 +1,12 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -17,11 +14,14 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.PopupListener;
+import org.lucterios.graphic.FocusListenerList;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.ui.GUIActionListener;
 
-public class SSpinEdit extends JComponent implements ActionListener,FocusListener,GUISpinEdit,MouseListener {
+public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,6 +54,8 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 		}
 	}
 
+	private CursorMouseListener mCursorMouseListener;
+	
 	private JButton upButton;
 
 	private JButton downButton;
@@ -74,7 +76,7 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 	// Constructors
 	// ///////////////////
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
 	
 	public void addFocusListener(GUIFocusListener l){
@@ -98,8 +100,15 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 	 * limit of 0 and start value 0.
 	 */
 
-	public SSpinEdit() {
-		super();
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SSpinEdit(GUIComponent aOwner){
+    	super();
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
 		init(0, 0, Integer.MAX_VALUE);
 	}
 
@@ -134,7 +143,7 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 	}
 
 	public void init(long num, long bottomL, long upperL) {
-		addMouseListener(this);
+		addMouseListener(mCursorMouseListener);
 		upperLimit = upperL;
 		bottomLimit = bottomL;
 		if (num <= upperLimit && num >= bottomLimit)
@@ -145,14 +154,14 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 		setLayout(null);
 
 		if (numberField != null) {
-			numberField.removeMouseListener(this);
+			numberField.removeMouseListener(mCursorMouseListener);
 			remove(numberField);
 		}
 		numberField = new ExtraField(this);
 		numberField.setName(getName());
 		numberField.setText(Long.toString(number));
 		numberField.setEnabled(true);
-		numberField.addMouseListener(this);
+		numberField.addMouseListener(mCursorMouseListener);
 		add(numberField);
 
 		upButton = new BasicArrowButton(BasicArrowButton.NORTH);
@@ -317,8 +326,7 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 
 	public void focusLost(FocusEvent e) {
 		numberField.postActionEvent();
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
+		mFocusListener.focusLost(e);
 	}
 
 	public void processKey(KeyEvent e) {
@@ -420,36 +428,18 @@ public class SSpinEdit extends JComponent implements ActionListener,FocusListene
 		return getBackground().getRGB();
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { }
-	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }	
 	
 	@Override
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
 		numberField.setFocusable(aFlag);
 	}
+
+	public boolean isActive() {
+		return getOwner().isActive();
+	}
+	
 }

@@ -4,6 +4,7 @@ import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.resources.Resources;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
+import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUICombo;
 import org.lucterios.gui.GUIContainer;
@@ -226,7 +227,12 @@ public class ConfigurationPanel implements GUISelectListener {
 
 		cmp_tbl = mOwnerContainer.createGrid(new GUIParam(0, 3, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH, 400, 150));
 		cmp_tbl.setMultiSelection(false);
-		cmp_tbl.addSelectListener(this);	
+		cmp_tbl.addSelectListener(this);
+		cmp_tbl.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				btn_ModActionPerformed();
+			}
+		});
 	}
 
 	public void InitGridBtn() {
@@ -305,13 +311,18 @@ public class ConfigurationPanel implements GUISelectListener {
 	}
 
 	private void btn_AddActionPerformed() {
-		GUIDialog new_dialog=mOwnerFrame.createDialog();
-		ServerEditor srv = new ServerEditor(null);
-		new_dialog.setDialogVisitor(srv);
-		new_dialog.setVisible(true);
-		if (srv.mServer != null) {
-			Singletons.getConfiguration().AddServer(srv.mServer);
-			refreshGUI(Singletons.getConfiguration().ServerCount() - 1);
+		try
+		{
+			GUIDialog new_dialog=mOwnerFrame.createDialog();
+			ServerEditor srv = new ServerEditor(null);
+			new_dialog.setDialogVisitor(srv);
+			new_dialog.setVisible(true);
+			if (srv.mServer != null) {
+				Singletons.getConfiguration().AddServer(srv.mServer);
+				refreshGUI(Singletons.getConfiguration().ServerCount() - 1);
+			}
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
 		}
 	}
 
@@ -321,14 +332,18 @@ public class ConfigurationPanel implements GUISelectListener {
 	}
 
 	private void btn_ModActionPerformed() {
-		int row = cmp_tbl.getSelectedRows()[0];
-		GUIDialog new_dialog=mOwnerFrame.createDialog();
-		ServerEditor srv = new ServerEditor(Singletons.getConfiguration().GetServer(row));
-		new_dialog.setDialogVisitor(srv);
-		new_dialog.setVisible(true);
-		if (srv.mServer != null) {
-			Singletons.getConfiguration().SetServer(row, srv.mServer);
-			refreshGUI(row);
+		try {
+			int row = cmp_tbl.getSelectedRows()[0];
+			GUIDialog new_dialog=mOwnerFrame.createDialog();
+			ServerEditor srv = new ServerEditor(Singletons.getConfiguration().GetServer(row));
+			new_dialog.setDialogVisitor(srv);
+			new_dialog.setVisible(true);
+			if (srv.mServer != null) {
+				Singletons.getConfiguration().SetServer(row, srv.mServer);
+				refreshGUI(row);
+			}
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
 		}
 	}
 

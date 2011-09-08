@@ -20,16 +20,8 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
-import java.awt.*;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.event.ListDataListener;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUICombo;
 import org.lucterios.utils.SimpleParsing;
 
 public class CmpSelect extends CmpAbstractEvent {
@@ -47,56 +39,15 @@ public class CmpSelect extends CmpAbstractEvent {
 		}
 	}
 
-	class ItemList extends ArrayList<ItemObj> implements ComboBoxModel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private Object m_selected = null;
-
-		public Object getSelectedItem() {
-			return m_selected;
-		}
-
-		public void setSelectedItem(Object anItem) {
-			m_selected = anItem;
-		}
-
-		public void addListDataListener(ListDataListener l) {
-		}
-
-		public Object getElementAt(int index) {
-			if ((index >= 0) && (index < size()))
-				return this.get(index);
-			else
-				return null;
-		}
-
-		public int getSize() {
-			return this.size();
-		}
-
-		public void removeListDataListener(ListDataListener l) {
-		}
-
-	}
-
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JComboBox cmp_cnbb = null;
-	private DefaultComboBoxModel m_comboModel;
+	private GUICombo cmp_cnbb = null;
 
 	public CmpSelect() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		m_comboModel = new DefaultComboBoxModel();
-		m_comboModel.removeAllElements();
+		setWeightx(1.0);
 	}
 
 	public void close() {
-		if (m_comboModel != null)
-			m_comboModel.removeAllElements();
-		m_comboModel = null;
 		cmp_cnbb = null;
 		super.close();
 	}
@@ -124,47 +75,41 @@ public class CmpSelect extends CmpAbstractEvent {
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_cnbb = new javax.swing.JComboBox();
-		cmp_cnbb.setName("cmp_cnbb");
-		cmp_cnbb.setModel(m_comboModel);
-		add(cmp_cnbb, java.awt.BorderLayout.CENTER);
+		cmp_cnbb = mPanel.createCombo(mParam);
 	}
 
 	private ItemObj InitialItem = null;
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		cmp_cnbb.removeActionListener(this);
 		cmp_cnbb.removeFocusListener(this);
-		ItemObj sel_item = null;
+		int sel_item_idx = -1;
 		SimpleParsing[] xml_items;
 		xml_items = getXmlItem().getSubTag("CASE");
-		m_comboModel.removeAllElements();
-		try {
-			String id = getXmlItem().getText().trim();
-			String tmp = "[";
-			xml_items = getXmlItem().getSubTag("CASE");
-			for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
-				SimpleParsing case_item = xml_items[case_idx];
-				ItemObj item_obj = new ItemObj(case_item.getText(), case_item
-						.getAttribut("id"));
-				if (item_obj.mID.equals(id))
-					sel_item = item_obj;
-				m_comboModel.addElement(item_obj);
-				tmp = tmp + " id=" + item_obj.mID + " val=" + item_obj.mText;
-			}
-			tmp = tmp + "]";
-		} catch (Exception e) {
-			throw new LucteriosException("Erreur de selection", e);
+		cmp_cnbb.removeAllElements();
+		String id = getXmlItem().getText().trim();
+		String tmp = "[";
+		xml_items = getXmlItem().getSubTag("CASE");
+		int size=0;
+		for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
+			SimpleParsing case_item = xml_items[case_idx];
+			ItemObj item_obj = new ItemObj(case_item.getText(), case_item
+					.getAttribut("id"));
+			if (item_obj.mID.equals(id))
+				sel_item_idx = size;
+			cmp_cnbb.addElement(item_obj);
+			size++;
+			tmp = tmp + " id=" + item_obj.mID + " val=" + item_obj.mText;
 		}
-		cmp_cnbb.setModel(m_comboModel);
-		if (m_comboModel.getSize() == 0)
+		tmp = tmp + "]";
+	
+		if (size == 0)
 			cmp_cnbb.setSelectedIndex(-1);
 		else
 			cmp_cnbb.setSelectedIndex(0);
-		if (sel_item != null) {
-			cmp_cnbb.setSelectedItem(sel_item);
+		if (sel_item_idx != -1) {
+			cmp_cnbb.setSelectedIndex(sel_item_idx);
 			InitialItem = (ItemObj) cmp_cnbb.getSelectedItem();
 		}
 		cmp_cnbb.addActionListener(this);

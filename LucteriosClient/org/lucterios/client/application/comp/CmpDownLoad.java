@@ -1,32 +1,24 @@
 package org.lucterios.client.application.comp;
 
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import org.lucterios.client.application.observer.ObserverAcknowledge;
 import org.lucterios.client.utils.FileMonitoring;
 import org.lucterios.client.utils.FileMonitoring.MonitoringCallback;
 import org.lucterios.engine.presentation.FileDownload;
+import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.FileDownload.FileDownloadCallBack;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.FilesFilter;
-import org.lucterios.graphic.HtmlLabel;
-import org.lucterios.form.ImagePreview;
-import org.lucterios.graphic.Tools;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIHyperText;
+import org.lucterios.gui.GUIParam;
 
 public class CmpDownLoad extends CmpAbstractEvent implements
 		FileDownloadCallBack, MonitoringCallback {
@@ -38,10 +30,9 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 
 	private static File CurrentDirectory = null;
 
-	private JPanel pnl_Btn;
-	private HtmlLabel lbl_message;
-	private JButton btn_open;
-	private JButton btn_save;
+	private GUIHyperText lbl_message;
+	private GUIButton btn_open;
+	private GUIButton btn_save;
 
 	private String m_FileToDownload;
 	private String m_FileName;
@@ -84,56 +75,31 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 	}
 
 	protected void initComponent() {
-		java.awt.GridBagConstraints gridBagConstraints;
-		pnl_Btn = new JPanel();
-		pnl_Btn.setName("pnl_Btn");
-		pnl_Btn.setOpaque(this.isOpaque());
-		pnl_Btn.setLayout(new GridBagLayout());
-		add(pnl_Btn, java.awt.BorderLayout.CENTER);
+		lbl_message = mPanel.createHyperText(new GUIParam(0,0));
 
-		lbl_message = new HtmlLabel();
-		lbl_message.setEditable(false);
-		lbl_message.setAlignmentY(0.5f);
-		lbl_message.setOpaque(false);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		pnl_Btn.add(lbl_message, gridBagConstraints);
-
-		btn_save = new JButton();
-		btn_save.setText("Sauver sous...");
-		btn_save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mParam.setX(1);
+		mParam.setPad(3);
+		btn_save = mPanel.createButton(mParam);
+		btn_save.setTextString("Sauver sous...");
+		btn_save.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				saveExtractedFile();
 			}
 		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 0;
-		gridBagConstraints.insets = new Insets(5, 10, 2, 10);
-		pnl_Btn.add(btn_save, gridBagConstraints);
-
-		btn_open = new JButton();
-		btn_open.setText("Ouvrir...");
-		btn_open.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mParam.setX(2);
+		mParam.setPad(3);
+		btn_open = mPanel.createButton(mParam);
+		btn_open.setTextString("Ouvrir...");
+		btn_open.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				openExtractedFile();
 			}
 		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 0;
-		gridBagConstraints.insets = new Insets(5, 10, 2, 10);
-		pnl_Btn.add(btn_open, gridBagConstraints);
-		JButton[] btns = new JButton[] { btn_save, btn_open };
-		Tools.calculBtnSize(btns);
+		GUIButton[] btns = new GUIButton[] { btn_save, btn_open };
+		mPanel.calculBtnSize(btns);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		m_LocalFile = null;
 		btn_open.setEnabled(false);
@@ -146,7 +112,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 		String message = m_FileName;
 		if (mEventAction == null)
 			message += "(en lecture-seul)";
-		lbl_message.setText("<CENTER>" + message + "</CENTER>");
+		lbl_message.setTextString("<CENTER>" + message + "</CENTER>");
 		SimpleParsing filename = getXmlItem().getFirstSubTag("FILENAME");
 		if (filename != null)
 			m_FileToDownload = filename.getText();
@@ -175,22 +141,9 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 	}
 
 	protected void saveExtractedFile() {
-		JFileChooser file_dlg;
-		file_dlg = new JFileChooser(CurrentDirectory);
-		java.io.File file_name = new java.io.File(m_FileName);
-		file_dlg.setSelectedFile(file_name);
-		file_dlg.setAccessory(new ImagePreview(file_dlg));
-		file_dlg.setFileFilter(new FilesFilter(new String[] { ".*" },
-				"Fichier à sauver"));
-		int returnVal;
-		if (this.getObsCustom().getGUIDialog() != null)
-			returnVal = file_dlg.showSaveDialog((Component) this.getObsCustom()
-					.getGUIDialog());
-		else
-			returnVal = file_dlg.showSaveDialog((Component) this.getObsCustom()
-					.getGUIFrame());
-		if (m_LocalFile.exists() && (returnVal == JFileChooser.APPROVE_OPTION)) {
-			java.io.File file_exp = file_dlg.getSelectedFile();
+		java.io.File file_exp = Singletons.getWindowGenerator().selectSaveFileDialog(new FilesFilter(new String[] { ".*" },"Fichier à sauver"),
+				this.getObsCustom().getGUIObject(),m_FileName);
+		if (file_exp!=null) {
 			CurrentDirectory = file_exp.getParentFile();
 			try {
 				org.lucterios.utils.Tools.copyFile(m_LocalFile, file_exp);
@@ -201,7 +154,7 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 	}
 
 	public void failure(String aMessage) {
-		lbl_message.setText("<CENTER><font color='red'>Erreur<br>" + m_FileName
+		lbl_message.setTextString("<CENTER><font color='red'>Erreur<br>" + m_FileName
 				+ ": " + aMessage + " </font><CENTER>");
 	}
 
@@ -214,11 +167,8 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 	}
 
 	public void fileModified() {
-		if (JOptionPane
-				.showConfirmDialog(
-						this,
-						"Le fichier a été modifié.\nVoulez vous le ré-injecter dans l'application?",
-						"Extraction", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		if (Singletons.getWindowGenerator().showConfirmDialog("Le fichier a été modifié.\nVoulez vous le ré-injecter dans l'application?",
+				"Extraction")) {
 			mEventAction.setOwner(new ObserverAcknowledge() {
 				public MapContext getParameters(String aActionId, int aSelect,
 						boolean aCheckNull) throws LucteriosException {

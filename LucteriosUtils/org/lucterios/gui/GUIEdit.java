@@ -18,4 +18,16 @@ public interface GUIEdit extends GUIComponent {
 
 	public void setPassword(char c);
 
+	public int getColumns();
+
+	public void setColumns(int col);
+
+	public int[] getCaretPositions();
+
+	public void setCaretPosition(int pos);
+
+	public void setSelectionStart(int pos);
+
+	public void setSelectionEnd(int pos);
+
 }

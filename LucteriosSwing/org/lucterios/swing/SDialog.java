@@ -94,7 +94,7 @@ public class SDialog extends JDialog implements GUIDialog {
 				close();
 			}
 		});
-		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		mContainer=new SContainer(ContainerType.CT_NORMAL,null);
 		mContainer.setName("");
 		getContentPane().setFocusable(false);
 		getContentPane().add(mContainer);
@@ -183,6 +183,7 @@ public class SDialog extends JDialog implements GUIDialog {
 		else
 			current_cursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		setCursor(current_cursor);
+		mContainer.setActive(aIsActive);
 		if (mGenerator.getFrame() != null)
 			mGenerator.getFrame().setActive(aIsActive);
 	}
@@ -218,7 +219,10 @@ public class SDialog extends JDialog implements GUIDialog {
 	}
 
 	public void initialPosition() {
+		Dimension dialog = getSize();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		if (isResizable())
+			setSize((int) (dialog.width+64),(int) (dialog.height + 64));		
 		setLocation((screen.width - getSize().width) / 2,(int)((screen.height - getSize().height)*mPosition));
 	}
 

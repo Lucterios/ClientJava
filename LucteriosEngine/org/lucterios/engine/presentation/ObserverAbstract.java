@@ -27,6 +27,7 @@ import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUIObject;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
@@ -150,7 +151,7 @@ public abstract class ObserverAbstract implements Observer {
 		return mTitle;
 	}
 
-	public void show(String aTitle) throws LucteriosException {
+	public void show(String aTitle) {
 		if (!"".equals( aTitle ) && "".equals( mCaption ))
 			mTitle = aTitle;
 	}
@@ -170,6 +171,14 @@ public abstract class ObserverAbstract implements Observer {
             return mGUIDialog.get();
         else
             return null;
+	}
+	
+	public GUIObject getGUIObject(){
+		if (getGUIDialog()!=null)
+			return getGUIDialog();
+		if (getGUIFrame()!=null)
+			return getGUIFrame();
+        return null;
 	}
 
 	public void setActive(boolean aIsActive) {

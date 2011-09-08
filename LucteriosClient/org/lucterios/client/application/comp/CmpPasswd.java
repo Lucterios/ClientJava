@@ -20,19 +20,16 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUIEdit;
 
 public class CmpPasswd extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JPasswordField cmp_text;
+	private GUIEdit cmp_text;
 
 	public CmpPasswd() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
+		setWeightx(1.0);
 	}
 
 	public void requestFocus() {
@@ -46,28 +43,26 @@ public class CmpPasswd extends CmpAbstractEvent {
 
 	public MapContext getRequete(String aActionIdent) {
 		MapContext tree_map = new MapContext();
-		tree_map.put(getName(), new String(cmp_text.getPassword()));
+		tree_map.put(getName(), new String(cmp_text.getTextString()));
 		return tree_map;
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_text = new javax.swing.JPasswordField();
-		cmp_text.setText("");
-		cmp_text.setName("cmp_text");
+		cmp_text = mPanel.createEdit(mParam);
+		cmp_text.setTextString("");
+		cmp_text.setPassword('*');
 		cmp_text.addFocusListener(this);
-		add(cmp_text, java.awt.BorderLayout.CENTER);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
-		cmp_text.setText(getXmlItem().getText().trim());
+		cmp_text.setTextString(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
 		dim = cmp_text.getColumns();
 	}
 
 	protected boolean hasChanged() {
-		return !cmp_text.getPassword().equals(getXmlItem().getText().trim());
+		return !cmp_text.getTextString().equals(getXmlItem().getText().trim());
 	}
 }

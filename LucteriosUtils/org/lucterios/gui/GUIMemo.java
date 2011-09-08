@@ -13,5 +13,9 @@ public interface GUIMemo extends GUIComponent {
 	public void setText(String text);
 	
 	public String getValue();
+
+	public void insertText(String specialToAdd);
+
+	public GUIMenu getPopupMenu();
 	
 }

@@ -58,7 +58,7 @@ public class SForm extends JFrame implements GUIForm {
 	public SForm(String aFrameID,GUIGenerator generator) {
 		super();
 		mGenerator=generator;
-		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		mContainer=new SContainer(ContainerType.CT_NORMAL,null);
 		getContentPane().add(mContainer);		
 		setName(aFrameID);
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -205,6 +205,7 @@ public class SForm extends JFrame implements GUIForm {
 
 	private void initialPosition() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize((int) (8.5*screen.width/10.0),(int) (8.5*screen.height/10.0));
 		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
 	}
 
@@ -234,6 +235,7 @@ public class SForm extends JFrame implements GUIForm {
 		else
 			current_cursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		setCursor(current_cursor);
+		mContainer.setActive(aIsActive);
 		if (mGenerator.getFrame() != null)
 			mGenerator.getFrame().setActive(aIsActive);
 	}

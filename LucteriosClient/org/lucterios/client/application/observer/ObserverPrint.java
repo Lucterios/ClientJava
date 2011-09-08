@@ -20,18 +20,14 @@
 
 package org.lucterios.client.application.observer;
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.lucterios.Print.ExtensionFilter;
-import org.lucterios.Print.SelectPrintDlg;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
@@ -51,13 +47,19 @@ public class ObserverPrint extends ObserverAbstract {
 
 	public final static int PRINT_TYPE_BIN = 2;
 
+	public static final int MODE_NONE = 0;
+	public static final int MODE_PRINT = 1;
+	public static final int MODE_PREVIEW = 2;
+	public static final int MODE_EXPORT_PDF = 3;
+	public static final int MODE_EXPORT_CSV = 4;
+	
 	String xml_content = null;
 
 	String title = "";
 
 	int type = 0;
 
-	int mode = SelectPrintDlg.MODE_NONE;
+	int mode = MODE_NONE;
 
 	boolean withTextExport = false;
 
@@ -73,8 +75,7 @@ public class ObserverPrint extends ObserverAbstract {
 		if (fo_elements != null) {
 			title = fo_elements.getAttribut("title");
 			type = fo_elements.getAttributInt("type", 0);
-			mode = fo_elements.getAttributInt("mode",
-					SelectPrintDlg.MODE_PREVIEW);
+			mode = fo_elements.getAttributInt("mode",MODE_PREVIEW);
 			withTextExport = (fo_elements.getAttributInt("withTextExport", 0) != 0);
 			xml_content = fo_elements.getText();
 		}
@@ -88,10 +89,8 @@ public class ObserverPrint extends ObserverAbstract {
 		return ObserverConstant.TYPE_NONE;
 	}
 
-	public void show(String aTitle) throws LucteriosException {
+	public void show(String aTitle) {
 		super.show(aTitle);
-		SelectPrintDlg.FontImage = Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("ObserverFont.jpg"));
 
 		GUIDialog owner_dialog = null;
 		GUIForm owner_frame = null;
@@ -110,26 +109,21 @@ public class ObserverPrint extends ObserverAbstract {
 		}
 	}
 
-	private void openOrSavePrintReport(GUIDialog owner_dialog, GUIForm owner_frame)
-			throws LucteriosException {
+	private void openOrSavePrintReport(GUIDialog owner_dialog, GUIForm owner_form){
 		try {
 			InputStream print_stream = new DecodeBase64ToInputStream(
 					xml_content);
 			switch (mode) {
-			case SelectPrintDlg.MODE_EXPORT_PDF: {
-				File pdf_file = SelectPrintDlg.getSelectedFileName(
-						SelectPrintDlg.getDefaultFileName(title,
-								ExtensionFilter.EXTENSION_EXPORT_PDF),
-						(JFrame) owner_frame, (JDialog) owner_dialog,
+			case MODE_EXPORT_PDF: {
+				File pdf_file = getSelectedFileName(getDefaultFileName(title,ExtensionFilter.EXTENSION_EXPORT_PDF),
+						owner_form, owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
 				break;
 			}
-			case SelectPrintDlg.MODE_EXPORT_CSV: {
-				File csv_file = SelectPrintDlg.getSelectedFileName(
-						SelectPrintDlg.getDefaultFileName(title,
-								ExtensionFilter.EXTENSION_EXPORT_CSV),
-						(JFrame) owner_frame, (JDialog) owner_dialog,
+			case MODE_EXPORT_CSV: {
+				File csv_file = getSelectedFileName(getDefaultFileName(title,ExtensionFilter.EXTENSION_EXPORT_CSV),
+						owner_form, owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_CSV);
 				saveFile(csv_file, print_stream);
 				break;
@@ -139,15 +133,14 @@ public class ObserverPrint extends ObserverAbstract {
 						.getFileNameWithoutForgottenChar(title)
 						+ ExtensionFilter.EXTENSION_EXPORT_PDF);
 				saveFile(pdf_file, print_stream);
-				if (mode==SelectPrintDlg.MODE_PRINT)
+				if (mode==MODE_PRINT)
 					DesktopInterface.getInstance().printFilePDF(pdf_file.toURI().toURL().toString());
 				else
 					DesktopInterface.getInstance().openFile(pdf_file.toURI().toURL().toString());
 				break;
 			}
 		} catch (Exception e) {
-			throw new LucteriosException("Echec de l'impression:"
-					+ e.getMessage(), e);
+			ExceptionDlg.throwException(e);
 		}
 	}
 
@@ -174,4 +167,31 @@ public class ObserverPrint extends ObserverAbstract {
 
 	public void setNameComponentFocused(String aNameComponentFocused) {
 	}
+	
+    public String getDefaultFileName(String aTitle,String aExtFile)
+    {
+		String homeDir = System.getProperty("user.home");
+		java.io.File home_dir=new java.io.File(homeDir);
+		if (new java.io.File(homeDir+"/Desktop").exists())
+			home_dir=new java.io.File(homeDir+"/Desktop");
+		if (new java.io.File(homeDir+"/Bureau").exists())
+			home_dir=new java.io.File(homeDir+"/Bureau");
+		String title=Tools.getFileNameWithoutForgottenChar(aTitle);
+		java.io.File file_exp=new java.io.File(home_dir,title+aExtFile);
+		return file_exp.getAbsolutePath();
+    }
+
+    public java.io.File getSelectedFileName(String aInitFileName,GUIForm aOwnerF,GUIDialog aOwnerD,String aExtFile) 
+	{
+		java.io.File select=Singletons.getWindowGenerator().selectSaveFileDialog(new ExtensionFilter(aExtFile),(aOwnerD!=null)?aOwnerD:aOwnerF,aInitFileName);
+	    if (select!=null) {
+	    	if (select.getName().toLowerCase().endsWith(aExtFile))
+	    		return select;
+	    	else {
+	    		return new java.io.File(select.getAbsolutePath()+aExtFile);
+	    	}
+	    }
+	    return null;
+	}
+	
 }

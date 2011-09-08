@@ -1,33 +1,41 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.ui.GUIActionListener;
 
-public class SLabel extends JLabel implements GUILabel,MouseListener {
+public class SLabel extends JLabel implements GUILabel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private CursorMouseListener mCursorMouseListener;
 
 	public void addFocusListener(GUIFocusListener l) {}
 
 	public void removeFocusListener(GUIFocusListener l) {}
 
-	public SLabel(){
-		super();
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SLabel(GUIComponent aOwner){
+        super();
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
+		setStyle(0);
 		setFocusable(false);
-		addMouseListener(this);
+		addMouseListener(mCursorMouseListener);		
 	}
 	
 	public AbstractImage getImage() {		
@@ -35,8 +43,9 @@ public class SLabel extends JLabel implements GUILabel,MouseListener {
 	}
 
 	public void setImage(AbstractImage image) {
-		if (image instanceof SwingImage)
-			setIcon((ImageIcon)image.getData());		
+		if (image instanceof SwingImage) {
+			setIcon((ImageIcon)image.getData());
+		}
 	}
 
 	public void setImage(URL image) {
@@ -64,44 +73,20 @@ public class SLabel extends JLabel implements GUILabel,MouseListener {
 		return getBackground().getRGB();
 	}
 
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
 	public void addActionListener(GUIActionListener l){
-		mActionListener.add(l);
+		mCursorMouseListener.add(l);
 	}
 
 	public void removeActionListener(GUIActionListener l){
-		mActionListener.remove(l);
+		mCursorMouseListener.remove(l);
 	}
 
-	private boolean mIsActiveMouse=false;
+	public boolean isActive() {
+		return getOwner().isActive();
+	}
+
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { 
-		if (e.getClickCount()==2) {
-			for(GUIActionListener l:mActionListener)
-				l.actionPerformed();
-		}
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
 	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }	
 }

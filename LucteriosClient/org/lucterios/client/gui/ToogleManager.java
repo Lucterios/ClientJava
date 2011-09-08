@@ -13,6 +13,7 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIContainer.ContainerType;
@@ -53,6 +54,8 @@ public class ToogleManager implements Runnable,
 	private Observer mParent;
 	
 	private GUIContainer mContainer=null;
+
+	private GUILabel mSeparatorLabel=null;
 	
 	private int mButtonSelected=-1;
 
@@ -108,6 +111,7 @@ public class ToogleManager implements Runnable,
 
 	public void showToggles() {
 		if (mToggles.size() > 0) {
+			mSeparatorLabel=mContainer.createLabel(new GUIParam(0,mToggles.size()+2));
 			for (int index = 0; index < mToggles.size(); index++) {
 				TogglePanel current = mToggles.get(index);
 				GUIButton button = mContainer.createButton(new GUIParam(0,index,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
@@ -120,8 +124,7 @@ public class ToogleManager implements Runnable,
 			}
 
 			mainToogle = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,mToggles.size()));
-
-			mContainer.createLabel(new GUIParam(0,mToggles.size()+2));
+			
 			changeButton(0);
 			WatchDog.setWatchDogRefresher(this);
 		}
@@ -129,6 +132,10 @@ public class ToogleManager implements Runnable,
 
 	public void run() {
 		try {
+			if (mSeparatorLabel!=null) {
+				mContainer.remove(mSeparatorLabel);
+				mSeparatorLabel=null;
+			}
 			refreshClient();
 		} catch (LucteriosException e) {
 			ExceptionDlg.throwException(e);

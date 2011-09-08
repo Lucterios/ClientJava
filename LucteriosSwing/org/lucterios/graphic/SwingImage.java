@@ -19,6 +19,10 @@ public class SwingImage extends AbstractImage {
 	public SwingImage() {
 		mObject=new ImageIcon();
 	}	
+
+	public SwingImage(byte[] imageData) {
+		super(imageData);
+	}	
 	
 	public SwingImage(ImageIcon iconImage) {
 		mObject=iconImage;

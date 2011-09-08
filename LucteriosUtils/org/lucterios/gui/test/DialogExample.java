@@ -12,6 +12,7 @@ import org.lucterios.graphic.TimeLabel;
 import org.lucterios.graphic.WaitingWindow;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICheckList;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIEdit;
@@ -38,6 +39,7 @@ public class DialogExample implements DialogVisitor {
 		mTab=mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0, 0));
 		initScroll();	
 		initGraph();	
+		initComp();
 		initBtn();				
 	}
 	
@@ -157,11 +159,15 @@ public class DialogExample implements DialogVisitor {
 	}
 
 	private void dateSelected() {
-		GUIDialog dateDlg=mDialog.getGenerator().newDialog(mDialog,null);
-		DatePickerSimple date_simple=new DatePickerSimple();
-		dateDlg.setDialogVisitor(date_simple);
-		dateDlg.setVisible(true);
-		mDialog.getGenerator().showMessageDialog(date_simple.getSelectedDate().toString(),"Date selected");
+		try{
+			GUIDialog dateDlg=mDialog.getGenerator().newDialog(mDialog,null);
+			DatePickerSimple date_simple=new DatePickerSimple();
+			dateDlg.setDialogVisitor(date_simple);
+			dateDlg.setVisible(true);
+			mDialog.getGenerator().showMessageDialog(date_simple.getSelectedDate().toString(),"Date selected");
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 
 	private void exceptionDlg() {
@@ -175,30 +181,55 @@ public class DialogExample implements DialogVisitor {
 	}
 
 	private void showWaitingWindow(){
-		final GUIWindows wind=mDialog.getGenerator().newWindows();
-		WaitingWindow ww=new WaitingWindow("Wait a moment.<br>5 sec...","Waiting example");
-		wind.setWindowVisitor(ww);
-		wind.setVisible(true);
-		final Date date=new Date();
-		
-		time.addActionListener(new GUIActionListener() {		
-			public void actionPerformed() {
-				Date new_date=new Date();
-				if ((new_date.getTime()-date.getTime())>5000)
-					wind.setVisible(false);
-			}
-		});
+		try{
+			final GUIWindows wind=mDialog.getGenerator().newWindows();
+			WaitingWindow ww=new WaitingWindow("Wait a moment.<br>5 sec...","Waiting example");
+			wind.setWindowVisitor(ww);
+			wind.setVisible(true);
+			final Date date=new Date();		
+			time.addActionListener(new GUIActionListener() {		
+				public void actionPerformed() {
+					try{
+						Date new_date=new Date();
+						if ((new_date.getTime()-date.getTime())>5000)
+							wind.setVisible(false);
+					}catch (Exception e) {
+						ExceptionDlg.throwException(e);
+					}
+				}
+			});
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 	
 	private void openForm() {
 		mDialog.getContainer().invokeLater(new Runnable() {
 			public void run() {
-				GUIForm form=mDialog.getGenerator().newForm("example");
-				form.setFormVisitor(new FormExample());
-				form.setVisible(true);
+				try {
+					GUIForm form=mDialog.getGenerator().newForm("example");
+					form.setFormVisitor(new FormExample());
+					form.setVisible(true);
+				}catch (Exception e) {
+					ExceptionDlg.throwException(e);
+				}
 			}
 		});
 	}
 
+	private void initComp(){
+		GUIContainer prg=mTab.addTab(ContainerType.CT_SCROLL,"Composants", AbstractImage.Null);
+
+		GUILabel tv=prg.createLabel(new GUIParam(0, 0,1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		tv.setTextString("Séléction");
+		
+		GUICheckList checkList=prg.createCheckList(new GUIParam(1,0));
+		checkList.clearList();
+		checkList.setListData(new Object[]{"aaa","bbbb","ccc","dddd"});
+		checkList.setMultiSelection(true);
+		checkList.setSelectedIndices(new int[]{1,2});
+		
+		prg.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,4));
+	}
 	
 }

@@ -286,7 +286,7 @@ public class ExceptionDlg {
     	mDialog.initialPosition();
         PnlExtra.setVisible(btn_more.isSelected());
         btn_moreActionPerformed();
-        mDialog.setVisible(true);
+		mDialog.setVisible(true);
     }
 
     static protected String formatStack(String aStack)

@@ -20,32 +20,33 @@
 
 package org.lucterios.client.application.comp;
 
-import java.util.*;
-
-import java.awt.event.*;
-import java.awt.*;
-import javax.swing.*;
+import java.util.Calendar;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.graphic.date.DatePickerSimple;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUIComponent.GUIFocusListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 
 public class CmpDate extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
 
-	private org.lucterios.form.SpinEdit spe_day;
-	private javax.swing.JComboBox cmp_month;
-	private org.lucterios.form.SpinEdit spe_year;
+	private GUISpinEdit spe_day;
+	private GUICombo cmp_month;
+	private GUISpinEdit spe_year;
 
-	private javax.swing.JButton edit_date;
+	private GUIButton edit_date;
 	private DatePickerSimple date_simple;
 
 	public CmpDate() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
-		setFocusable(false);
+		setWeightx(1.0);
 	}
 
 	public void requestFocus() {
@@ -80,26 +81,16 @@ public class CmpDate extends CmpAbstractEvent {
 		date_simple = new DatePickerSimple();
 		Singletons.getWindowGenerator().newDialog(null).setDialogVisitor(date_simple);
 
-		setLayout(new java.awt.GridBagLayout());
-		GridBagConstraints gdbConstr;
-		spe_day = new org.lucterios.form.SpinEdit(date_simple.day(),
-				1, 31);
-		spe_day.setName("spe_day");
-		spe_day.setMinimumSize(new Dimension(30, 0));
-		spe_day.setPreferredSize(new Dimension(30, 0));
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 0;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 0.0;
-		gdbConstr.weighty = 1.0;
-		add(spe_day, gdbConstr);
+		GUIParam param;
+		param=new GUIParam(0,0,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH);
+		spe_day = mPanel.createSpinEdit(param);
+		spe_day.init(date_simple.day(), 1, 31);
 
-		cmp_month = new javax.swing.JComboBox(DatePickerSimple.getMonthList()
-				.toArray());
-		cmp_month.setName("cmp_month");
-		cmp_month.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		param=new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH);
+		cmp_month = mPanel.createCombo(param);
+		cmp_month.addList(DatePickerSimple.getMonthList().toArray());
+		cmp_month.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				switch (cmp_month.getSelectedIndex() + 1) {
 				case 2:
 					if ((spe_year.getNumber() % 4) != 0)
@@ -120,49 +111,23 @@ public class CmpDate extends CmpAbstractEvent {
 				spe_day.setNumber(spe_day.getNumber());
 			}
 		});
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 1;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		add(cmp_month, gdbConstr);
 
-		spe_year = new org.lucterios.form.SpinEdit(date_simple.year(),
-				1000, 3000);
-		spe_year.setName("spe_year");
-		spe_year.setMinimumSize(new Dimension(60, 0));
-		spe_year.setPreferredSize(new Dimension(60, 0));
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 2;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 0.0;
-		gdbConstr.weighty = 1.0;
-		add(spe_year, gdbConstr);
+		param=new GUIParam(2,0,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH);
+		spe_year = mPanel.createSpinEdit(param);
+		spe_year.init(date_simple.year(),1000, 3000);
 
-		edit_date = new javax.swing.JButton("...");
-		edit_date.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		param=new GUIParam(3,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE);
+		edit_date = mPanel.createButton(param);
+		edit_date.setTextString("...");
+		edit_date.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				fillData();
 				date_simple.setVisible(true);
 				refreshData();
 			}
 		});
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 3;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		add(edit_date, gdbConstr);
 
-		JLabel pnl_date = new JLabel();
-		pnl_date.setFocusable(false);
-		pnl_date.setOpaque(false);
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 4;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 1.0;
-		gdbConstr.weighty = 1.0;
-		add(pnl_date, gdbConstr);
+		mPanel.createLabel(new GUIParam(4,0));
 	}
 
 	protected void fillData() {
@@ -181,7 +146,7 @@ public class CmpDate extends CmpAbstractEvent {
 		spe_year.setNumber(date_simple.year());
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		String date = getXmlItem().getText().trim();
 		String[] dates = date.split("-");
@@ -202,20 +167,14 @@ public class CmpDate extends CmpAbstractEvent {
 		edit_date.addFocusListener(this);
 	}
 
-	public void focusLost(FocusEvent aEvent) {
+	public void focusLost() {
 		if ((mEventAction != null) && hasChanged()) {
-			Cmponent new_Cmponent_focused = getParentOfControle(aEvent
-					.getOppositeComponent());
-			if ((new_Cmponent_focused != null)
-					&& !new_Cmponent_focused.getName().equals(getName())) {
-				spe_day.removeFocusListener(this);
-				cmp_month.removeFocusListener(this);
-				spe_year.removeFocusListener(this);
-				edit_date.removeFocusListener(this);
-				getObsCustom().setNameComponentFocused(
-						new_Cmponent_focused.getName());
-				mEventAction.actionPerformed();
-			}
+			spe_day.removeFocusListener(this);
+			cmp_month.removeFocusListener(this);
+			spe_year.removeFocusListener(this);
+			edit_date.removeFocusListener(this);
+			getObsCustom().setNameComponentFocused(getName());
+			mEventAction.actionPerformed();
 		}
 	}
 
@@ -225,16 +184,14 @@ public class CmpDate extends CmpAbstractEvent {
 		return !init_value.equals(current_value);
 	}
 
-	public void addFocusListener(FocusListener aFocus) {
-		super.addFocusListener(aFocus);
+	public void addFocusListener(GUIFocusListener aFocus) {
 		spe_day.addFocusListener(aFocus);
 		cmp_month.addFocusListener(aFocus);
 		spe_year.addFocusListener(aFocus);
 		edit_date.addFocusListener(aFocus);
 	}
 
-	public void removeFocusListener(FocusListener aFocus) {
-		super.removeFocusListener(aFocus);
+	public void removeFocusListener(GUIFocusListener aFocus) {
 		spe_day.removeFocusListener(aFocus);
 		cmp_month.removeFocusListener(aFocus);
 		spe_year.removeFocusListener(aFocus);

@@ -20,17 +20,9 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
@@ -39,7 +31,12 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.ZipManager;
 import org.lucterios.graphic.FilesFilter;
-import org.lucterios.form.ImagePreview;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class CmpUpload extends CmpAbstractEvent {
 
@@ -47,10 +44,9 @@ public class CmpUpload extends CmpAbstractEvent {
 	public final static String SUFFIX_FILE_NAME = "_FILENAME";
 
 	private static final long serialVersionUID = 1L;
-	private JPanel pnl_Btn;
-	private JLabel lbl_message;
-	private JTextField txt_FileName;
-	private JButton btn_select;
+	private GUILabel lbl_message;
+	private GUIEdit txt_FileName;
+	private GUIButton btn_select;
 
 	private boolean m_isCompress = false;
 	private boolean m_isHttpFile = false;
@@ -101,8 +97,8 @@ public class CmpUpload extends CmpAbstractEvent {
 	public MapContext getRequete(String aActionIdent) throws LucteriosException {
 		MapContext tree_map = new MapContext();
 		;
-		if (txt_FileName.getText().length() > 0) {
-			File file = new File(txt_FileName.getText());
+		if (txt_FileName.getTextString().length() > 0) {
+			File file = new File(txt_FileName.getTextString());
 			tree_map.put(getName(), getFileContentBase64(file, m_isCompress,
 					m_isHttpFile, m_maxsize));
 			if (m_isCompress)
@@ -112,82 +108,43 @@ public class CmpUpload extends CmpAbstractEvent {
 	}
 
 	public boolean isEmpty() {
-		File file = new File(txt_FileName.getText());
+		File file = new File(txt_FileName.getTextString());
 		return mNeeded && !file.exists();
 	}
 
 	protected void initComponent() {
-		java.awt.GridBagConstraints gridBagConstraints;
-		pnl_Btn = new JPanel();
-		pnl_Btn.setName("pnl_Btn");
-		pnl_Btn.setOpaque(this.isOpaque());
-		pnl_Btn.setLayout(new GridBagLayout());
-		add(pnl_Btn, java.awt.BorderLayout.CENTER);
+		lbl_message = mPanel.createLabel(new GUIParam(0,0));
 
-		lbl_message = new JLabel();
-		lbl_message.setFont(new java.awt.Font("Dialog", 1, 14));
-		lbl_message.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		lbl_message
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		pnl_Btn.add(lbl_message, gridBagConstraints);
-
-		txt_FileName = new JTextField();
+		mParam.setX(1);
+		mParam.setW(250);
+		mParam.setH(19);
+		mParam.setReSize(ReSizeMode.RSM_HORIZONTAL);
+		mParam.setFill(FillMode.FM_BOTH);
+		txt_FileName = mPanel.createEdit(mParam);
 		txt_FileName.setEnabled(false);
-		txt_FileName.setMinimumSize(new java.awt.Dimension(250, 19));
-		txt_FileName.setPreferredSize(new java.awt.Dimension(250, 19));
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		pnl_Btn.add(txt_FileName, gridBagConstraints);
 
-		btn_select = new JButton();
-		btn_select.setText("...");
+		btn_select = mPanel.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+		btn_select.setTextString("...");
 		btn_select.addActionListener(this);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 0;
-		pnl_Btn.add(btn_select, gridBagConstraints);
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		JFileChooser file_dlg;
-		file_dlg = new JFileChooser(CurrentDirectory);
-		java.io.File file_name = new java.io.File(txt_FileName.getText());
-		file_dlg.setSelectedFile(file_name);
-		file_dlg.setAccessory(new ImagePreview(file_dlg));
-		file_dlg
-				.setFileFilter(new FilesFilter(filters, "Fichier à télécharger"));
-		int returnVal;
-		if (this.getObsCustom().getGUIDialog() != null)
-			returnVal = file_dlg.showOpenDialog((Component) this.getObsCustom()
-					.getGUIDialog());
-		else
-			returnVal = file_dlg.showOpenDialog((Component) this.getObsCustom()
-					.getGUIFrame());
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			java.io.File file_exp = file_dlg.getSelectedFile();
+	public void actionPerformed() {
+		java.io.File file_exp = Singletons.getWindowGenerator().selectOpenFileDialog(new FilesFilter(filters, 
+				"Fichier à télécharger"),this.getObsCustom().getGUIObject());
+		if (file_exp!=null) {
 			CurrentDirectory = file_exp.getParentFile();
-			txt_FileName.setText(file_exp.getAbsolutePath());
+			txt_FileName.setTextString(file_exp.getAbsolutePath());
 		}
 	}
 
 	String[] filters = null;
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		m_isCompress = (getXmlItem().getAttributInt("Compress", 0) != 0);
 		m_isHttpFile = (getXmlItem().getAttributInt("HttpFile", 0) != 0);
 		m_maxsize = getXmlItem().getAttributInt("maxsize", 1048576);
-		;
-		lbl_message.setText(getXmlItem().getText().trim());
+		lbl_message.setTextString(getXmlItem().getText().trim());
 		SimpleParsing[] filer_list = getXmlItem().getSubTag("FILTER");
 		filters = new String[filer_list.length];
 		for (int index = 0; index < filer_list.length; index++)

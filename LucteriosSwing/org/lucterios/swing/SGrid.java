@@ -1,15 +1,11 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
@@ -17,20 +13,23 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 
 import org.lucterios.graphic.CheckFormRenderer;
+import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.ImageFormRenderer;
 import org.lucterios.graphic.LabelFormRenderer;
+import org.lucterios.graphic.FocusListenerList;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GridInterface;
 import org.lucterios.ui.GUIActionListener;
 
-public class SGrid extends JScrollPane implements FocusListener,MouseListener,
-		ListSelectionListener, GUIGrid {
+public class SGrid extends JScrollPane implements GUIGrid, ListSelectionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private CursorMouseListener mCursorMouseListener;
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private ArrayList<GUISelectListener> mSelectListener=new ArrayList<GUISelectListener>(); 
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
 	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
@@ -41,7 +40,7 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 	}
 
 	public void addActionListener(GUIActionListener l){
-		mActionListener.add(l);
+		mCursorMouseListener.add(l);
 	}
 
 	public void removeFocusListener(GUIFocusListener l){
@@ -53,53 +52,24 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 	}	
 	
 	public void removeActionListener(GUIActionListener l){
-		mActionListener.remove(l);
+		mCursorMouseListener.remove(l);
 	}
 		
-    public void focusLost(java.awt.event.FocusEvent evt) 
+    public void focusLost(java.awt.event.FocusEvent e)
     {
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
+    	valueChanged(null);
+    	mFocusListener.focusLost(e);
     }
     
 	public void focusGained(FocusEvent e) { }
 	
 	public void valueChanged(javax.swing.event.ListSelectionEvent e) {
-		if (e.getValueIsAdjusting())
+		if ((e!=null) && e.getValueIsAdjusting())
 			return;
 		for(GUISelectListener l:mSelectListener)
 			l.selectionChanged();
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		if ((e.getClickCount() == 2) && (getSelectedRowCount() > 0)) {
-			for(GUIActionListener l:mActionListener)
-				l.actionPerformed();
-		}
-	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-		
 	private class SGridModel extends AbstractTableModel {
 
 		/**
@@ -158,11 +128,18 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 	private LabelFormRenderer mLabelForm = new LabelFormRenderer();
 	private ImageFormRenderer mImageForm = new ImageFormRenderer();
 	
-	public SGrid(){
-		super();
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SGrid(GUIComponent aOwner){
+        super();
+        mOwner=aOwner;
 		cmp_tbl= new JTable();
-		addFocusListener(this);
-		addMouseListener(this);
+        mCursorMouseListener=new CursorMouseListener(cmp_tbl,this);
+        cmp_tbl.addFocusListener(this);
+		cmp_tbl.addMouseListener(mCursorMouseListener);
 		setFocusable(false);
 		setColumnHeader(null);
 		JTableHeader th = cmp_tbl.getTableHeader();
@@ -175,12 +152,12 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		cmp_tbl.setColumnSelectionAllowed(false);
 		cmp_tbl.setRowSelectionAllowed(true);
 		cmp_tbl.setFocusable(true);
-		cmp_tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);		
+		cmp_tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
 		cmp_tbl.setDefaultRenderer(Boolean.class, new CheckFormRenderer());
 		cmp_tbl.setDefaultRenderer(String.class, mLabelForm);
 		cmp_tbl.setDefaultRenderer(Integer.class, mLabelForm);
 		cmp_tbl.setDefaultRenderer(Double.class, mLabelForm);
-		cmp_tbl.setDefaultRenderer(Icon.class, mImageForm);
+		cmp_tbl.setDefaultRenderer(AbstractImage.class, mImageForm);
 	}
 
 	public void setGridInterface(GridInterface gridInterface) {
@@ -212,6 +189,8 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 			row=cmp_tbl.getModel().getRowCount()-1;
 		if (row>=0)
 			cmp_tbl.setRowSelectionInterval(row, row);
+		else
+			cmp_tbl.clearSelection();
 	}
 
 	public void setBackgroundColor(int color) {
@@ -222,9 +201,8 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		return getBackground().getRGB();
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
 	
 	@Override
@@ -232,4 +210,13 @@ public class SGrid extends JScrollPane implements FocusListener,MouseListener,
 		super.setVisible(aFlag);
 		cmp_tbl.setFocusable(aFlag);
 	}
+	
+	public void clearTable(){
+		mLabelForm.clearTag();
+	}
+
+	public boolean isActive() {
+		return getOwner().isActive();
+	}
+	
 }

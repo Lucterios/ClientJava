@@ -122,7 +122,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	
 	private GUIFrame mFrame;
 
-	public ApplicationMain(GUIGenerator generator) {
+	public ApplicationMain(GUIGenerator generator) throws LucteriosException {
 		super();	
 		mFrame=generator.getFrame();
 		mFrame.setImage(generator.CreateImage(Resources.class.getResource("connect.png")));
@@ -133,6 +133,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		initAction();
 		initialize();
 		initMenu();
+		ObserverMenu.mDefaultParent=mConnectionInfoOwnerObserber;
 		mFrame.pack();
 		reorganize();
 	}
@@ -275,14 +276,24 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mStatBarPnl =getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,4,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
 		mConnectionLogo = mStatBarPnl.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
-		mLogName = mStatBarPnl.createLabel(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
-		mServer = mStatBarPnl.createLabel(new GUIParam(2,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
-		
-		mTimeValue = new TimeLabel(mStatBarPnl,new GUIParam(0,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
+		GUIParam param;
 
-		pnl=mStatBarPnl.createContainer(ContainerType.CT_NORMAL, new GUIParam(0,4,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
+		param=new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
+		mServer = mStatBarPnl.createLabel(param);
+		mServer.setStyle(0);
+
+		param=new GUIParam(2,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
+		mLogName = mStatBarPnl.createLabel(param);
+		
+		param=new GUIParam(3,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH);
+		param.setPad(4);
+		mTimeValue = new TimeLabel(mStatBarPnl,param);
+
+		param=new GUIParam(4,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE);
+		param.setPad(4);
+		pnl=mStatBarPnl.createContainer(ContainerType.CT_NORMAL,param);
 		mMemoryJauge = new MemoryJauge(pnl);
-		pnl.setSize(PROGRESS_SIZE * 12,PROGRESS_SIZE * 2);
+		pnl.setSize(PROGRESS_SIZE * 20,PROGRESS_SIZE*2);
 
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.start();
@@ -565,7 +576,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 			mExitAction.runAction(new MapContext());
 	}
 
-	public void show() {
+	public void show() throws LucteriosException {
 		mFrame.setVisible(true);
 	}
 

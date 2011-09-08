@@ -33,7 +33,7 @@ public class SFrame extends JFrame implements GUIFrame {
 	public SFrame(GUIGenerator generator) {
 		super();
 		mGenerator=generator;
-		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		mContainer=new SContainer(ContainerType.CT_NORMAL,null);
 		mFormList=new SFormList(this.getGenerator());
 		
 		getContentPane().add(mContainer);	
@@ -73,7 +73,7 @@ public class SFrame extends JFrame implements GUIFrame {
 	public void refresh() {
 		
 	}
-
+	
 	public void setActive(boolean aIsActive) {
 		java.awt.Cursor current_cursor;
 		if (aIsActive)
@@ -81,6 +81,12 @@ public class SFrame extends JFrame implements GUIFrame {
 		else
 			current_cursor = java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR);
 		setCursor(current_cursor);
+		mContainer.setCursor(current_cursor);
+		mContainer.setActive(aIsActive);
+	}
+	
+	public boolean isActive() {
+		return java.awt.Cursor.getDefaultCursor().equals(getCursor());
 	}
 	
 	public void Maximise() {

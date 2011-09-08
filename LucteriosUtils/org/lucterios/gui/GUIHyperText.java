@@ -14,5 +14,7 @@ public interface GUIHyperText extends GUIComponent {
 
 	public void setHyperLink(String string);
 
+	public String getToolTipText();
+
 	
 }

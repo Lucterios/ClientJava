@@ -23,6 +23,7 @@ package org.lucterios.engine.presentation;
 import java.lang.ref.WeakReference;
 
 import org.lucterios.engine.application.ActionConstantes;
+import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.utils.SimpleParsing;
@@ -57,10 +58,14 @@ public class ObserverStub extends ObserverAbstract {
 	public void show(String aTitle) {
 		mShow = true;
 		mTitle = aTitle;
-		if (getGUIFrame() != null)
-			getGUIFrame().setVisible(true);
-		if (getGUIDialog() != null)
-			getGUIDialog().setVisible(true);
+		try{
+			if (getGUIFrame() != null)
+				getGUIFrame().setVisible(true);
+			if (getGUIDialog() != null)
+				getGUIDialog().setVisible(true);
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 	}
 
 	public void show(String aTitle, GUIForm aGUI) {
@@ -83,10 +88,14 @@ public class ObserverStub extends ObserverAbstract {
 
 	public void close(boolean aMustRefreshParent) {
 		mClose = true;
-		if (getGUIFrame() != null)
-			getGUIFrame().setVisible(false);
-		if (getGUIDialog() != null)
-			getGUIDialog().setVisible(false);
+		try{
+			if (getGUIFrame() != null)
+				getGUIFrame().setVisible(false);
+			if (getGUIDialog() != null)
+				getGUIDialog().setVisible(false);
+		}catch (Exception e) {
+			ExceptionDlg.throwException(e);
+		}
 		super.close(aMustRefreshParent);
 	}
 

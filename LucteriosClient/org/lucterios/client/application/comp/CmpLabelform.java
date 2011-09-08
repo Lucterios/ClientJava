@@ -21,13 +21,17 @@
 package org.lucterios.client.application.comp;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.gui.GUIHyperText;
 import org.lucterios.utils.Tools;
-import org.lucterios.graphic.HtmlLabel;
 
 public class CmpLabelform extends Cmponent {
 	private static final long serialVersionUID = 1L;
-	private HtmlLabel cmp_text;
+	private GUIHyperText cmp_text;
 
+	public CmpLabelform(){
+		super();
+	}
+	
 	public boolean isFocusable() {
 		return false;
 	}
@@ -38,20 +42,13 @@ public class CmpLabelform extends Cmponent {
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_text = new HtmlLabel();
-		cmp_text.setEditable(false);
-		cmp_text.setOpaque(this.isOpaque());
-		cmp_text.setText("");
-		cmp_text.setFocusable(false);
-		cmp_text.setName("cmp_text");
-		cmp_text.setBackground(this.getBackground());
-		add(cmp_text, java.awt.BorderLayout.CENTER);
+		cmp_text = mPanel.createHyperText(mParam);
+		cmp_text.setTextString("");
 	}
 
 	protected void refreshComponent() {
 		String val = getXmlItem().getText();
 		val = Tools.convertLuctoriosFormatToHtml(val);
-		cmp_text.setText(val);
+		cmp_text.setTextString(val);
 	}
 }

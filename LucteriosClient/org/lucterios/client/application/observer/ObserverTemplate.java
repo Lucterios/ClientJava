@@ -96,7 +96,7 @@ public class ObserverTemplate extends ObserverAbstract {
 		return ObserverConstant.TYPE_DIALOG;
 	}
 
-	public void show(String aTitle) throws LucteriosException {
+	public void show(String aTitle) {
 		super.show(aTitle);
 		String data_str = data_elements.getText();
 		String style_str = style_elements.getText();
@@ -204,20 +204,17 @@ public class ObserverTemplate extends ObserverAbstract {
 
 	private String mDataXML = "";
 
-	public void setValue(String aDataXML, String aStyleModel, String aTitle)
-			throws LucteriosException {
+	public void setValue(String aDataXML, String aStyleModel, String aTitle){
 		mDataXML = aDataXML;
 		try {
 			PrintPanel.getManager().getPage().Load(aStyleModel);
 			PrintPanel.getManager().getPage().setXML(mDataXML);
-			PrintPanel.getManager().refresh();
-			txt_Title.setText(aTitle);
-			isValidate = false;
-		} catch (org.xml.sax.SAXException se) {
-			throw new LucteriosException("Model d'impression invalide", se);
-		} catch (java.io.IOException ioe) {
-			throw new LucteriosException("Model d'impression invalide", ioe);
+		} catch (Exception se) {
+			se.printStackTrace();
 		}
+		PrintPanel.getManager().refresh();
+		txt_Title.setText(aTitle);
+		isValidate = false;
 	}
 
 	public String getStyle() {

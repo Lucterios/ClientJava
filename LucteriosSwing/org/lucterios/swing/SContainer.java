@@ -9,12 +9,9 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -25,13 +22,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import org.lucterios.graphic.CursorMouseListener;
+import org.lucterios.graphic.FocusListenerList;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUICheckBox;
 import org.lucterios.gui.GUICheckList;
 import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
@@ -42,7 +44,7 @@ import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.ui.GUIActionListener;
 
-public class SContainer extends Container implements GUIContainer,FocusListener,MouseListener,ComponentListener {
+public class SContainer extends Container implements GUIContainer,ComponentListener {
 
 	/**
 	 * 
@@ -55,29 +57,32 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	private Redrawing mRedrawing=null;
 	private JSplitPane mSpliter=null;
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private CursorMouseListener mCursorMouseListener;
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
+	private ArrayList<GUIActionListener> mChangeListener=new ArrayList<GUIActionListener>(); 
 	
 	public void addFocusListener(GUIFocusListener l){
-		mFocusListener.add(l);
+		if (l!=null)
+			mFocusListener.add(l);
 	}
 
 	public void removeFocusListener(GUIFocusListener l){
 		mFocusListener.remove(l);
 	}
 
-    public void focusLost(java.awt.event.FocusEvent evt) 
-    {
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
-    }
-    
-	public void focusGained(FocusEvent e) { }
+	public void addChangeListener(GUIActionListener l) {
+		if (l!=null)
+			mChangeListener.add(l);
+	}
+
+	public void removeChangeListener(GUIActionListener l) {
+		mChangeListener.remove(l);	
+	}
 	
-	private GUIActionListener mMouseClickAction=null;
 	private GUIActionListener mResizeAction=null;
 
 	public void setMouseClickAction(GUIActionListener mMouseClickAction) {
-		this.mMouseClickAction = mMouseClickAction;
+		mCursorMouseListener.add(mMouseClickAction);
 	}
 
 	public void setResizeAction(GUIActionListener mResizeAction) {
@@ -94,7 +99,8 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		mActionListener.remove(l);
 	}
 
-	private Object mObject;
+	private Object mObject=null;
+	private int mTag=0;
 
 	public Object getObject() {
 		return mObject;
@@ -104,6 +110,14 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		mObject=obj;
 	}
 
+	public int getTag() {
+		return mTag;
+	}
+
+	public void setTag(int tag) {
+		mTag=tag;		
+	}
+	
 	public JPanel getPanel(){
 		return mPanel;
 	}
@@ -112,16 +126,23 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		SwingUtilities.invokeLater(runnable);
 	}
 	
-	public SContainer(ContainerType type) {
-		super();
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SContainer(ContainerType type,GUIComponent aOwner){
+        super();
+        mCursorMouseListener=new CursorMouseListener(this,this);
+        mOwner=aOwner;
 		setName("");
 		mType = type;
 		creator();
 	}
 
 	private void creator() {
-		addFocusListener(this);
-		addMouseListener(this);
+		addFocusListener(mFocusListener);
+		addMouseListener(mCursorMouseListener);
 		addComponentListener(this);
 		setFocusable(false);
 		switch (mType) {
@@ -148,9 +169,15 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 			this.setLayout(new GridBagLayout());
 			mTab = new JTabbedPane();
 			mTab.setFocusable(false);
-			mTab.addMouseListener(this);
+			mTab.addMouseListener(mCursorMouseListener);
 			mTab.addComponentListener(this);
 			mTab.setOpaque(false);
+			mTab.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					for(GUIActionListener l:mChangeListener)
+						l.actionPerformed();
+				}
+			});
 			add(mTab, getCnt(new GUIParam(0, 0)));
 			break;
 		case CT_SPLITER:
@@ -162,7 +189,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 			mSpliter.setOneTouchExpandable(true);
 			mSpliter.setLeftComponent(null);
 			mSpliter.setRightComponent(null);
-			mSpliter.addMouseListener(this);
+			mSpliter.addMouseListener(mCursorMouseListener);
 			mSpliter.addComponentListener(this);
 			add(mSpliter, getCnt(new GUIParam(0, 0)));
 		}
@@ -170,28 +197,40 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	
 	public void removeAll(){
 		for(int cnt_idx=0;cnt_idx<count();cnt_idx++) {
-			GUIContainer cnt=get(cnt_idx);
+			GUIComponent cnt=get(cnt_idx);
 			if (cnt!=null)
 				cnt.setVisible(false);
 		}
 		switch (mType) {
 		case CT_TAB:
-			mTab.removeMouseListener(this);
+			mTab.removeMouseListener(mCursorMouseListener);
 			mTab.removeComponentListener(this);
 			mTab=null;
 			break;
 		case CT_SPLITER:
-			mSpliter.removeMouseListener(this);
+			mSpliter.removeMouseListener(mCursorMouseListener);
 			mSpliter.removeComponentListener(this);
 			mSpliter=null;
 		}
-		removeFocusListener(this);
-		removeMouseListener(this);
+		removeFocusListener(mFocusListener);
+		removeMouseListener(mCursorMouseListener);
 		removeComponentListener(this);
 		super.removeAll();
 		creator();
 	}
 
+	public void remove(GUIComponent comp) {
+		if (Component.class.isInstance(comp)) {
+			if (mTab != null)
+				mTab.remove((Component)comp);
+			if (mPanel != null)
+				mPanel.remove((Component)comp);
+		}
+	}
+	public void remove(int index) {
+		remove(get(index));
+	}	
+	
 	public void setRedraw(Redrawing redrawing) {
 		mRedrawing=redrawing;
 	}
@@ -271,6 +310,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 			for(int idx=0;idx<getComponentCount();idx++)
 				if (JScrollPane.class.isInstance(getComponent(idx))) {
 					JScrollPane scroll = (JScrollPane)getComponent(idx);
+					scroll.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 					JScrollBar vert = scroll.getVerticalScrollBar();
 					vert.setValue(vert.getMinimum());
 					JScrollBar hori = scroll.getHorizontalScrollBar();
@@ -283,7 +323,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIContainer addTab(ContainerType type, String name,AbstractImage icon) {
 		if (mTab == null) 
 			return null;
-		SContainer result = new SContainer(type);
+		SContainer result = new SContainer(type,this);
 		if (SwingImage.class.isInstance(icon))
 			mTab.addTab(name,(ImageIcon)icon.getData(),result);
 		else
@@ -291,9 +331,22 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		result.setName(this.getName()+"|"+name+"|");
 		return result;
 	}
+
+	public int getSelectedIndex() {
+		if (mTab == null) 
+			return -1;
+		return mTab.getSelectedIndex();
+	}
 	
-	public GUIContainer get(int index){
-		SContainer result = null;
+
+	public void setSelectedIndex(int tabIdx) {
+		if (mTab == null) 
+			return;
+		 mTab.setSelectedIndex(tabIdx);
+	}
+	
+	public GUIComponent get(int index){
+		GUIComponent result = null;
 		if (mSpliter!=null) {
 			if (index==0)
 				result = (SContainer) mSpliter.getLeftComponent();
@@ -315,9 +368,9 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 			int num_cmp=0;
 			for(int idx=0;idx<mPanel.getComponentCount() && (result==null);idx++) {
 				Component cmp=mPanel.getComponent(idx);
-				if (SContainer.class.isInstance(cmp)) {
+				if (GUIComponent.class.isInstance(cmp)) {
 					if (index==num_cmp)
-						result = (SContainer)cmp;
+						result = (GUIComponent)cmp;
 					num_cmp++;
 				}
 			}
@@ -335,7 +388,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		else
 			cmp=mSpliter.getLeftComponent();
 		if (cmp==null) {
-			result = new SContainer(type);
+			result = new SContainer(type,this);
 			if (right)
 				mSpliter.setRightComponent(result);
 			else
@@ -362,7 +415,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIButton createButton(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SButton result = new SButton();
+		SButton result = new SButton(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -371,7 +424,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUICheckBox createCheckBox(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SCheckBox result = new SCheckBox();
+		SCheckBox result = new SCheckBox(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -380,7 +433,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUICheckList createCheckList(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SCheckList result = new SCheckList();
+		SCheckList result = new SCheckList(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -389,7 +442,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUICombo createCombo(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SCombo result = new SCombo();
+		SCombo result = new SCombo(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -398,7 +451,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIContainer createContainer(ContainerType type, GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SContainer result = new SContainer(type);
+		SContainer result = new SContainer(type,this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		result.setName(this.getName()+"["+param.getX()+","+param.getY()+"]");
@@ -408,7 +461,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIEdit createEdit(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SEdit result = new SEdit();
+		SEdit result = new SEdit(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -417,7 +470,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIGrid createGrid(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SGrid result = new SGrid();
+		SGrid result = new SGrid(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -426,7 +479,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUILabel createLabel(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SLabel result = new SLabel();
+		SLabel result = new SLabel(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -435,7 +488,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIMemo createMemo(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SMemo result = new SMemo();
+		SMemo result = new SMemo(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -444,7 +497,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUISpinEdit createSpinEdit(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SSpinEdit result = new SSpinEdit();
+		SSpinEdit result = new SSpinEdit(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
@@ -453,7 +506,7 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 	public GUIHyperText createHyperText(GUIParam param) {
 		if (mPanel == null)
 			return null;
-		SHyperText result = new SHyperText();
+		SHyperText result = new SHyperText(this);
 		mPanel.add(result, getCnt(param));
 		result.setBackground(mPanel.getBackground());
 		changePreferenceSize(param, result);
@@ -522,38 +575,6 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		setPreferredSize(new Dimension(width, height));
 	}
 
-	public void mousePressed(MouseEvent e) {
-		if (e.getClickCount()==1) {
-			for(GUIActionListener l:mActionListener)
-				l.actionPerformed();
-		}
-	}
-	
-	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			if (mMouseClickAction!=null)
-				mMouseClickAction.actionPerformed();
-		}
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseReleased(MouseEvent e) {	}
-
 	public void componentHidden(ComponentEvent e) {}
 
 	public void componentMoved(ComponentEvent e) {}
@@ -574,9 +595,8 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 			mPanel.setBorder(BorderFactory.createMatteBorder(top, left, bottom, right, new Color(color)));				
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
 
 	public void setToolTipText(String text) {
@@ -599,4 +619,29 @@ public class SContainer extends Container implements GUIContainer,FocusListener,
 		super.setVisible(isVisible);
 	}
 
+	private boolean mActive=true;
+	public void setActive(boolean aActive) {
+		mActive=aActive;
+	}
+	
+	public boolean isActive() {
+		if (getOwner()!=null)
+			return getOwner().isActive();
+		else
+			return mActive;
+	}
+	
+	@Override
+	public void setCursor(Cursor cursor) {
+		super.setCursor(cursor);
+		if (mTab != null)
+			mTab.setCursor(cursor);
+		if (mSpliter!=null)
+			mSpliter.setCursor(cursor);
+		if (mPanel != null)
+			mPanel.setCursor(cursor);
+		for(int index=0;index<count();index++) {
+			((Component)get(index)).setCursor(cursor);
+		}
+	}
 }

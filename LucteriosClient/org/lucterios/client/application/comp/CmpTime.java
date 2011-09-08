@@ -20,25 +20,24 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.*;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.graphic.date.DatePickerSimple;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUIComponent.GUIFocusListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class CmpTime extends CmpAbstractEvent {
 	private static final long serialVersionUID = 1L;
-	private org.lucterios.form.SpinEdit spe_hour;
-	private javax.swing.JLabel lbl_text;
-	private org.lucterios.form.SpinEdit spe_minute;
+	private GUISpinEdit spe_hour;
+	private GUILabel lbl_text;
+	private GUISpinEdit spe_minute;
 
 	public CmpTime() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
+		setWeightx(1.0);
 	}
 
 	public void requestFocus() {
@@ -52,66 +51,30 @@ public class CmpTime extends CmpAbstractEvent {
 	}
 
 	public MapContext getRequete(String aActionIdent) {
-		String time_hour = new Long(spe_hour.getNumber()).toString();
-		if (time_hour.length() == 1)
-			time_hour = "0" + time_hour;
-		String time_min = new Long(spe_minute.getNumber()).toString();
-		if (time_min.length() == 1)
-			time_min = "0" + time_min;
+		String time_hour = DatePickerSimple.convertIntToStr(spe_hour.getNumber(),2);
+		String time_min = DatePickerSimple.convertIntToStr(spe_minute.getNumber(),2);
 		MapContext tree_map = new MapContext();
 		tree_map.put(getName(), time_hour + ":" + time_min);
 		return tree_map;
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.GridBagLayout());
-		GridBagConstraints gdbConstr;
+		GUIParam param;
+		param=new GUIParam(0,0,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH);
+		spe_hour = mPanel.createSpinEdit(param);
+		spe_hour.init(0, 0, 23);
 
-		spe_hour = new org.lucterios.form.SpinEdit(0, 0, 23);
-		spe_hour.setMinimumSize(new Dimension(30, 0));
-		spe_hour.setPreferredSize(new Dimension(30, 0));
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 0;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 0.0;
-		gdbConstr.weighty = 1.0;
-		add(spe_hour, gdbConstr);
+		param=new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH);
+		lbl_text = mPanel.createLabel(param);
+		lbl_text.setTextString(" H ");
 
-		lbl_text = new javax.swing.JLabel();
-		lbl_text.setText(" H ");
-		lbl_text.setName("lbl_text");
-		lbl_text.setFocusable(false);
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 1;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.NONE;
-		add(lbl_text, gdbConstr);
-
-		spe_minute = new org.lucterios.form.SpinEdit(0, 0, 59);
-		spe_minute.setMinimumSize(new Dimension(30, 0));
-		spe_minute.setPreferredSize(new Dimension(30, 0));
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 2;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 0.0;
-		gdbConstr.weighty = 1.0;
-		add(spe_minute, gdbConstr);
-
-		JPanel pnl_date = new JPanel();
-		pnl_date.setOpaque(false);
-		pnl_date.setFocusable(false);
-		gdbConstr = new GridBagConstraints();
-		gdbConstr.gridx = 3;
-		gdbConstr.gridy = 0;
-		gdbConstr.fill = GridBagConstraints.BOTH;
-		gdbConstr.weightx = 1.0;
-		gdbConstr.weighty = 1.0;
-		add(pnl_date, gdbConstr);
+		param=new GUIParam(2,0,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH);
+		spe_minute = mPanel.createSpinEdit(param);
+		spe_minute.init(0, 0, 59);
+		mPanel.createLabel(new GUIParam(3,0));
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		String[] times = getXmlItem().getText().trim().split(":");
 		if (times.length == 3) {
@@ -122,38 +85,29 @@ public class CmpTime extends CmpAbstractEvent {
 		spe_minute.addFocusListener(this);
 	}
 
-	public void focusLost(FocusEvent aEvent) {
+	public void focusLost() {
 		if ((mEventAction != null) && hasChanged()) {
-			Cmponent new_Cmponent_focused = getParentOfControle(aEvent
-					.getOppositeComponent());
-			if ((new_Cmponent_focused != null)
-					&& !new_Cmponent_focused.getName().equals(getName())) {
-				spe_hour.removeFocusListener(this);
-				spe_minute.removeFocusListener(this);
-				getObsCustom().setNameComponentFocused(
-						new_Cmponent_focused.getName());
-				mEventAction.actionPerformed();
-			}
+			spe_hour.removeFocusListener(this);
+			spe_minute.removeFocusListener(this);
+			getObsCustom().setNameComponentFocused(getName());
+			mEventAction.actionPerformed();
 		}
 	}
 
 	protected boolean hasChanged() {
 		String init_value = getXmlItem().getText().trim();
-		;
 		String current_value = getRequete("").get(getName()).toString();
 		return !init_value.equals(current_value);
 	}
 
-	public void addFocusListener(FocusListener aFocus) {
-		super.addFocusListener(aFocus);
+	public void addFocusListener(GUIFocusListener aFocus) {
 		spe_hour.addFocusListener(aFocus);
 		spe_minute.addFocusListener(aFocus);
 	}
 
-	public void removeFocusListener(FocusListener aFocus) {
-		super.removeFocusListener(aFocus);
+	public void removeFocusListener(GUIFocusListener aFocus) {
 		spe_hour.removeFocusListener(aFocus);
 		spe_minute.removeFocusListener(aFocus);
 	}
-
+	
 }

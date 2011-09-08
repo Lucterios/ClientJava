@@ -6,12 +6,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+
+import org.lucterios.gui.AbstractImage;
 
 public class ImageFormRenderer extends JPanel implements
 		javax.swing.table.TableCellRenderer {
@@ -34,9 +36,9 @@ public class ImageFormRenderer extends JPanel implements
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		Icon my_icon = (Icon) value;
-		if (my_icon != null) {
-			img.setIcon(my_icon);
+		AbstractImage my_icon = (AbstractImage) value;
+		if ((my_icon != null) && SwingImage.class.isInstance(my_icon)) {
+			img.setIcon((ImageIcon)my_icon.getData());
 			if (isSelected)
 				setBackground(UIManager.getColor("Table.selectionBackground"));
 			else {
@@ -45,8 +47,7 @@ public class ImageFormRenderer extends JPanel implements
 				else
 					setBackground(new Color(220, 220, 220));
 			}
-			setPreferredSize(new Dimension(my_icon.getIconWidth(), my_icon
-					.getIconHeight()));
+			setPreferredSize(new Dimension(my_icon.getWidth(), my_icon.getHeight()));
 			int cell_height = Math.max(table.getRowHeight(row),
 					(int) getPreferredSize().getHeight());
 			table.setRowHeight(row, cell_height);

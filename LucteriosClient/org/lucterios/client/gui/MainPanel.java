@@ -75,11 +75,6 @@ public class MainPanel implements Runnable {
 					doubleClickSpliter();
 				}
 			});
-			mtabs.setResizeAction(new GUIActionListener() {
-				public void actionPerformed() {
-					resizeSpliter();
-				}
-			});
 		}
 	}
 
@@ -87,7 +82,6 @@ public class MainPanel implements Runnable {
 		mContainer.removeSplite(true);
 		if (mtabs != null) {
 			mtabs.setMouseClickAction(null);
-			mtabs.setResizeAction(null);
 			mtabs.removeAll();
 		}
 		mtabs = null;
@@ -138,21 +132,8 @@ public class MainPanel implements Runnable {
 			mContainer.setDividerLocation(0);
 		}
 		lastDividerLocation = mContainer.getDividerLocation();
-		invokeReinitScrollBar();
+		resizeSpliter();
 		mContainer.setVisible(true);
-	}
-
-	public void resizeSpliter() {
-		
-		for(int idx = 0;idx<mtabs.count();idx++)
-		{
-			GUIContainer tab=(GUIContainer)mtabs.get(idx);
-			if (CategoryPanel.class.isInstance(tab.getObject())) {
-				CategoryPanel subpanel = (CategoryPanel) tab.getObject();
-				subpanel.refreshButtons(mtabs.getSizeX());
-			}
-		}
-		invokeReinitScrollBar();
 	}
 
 	private int lastDividerLocation = 0;
@@ -163,20 +144,35 @@ public class MainPanel implements Runnable {
 		mToogleManager.getContainer().setVisible(!mToogleManager.getContainer().isVisible());
 		if (mToogleManager.getContainer().isVisible())
 			mContainer.setDividerLocation(lastDividerLocation);
-		invokeReinitScrollBar();
 	}
 
 	private void invokeReinitScrollBar() {
 		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
-				if (mtabs!=null)
+				if (mtabs!=null) {
 					for(int idx = 0;idx<mtabs.count();idx++)
 					{
 						GUIContainer tab=(GUIContainer)mtabs.get(idx);
 						tab.setMinimumScroll();
 					}
+				}
 			}
 		});
 	}
 
+	public void resizeSpliter() {
+		Singletons.getWindowGenerator().invokeLater(new Runnable() {
+			public void run() {
+					for(int idx = 0;idx<mtabs.count();idx++) {
+						GUIContainer tab=(GUIContainer)mtabs.get(idx);
+						if (CategoryPanel.class.isInstance(tab.getObject())) {
+							CategoryPanel subpanel = (CategoryPanel) tab.getObject();
+							subpanel.refreshButtons(mtabs.getSizeX());
+						}
+					}
+					invokeReinitScrollBar();
+			}
+		});
+	}
+	
 }

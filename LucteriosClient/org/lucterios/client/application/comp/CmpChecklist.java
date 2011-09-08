@@ -20,22 +20,20 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.GUICheckList;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIGrid.GUISelectListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class CmpChecklist extends CmpAbstractEvent implements
-		ListSelectionListener {
+public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener {
 	class ItemObj {
 		public String mText;
 		public String mID;
@@ -51,20 +49,18 @@ public class CmpChecklist extends CmpAbstractEvent implements
 	}
 
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JList cmp_list;
-	private javax.swing.JScrollPane scrl_list;
+	private GUICheckList cmp_list;
 	private boolean mSimple = false;
 
 	public CmpChecklist() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
-		mWeightx = 1.0;
-		mWeighty = 0.0;
+		mFill=FillMode.FM_BOTH;
+		setWeightx(1.0);
+		setWeighty(1.0);
 	}
 
 	public void close() {
 		cmp_list = null;
-		scrl_list = null;
 		super.close();
 	}
 
@@ -105,33 +101,28 @@ public class CmpChecklist extends CmpAbstractEvent implements
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_list = new javax.swing.JList();
-		cmp_list.setFocusable(true);
-		cmp_list.setName("cmp_list");
-		cmp_list.setAutoscrolls(true);
-		scrl_list = new javax.swing.JScrollPane();
-		scrl_list.setName("scrl_list");
-		scrl_list.setViewportView(cmp_list);
-		scrl_list.setFocusable(false);
-		add(scrl_list, java.awt.BorderLayout.CENTER);
+		mParam.setH(100);
+		mParam.setW(30);
+		mParam.setFill(FillMode.FM_BOTH);
+		mParam.setReSize(ReSizeMode.RSM_BOTH);
+		cmp_list = mPanel.createCheckList(mParam);
 	}
 
-	public void init(JPanel aOwnerPanel, Observer aObsCustom,
+	public void init(GUIContainer aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
 		if (aXmlItem.getAttributInt("simple", 0) != 0) {
-			mFill = GridBagConstraints.BOTH;
-			mWeighty = 1.0;
+			mFill = FillMode.FM_BOTH;
+			setWeighty(1.0);
 		}
 		super.init(aOwnerPanel, aObsCustom, aXmlItem);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		mSimple = (getXmlItem().getAttributInt("simple", 0) != 0);
 		ArrayList<ItemObj> ItemObjs = new ArrayList<ItemObj>();
 		int[] indices = null;
-		cmp_list.removeAll();
+		cmp_list.clearList();
 		try {
 			SimpleParsing[] xml_items;
 
@@ -159,18 +150,17 @@ public class CmpChecklist extends CmpAbstractEvent implements
 		}
 		cmp_list.setListData(ItemObjs.toArray());
 		if (mSimple) {
-			cmp_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			cmp_list.addListSelectionListener(this);
+			cmp_list.setMultiSelection(false);
+			cmp_list.addSelectListener(this);
 		} else {
-			cmp_list
-					.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			cmp_list.setMultiSelection(true);
 			cmp_list.addFocusListener(this);
 		}
 		if (indices != null)
 			cmp_list.setSelectedIndices(indices);
 	}
 
-	public void valueChanged(ListSelectionEvent aEvent) {
+	public void selectionChanged() {
 		try {
 			runJavaScript();
 		} catch (LucteriosException e) {

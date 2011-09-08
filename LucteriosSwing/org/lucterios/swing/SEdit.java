@@ -1,29 +1,32 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPasswordField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
+import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.PopupListener;
+import org.lucterios.graphic.FocusListenerList;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.ui.GUIActionListener;
 
-public class SEdit extends JPasswordField implements GUIEdit,FocusListener,MouseListener {
+public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
+	private CursorMouseListener mCursorMouseListener;
 	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
@@ -33,12 +36,11 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,Mouse
 		mFocusListener.remove(l);
 	}
 
-    public void focusLost(java.awt.event.FocusEvent evt) 
+    public void focusLost(java.awt.event.FocusEvent e) 
     {
     	if (isFloatEditor())
     		setText(convertValue(getValue()));
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
+    	mFocusListener.focusLost(e);
     }
     
 	public void focusGained(FocusEvent e) { }
@@ -48,16 +50,22 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,Mouse
     int mPrecVal=2;
     boolean mIsFloatEditor=false;   
     
-    public SEdit() 
-    {
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SEdit(GUIComponent aOwner){
         super();
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
         addFocusListener(this);
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));        
 		PopupListener popupListener = new PopupListener();
 		popupListener.setActions(getActions());
 		popupListener.addEditionMenu(true);
 		addMouseListener(popupListener);
-		addMouseListener(this);
+		addMouseListener(mCursorMouseListener);
 		setEchoChar((char)0);
     }
 
@@ -184,41 +192,43 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,Mouse
 		return getBackground().getRGB();
 	}
 
-	public void addActionListener(GUIActionListener l) { }
+	// ACTION
+	public void addActionListener(GUIActionListener l){
+		mCursorMouseListener.add(l);
+	}
 
-	public void removeActionListener(GUIActionListener l) { }
+	public void removeActionListener(GUIActionListener l){
+		mCursorMouseListener.remove(l);
+	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { }
-	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }
 
 	@Override
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
 		setFocusable(aFlag);
+	}
+
+	public void keyPressed(KeyEvent e) {}
+
+	public void keyReleased(KeyEvent e) {
+		mCursorMouseListener.actionPerformed(null);
+	}
+
+	public void keyTyped(KeyEvent e) {}
+
+	public int[] getCaretPositions() {
+		int[] result=new int[]{0,0};
+		Caret caret=this.getCaret();
+		result[0]=caret.getDot();
+		result[1]=caret.getMark();
+		return result;
+	}
+	
+	public boolean isActive() {
+		return getOwner().isActive();
 	}
 	
 }

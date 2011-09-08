@@ -22,35 +22,36 @@ package org.lucterios.client.application.comp;
 
 import java.util.*;
 
-import java.awt.event.*;
-import java.awt.*;
-
-import javax.swing.Icon;
-import javax.swing.JTable;
-import javax.swing.table.JTableHeader;
-
-import org.lucterios.client.application.Button;
 import org.lucterios.client.application.comp.CmpFastTableModel.GridRow;
+import org.lucterios.client.gui.GraphicTool;
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIGrid;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIGrid.GUISelectListener;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.ui.GUIAction;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.SimpleParsing;
 
-public class CmpFastGrid extends Cmponent implements
-		java.awt.event.MouseListener, javax.swing.event.ListSelectionListener {
+public class CmpFastGrid extends Cmponent 
+		implements GUIActionListener,GUISelectListener {
 	private static final long serialVersionUID = 1L;
 
-	private JTable cmp_tbl;
+	private GUIGrid cmp_tbl;
 	private CmpFastTableModel cmp_tbl_Model = null;
-	private javax.swing.JPanel pnl_Btn;
-	private javax.swing.JPanel pnl_Grid;
-	private javax.swing.JPanel pnl_Pages;
-	private javax.swing.JScrollPane scr_pnl;
-	private javax.swing.JComboBox cmp_Pages;
+	private GUIContainer pnl_Btn;
+	private GUIContainer pnl_Grid;
+	private GUIContainer pnl_Pages;
+	private GUICombo cmp_Pages;
 
 	private int mSelectMode = ActionConstantes.SELECT_NONE;
 	private int mPageMax = 0;
@@ -60,9 +61,9 @@ public class CmpFastGrid extends Cmponent implements
 
 	public CmpFastGrid() {
 		super();
-		mFill = GridBagConstraints.BOTH;
-		mWeightx = 1.0;
-		mWeighty = 1.0;
+		mFill = FillMode.FM_BOTH;
+		setWeightx(1.0);
+		setWeighty(1.0);
 	}
 
 	public void close() {
@@ -72,7 +73,6 @@ public class CmpFastGrid extends Cmponent implements
 		pnl_Btn = null;
 		pnl_Grid = null;
 		pnl_Pages = null;
-		scr_pnl = null;
 		cmp_Pages = null;
 		super.close();
 	}
@@ -134,100 +134,38 @@ public class CmpFastGrid extends Cmponent implements
 		return id_list;
 	}
 
-	public void valueChanged(javax.swing.event.ListSelectionEvent e) {
-		if (e.getValueIsAdjusting())
-			return;
-		selectChange();
-	}
-
-	public void mouseClicked(MouseEvent e) {
-		if ((e.getClickCount() == 2) && (cmp_tbl.getSelectedRowCount() > 0)) {
+	public void actionPerformed() {
 			GUIAction first_action = null;
 			for (int act_idx = 0; (first_action == null)
 					&& (act_idx < mActions.length); act_idx++) {
-				if (mActions[act_idx].getSelect() != ActionConstantes.SELECT_NONE)
+				if ((mActions[act_idx]!=null) && (mActions[act_idx].getSelect() != ActionConstantes.SELECT_NONE))
 					first_action = mActions[act_idx];
 			}
 			if (first_action != null)
 				first_action.actionPerformed();
-		}
 	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
-	private LabelFormRenderer mLabelForm = new LabelFormRenderer();
-	private ImageFormRenderer mImageForm = new ImageFormRenderer();
 
 	private void initTableView() {
 		pnl_Grid.removeAll();
-		cmp_tbl = new JTable();
-		cmp_tbl.setColumnSelectionAllowed(false);
-		cmp_tbl.setRowSelectionAllowed(true);
-		cmp_tbl.setFocusable(true);
-		cmp_tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-		cmp_tbl.setName("cmp_tbl");
-		cmp_tbl.setRowSelectionAllowed(true);
-		cmp_tbl.setDefaultRenderer(Boolean.class, new CheckFormRenderer());
-		cmp_tbl.setDefaultRenderer(String.class, mLabelForm);
-		cmp_tbl.setDefaultRenderer(Integer.class, mLabelForm);
-		cmp_tbl.setDefaultRenderer(Double.class, mLabelForm);
-		cmp_tbl.setDefaultRenderer(Icon.class, mImageForm);
-		javax.swing.ListSelectionModel rowSM = cmp_tbl.getSelectionModel();
-		rowSM.addListSelectionListener(this);
-		cmp_tbl.addMouseListener(this);
+		cmp_tbl = pnl_Grid.createGrid(mParam);
+		cmp_tbl.addActionListener(this);
+		cmp_tbl.addSelectListener(this);
 		cmp_tbl_Model = new CmpFastTableModel();
-
-		pnl_Grid.add(cmp_tbl, java.awt.BorderLayout.CENTER);
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		pnl_Grid = new javax.swing.JPanel();
-		pnl_Grid.setOpaque(this.isOpaque());
-		pnl_Grid.setLayout(new java.awt.BorderLayout());
+		pnl_Grid = mPanel.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
 		initTableView();
-		scr_pnl = new javax.swing.JScrollPane(pnl_Grid);
-		scr_pnl.setColumnHeader(null);
-		JTableHeader th = cmp_tbl.getTableHeader();
-		Font old = th.getFont();
-		th.setFont(new Font(old.getName(), old.getStyle() + Font.BOLD, old
-				.getSize()));
-		scr_pnl.setColumnHeaderView(th);
-		add(scr_pnl, java.awt.BorderLayout.CENTER);
-
-		pnl_Btn = new javax.swing.JPanel();
-		pnl_Btn.setOpaque(this.isOpaque());
-		pnl_Btn.setName("pnl_Btn");
-		pnl_Btn.setLayout(new GridBagLayout());
-		add(pnl_Btn, java.awt.BorderLayout.EAST);
-
-		pnl_Pages = new javax.swing.JPanel();
-		pnl_Pages.setOpaque(this.isOpaque());
-		pnl_Pages.setName("pnl_Pages");
-		pnl_Pages.setLayout(new GridBagLayout());
-		add(pnl_Pages, java.awt.BorderLayout.NORTH);
-
-		pnl_Btn.setFocusable(false);
-		pnl_Grid.setFocusable(false);
-		scr_pnl.setFocusable(false);
+		pnl_Btn = mPanel.createContainer(ContainerType.CT_NORMAL,new GUIParam(1,1,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_NONE));
+		pnl_Pages = mPanel.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,0,2,1));
 	}
 
-	public void selectChange() {
+	public void selectionChanged() {
 		int nb_select = cmp_tbl.getSelectedRowCount();
-		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++) {
-			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx))) {
-				Button btn = (Button) pnl_Btn.getComponent(btn_idx);
-				switch (btn.getCurrentAction().getSelect()) {
+		for (int btn_idx = 0; btn_idx < pnl_Btn.count(); btn_idx++) {
+			if (GUIButton.class.isInstance(pnl_Btn.get(btn_idx))) {
+				GUIButton btn = (GUIButton) pnl_Btn.get(btn_idx);
+				switch (((Action)btn.getObject()).getSelect()) {
 				case ActionConstantes.SELECT_NONE:
 					btn.setEnabled(true);
 					break;
@@ -247,11 +185,11 @@ public class CmpFastGrid extends Cmponent implements
 
 	public void setEnabled(boolean aEnabled) {
 		if (aEnabled)
-			selectChange();
+			selectionChanged();
 		else
-			for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
-				if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx))) {
-					Button btn = (Button) pnl_Btn.getComponent(btn_idx);
+			for (int btn_idx = 0; btn_idx < pnl_Btn.count(); btn_idx++)
+				if (GUIButton.class.isInstance(pnl_Btn.get(btn_idx))) {
+					GUIButton btn = (GUIButton) pnl_Btn.get(btn_idx);
 					btn.setEnabled(false);
 				}
 	}
@@ -265,64 +203,59 @@ public class CmpFastGrid extends Cmponent implements
 		mPageRefreshAction.setClose(false);
 		mPageRefreshAction.setSelect(ActionConstantes.SELECT_NONE);
 
-		action();
+		cmp_tbl.clearTable();
 		initBtn();
 		switch (mSelectMode) {
 		case ActionConstantes.SELECT_NONE:
-			cmp_tbl
-					.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			cmp_tbl.setMultiSelection(false);
 			break;
 		case ActionConstantes.SELECT_SINGLE:
-			cmp_tbl
-					.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			cmp_tbl.setMultiSelection(false);
 			break;
 		case ActionConstantes.SELECT_MULTI:
-			cmp_tbl
-					.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			cmp_tbl.setMultiSelection(true);
 			break;
 		default:
 			assert false;
 			break;
 		}
-		scr_pnl.setPreferredSize(new Dimension(1, 1));
 	}
 
-	public void initialize() throws LucteriosException {
-		action();
+	public void initialize() {
+		cmp_tbl.clearTable();
 		if (cmp_tbl_Model != null)
 			cmp_tbl_Model.close();
 		cmp_tbl_Model = null;
 
 		cmp_tbl_Model = new CmpFastTableModel();
 		cmp_tbl_Model.setText(getXmlItem());
-		cmp_tbl.setModel(cmp_tbl_Model);
-		selectChange();
-		cmp_tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		cmp_tbl.doLayout();
+		cmp_tbl.setGridInterface(cmp_tbl_Model);
+		selectionChanged();
 	}
 
 	public void fillActions(ArrayList<Action> atns) {
-		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
-			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx)))
-				atns.add(((Button) pnl_Btn.getComponent(btn_idx)).mAction);
+		for (int btn_idx = 0; btn_idx < pnl_Btn.count(); btn_idx++)
+			if (GUIButton.class.isInstance(pnl_Btn.get(btn_idx)))
+				atns.add((Action)((GUIButton) pnl_Btn.get(btn_idx)).getObject());
 	}
 
 	public void initBtn() {
 		pnl_Btn.removeAll();
 		SimpleParsing xml_item = getXmlItem().getFirstSubTag("ACTIONS");
-		int nb = Button.fillPanelByButton(pnl_Btn, this.getObsCustom(),
+		GraphicTool.fillPanelByButton(pnl_Btn, this.getObsCustom(),
 				Singletons.Factory(), xml_item, false);
+		int nb=pnl_Btn.count()-1;
 		mActions = new Action[nb];
 
 		mSelectMode = ActionConstantes.SELECT_NONE;
 		int action_idx = 0;
-		for (int btn_idx = 0; btn_idx < pnl_Btn.getComponentCount(); btn_idx++)
-			if (Button.class.isInstance(pnl_Btn.getComponent(btn_idx))) {
-				Button btn = (Button) pnl_Btn.getComponent(btn_idx);
-				mSelectMode = ActionConstantes.getMaxSelect(mSelectMode,
-						btn.mAction.getSelect());
-				btn.mAction.setCheckNull(false);
-				mActions[action_idx++] = btn.mAction;
+		for (int btn_idx = 0; btn_idx < pnl_Btn.count(); btn_idx++)
+			if (GUIButton.class.isInstance(pnl_Btn.get(btn_idx))) {
+				GUIButton btn = (GUIButton) pnl_Btn.get(btn_idx);
+				Action current_act=(Action)btn.getObject();
+				mSelectMode = ActionConstantes.getMaxSelect(mSelectMode,current_act.getSelect());
+				current_act.setCheckNull(false);
+				mActions[action_idx++] = current_act;
 			}
 		mPageMax = getXmlItem().getAttributInt("PageMax", 0);
 		mPageNum = getXmlItem().getAttributInt("PageNum", 0);
@@ -332,34 +265,26 @@ public class CmpFastGrid extends Cmponent implements
 			String[] values = new String[mPageMax];
 			for (int idx = 0; idx < mPageMax; idx++)
 				values[idx] = "Page N°" + (idx + 1);
-			cmp_Pages = new javax.swing.JComboBox(values);
+			GUIParam param=new GUIParam(0,0);
+			param.setPad(3);
+			param.setReSize(ReSizeMode.RSM_NONE);
+			if (nb > 0) {
+				cmp_Pages = pnl_Btn.createCombo(param);
+			}
+			else{
+				param.setFill(FillMode.FM_NONE);
+				cmp_Pages = pnl_Pages.createCombo(param);
+			}
 			cmp_Pages.setSelectedIndex(mPageNum);
-			cmp_Pages.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			cmp_Pages.addActionListener(new GUIActionListener() {
+				public void actionPerformed() {
 					mPageRefreshAction.actionPerformed();
 				}
 			});
-
-			GridBagConstraints cst = new GridBagConstraints();
-			cst.insets = new Insets(2, 5, 2, 5);
-			if (nb > 0) {
-				cst.fill = GridBagConstraints.BOTH;
-				cst.anchor = GridBagConstraints.CENTER;
-				pnl_Btn.add(cmp_Pages, cst);
-			} else {
-				cmp_Pages.setPreferredSize(new Dimension(50, 20));
-				cst.fill = GridBagConstraints.NONE;
-				cst.anchor = GridBagConstraints.EAST;
-				pnl_Pages.add(cmp_Pages, cst);
-			}
 		} else {
 			cmp_Pages = null;
 			pnl_Pages.setVisible(false);
 		}
-	}
-
-	public void action() {
-		mLabelForm.clearTag();
 	}
 
 	/*

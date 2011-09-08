@@ -2,7 +2,6 @@ package org.lucterios.swing;
 
 import java.awt.AWTKeyStroke;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -10,21 +9,19 @@ import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultStyledDocument;
@@ -35,11 +32,16 @@ import javax.swing.text.StyledDocument;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
+import org.lucterios.graphic.CursorMouseListener;
+import org.lucterios.graphic.PopupListener;
+import org.lucterios.graphic.FocusListenerList;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIMemo;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.Tools;
 
-public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListener,MouseListener {
+public class SMemo extends JTextPane implements GUIMemo, KeyListener,CaretListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +49,9 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
     public static Color BAR_COLOR = Color.LIGHT_GRAY;
     public static Color NUM_COLOR = Color.BLACK;
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private PopupListener popupListener;
+	private CursorMouseListener mCursorMouseListener;   
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
@@ -56,25 +60,30 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
 	public void removeFocusListener(GUIFocusListener l){
 		mFocusListener.remove(l);
 	}
-
-    public void focusLost(java.awt.event.FocusEvent evt) 
-    {
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
-    }
     
-	public void focusGained(FocusEvent e) { }
-    
-    public SMemo() 
-    {
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SMemo(GUIComponent aOwner){
     	super(new DefaultStyledDocument(new StyleContext()));
-        addFocusListener(this);
-        addMouseListener(this);
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
+        addFocusListener(mFocusListener);
+        addMouseListener(mCursorMouseListener);
     	setBackground(Color.WHITE);
     	setOpaque(false);
   		setDragEnabled(true);
 		addKeyListener(this);
 		setTabs(4);
+		
+		popupListener = new PopupListener();
+		popupListener.setActions(getActions());
+		popupListener.addEditionMenu(true);
+		getDocument().addUndoableEditListener(popupListener.getUndo());
+		addMouseListener(popupListener);
+		addCaretListener(this);
     }             
     
 	public void setSize(Dimension d)
@@ -294,36 +303,43 @@ public class SMemo extends JTextPane implements KeyListener,GUIMemo,FocusListene
 
 	public void removeActionListener(GUIActionListener l) { }
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { }
-	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }	
 	
 	@Override
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
 		setFocusable(aFlag);
 	}
+
+	public GUIMenu getPopupMenu() {
+		JMenu menu=new JMenu();
+		popupListener.getPopup().add(menu);
+		return new SMenu(menu);
+	}
+
+	public void insertText(String specialToAdd) {
+		StyledDocument style = (StyledDocument)getDocument();
+		try {
+			if (mDot != mMark)
+				style.remove(Math.min(mDot, mMark), Math.abs(mMark - mDot));
+			style.insertString(Math.min(mDot, mMark), specialToAdd, null);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	int mDot = 0;
+	int mMark = 0;
+
+	public void caretUpdate(CaretEvent e) {
+		mDot = e.getDot();
+		mMark = e.getMark();
+	}	
+
+	public boolean isActive() {
+		return getOwner().isActive();
+	}
+	
 }

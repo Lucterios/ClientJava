@@ -23,6 +23,7 @@ package org.lucterios.client.application.observer;
 import java.io.UnsupportedEncodingException;
 
 import org.lucterios.engine.application.ActionImpl;
+import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
@@ -45,12 +46,15 @@ public class ObserverMenu extends ObserverAbstract {
 				GUIAction aActionListener);
 
 		public void terminatToolBar();
+
 	}
 
 	static public ToolBarInterface mToolBar = null;
+	static public Observer mDefaultParent = null;
 	
 	public ObserverMenu() {
 		super();
+		setParent(mDefaultParent);
 	}
 
 	public String getObserverName() {
@@ -61,7 +65,7 @@ public class ObserverMenu extends ObserverAbstract {
 		return ObserverConstant.TYPE_NONE;
 	}
 
-	public void show(String aTitle) throws LucteriosException {
+	public void show(String aTitle) {
 		super.show(aTitle);
 		fillMenuInFrame();
 	}
@@ -72,14 +76,6 @@ public class ObserverMenu extends ObserverAbstract {
 
 	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		throw new LucteriosException("Not in Dialog");
-	}
-
-	public void close(boolean aMustRefreshParent) {
-		Singletons.getWindowGenerator().getFrame().setActive(false);
-	}
-
-	public void setActive(boolean aIsActive) {
-		Singletons.getWindowGenerator().getFrame().setActive(aIsActive);
 	}
 
 	public void setNameComponentFocused(String aNameComponentFocused) {

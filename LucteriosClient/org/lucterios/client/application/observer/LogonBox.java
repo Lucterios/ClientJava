@@ -63,8 +63,13 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	private String mReason="";
 
+	private static void setLastServer(Server lastServer) {
+		if (lastServer!=null)
+			LogonBox.mLastServer = lastServer;
+	}
+
 	public static Server getLastServer() {
-		return mLastServer;
+		return LogonBox.mLastServer;
 	}
 
 	public int mModalResult = 0;
@@ -76,29 +81,31 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		cmp_Server.setVisible(false);
 		txt_Server.setVisible(false);
 		if (Singletons.getConfiguration().ServerCount() == 0) {
-			mLastServer = null;
+			setLastServer(null);
 			txt_Server.setTextString("");
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(false);
 		} else if (Singletons.getConfiguration().ServerCount() == 1) {
-			mLastServer = Singletons.getConfiguration().GetServer(0);
-			txt_Server.setTextString(mLastServer.ServerName);
+			setLastServer(Singletons.getConfiguration().GetServer(0));
+			txt_Server.setTextString(getLastServer().ServerName);
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		} else {
 			cmp_Server.removeAllElements();
 			for (int server_idx=0;server_idx<Singletons.getConfiguration().ServerCount();server_idx++)
 				cmp_Server.addElement(Singletons.getConfiguration().GetServer(server_idx));
-			if (mLastServer == null)
-				mLastServer = Singletons.getConfiguration().GetServer(0);
-			cmp_Server.setSelectedIndex(Singletons.getConfiguration().getServers().indexOf(mLastServer));
+			if (getLastServer() == null)
+				setLastServer(Singletons.getConfiguration().GetServer(0));
+			cmp_Server.setSelectedIndex(Singletons.getConfiguration().getServers().indexOf(getLastServer()));
 			cmp_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		}
 	}
 
 	public void actionPerformed() {
-		mLastServer = (Server) cmp_Server.getSelectedItem();
+		int index=cmp_Server.getSelectedIndex();
+		Server new_server=Singletons.getConfiguration().getServers().get(index);
+		setLastServer(new_server);
 	}
 
 	private void setReason() {
@@ -131,10 +138,10 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 			transp.setProxy(Singletons.getConfiguration().ProxyAdress,
 					Singletons.getConfiguration().ProxyPort);
 			transp.connectToServer(
-							mLastServer.HostName,
-							mLastServer.Directory,
-							mLastServer.HostPort,
-							mLastServer.ConnectionMode == LucteriosConfiguration.MODE_SECURITY);
+							getLastServer().HostName,
+							getLastServer().Directory,
+							getLastServer().HostPort,
+							getLastServer().ConnectionMode == LucteriosConfiguration.MODE_SECURITY);
 			mLastUserLogon = txt_User.getTextString();
 			try {
 				Singletons.Factory().setAuthentification(txt_User.getTextString(),
@@ -242,8 +249,8 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	void btn_OK_actionPerformed() {
 		mModalResult = 1;
-		if (mLastServer==null) {
-			mLastServer = Singletons.getConfiguration().GetServer(0);			
+		if (getLastServer()==null) {
+			setLastServer(Singletons.getConfiguration().GetServer(0));			
 		}
 		mDialog.setVisible(false);
 	}

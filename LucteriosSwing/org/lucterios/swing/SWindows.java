@@ -29,7 +29,7 @@ public class SWindows extends JWindow implements GUIWindows {
 	}
 	
 	private void initial() {
-		mContainer=new SContainer(ContainerType.CT_NORMAL);
+		mContainer=new SContainer(ContainerType.CT_NORMAL,null);
 		getContentPane().add(mContainer);
 		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}	

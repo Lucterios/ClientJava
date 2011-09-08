@@ -20,21 +20,18 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.*;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUICheckBox;
 
 public class CmpCheck extends CmpAbstractEvent {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JCheckBox cmp_Check;
+	private GUICheckBox cmp_Check;
 
 	public CmpCheck() {
 		super();
-		mFill = GridBagConstraints.HORIZONTAL;
 	}
 
 	public void requestFocus() {
@@ -56,18 +53,13 @@ public class CmpCheck extends CmpAbstractEvent {
 	}
 
 	protected void initComponent() {
-		setLayout(new java.awt.BorderLayout());
-		cmp_Check = new javax.swing.JCheckBox();
-		// cmp_Check.setFont(new java.awt.Font("Dialog", 0, 10));
-		cmp_Check.setOpaque(this.isOpaque());
-		cmp_Check.setFocusable(true);
-		add(cmp_Check, java.awt.BorderLayout.CENTER);
+		cmp_Check = mPanel.createCheckBox(mParam);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		String value = getXmlItem().getText().trim();
-		cmp_Check.setText("");
+		cmp_Check.setTextString("");
 		cmp_Check.setSelected("1".equals(value));
 		cmp_Check.addFocusListener(this);
 		cmp_Check.addActionListener(this);

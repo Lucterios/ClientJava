@@ -2,9 +2,9 @@ package org.lucterios.graphic;
 
 import java.io.File;
 
-import javax.swing.filechooser.FileFilter;
+import org.lucterios.gui.GUIGenerator;
 
-public class FilesFilter extends FileFilter {
+public class FilesFilter implements GUIGenerator.FileFilter {
 	private String[] mfiles = null;
 	private String mDescription="";
 

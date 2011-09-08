@@ -1,28 +1,24 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 
+import org.lucterios.graphic.CursorMouseListener;
+import org.lucterios.graphic.FocusListenerList;
 import org.lucterios.graphic.SwingImage;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUICheckBox;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.ui.GUIActionListener;
 
-public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,ActionListener,MouseListener {
+public class SCheckBox extends JCheckBox implements GUICheckBox {
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
+	private CursorMouseListener mCursorMouseListener;
+	
+	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	
 	public void setImage(AbstractImage image) {
 		if (image instanceof SwingImage)
@@ -34,7 +30,7 @@ public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,A
 	}
 
 	public void addActionListener(GUIActionListener l){
-		mActionListener.add(l);
+		mCursorMouseListener.add(l);
 	}
 
 	public void removeFocusListener(GUIFocusListener l){
@@ -42,24 +38,21 @@ public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,A
 	}
 
 	public void removeActionListener(GUIActionListener l){
-		mActionListener.remove(l);
+		mCursorMouseListener.remove(l);
 	}
 
-	public void focusLost(FocusEvent e) {
-		for(GUIFocusListener l:mFocusListener)
-			l.focusLost();
-	}
-	public void focusGained(FocusEvent e) {	}
-	public void actionPerformed(ActionEvent e) {
-		for(GUIActionListener l:mActionListener)
-			l.actionPerformed();
-	}
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
 	
-	public SCheckBox(){
+	public SCheckBox(GUIComponent aOwner){
         super();
-        addFocusListener(this);	
-        addActionListener(this);
-        addMouseListener(this);
+        mCursorMouseListener=new CursorMouseListener(this,this);
+        mOwner=aOwner;
+        addFocusListener(mFocusListener);	
+        addActionListener(mCursorMouseListener);
+        addMouseListener(mCursorMouseListener);
 	}
 
 	public String getTextString() {
@@ -78,37 +71,18 @@ public class SCheckBox extends JCheckBox implements GUICheckBox, FocusListener,A
 		return getBackground().getRGB();
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			}
-		}
-	}
-
-	public void mouseExited(MouseEvent e) {
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-	}
-
-	public void mouseClicked(MouseEvent e) { }
-	
-	public void mousePressed(MouseEvent e) { }
-
-	public void mouseReleased(MouseEvent e) { }	
 
 	@Override
 	public void setVisible(boolean aFlag) {
 		super.setVisible(aFlag);
 		setFocusable(aFlag);
+	}
+	
+	public boolean isActive() {
+		return getOwner().isActive();
 	}
 	
 }

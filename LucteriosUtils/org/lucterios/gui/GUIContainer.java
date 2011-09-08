@@ -14,6 +14,8 @@ public interface GUIContainer extends GUIComponent {
 	public void setRedraw(Redrawing redrawing);
 	public void setMouseClickAction(GUIActionListener l);
 	public void setResizeAction(GUIActionListener l);
+	public void removeChangeListener(GUIActionListener l);
+	public void addChangeListener(GUIActionListener l);
 	public Object getObject();
 	public void setObject(Object obj);
 	
@@ -34,6 +36,8 @@ public interface GUIContainer extends GUIComponent {
 	public ContainerType getType();
 	public int count();
 	public void removeAll();
+	public void remove(GUIComponent cont);
+	public void remove(int tbCmp);
 	public GUIComponent get(int index);
 	public void calculBtnSize(GUIButton[] btns);
 	public void setSize(int width, int height);
@@ -49,5 +53,10 @@ public interface GUIContainer extends GUIComponent {
 	public void setMinimumScroll();
 	public void setMaximumScroll();
 	public void removeSplite(boolean right);
-	
+	public int getSelectedIndex();
+	public void setSelectedIndex(int tabActif);
+	public int getTag();
+	public void setTag(int tag);
+	public void requestFocus();
+	public void setActive(boolean aActive);	
 }

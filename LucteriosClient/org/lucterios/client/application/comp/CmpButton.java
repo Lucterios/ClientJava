@@ -20,23 +20,17 @@
 
 package org.lucterios.client.application.comp;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import org.lucterios.client.application.Button;
+import org.lucterios.client.gui.GraphicTool;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.utils.LucteriosException;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.ui.GUIActionListener;
 
 public class CmpButton extends CmpAbstractEvent {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private javax.swing.JPanel pnl_Btn;
-	private Button actbtn;
+	private GUIButton actbtn;
 	private String m_clickName="";
 	private String m_clickValue="";
 	private boolean m_isMini=false;
@@ -55,11 +49,6 @@ public class CmpButton extends CmpAbstractEvent {
 	}
 
 	protected void initComponent() {
-		pnl_Btn = new javax.swing.JPanel();
-		pnl_Btn.setName("pnl_Btn");
-		pnl_Btn.setOpaque(this.isOpaque());
-		pnl_Btn.setLayout(new GridBagLayout());
-		add(pnl_Btn, java.awt.BorderLayout.CENTER);
 		actbtn = null;
 	}
 
@@ -69,35 +58,25 @@ public class CmpButton extends CmpAbstractEvent {
 			actbtn.setEnabled(aEnabled);
 	}
 
-	protected void refreshComponent() throws LucteriosException {
+	protected void refreshComponent() {
 		super.refreshComponent();
 		m_clickName = getXmlItem().getAttribut("clickname", "");
 		m_clickValue = getXmlItem().getAttribut("clickvalue", "");
 		m_isMini = (getXmlItem().getAttributInt("isMini", 0)==1);
-		GridBagConstraints gdbConstr_btn;
 		actbtn = null;
-		pnl_Btn.removeAll();
 		if (mEventAction != null) {
-			gdbConstr_btn = new GridBagConstraints();
-			gdbConstr_btn.gridx = 0;
-			gdbConstr_btn.gridy = 0;
-			gdbConstr_btn.gridwidth = 1;
-			gdbConstr_btn.gridheight = 1;
-			gdbConstr_btn.fill = GridBagConstraints.NONE;
-			gdbConstr_btn.anchor = GridBagConstraints.NORTH;
-			gdbConstr_btn.weightx = 0.0;
-			gdbConstr_btn.weighty = 0.0;
-			gdbConstr_btn.insets = new Insets(1, 0, 1, 0);
-			actbtn = new Button(mEventAction, m_isMini);
-			actbtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			if (m_isMini && mEventAction.getTitle().length()==0) {
+				mParam.setPrefSizeX(26);
+				mParam.setPrefSizeY(22);
+			}
+			actbtn = mPanel.createButton(mParam);
+			GraphicTool.fillButton(actbtn,mEventAction);
+			actbtn.addActionListener(new GUIActionListener() {
+				public void actionPerformed() {
 					m_hasBeenClicked=true;
 				}
 			});
-			pnl_Btn.add(actbtn, gdbConstr_btn);
-			pnl_Btn.setFocusable(false);
 		}
-		pnl_Btn.repaint();
 	}
 
 	protected boolean hasChanged() {

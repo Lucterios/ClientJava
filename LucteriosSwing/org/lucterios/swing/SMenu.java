@@ -217,5 +217,11 @@ public class SMenu implements GUIMenu {
 			((MenuNode)mMenu).setTag(tag);
 		}		
 	}
+
+	public void removeAll() {
+		if (isNode()) {
+			((JMenu)mMenu).removeAll();
+		}		
+	}
 	
 }

@@ -28,4 +28,6 @@ public interface GUIGrid extends GUIComponent {
 
 	public void setRowSelection(int row);
 
+	public void clearTable();
+
 }

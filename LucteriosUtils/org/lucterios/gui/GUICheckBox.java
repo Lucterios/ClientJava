@@ -14,5 +14,6 @@ public interface GUICheckBox extends GUIComponent {
 
 	public String getTextString();
 	
-	public void setTextString(String text);	
+	public void setTextString(String text);
+
 }

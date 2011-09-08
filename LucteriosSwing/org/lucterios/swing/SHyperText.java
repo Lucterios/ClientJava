@@ -1,45 +1,79 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 
+import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.graphic.PopupListener;
+import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
-public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener {
+public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText {
 	
 	private static final long serialVersionUID = 1L;
 
-	public ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
+	private CursorMouseListener mCursorMouseListener;
 	protected String mUrl=null;
 	protected String mText=null;
 	protected GUIActionListener mActionLink=null;
 	
-	public SHyperText(){
-		super();
+	private GUIComponent mOwner=null;
+	public GUIComponent getOwner(){
+		return mOwner;
+	}	
+	
+	public SHyperText(GUIComponent aOwner){
+        super();
+        mOwner=aOwner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
 		setBorder(BorderFactory.createEmptyBorder());
 		setEditable(false);
 		setFocusable(false);
 		setContentType("text/html");
 		setBackground(this.getBackground());
-		addMouseListener(this);
+		addMouseListener(mCursorMouseListener);
+		
+		PopupListener popupListener = new PopupListener();
+		popupListener.setActions(getActions());
+		JMenuItem mi = new JMenuItem("Copier");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				copyToClipboard();
+			}
+		});
+		popupListener.getPopup().add(mi);
+		addMouseListener(popupListener);
+	}
+
+	private void copyToClipboard() {
+		String value_to_copy = getToolTipText();
+		if (value_to_copy.startsWith("mailto:"))
+			value_to_copy = value_to_copy.substring(7);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(new StringSelection(value_to_copy), this);
+		System.out.print("COPY:" + value_to_copy);
 	}
 	
 	public void addActionListener(GUIActionListener l){
-		mActionListener.add(l);
+		mCursorMouseListener.add(l);
 	}
 
 	public void removeActionListener(GUIActionListener l){
-		mActionListener.remove(l);
+		mCursorMouseListener.remove(l);
 	}
 
 	public String getTextString() {
@@ -81,43 +115,6 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 		}
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		for(GUIActionListener l:mActionListener)
-			l.actionPerformed();
-	}
-
-	public void mouseEntered(MouseEvent event)
-	{
-		if (mIsActiveMouse) {
-				if (!Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR).equals(getCursor())) {
-					setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				}
-		}
-		else if (mActionLink!=null) {
-			Cursor cur=Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-			setCursor(cur);
-		}
-		
-	}
-	public void mouseExited(MouseEvent event)
-	{
-		if (mIsActiveMouse) {
-			if (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR).equals(getCursor())) {
-				setCursor(Cursor.getDefaultCursor());
-			}
-		}
-		else {
-			Cursor cur=Cursor.getDefaultCursor();
-			setCursor(cur);
-		}
-	}
-	
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-	}
-
 	public void addFocusListener(GUIFocusListener l) { }
 
 	public void removeFocusListener(GUIFocusListener l) { }
@@ -130,9 +127,14 @@ public class SHyperText extends HtmlLabel implements GUIHyperText,MouseListener 
 		setBackground(new Color(color));
 	}
 
-	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
-		mIsActiveMouse=isActive;		
+		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
 
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {	}
+
+	public boolean isActive() {
+		return getOwner().isActive();
+	}
+	
 }

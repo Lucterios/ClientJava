@@ -2,18 +2,14 @@ package org.lucterios.client.application.comp;
 
 import java.util.TreeMap;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.table.AbstractTableModel;
-
 import org.lucterios.engine.presentation.Singletons;
+import org.lucterios.gui.AbstractImage;
+import org.lucterios.gui.GridInterface;
 import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringDico;
 
-public class CmpFastTableModel extends AbstractTableModel {
+public class CmpFastTableModel implements GridInterface {
 	private static final long serialVersionUID = 1L;
-
-	public final static Icon NullImage = new ImageIcon();
 
 	class GridColomn {
 		public final static int TypeString = 0;
@@ -72,13 +68,13 @@ public class CmpFastTableModel extends AbstractTableModel {
 			case TypeBool:
 				return Boolean.class;
 			case TypeIcon:
-				return Icon.class;
+				return AbstractImage.class;
 			default:
 				return String.class;
 			}
 		}
 
-		private TreeMap<String, Icon> mIconCache = new TreeMap<String, Icon>();
+		private TreeMap<String, AbstractImage> mIconCache = new TreeMap<String, AbstractImage>();
 
 		public Object getValue(GridRow row) {
 			String valuetxt = row.GetCell(mHeaderId);
@@ -92,16 +88,15 @@ public class CmpFastTableModel extends AbstractTableModel {
 					return new Boolean(valuetxt.toLowerCase().equalsIgnoreCase(
 							"oui"));
 				case TypeIcon:
-					Icon new_icon;
+					AbstractImage new_icon;
 					if (valuetxt.trim().equals(""))
-						new_icon = NullImage;
+						new_icon = AbstractImage.Null;
 					else if (mIconCache.containsKey(valuetxt))
-						new_icon = (Icon) mIconCache.get(valuetxt);
+						new_icon =  mIconCache.get(valuetxt);
 					else {
-						new_icon = (Icon) Singletons.Transport().getIcon(
-								valuetxt, 0).getData();
+						new_icon = Singletons.Transport().getIcon(valuetxt, 0);
 						if (new_icon == null)
-							new_icon = NullImage;
+							new_icon = AbstractImage.Null;
 						mIconCache.put(valuetxt, new_icon);
 					}
 					return new_icon;
