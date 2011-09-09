@@ -35,7 +35,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import org.lucterios.graphic.Tools;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIMenu;
@@ -43,6 +42,7 @@ import org.lucterios.gui.GuiFormList;
 import org.lucterios.style.ThemeMenu;
 import org.lucterios.style.ThemeMenu.LookAndFeelCallBack;
 import org.lucterios.ui.GUIAction;
+import org.lucterios.utils.GCTools;
 
 public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 
@@ -78,7 +78,7 @@ public class SFormList extends GuiFormList implements LookAndFeelCallBack {
 
 	public void clearShortCut() {
 		mShortCutDico.clear();
-		Tools.postOrderGC();
+		GCTools.postOrderGC();
 	}
 
 	protected GUIForm newForm(String aId) {
