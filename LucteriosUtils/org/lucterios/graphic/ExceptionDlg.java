@@ -29,7 +29,7 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.gui.GUIHyperText;
-import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIContainer.ContainerType;
@@ -69,7 +69,7 @@ public class ExceptionDlg {
     private GUIButton btn_more;
     private GUIButton btn_exit;
     private GUIButton btn_send;
-    private GUILabel lbl_img;
+    private GUIImage lbl_img;
     private GUIHyperText edExtra;
     private GUIHyperText lbl_message;
     private GUIMemo txtReponse;
@@ -84,7 +84,7 @@ public class ExceptionDlg {
     	mDialog.setTitle("Erreur");
 
     	PnlMain = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
-    	lbl_img = PnlMain.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
+    	lbl_img = PnlMain.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
         lbl_img.setImage(mGenerator.CreateImage(getClass().getResource("resources/error.png")));
         lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_NONE));
 

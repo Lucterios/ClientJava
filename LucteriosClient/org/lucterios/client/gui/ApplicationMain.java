@@ -56,6 +56,7 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIGenerator;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam;
@@ -89,7 +90,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	private GUIMenu aboutMenuItem;
 	private GUIMenu refreshMenuItem;
 
-	private GUILabel mConnectionLogo;
+	private GUIImage mConnectionLogo;
 	private GUILabel mLogName;
 	private GUILabel mServer;
 	private TimeLabel mTimeValue;
@@ -275,7 +276,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 		mStatBarPnl =getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,4,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
-		mConnectionLogo = mStatBarPnl.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
+		mConnectionLogo = mStatBarPnl.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
 		GUIParam param;
 
 		param=new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);

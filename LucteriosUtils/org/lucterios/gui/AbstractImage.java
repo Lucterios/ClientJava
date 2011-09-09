@@ -33,6 +33,11 @@ public abstract class AbstractImage {
 		public AbstractImage resizeIcon(int aHeight, boolean aOnlyIfBigger) {
 			return this;
 		}
+
+		@Override
+		public AbstractImage resize(int height, int width) {
+			return this;
+		}
 		
 	};
 	
@@ -70,5 +75,7 @@ public abstract class AbstractImage {
 	public abstract int getWidth();
 
 	public abstract AbstractImage resizeIcon(int aHeight,boolean aOnlyIfBigger);
+
+	public abstract AbstractImage resize(int height, int width);
 
 }

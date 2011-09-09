@@ -92,14 +92,25 @@ public class SwingImage extends AbstractImage {
 	}
 
 	public AbstractImage resizeIcon(int aHeight,boolean aOnlyIfBigger) {
-    	ImageIcon result_icon=(ImageIcon)mObject;
     	ImageIcon aIcon=(ImageIcon)mObject;
     	if ((aIcon!=null) && (!aOnlyIfBigger || (aIcon.getIconHeight()>aHeight))){
-			Image inImage = aIcon.getImage();
-			int scaledW = (int)(aHeight * (double)inImage.getWidth(null)/(double)inImage.getHeight(null));
-			result_icon=new ImageIcon(inImage.getScaledInstance(scaledW , aHeight, Image.SCALE_SMOOTH));
+			int scaledW = (int)(aHeight * (double)aIcon.getIconWidth()/(double)aIcon.getIconHeight());
+    		return resize(aHeight, scaledW);
     	}
-		return new SwingImage(result_icon);	
+    	else
+    		return this;
+	}
+
+	@Override
+	public AbstractImage resize(int height, int width) {
+    	ImageIcon aIcon=(ImageIcon)mObject;
+    	if ((aIcon!=null) && (height>0) && (width>0) && (height!=aIcon.getIconHeight()) && (width!=aIcon.getIconWidth())){
+			Image inImage = aIcon.getImage();
+			ImageIcon result_icon=new ImageIcon(inImage.getScaledInstance(width , height, Image.SCALE_SMOOTH));
+			return new SwingImage(result_icon);	
+    	}
+    	else
+    		return this;
 	}
 	
 }

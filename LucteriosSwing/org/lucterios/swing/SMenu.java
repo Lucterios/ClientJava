@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
-import org.lucterios.graphic.MenuNode;
-import org.lucterios.graphic.MenuItem;
+import org.lucterios.graphic.SMenuNode;
+import org.lucterios.graphic.SMenuItem;
 import org.lucterios.graphic.SwingImage;
-import org.lucterios.graphic.Tools;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.ui.GUIAction;
@@ -23,9 +23,9 @@ public class SMenu implements GUIMenu {
 
 	public SMenu(boolean isNode) {
 		if (isNode)
-			mMenu=new MenuNode();
+			mMenu=new SMenuNode();
 		else
-			mMenu=new MenuItem();
+			mMenu=new SMenuItem();
 	}
 	
 	public SMenu(JMenuItem menu) {
@@ -37,7 +37,7 @@ public class SMenu implements GUIMenu {
 	}
 	
 	public boolean isPoint(){
-		return MenuItem.class.isInstance(mMenu);
+		return SMenuItem.class.isInstance(mMenu);
 	}
 	
 	public JMenuItem getJMenuItem(){
@@ -57,11 +57,11 @@ public class SMenu implements GUIMenu {
 
 	public String getDescription() {
 		String result="";
-		if (MenuItem.class.isInstance(mMenu)) {
-			result=((MenuItem)mMenu).getDescription();
+		if (SMenuItem.class.isInstance(mMenu)) {
+			result=((SMenuItem)mMenu).getDescription();
 		}
-		else if (MenuNode.class.isInstance(mMenu)) {
-			result=((MenuNode)mMenu).getDescription();
+		else if (SMenuNode.class.isInstance(mMenu)) {
+			result=((SMenuNode)mMenu).getDescription();
 		}
 		if (result==null)
 			result="";
@@ -88,8 +88,8 @@ public class SMenu implements GUIMenu {
 	}
 
 	public void setAction(final GUIAction action) {
-		if (MenuItem.class.isInstance(mMenu)) {
-			((MenuItem)mMenu).setActionItem(action);
+		if (SMenuItem.class.isInstance(mMenu)) {
+			((SMenuItem)mMenu).setActionItem(action);
 		}
 		else {
 			mMenu.setText(action.getTitle());
@@ -98,8 +98,8 @@ public class SMenu implements GUIMenu {
 	}
 
 	public void setDescription(String description) {
-		if (MenuItem.class.isInstance(mMenu)) {
-			((MenuItem)mMenu).setDescription(description);
+		if (SMenuItem.class.isInstance(mMenu)) {
+			((SMenuItem)mMenu).setDescription(description);
 		}
 	}
 
@@ -116,11 +116,11 @@ public class SMenu implements GUIMenu {
 	public void setMenuImage(AbstractImage image,boolean showIcon) {
 		if (image==null)
 			image=AbstractImage.Null;
-		if (MenuItem.class.isInstance(mMenu)) {
-			((MenuItem)mMenu).setImage(image);
+		if (SMenuItem.class.isInstance(mMenu)) {
+			((SMenuItem)mMenu).setImage(image);
 		}
-		else if (MenuNode.class.isInstance(mMenu)) {
-			((MenuNode)mMenu).setImage(image);
+		else if (SMenuNode.class.isInstance(mMenu)) {
+			((SMenuNode)mMenu).setImage(image);
 		}		
 		if (showIcon && SwingImage.class.isInstance(image))
 			mMenu.setIcon((ImageIcon)image.resizeIcon(24, true).getData());
@@ -131,35 +131,35 @@ public class SMenu implements GUIMenu {
 	}
 	
 	public String getAcceleratorText() {
-		if (MenuItem.class.isInstance(mMenu)) {
-			return Tools.getKeyString(((MenuItem)mMenu).getAccelerator());
+		if (SMenuItem.class.isInstance(mMenu)) {
+			return getKeyString(((SMenuItem)mMenu).getAccelerator());
 		}
 		else
 			return "";
 	}
 
 	public GUIAction getAction() {
-		if (MenuItem.class.isInstance(mMenu)) {
-			return ((MenuItem)mMenu).getActionItem();
+		if (SMenuItem.class.isInstance(mMenu)) {
+			return ((SMenuItem)mMenu).getActionItem();
 		}
 		else
 			return null;
 	}
 
 	public GUIActionListener getActionListener() {
-		if (MenuItem.class.isInstance(mMenu)) {
-			return ((MenuItem)mMenu).getActionItem();
+		if (SMenuItem.class.isInstance(mMenu)) {
+			return ((SMenuItem)mMenu).getActionItem();
 		}
 		else
 			return null;
 	}
 
 	public AbstractImage getMenuImage() {
-		if (MenuItem.class.isInstance(mMenu)) {
-			return ((MenuItem)mMenu).getImage();
+		if (SMenuItem.class.isInstance(mMenu)) {
+			return ((SMenuItem)mMenu).getImage();
 		}
-		else if (MenuNode.class.isInstance(mMenu)) {
-			return ((MenuNode)mMenu).getImage();
+		else if (SMenuNode.class.isInstance(mMenu)) {
+			return ((SMenuNode)mMenu).getImage();
 		}		
 		return AbstractImage.Null;
 	}
@@ -200,21 +200,21 @@ public class SMenu implements GUIMenu {
 
 	public int getTag() {
 		int tag=0;
-		if (MenuItem.class.isInstance(mMenu)) {
-			tag=((MenuItem)mMenu).getTag();
+		if (SMenuItem.class.isInstance(mMenu)) {
+			tag=((SMenuItem)mMenu).getTag();
 		}
-		else if (MenuNode.class.isInstance(mMenu)) {
-			tag=((MenuNode)mMenu).getTag();
+		else if (SMenuNode.class.isInstance(mMenu)) {
+			tag=((SMenuNode)mMenu).getTag();
 		}		
 		return tag;
 	}
 
 	public void setTag(int tag) {
-		if (MenuItem.class.isInstance(mMenu)) {
-			((MenuItem)mMenu).setTag(tag);
+		if (SMenuItem.class.isInstance(mMenu)) {
+			((SMenuItem)mMenu).setTag(tag);
 		}
-		else if (MenuNode.class.isInstance(mMenu)) {
-			((MenuNode)mMenu).setTag(tag);
+		else if (SMenuNode.class.isInstance(mMenu)) {
+			((SMenuNode)mMenu).setTag(tag);
 		}		
 	}
 
@@ -223,5 +223,14 @@ public class SMenu implements GUIMenu {
 			((JMenu)mMenu).removeAll();
 		}		
 	}
+
+    static public String getKeyString(KeyStroke aKey)
+    {
+		String key_string = "";
+		if (aKey != null)
+			key_string += " [" + aKey.toString() + "]";
+		key_string=org.lucterios.utils.Tools.replace(key_string,"pressed"," ");
+		return key_string;
+    }
 	
 }

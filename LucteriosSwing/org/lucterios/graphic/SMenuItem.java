@@ -19,7 +19,6 @@
  */
 
 package org.lucterios.graphic;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,11 +26,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.lucterios.graphic.Tools;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.ui.GUIAction;
 
-public class MenuItem extends JMenuItem {
+public class SMenuItem extends JMenuItem {
 	/**
 	 * 
 	 */
@@ -45,7 +43,7 @@ public class MenuItem extends JMenuItem {
 
 	private int mTag=0;
 
-	public MenuItem() {
+	public SMenuItem() {
 		super();
 	}
 
@@ -57,7 +55,7 @@ public class MenuItem extends JMenuItem {
 		mTag=tag;
 	}
 	
-	public MenuItem(GUIAction aAction,String description) {
+	public SMenuItem(GUIAction aAction,String description) {
 		super();
 		setActionItem(aAction);
 		setDescription(description);
@@ -70,8 +68,8 @@ public class MenuItem extends JMenuItem {
 			this.setMnemonic(mAction.getMnemonic());
 
 		setImage(mAction.getIcon());
-		if (mAction.getIcon() != null)
-			this.setIcon(Tools.resizeIcon((ImageIcon)mAction.getIcon().getData(), 24, true));
+		if (mAction.getIcon() != null)			
+			this.setIcon((ImageIcon)mAction.getIcon().resizeIcon(24, true).getData());
 		else
 			this.setIcon(null);
 		KeyStroke key = KeyStroke.getKeyStroke(mAction.getKeyStroke());

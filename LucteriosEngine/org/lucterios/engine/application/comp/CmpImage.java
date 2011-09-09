@@ -23,22 +23,19 @@ package org.lucterios.engine.application.comp;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.AbstractImage;
-import org.lucterios.gui.GUILabel;
-import org.lucterios.gui.GUIParam.FillMode;
-import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.utils.DecodeBase64ToInputStream;
-import org.lucterios.utils.SimpleParsing;
 
 public class CmpImage extends Cmponent {
 	private static final long serialVersionUID = 1L;
-	private GUILabel cmp_text;
+	private GUIImage cmp_img;
 
-	private String mType = "";
-	private String mVal = "";
-	
 	public CmpImage(){
 		super();
-		mFill = FillMode.FM_BOTH;
+	}
+	
+	public boolean isFocusable() {
+		return false;
 	}
 
 	public MapContext getRequete(String aActionIdent) {
@@ -46,34 +43,22 @@ public class CmpImage extends Cmponent {
 		return tree_map;
 	}
 
-	public void setValue(SimpleParsing aXmlItem) {
-		mXmlItem = aXmlItem;
-		refreshComponent();
-	}
-
 	protected void initComponent() {
-		mParam.setFill(FillMode.FM_BOTH);
-		mParam.setReSize(ReSizeMode.RSM_BOTH);
-		mParam.setPad(2);
-		cmp_text = mPanel.createLabel(mParam);
+		cmp_img = mPanel.createImage(mParam);
 	}
 
 	protected void refreshComponent() {
-		mType = getXmlItem().getCDataOfFirstTag("TYPE");
-		mVal = getXmlItem().getText();
+		String type = getXmlItem().getCDataOfFirstTag("TYPE");
 		int height = getXmlItem().getAttributInt("height", 0);
 		int width = getXmlItem().getAttributInt("width", 0);
-		cmp_text.setSize(width, height);
-	}
-
-	public void initialize() {
+		String val = getXmlItem().getText();
 		AbstractImage image;
-		if (mType.equals(""))
-			image = Singletons.Transport().getIcon(mVal, 0);
+		if (type.equals(""))
+			image = Singletons.Transport().getIcon(val, 0);
 		else {
-			DecodeBase64ToInputStream decoder = new DecodeBase64ToInputStream(mVal);
+			DecodeBase64ToInputStream decoder = new DecodeBase64ToInputStream(val);
 			image = Singletons.getWindowGenerator().CreateImage(decoder.readData());
 		}
-		cmp_text.setImage(image);
+		cmp_img.setImage(image.resize(height, width));
 	}
 }

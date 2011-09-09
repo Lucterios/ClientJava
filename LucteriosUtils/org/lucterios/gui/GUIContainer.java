@@ -28,6 +28,7 @@ public interface GUIContainer extends GUIComponent {
 	public GUICheckBox createCheckBox(GUIParam param);
 	public GUICombo createCombo(GUIParam param);
 	public GUILabel createLabel(GUIParam param);
+	public GUIImage createImage(GUIParam param);
 	public GUISpinEdit createSpinEdit(GUIParam param);
 	public GUIHyperText createHyperText(GUIParam param);
 	public GUIHyperMemo createHyperMemo(GUIParam param);

@@ -27,7 +27,7 @@ import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIHyperText;
-import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
@@ -45,7 +45,7 @@ public class AboutBox {
 	private GUIHyperText m_VersionLbl;
 	private GUIHyperText m_CopyRigthLbl;
 	private GUIHyperText m_ConfigMore;
-	private GUILabel m_ImageLogo;
+	private GUIImage m_ImageLogo;
 	
 	private ApplicationDescription mDescription;
 
@@ -55,11 +55,11 @@ public class AboutBox {
 		mDialog.setTitle("A propos");
 		mDialog.setResizable(false);
 		
-		m_ImageLogo=mDialog.getContainer().createLabel(new GUIParam(0, 0, 1, 2));
+		m_ImageLogo=mDialog.getContainer().createImage(new GUIParam(0, 0, 1, 2));
 		m_TitleLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 0));
 		m_VersionLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 1));
 		m_CopyRigthLbl = mDialog.getContainer().createHyperText(new GUIParam(0, 2, 2, 1));
-		GUILabel lucterios_logo = mDialog.getContainer().createLabel(new GUIParam(0, 3, 2, 1));
+		GUIImage lucterios_logo = mDialog.getContainer().createImage(new GUIParam(0, 3, 2, 1));
 		lucterios_logo.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("LucteriosImage.gif")));	
 		GUIHyperText lucterios = mDialog.getContainer().createHyperText(new GUIParam(0, 4, 2, 1));
 		lucterios.setTextString("<font size='-1'><center><i>Outil de gestion presonnalisé sous licence GPL</i></center></font>");		

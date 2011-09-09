@@ -19,8 +19,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.FocusListenerList;
-import org.lucterios.graphic.MenuItem;
-import org.lucterios.graphic.MenuNode;
+import org.lucterios.graphic.SMenuItem;
+import org.lucterios.graphic.SMenuNode;
 import org.lucterios.graphic.PopupListener;
 import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIMenu;
@@ -128,9 +128,9 @@ public class STree extends JScrollPane implements GUITree {
 	public GUIMenu newPopupMenu(boolean isNode) {
 		JMenuItem menu;
 		if (isNode)
-			menu=new MenuNode();
+			menu=new SMenuNode();
 		else
-			menu=new MenuItem();		
+			menu=new SMenuItem();		
 		popupListener.getPopup().add(menu);
 		return new SMenu(menu);
 	}

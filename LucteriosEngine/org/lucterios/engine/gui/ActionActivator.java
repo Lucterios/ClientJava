@@ -26,7 +26,7 @@ import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIHyperText;
-import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
@@ -80,7 +80,7 @@ public class ActionActivator implements GUIActionListener {
 
 	GUIHyperText mtext = null;
 	GUIHyperText mdescription = null;
-	GUILabel mImage = null;
+	GUIImage mImage = null;
 
 	public void initialize(GUIContainer container) {
 		mContainer=container;
@@ -94,7 +94,7 @@ public class ActionActivator implements GUIActionListener {
 		param.setPad(5);
 		param.setFill(FillMode.FM_BOTH);
 		param.setReSize(ReSizeMode.RSM_NONE);
-		mImage = mContainer.createLabel(param);
+		mImage = mContainer.createImage(param);
 		mImage.setImage(mIcon);
 		setToolTipNotEmpty(mToolTip, mImage);
 		addMouseListenerByComponent(mImage);

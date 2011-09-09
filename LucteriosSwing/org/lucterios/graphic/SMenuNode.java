@@ -4,7 +4,7 @@ import javax.swing.JMenu;
 
 import org.lucterios.gui.AbstractImage;
 
-public class MenuNode extends JMenu {
+public class SMenuNode extends JMenu {
 
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class MenuNode extends JMenu {
 	private String mDescription="";
 	private int mTag=0;
 
-	public MenuNode() {
+	public SMenuNode() {
 		super();
 	}
 	

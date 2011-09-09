@@ -54,4 +54,9 @@ public class TestImage extends AbstractImage {
 		return this;
 	}
 
+	@Override
+	public AbstractImage resize(int height, int width) {
+		return this;
+	}
+
 }

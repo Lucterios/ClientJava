@@ -35,7 +35,7 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUIHyperText;
-import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIDialog.DialogVisitor;
@@ -73,7 +73,7 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable, Dia
 				getGUIDialog().setTitle(getTitle());
 			mGUIContainer.removeAll();
 
-			GUILabel lbl_img=mGUIContainer.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+			GUIImage lbl_img=mGUIContainer.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
 			
 			GUIParam param=new GUIParam(1,0);
 			param.setPad(20);

@@ -39,6 +39,7 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
 import org.lucterios.gui.GUIHyperMemo;
 import org.lucterios.gui.GUIHyperText;
+import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
@@ -502,6 +503,15 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		if (mPanel == null)
 			return null;
 		SLabel result = new SLabel(this);
+		mPanel.add(result, getCnt(param));
+		changePreferenceSize(param, result);
+		return result;
+	}
+
+	public GUIImage createImage(GUIParam param) {
+		if (mPanel == null)
+			return null;
+		SImage result = new SImage(this);
 		mPanel.add(result, getCnt(param));
 		changePreferenceSize(param, result);
 		return result;
