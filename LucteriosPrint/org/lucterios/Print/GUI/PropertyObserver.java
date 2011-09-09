@@ -20,10 +20,14 @@
 
 package org.lucterios.Print.GUI;
 
-import javax.swing.*;
-
 import org.lucterios.Print.Data.*;
 import org.lucterios.Print.Observer.*;
+import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
         
 /**
  *
@@ -37,60 +41,32 @@ public class PropertyObserver extends PropertyPanel implements PrintObserverAbst
 	private static final long serialVersionUID = 1L;
 	private PrintManager mPrintManager;
 	
-    /** Creates new form PropertyObserver */
-    public PropertyObserver(PrintManager aPrintManager)
+    /** Creates new form PropertyObserver 
+     * @param guiContainer */
+    public PropertyObserver(PrintManager aPrintManager, GUIContainer guiContainer)
     {
+    	super(guiContainer);
         mPrintManager=aPrintManager;
         mPrintManager.addObserver(this);
         initComponents();
         refresh();
-        lblTitle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     }
 
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        GUIParam param;
 
-        lblProperty = new javax.swing.JLabel();
-        lblTitle = new javax.swing.JLabel();
-        lblAligne = new javax.swing.JLabel();
+        param=new GUIParam(0,0,3,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE);
+        lblProperty = mContainer.createHyperText(param);
+        lblProperty.setTextString("<b><u>Propriétés</u></b>");
+        
+        param=new GUIParam(0,1,3,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE);
+        lblTitle = mContainer.createHyperText(param);
+        
+        param=new GUIParam(0,50,3,1);
+        lblAligne = mContainer.createLabel(param);
 
-        setLayout(new java.awt.GridBagLayout());
-
-        lblProperty.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblProperty.setText("Propriétés");
-        lblProperty.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD+java.awt.Font.ITALIC, 15));
-
-        lblTitle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblTitle.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 13));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        add(lblProperty, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        add(lblTitle, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 50;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(lblAligne, gridBagConstraints);
-
-        setMinimumSize(new java.awt.Dimension(100, 200));
-        setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(200, 350));
+        mContainer.setSize(200, 350);
+        mContainer.setMinimumSize(200, 200);
     }
 
     private void initModel()
@@ -172,16 +148,16 @@ public class PropertyObserver extends PropertyPanel implements PrintObserverAbst
     {
         initContainer();
         PrintTable tbl=(PrintTable)mCurrent;
-        JLabel lbl_cmp_title;
-        lbl_cmp_title = new JLabel();
-        lbl_cmp_title.setText(new Integer(tbl.columns.size()).toString());
-        lbl_cmp_title.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 11));
-        addComponent(8,"Colonnes",lbl_cmp_title,2);
-
-        lbl_cmp_title = new JLabel();
-        lbl_cmp_title.setText(new Integer(tbl.rows.size()).toString());
-        lbl_cmp_title.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 11));
-        addComponent(9,"lignes",lbl_cmp_title,2);
+        GUIParam param;
+        
+        GUILabel lbl_cmp_title;
+        param=addComponent(8,"Colonnes",2);
+        lbl_cmp_title = mContainer.createLabel(param);
+        lbl_cmp_title.setTextString(new Integer(tbl.columns.size()).toString());
+        
+        param=addComponent(9,"lignes",2);
+        lbl_cmp_title = mContainer.createLabel(param);
+        lbl_cmp_title.setTextString(new Integer(tbl.rows.size()).toString());
     }
     
     public void refresh()
@@ -194,7 +170,7 @@ public class PropertyObserver extends PropertyPanel implements PrintObserverAbst
 		        mCurrent=mPrintManager.getCurrent();
 		        if (mCurrent!=null)
 		            refreshCurrent();
-		        repaint();       
+		        mContainer.repaint();       
 			}
 		finally
 		{
@@ -204,7 +180,7 @@ public class PropertyObserver extends PropertyPanel implements PrintObserverAbst
 
 	private void refreshCurrent() 
 	{
-		lblTitle.setText(mCurrent.toString());
+		lblTitle.setTextString("<i>"+mCurrent.toString()+"</i>");
 		if (PrintPage.class.isInstance(mCurrent))
 		    initModel();
 		else if (PrintArea.class.isInstance(mCurrent))
@@ -251,7 +227,8 @@ public class PropertyObserver extends PropertyPanel implements PrintObserverAbst
     }
 
     private boolean mDataChanging=false;
-	protected void propertyFocusLost() 
+    
+	public void focusLost(GUIComponent origine,GUIComponent target) 
 	{
 		if (!mDataChanging)
 		try

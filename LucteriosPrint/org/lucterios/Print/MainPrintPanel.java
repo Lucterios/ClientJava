@@ -20,68 +20,51 @@
 
 package org.lucterios.Print;
 
-import javax.swing.JComponent;
-import javax.swing.JSplitPane;
-
 import org.lucterios.Print.GUI.BrowserObserver;
 import org.lucterios.Print.GUI.EditorObserver;
 import org.lucterios.Print.GUI.PreviewObserver;
 import org.lucterios.Print.GUI.PropertyObserver;
-import org.lucterios.form.JAdvancePanel;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
 
 /**
  *
  * @author  lg
  */
-public class MainPrintPanel extends JAdvancePanel {
+public class MainPrintPanel  {
     
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public MainPrintPanel() 
+	
+	private GUIContainer mContainer;
+	
+	public MainPrintPanel(GUIContainer container) 
     {
+		super();
+		mContainer=container;
         initComponents();
         mPrintManager=new org.lucterios.Print.Observer.PrintManager();
         initialize();
     }
-    
+	    
     private void initComponents() 
     {
-        leftSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        rigthSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        rigthSplit.setResizeWeight(1);
-        bottomSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        bottomSplit.setResizeWeight(1);
+        leftSplit = mContainer.createContainer(ContainerType.CT_SPLITER, new GUIParam(0,0));
+        leftSplit.setSpliteOrientation(true);
+       
+        bottomSplit = leftSplit.getSplite(ContainerType.CT_SPLITER, true);
+        bottomSplit.setSpliteOrientation(false);
 
-        setLayout(new java.awt.BorderLayout());
-
-        leftSplit.setRightComponent(bottomSplit);
-        bottomSplit.setTopComponent(rigthSplit);
-
-        add(leftSplit, java.awt.BorderLayout.CENTER);
-
+        rigthSplit = bottomSplit.getSplite(ContainerType.CT_SPLITER, false); 
+        rigthSplit.setSpliteOrientation(true);
     }
     
-    public void setOpaqueChild(boolean isOpaque){
-    	setOpaqueOfSpliter(bottomSplit,isOpaque);
-    	setOpaqueOfSpliter(leftSplit,isOpaque);
-    	setOpaqueOfSpliter(rigthSplit,isOpaque);
-    }
-
-    private void setOpaqueOfSpliter(JSplitPane spliter,boolean isOpaque)
-    {
-    	spliter.setOpaque(isOpaque);
-    	JComponent cmp;
-    	cmp=(JComponent)spliter.getTopComponent();
-    	if (cmp!=null) cmp.setOpaque(isOpaque);
-    	cmp=(JComponent)spliter.getBottomComponent();
-    	if (cmp!=null) cmp.setOpaque(isOpaque);   	
-    }
-
-    private JSplitPane bottomSplit;
-    private JSplitPane leftSplit;
-    private JSplitPane rigthSplit;
+    private GUIContainer bottomSplit;
+    private GUIContainer leftSplit;
+    private GUIContainer rigthSplit;
 
     private org.lucterios.Print.Observer.PrintManager mPrintManager;
     public org.lucterios.Print.Observer.PrintManager getManager()
@@ -91,10 +74,12 @@ public class MainPrintPanel extends JAdvancePanel {
     
     private void initialize()
     {
-        leftSplit.setTopComponent(new BrowserObserver(mPrintManager));
-        rigthSplit.setTopComponent(new PreviewObserver(mPrintManager));
-        bottomSplit.setBottomComponent(new EditorObserver(mPrintManager));
-        rigthSplit.setBottomComponent(new PropertyObserver(mPrintManager));
+    	new BrowserObserver(mPrintManager,leftSplit.getSplite(ContainerType.CT_NORMAL, false));
+        new PreviewObserver(mPrintManager,rigthSplit.getSplite(ContainerType.CT_NORMAL,false));
+        new EditorObserver(mPrintManager,bottomSplit.getSplite(ContainerType.CT_NORMAL, true));
+        new PropertyObserver(mPrintManager,rigthSplit.getSplite(ContainerType.CT_NORMAL, true));
+        rigthSplit.setDividerLocation(650);
+        bottomSplit.setDividerLocation(600);
     }
 
     public void getData(String aModal,String aXmlData) throws org.xml.sax.SAXException,java.io.IOException
@@ -106,4 +91,5 @@ public class MainPrintPanel extends JAdvancePanel {
             getManager().getPage().setXML(aXmlData);
         getManager().refresh();
     }
+
 }

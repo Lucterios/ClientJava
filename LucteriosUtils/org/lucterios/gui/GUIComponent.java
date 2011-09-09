@@ -39,5 +39,8 @@ public interface GUIComponent {
 	public void requestFocus();
 
 	public GUIComponent getOwner();
+
+	public String getName();
 	
+	public void setName(String name);
 }

@@ -19,5 +19,9 @@ public interface GUILabel extends GUIComponent {
 	public void setBackgroundColor(int color);
 
 	public void setSize(int width, int height);
+
+	public int getFontSize();
+	
+	public void setFontSize(int size);
 	
 }

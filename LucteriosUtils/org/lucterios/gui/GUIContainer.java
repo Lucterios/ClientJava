@@ -30,21 +30,29 @@ public interface GUIContainer extends GUIComponent {
 	public GUILabel createLabel(GUIParam param);
 	public GUISpinEdit createSpinEdit(GUIParam param);
 	public GUIHyperText createHyperText(GUIParam param);
+	public GUIHyperMemo createHyperMemo(GUIParam param);
+	public GUITree createTree(GUIParam param);
 
 	public GUIContainer addTab(ContainerType type,String name,AbstractImage icon);
-	public GUIContainer getSplite(ContainerType type,boolean right);
+	public GUIContainer getSplite(ContainerType type,boolean rightOrBottom);
 	public ContainerType getType();
+	public void setLayoutIsGrid(boolean isGrid);	
+	public void setSpliteOrientation(boolean horizontal);
 	public int count();
 	public void removeAll();
 	public void remove(GUIComponent cont);
 	public void remove(int tbCmp);
 	public GUIComponent get(int index);
 	public void calculBtnSize(GUIButton[] btns);
+	public void setMinimumSize(int width, int height);
+	public void setMaximumSize(int width, int height);
 	public void setSize(int width, int height);
 	public int getSizeX();
 	public int getSizeY();
 	public void setBorder(int top, int left, int bottom, int rigth, int color);
+	public void setBounds(int top, int left, int bottom, int rigth);	
 
+	public void setDividerLocation(double ratio);
 	public void setDividerLocation(int location);
 	public int getDividerLocation();
 	
@@ -58,5 +66,5 @@ public interface GUIContainer extends GUIComponent {
 	public int getTag();
 	public void setTag(int tag);
 	public void requestFocus();
-	public void setActive(boolean aActive);	
+	public void setActive(boolean aActive);
 }

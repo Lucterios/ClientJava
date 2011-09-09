@@ -24,10 +24,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import java.io.*;
+import java.net.URL;
 
 import javax.swing.text.*;
 import javax.swing.event.*;
 import javax.swing.*;
+
+import org.lucterios.graphic.resources.Resources;
 
 public class LucteriosEditor extends JPanel implements ActionListener, CaretListener
 {
@@ -250,18 +253,18 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
 		toolbar = new JToolBar();
 		if (withFileAction)
 		{
-			toolbar.add(createToolbarButton("new","resources/new.gif"));
-			toolbar.add(createToolbarButton("open","resources/open.gif"));
-			toolbar.add(createToolbarButton("save","resources/save.gif"));
+			toolbar.add(createToolbarButton("new","new.gif"));
+			toolbar.add(createToolbarButton("open","open.gif"));
+			toolbar.add(createToolbarButton("save","save.gif"));
 			toolbar.add(Box.createHorizontalStrut(5));
 		}
-		toolbar.add(createToolbarButton("cut-to-clipboard","resources/cut.gif"));
-		toolbar.add(createToolbarButton("copy-to-clipboard","resources/copy.gif"));
-		toolbar.add(createToolbarButton("paste-from-clipboard","resources/paste.gif"));
+		toolbar.add(createToolbarButton("cut-to-clipboard","cut.gif"));
+		toolbar.add(createToolbarButton("copy-to-clipboard","copy.gif"));
+		toolbar.add(createToolbarButton("paste-from-clipboard","paste.gif"));
 		toolbar.add(Box.createHorizontalStrut(5));
-		toolbar.add(createToolbarButton("font-bold","resources/bold.gif"));
-		toolbar.add(createToolbarButton("font-italic","resources/italic.gif"));
-		toolbar.add(createToolbarButton("font-underline","resources/underline.gif"));
+		toolbar.add(createToolbarButton("font-bold","bold.gif"));
+		toolbar.add(createToolbarButton("font-italic","italic.gif"));
+		toolbar.add(createToolbarButton("font-underline","underline.gif"));
 		toolbar.add(Box.createHorizontalGlue());
 		return toolbar;
     }
@@ -336,10 +339,12 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
 	} 
            
      protected JButton createToolbarButton(String cmd,String icon) {
-        JButton b = new JButton(new ImageIcon(getClass().getResource(icon))) {
-			private static final long serialVersionUID = 1L;
-			public float getAlignmentY() { return 0.5f; }
-		};
+    	URL url=Resources.class.getResource(icon);
+    	JButton b;
+    	if (url!=null)
+    		b = new JButton(new ImageIcon(url));
+		else
+			b = new JButton();
         b.setRequestFocusEnabled(false);
         b.setMargin(new Insets(1,1,1,1));
 		Action a = popupListener.getAction(cmd);

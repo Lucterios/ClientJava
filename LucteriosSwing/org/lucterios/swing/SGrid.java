@@ -140,7 +140,6 @@ public class SGrid extends JScrollPane implements GUIGrid, ListSelectionListener
         mCursorMouseListener=new CursorMouseListener(cmp_tbl,this);
         cmp_tbl.addFocusListener(this);
 		cmp_tbl.addMouseListener(mCursorMouseListener);
-		setFocusable(false);
 		setColumnHeader(null);
 		JTableHeader th = cmp_tbl.getTableHeader();
 		Font old = th.getFont();

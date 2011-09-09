@@ -20,40 +20,33 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Font;
-
-import javax.swing.JLabel;
-
 import org.lucterios.Print.Data.*;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
 
 public class PrintPanelObject extends PrintPanelAbstract
 {	
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel mText; 
+	private GUILabel mText; 
 
 	private PrintContainer mPrintContainer; 
 	
-	public PrintPanelObject(PrintPanelBase.ObserverCallBack observer)
+	public PrintPanelObject(PrintPanelBase.ObserverCallBack observer,GUIContainer container)
 	{
-		super(observer);
-		setLayout(new GridBagLayout());
+		super(observer,container);
 		mPrintContainer=null;
-		mText=new JLabel();
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		add(mText,gridBagConstraints);
+		mText=mContainer.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
 	}
 	
 	public void setPrintContainer(PrintContainer printContainer)
 	{
 		mPrintContainer=printContainer;
-		mText.setText(mPrintContainer.toString());
+		mText.setTextString(mPrintContainer.toString());
 		setSizeEchelle(mEchelle);
 	}
 	
@@ -81,11 +74,8 @@ public class PrintPanelObject extends PrintPanelAbstract
 	public void setSizeEchelle(int echelle)
 	{
 		super.setSizeEchelle(echelle);
-		setBounds((int)(mPrintContainer.left*echelle/PrintPanelBase.Ratio),(int)(mPrintContainer.top*echelle/PrintPanelBase.Ratio), (int)(mPrintContainer.width*echelle/PrintPanelBase.Ratio), (int)(mPrintContainer.height*echelle/PrintPanelBase.Ratio));
-		Font font=new Font("Helvetica",0,(int)(6*echelle/PrintPanelBase.Ratio));
-		mText.setFont(font);
-		mText.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-		mText.setVerticalAlignment(javax.swing.JTextField.TOP);		
+		mContainer.setBounds((int)(mPrintContainer.left*echelle/PrintPanelBase.Ratio),(int)(mPrintContainer.top*echelle/PrintPanelBase.Ratio), (int)(mPrintContainer.width*echelle/PrintPanelBase.Ratio), (int)(mPrintContainer.height*echelle/PrintPanelBase.Ratio));
+		mText.setFontSize((int)(6*echelle/PrintPanelBase.Ratio));
 	}
 
 	public void activate() 

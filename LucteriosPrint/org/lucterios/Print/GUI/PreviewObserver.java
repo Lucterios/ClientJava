@@ -20,36 +20,33 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.BevelBorder;
-
 import org.lucterios.Print.Data.PrintAbstract;
 import org.lucterios.Print.Data.PrintPage;
 import org.lucterios.Print.Data.PrintVector;
 import org.lucterios.Print.Observer.PrintManager;
 import org.lucterios.Print.Observer.PrintObserverAbstract;
-import org.lucterios.form.SpinEdit;
+import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 
 
-public class PreviewObserver extends JPanel implements PrintObserverAbstract,PrintPanelBase.ObserverCallBack 
+public class PreviewObserver implements PrintObserverAbstract,PrintPanelBase.ObserverCallBack 
 {
 	private static final long serialVersionUID = 1L;
 	private PrintManager mPrintManager;
-    /** Creates new form BrowserObserver */
-    public PreviewObserver(PrintManager aPrintManager) 
+	private GUIContainer mContainer;
+    /** Creates new form BrowserObserver 
+     * @param guiContainer */
+    public PreviewObserver(PrintManager aPrintManager, GUIContainer guiContainer) 
     {
         super();
+        mContainer=guiContainer;
         mRefreshing=false;
         mPrintManager=aPrintManager;
         mPrintManager.addObserver(this);
@@ -59,12 +56,12 @@ public class PreviewObserver extends JPanel implements PrintObserverAbstract,Pri
         refresh();
     }
 
-    private JPanel mTopPanel; 
-    private JLabel mlblEchelle;
-    private JLabel mlblPages;
-    private SpinEdit mEchelles;
-    private JComboBox mPages;
-    private JPanel mMain; 
+    private GUIContainer mTopPanel; 
+    private GUILabel mlblEchelle;
+    private GUILabel mlblPages;
+    private GUISpinEdit mEchelles;
+    private GUICombo mPages;
+    private GUIContainer mMain; 
 
     private PrintPanelBase mSheet; 
     private PrintPanelBase mHeader; 
@@ -76,133 +73,119 @@ public class PreviewObserver extends JPanel implements PrintObserverAbstract,Pri
     
     private void initComponents() 
     {
-        GridBagConstraints gridBagConstraints;
+        GUIParam param;
     	
-        setLayout(new java.awt.BorderLayout());
-        mTopPanel=new JPanel();
-        mTopPanel.setLayout(new GridBagLayout());
-        mTopPanel.setOpaque(false);
+        param=new GUIParam(0,0);
+        param.setFill(FillMode.FM_HORIZONTAL);
+        param.setReSize(ReSizeMode.RSM_NONE);
+        mTopPanel=mContainer.createContainer(ContainerType.CT_NORMAL, param);
     	
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        mTopPanel.add(new JLabel(), gridBagConstraints);
-    	
-        mlblEchelle = new JLabel();
-        mlblEchelle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mlblEchelle.setText("Echelle");
-        mlblEchelle.setOpaque(false);
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1,3,3,1);
-        mTopPanel.add(mlblEchelle, gridBagConstraints);
-        mEchelles= new SpinEdit(100,1,1000);
+        param=new GUIParam(0,0);
+        param.setFill(FillMode.FM_NONE);
+        param.setReSize(ReSizeMode.RSM_NONE);
+        param.setPad(5);
+        mlblEchelle = mTopPanel.createLabel(param);
+        mlblEchelle.setTextString("Echelle");
+        mlblEchelle.setStyle(1);
+
+        param=new GUIParam(1,0);
+        param.setFill(FillMode.FM_NONE);
+        mEchelles=mTopPanel.createSpinEdit(param); 
+        mEchelles.init(100,1,1000);
         mEchelles.setName("mEchelles");
-        mEchelles.setMinimumSize(new java.awt.Dimension(70,20));
-        mEchelles.setPreferredSize(new java.awt.Dimension(70,20));
-        mEchelles.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
+        mEchelles.addActionListener(new GUIActionListener(){
+			public void actionPerformed() {
 				changeEchelle();
 			}
 		});
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        mTopPanel.add(mEchelles, gridBagConstraints);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        mTopPanel.add(new JLabel(), gridBagConstraints);
+        param=new GUIParam(2,0);
+        param.setFill(FillMode.FM_BOTH);
+        param.setReSize(ReSizeMode.RSM_BOTH);
+        mTopPanel.createLabel(param);
         
-        mlblPages = new JLabel();
-        mlblPages.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mlblPages.setText("Pages");
-        mlblPages.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1,3,3,1);
-        mTopPanel.add(mlblPages, gridBagConstraints);
-        mPages= new JComboBox();
+        param=new GUIParam(3,0);
+        param.setFill(FillMode.FM_NONE);
+        param.setReSize(ReSizeMode.RSM_NONE);
+        param.setPad(2);
+        mlblPages = mTopPanel.createLabel(param);
+        mlblPages.setTextString("Pages");
+        mlblPages.setStyle(1);
+
+        param=new GUIParam(4,0);
+        param.setFill(FillMode.FM_NONE);
+        param.setH(20);
+        param.setW(150);
+        mPages= mTopPanel.createCombo(param);
         mPages.setName("mPages");
-        mPages.setMinimumSize(new java.awt.Dimension(75,20));
-        mPages.setPreferredSize(new java.awt.Dimension(75,20));
-        mPages.addItemListener(new ItemListener(){
-			public void itemStateChanged(ItemEvent e) 
-			{
+        mPages.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				changePageSelected();
 			}
         });
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        mTopPanel.add(mPages, gridBagConstraints);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.NONE;
-        mTopPanel.add(new JLabel(), gridBagConstraints);
+        param=new GUIParam(6,0);
+        param.setFill(FillMode.FM_BOTH);
+        param.setReSize(ReSizeMode.RSM_BOTH);
+        mTopPanel.createLabel(param);
         
-        add(mTopPanel, java.awt.BorderLayout.NORTH);
-        
-        mMain=new JPanel();
-        mMain.setBackground(Color.GRAY);
-        mMain.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        mMain.setLayout(new GridBagLayout());
-        add(new JScrollPane(mMain), java.awt.BorderLayout.CENTER);
-        
-        setOpaque(false);
-        setMinimumSize(new java.awt.Dimension(200, 250));
-        setPreferredSize(new java.awt.Dimension(400, 300));
+        param=new GUIParam(0,1);
+        mMain=mContainer.createContainer(ContainerType.CT_SCROLL, param);
+        mMain.setBackgroundColor(0x808080);
+        mMain.setBorder(1, 1, 1, 1, 0x000000);
+
+        mContainer.setSize(600, 600);
+        mContainer.setMinimumSize(200, 200);
     }
 
     private void addBorder(int x, int y, int width)
     {
-    	GridBagConstraints gridBagConstraints = new GridBagConstraints();
-	    gridBagConstraints.gridx = x;
-	    gridBagConstraints.gridy = y;
-	    gridBagConstraints.gridwidth = width;
-	    gridBagConstraints.weightx = 1.0;
-	    JLabel border=new JLabel();
-	    border.setMinimumSize(new java.awt.Dimension(25, 25));
-	    mMain.add(border, gridBagConstraints);
+        GUIParam param=new GUIParam(x,y,width,1);
+        param.setFill(FillMode.FM_NONE);
+        param.setReSize(ReSizeMode.RSM_HORIZONTAL);
+        param.setPad(5);
+	    mMain.createLabel(param).setBackgroundColor(0xFF0000);
     }
     
     private void initSheet()
     {
-        GridBagConstraints gridBagConstraints;
-        mSheet=new PrintPanelBase(this);
-        mSheet.setLayout(new java.awt.BorderLayout());
-        mHeader=new PrintPanelBase(this);
-        mSheet.add(mHeader,java.awt.BorderLayout.NORTH);
-        mFooter=new PrintPanelBase(this); 
-        mSheet.add(mFooter,java.awt.BorderLayout.SOUTH);
-        mRight=new PrintPanelBase(this); 
-        mSheet.add(mRight,java.awt.BorderLayout.EAST);
-        mLeft=new PrintPanelBase(this); 
-        mSheet.add(mLeft,java.awt.BorderLayout.WEST);
-        mBody=new PrintPanelBase(this); 
-        mSheet.add(mBody,java.awt.BorderLayout.CENTER);
+    	GUIParam param;
+    	
+    	
+    	param=new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE);
+    	GUIContainer sheetCont=mMain.createContainer(ContainerType.CT_NORMAL,param);
+        mSheet=new PrintPanelBase(this,sheetCont);
+        
+        GUIContainer newContainer; 
+        param=new GUIParam(0,0,3,1);
+        newContainer=sheetCont.createContainer(ContainerType.CT_NORMAL,param);
+		newContainer.setLayoutIsGrid(false);
+        mHeader=new PrintPanelBase(this,newContainer);
+        
+        param=new GUIParam(0,2,3,1);
+        newContainer=sheetCont.createContainer(ContainerType.CT_NORMAL,param);
+		newContainer.setLayoutIsGrid(false);
+        mFooter=new PrintPanelBase(this,newContainer);
+        
+        param=new GUIParam(2,1);
+        newContainer=sheetCont.createContainer(ContainerType.CT_NORMAL,param);
+		newContainer.setLayoutIsGrid(false);
+        mRight=new PrintPanelBase(this,newContainer);
+        
+        param=new GUIParam(0,1);
+        newContainer=sheetCont.createContainer(ContainerType.CT_NORMAL,param);
+		newContainer.setLayoutIsGrid(false);
+        mLeft=new PrintPanelBase(this,newContainer);
+        
+        param=new GUIParam(1,1);
+        newContainer=sheetCont.createContainer(ContainerType.CT_NORMAL,param);
+		newContainer.setLayoutIsGrid(false);
+        mBody=new PrintPanelBase(this,newContainer);
 
         addBorder(0,0,3);
         addBorder(0,2,3);
         addBorder(0,1,1);
         addBorder(2,1,1);
-
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        mMain.add(mSheet, gridBagConstraints);
     }
 
     private void initPage()
@@ -229,10 +212,10 @@ public class PreviewObserver extends JPanel implements PrintObserverAbstract,Pri
 		mRefreshing=true;
 		try
 		{
-			mPages.removeAllItems();
+			mPages.removeAllElements();
 			PrintVector page_list=page.body;
 			for(int index=0;index<page_list.size();index++)
-				mPages.addItem(page_list.get(index));
+				mPages.addElement(page_list.get(index));
 		}
 		finally
 		{

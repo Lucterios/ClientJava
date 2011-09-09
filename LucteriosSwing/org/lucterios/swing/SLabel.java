@@ -65,6 +65,16 @@ public class SLabel extends JLabel implements GUILabel {
 		setFont(new Font(font.getName(), style, font.getSize()));		
 	}	
 
+	public int getFontSize() {
+		Font font=getFont();
+		return font.getSize();
+	}
+
+	public void setFontSize(int size) {
+		Font font=getFont();
+		setFont(new Font(font.getName(), font.getStyle(), size));
+	}
+	
 	public void setBackgroundColor(int color) {
 		setBackground(new Color(color));		
 	}
@@ -88,5 +98,5 @@ public class SLabel extends JLabel implements GUILabel {
 	public void setActiveMouseAction(boolean isActive) {
 		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
-	
+
 }

@@ -20,47 +20,40 @@
 
 package org.lucterios.client.application.observer;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.Window;
-
 import java.lang.ref.WeakReference;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.RootPaneContainer;
 
 import org.lucterios.Print.MainPrintPanel;
-import org.lucterios.client.application.Button;
+import org.lucterios.client.gui.GraphicTool;
 import org.lucterios.engine.presentation.ObserverAbstract;
 import org.lucterios.engine.presentation.ObserverConstant;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
-import org.lucterios.graphic.Tools;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIForm;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIDialog.DialogVisitor;
+import org.lucterios.gui.GUIParam.FillMode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class ObserverTemplate extends ObserverAbstract {
+public class ObserverTemplate extends ObserverAbstract implements DialogVisitor {
 	SimpleParsing data_elements = null;
 	SimpleParsing style_elements = null;
 
 	protected int mModelId = 0;
 	protected String mTitle = "";
 
-	private JPanel pnl_Cst;
-	private JPanel pnl_Btn;
-	private JTextField txt_Title;
-	private JLabel lbl_Title;
+	private GUIContainer pnl_Cst;
+	private GUIContainer pnl_Btn;
+	private GUIEdit txt_Title;
+	private GUILabel lbl_Title;
 
-	private JScrollPane scrl_StyleModel;
+	private GUIContainer scrl_StyleModel;
 	private MainPrintPanel PrintPanel;
 
 	public boolean isValidate;
@@ -108,65 +101,39 @@ public class ObserverTemplate extends ObserverAbstract {
 	}
 
 	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
+		mTitle=aTitle;
 		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
-		aGUI.setTitle(aTitle);
-		((RootPaneContainer) aGUI).getContentPane().setLayout(
-				new java.awt.BorderLayout());
-		GridBagConstraints gridBagConstraints;
+		getGUIDialog().setDialogVisitor(this);
+		getGUIDialog().setVisible(true);
+	}
 
-		pnl_Cst = new JPanel();
-		pnl_Cst.setName("pnl_Cst");
-		pnl_Cst.setLayout(new GridBagLayout());
-		((RootPaneContainer) aGUI).getContentPane().add(pnl_Cst,
-				java.awt.BorderLayout.CENTER);
+	public void execute(GUIDialog dialog) {
+		dialog.setTitle(mTitle);
+		GUIParam param;
 
-		lbl_Title = new javax.swing.JLabel();
-		lbl_Title.setText("Titre du model");
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = GridBagConstraints.NORTH;
-		gridBagConstraints.weightx = 0.0;
-		pnl_Cst.add(lbl_Title, gridBagConstraints);
+		param=new GUIParam(0,0);
+		param.setFill(FillMode.FM_HORIZONTAL);
+		param.setReSize(ReSizeMode.RSM_HORIZONTAL);
+		pnl_Cst = dialog.getContainer().createContainer(ContainerType.CT_NORMAL,param);
 
-		txt_Title = new javax.swing.JTextField();
-		txt_Title.setPreferredSize(new java.awt.Dimension(250, 19));
-		txt_Title.setMinimumSize(new java.awt.Dimension(250, 19));
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = GridBagConstraints.NORTH;
-		gridBagConstraints.weightx = 1.0;
-		pnl_Cst.add(txt_Title, gridBagConstraints);
+		lbl_Title = pnl_Cst.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+		lbl_Title.setTextString("Titre du model");
 
-		PrintPanel = new MainPrintPanel();
-		scrl_StyleModel = new JScrollPane();
-		scrl_StyleModel.setViewportView(PrintPanel);
-		scrl_StyleModel
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrl_StyleModel
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.gridheight = 1;
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = GridBagConstraints.NORTH;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 0.3;
-		pnl_Cst.add(scrl_StyleModel, gridBagConstraints);
+		param=new GUIParam(1,0);
+		param.setH(19);
+		param.setW(250);
+		txt_Title = pnl_Cst.createEdit(param);
 
-		pnl_Btn = new JPanel();
-		pnl_Btn.setName("pnl_Btn");
-		pnl_Btn.setLayout(new java.awt.GridBagLayout());
-		((RootPaneContainer) aGUI).getContentPane().add(pnl_Btn,
-				java.awt.BorderLayout.SOUTH);
+		param=new GUIParam(0,1);
+		scrl_StyleModel = dialog.getContainer().createContainer(ContainerType.CT_SCROLL, param);
+		PrintPanel = new MainPrintPanel(scrl_StyleModel);
+
+		param=new GUIParam(0,2);
+		param.setFill(FillMode.FM_HORIZONTAL);
+		param.setReSize(ReSizeMode.RSM_HORIZONTAL);
+		pnl_Btn = dialog.getContainer().createContainer(ContainerType.CT_NORMAL, param);
 		SimpleParsing act = new SimpleParsing();
-		act
-				.parse("<ACTIONS>"
+		act.parse("<ACTIONS>"
 						+ "<ACTION extension='"
 						+ getSourceExtension()
 						+ "' action='"
@@ -174,32 +141,9 @@ public class ObserverTemplate extends ObserverAbstract {
 						+ "' close='1' modal='0' icon='images/ok.png'><![CDATA[_Ok]]></ACTION>"
 						+ "<ACTION close='1' modal='0' icon='images/cancel.png'><![CDATA[_Annuler]]></ACTION>"
 						+ "</ACTIONS>");
-		Button
-				.fillPanelByButton(pnl_Btn, this, Singletons.Factory(), act,
-						true);
-
-		JButton[] btns = new JButton[2];
-		int index = 0;
-		for (int idx = 0; idx < pnl_Btn.getComponentCount(); idx++)
-			if (JButton.class.isInstance(pnl_Btn.getComponent(idx)))
-				btns[index++] = (JButton) pnl_Btn.getComponent(idx);
-		Tools.calculBtnSize(btns);
-
-		show(aTitle);
-
-		((Window) aGUI).pack();
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		Dimension screen = kit.getScreenSize();
-		Insets insets = kit.getScreenInsets(((Window) aGUI)
-				.getGraphicsConfiguration());
-		int w = (int) (screen.getWidth() - insets.left - insets.right);
-		int h = (int) (screen.getHeight() - insets.top - insets.bottom);
-		Dimension dimension = new Dimension(w, h);
-		((Window) aGUI).setSize(dimension);
-		aGUI.setLocation((screen.width - ((Window) aGUI).getSize().width) / 2,
-				(screen.height - ((Window) aGUI).getSize().height) / 2);
-		((JDialog) aGUI).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		aGUI.setVisible(true);
+		GUIButton btn=GraphicTool.fillPanelByButton(pnl_Btn, this, Singletons.Factory(),act, true);
+		getGUIDialog().setDefaultButton(btn);
+		show(mTitle);
 	}
 
 	private String mDataXML = "";
@@ -213,7 +157,7 @@ public class ObserverTemplate extends ObserverAbstract {
 			se.printStackTrace();
 		}
 		PrintPanel.getManager().refresh();
-		txt_Title.setText(aTitle);
+		txt_Title.setTextString(aTitle);
 		isValidate = false;
 	}
 
@@ -222,7 +166,7 @@ public class ObserverTemplate extends ObserverAbstract {
 	}
 
 	public String getModelTitle() {
-		return txt_Title.getText();
+		return txt_Title.getTextString();
 	}
 
 	boolean closed = false;
@@ -239,4 +183,6 @@ public class ObserverTemplate extends ObserverAbstract {
 
 	public void setNameComponentFocused(String aNameComponentFocused) {
 	}
+
+	public void closing() { }
 }

@@ -37,11 +37,13 @@ import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIGrid;
+import org.lucterios.gui.GUIHyperMemo;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUITree;
 import org.lucterios.ui.GUIActionListener;
 
 public class SContainer extends Container implements GUIContainer,ComponentListener {
@@ -50,6 +52,7 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final boolean OPAQUE=true;
 
 	private ContainerType mType;
 	private JPanel mPanel = null;
@@ -89,15 +92,9 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		this.mResizeAction = mResizeAction;
 	}
 	
-	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>();
+	public void addActionListener(GUIActionListener l) { }
 
-	public void addActionListener(GUIActionListener l) {
-		mActionListener.add(l);
-	}
-
-	public void removeActionListener(GUIActionListener l) {
-		mActionListener.remove(l);
-	}
+	public void removeActionListener(GUIActionListener l) {	}
 
 	private Object mObject=null;
 	private int mTag=0;
@@ -150,20 +147,20 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 			mPanel = new JPanel();
 			mPanel.setFocusable(false);
 			mPanel.setLayout(new GridBagLayout());
-			mPanel.setOpaque(false);
+			mPanel.setOpaque(OPAQUE);
 			this.setLayout(new GridBagLayout());
-			add(mPanel,getCnt(new GUIParam(0, 0)));
+			add(mPanel,getCntGrid(new GUIParam(0, 0)));
 			break;
 		case CT_SCROLL:
 			mPanel = new JPanel();
 			mPanel.setLayout(new GridBagLayout());
 			mPanel.setFocusable(false);
-			mPanel.setOpaque(false);
+			mPanel.setOpaque(OPAQUE);
 			JScrollPane scoll = new JScrollPane(mPanel);
 			scoll.setFocusable(true);
 			scoll.setAutoscrolls(true);
 			this.setLayout(new GridBagLayout());
-			add(scoll,getCnt(new GUIParam(0, 0)));
+			add(scoll,getCntGrid(new GUIParam(0, 0)));
 			break;
 		case CT_TAB:
 			this.setLayout(new GridBagLayout());
@@ -171,27 +168,36 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 			mTab.setFocusable(false);
 			mTab.addMouseListener(mCursorMouseListener);
 			mTab.addComponentListener(this);
-			mTab.setOpaque(false);
+			mTab.setOpaque(OPAQUE);
 			mTab.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					for(GUIActionListener l:mChangeListener)
 						l.actionPerformed();
 				}
 			});
-			add(mTab, getCnt(new GUIParam(0, 0)));
+			add(mTab, getCntGrid(new GUIParam(0, 0)));
 			break;
 		case CT_SPLITER:
 			this.setLayout(new GridBagLayout());
 			mSpliter=new JSplitPane();
 			mSpliter.setFocusable(false);
-			mSpliter.setOpaque(false);
+			mSpliter.setOpaque(OPAQUE);
 			mSpliter.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 			mSpliter.setOneTouchExpandable(true);
 			mSpliter.setLeftComponent(null);
 			mSpliter.setRightComponent(null);
 			mSpliter.addMouseListener(mCursorMouseListener);
 			mSpliter.addComponentListener(this);
-			add(mSpliter, getCnt(new GUIParam(0, 0)));
+			add(mSpliter, getCntGrid(new GUIParam(0, 0)));
+		}
+	}
+	
+	public void setLayoutIsGrid(boolean isGrid){
+		if (mPanel != null) {
+			if (isGrid)
+				mPanel.setLayout(new GridBagLayout());
+			else
+				mPanel.setLayout(null);
 		}
 	}
 	
@@ -248,8 +254,15 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 			return mPanel.getComponentCount();
 		return 0;
 	}
-
-	protected GridBagConstraints getCnt(GUIParam param) {
+	
+	protected Object getCnt(GUIParam param) {
+		if ((mPanel!=null) && (mPanel.getLayout()==null))
+			return null;
+		else
+			return getCntGrid(param);
+	}
+	
+	protected GridBagConstraints getCntGrid(GUIParam param) {	
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx = param.getX();
 		gridBagConstraints.gridy = param.getY();
@@ -378,18 +391,18 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		return result;
 	}
 	
-	public GUIContainer getSplite(ContainerType type,boolean right) {
+	public GUIContainer getSplite(ContainerType type,boolean rightOrBottom) {
 		if (mSpliter == null)
 			return null;
 		SContainer result = null;
 		Component cmp;
-		if (right)
+		if (rightOrBottom)
 			cmp=mSpliter.getRightComponent();
 		else
 			cmp=mSpliter.getLeftComponent();
 		if (cmp==null) {
 			result = new SContainer(type,this);
-			if (right)
+			if (rightOrBottom)
 				mSpliter.setRightComponent(result);
 			else
 				mSpliter.setLeftComponent(result);
@@ -397,6 +410,15 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		else if (SContainer.class.isInstance(cmp))
 			result=(SContainer)cmp;
 		return result;
+	}
+	
+	public void setSpliteOrientation(boolean horizontal) {
+		if (mSpliter != null) {
+			if (horizontal)
+				mSpliter.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+			else
+				mSpliter.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		}
 	}
 	
 	public void removeSplite(boolean right){
@@ -513,6 +535,24 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		return result;
 	}
 
+	public GUIHyperMemo createHyperMemo(GUIParam param) {
+		if (mPanel == null)
+			return null;
+		SHyperMemo result = new SHyperMemo(this);
+		mPanel.add(result, getCnt(param));
+		changePreferenceSize(param, result);
+		return result;
+	}
+
+	public GUITree createTree(GUIParam param) {
+		if (mPanel == null)
+			return null;
+		STree result = new STree(this);
+		mPanel.add(result, getCnt(param));
+		changePreferenceSize(param, result);
+		return result;
+	}
+	
 	public void calculBtnSize(GUIButton[] btns) {
 		int wbtn = 0;
 		int hbtn = 0;
@@ -558,6 +598,12 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		return getBackground().getRGB();
 	}
 	
+	public void setDividerLocation(double ratio){
+		if (mSpliter == null)
+			return;
+		mSpliter.setDividerLocation(ratio);
+	}
+	
 	public void setDividerLocation(int location){
 		if (mSpliter == null)
 			return;
@@ -567,6 +613,14 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		if (mSpliter == null)
 			return -1;
 		return mSpliter.getDividerLocation();
+	}
+	
+	public void setMinimumSize(int width, int height){
+		setMinimumSize(new Dimension(width, height));
+	}
+
+	public void setMaximumSize(int width, int height){
+		setMaximumSize(new Dimension(width, height));
 	}
 	
 	@Override
@@ -644,4 +698,5 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 			((Component)get(index)).setCursor(cursor);
 		}
 	}
+
 }

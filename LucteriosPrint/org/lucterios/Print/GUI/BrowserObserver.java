@@ -20,214 +20,147 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.event.*;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JTree;
-import javax.swing.tree.*;
+import java.net.URL;
 
 import org.lucterios.Print.Data.*;
 import org.lucterios.Print.Observer.*;
 import org.lucterios.Print.resources.Resources;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUITree;
+import org.lucterios.gui.GUITreeNode;
+import org.lucterios.gui.GUIParam.ReSizeMode;
+import org.lucterios.ui.GUIActionListener;
 
-public class BrowserObserver extends javax.swing.JPanel implements PrintObserverAbstract 
+public class BrowserObserver implements PrintObserverAbstract 
 {  
-	class IconNodeRenderer extends DefaultTreeCellRenderer {
-
-		private static final long serialVersionUID = 1L;
-
-		public Component getTreeCellRendererComponent(JTree tree, Object value,
-		      boolean sel, boolean expanded, boolean leaf, int row,
-		      boolean hasFocus) {
-
-		    super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
-		        row, hasFocus);
-
-		    DefaultMutableTreeNode node=(DefaultMutableTreeNode)value;
-		    Object node_value=node.getUserObject();
-		    
-		    Icon icon = null;
-            if (PrintImage.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("image.png"));
-            else if (PrintText.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("text.png"));
-            else if (PrintTable.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("table.png"));
-            else if (PrintColumn.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("colonne.png"));
-            else if (PrintRow.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("ligne.png"));
-            else if (PrintCell.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("cellule.png"));
-            else if (PrintPage.class.isInstance(node_value))
-            	icon = new ImageIcon(Resources.class.getResource("model.png"));
-            else if (PrintArea.class.isInstance(node_value))
-            	icon = getIconFromArea(node_value);
-            else if (PrintVector.class.isInstance(node_value))
-            	icon = getIconFromArrayList(node_value);
-		    setIconNoNull(icon);
-		    return this;
-		  }
-
-		private void setIconNoNull(Icon icon) {
-			if (icon != null) 
-		      setIcon(icon);
-		}
-
-		private Icon getIconFromArrayList(Object nodeValue) {
-			Icon icon;
-			if (((PrintVector)nodeValue).name.equalsIgnoreCase("Colonnes"))
-				icon = new ImageIcon(Resources.class.getResource("columns.png"));
-			else if (((PrintVector)nodeValue).name.equalsIgnoreCase("Lignes"))
-			    icon = new ImageIcon(Resources.class.getResource("rows.png"));
-			else
-				icon = new ImageIcon(Resources.class.getResource("vector.png"));
-			return icon;
-		}
-
-		private Icon getIconFromArea(Object nodeValue) {
-			Icon icon;
-			if (((PrintArea)nodeValue).name.equalsIgnoreCase("body"))
-				icon = new ImageIcon(Resources.class.getResource("page.png"));
-			else
-				icon = new ImageIcon(Resources.class.getResource("area.png"));
-			return icon;
-		}
-	}	
-	
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private PrintManager mPrintManager;
-    public BrowserObserver(PrintManager aPrintManager) 
+	private GUIContainer mContainer;
+
+    private GUIMenu mnAdd;
+    private GUIMenu mnDelete;
+    private GUIMenu mnImage;
+    private GUIMenu mnPage;
+    private GUIMenu mnText;
+    private GUIMenu mnTable;
+    private GUIMenu mnColumns;
+    private GUIMenu mnRows;
+    private GUITree treeBrowser;
+	
+    public BrowserObserver(PrintManager aPrintManager, GUIContainer guiContainer) 
     {
         super();
+        mContainer=guiContainer;
         mPrintManager=aPrintManager;
         mPrintManager.addObserver(this);
         initComponents();
         refresh();
-        MouseListener popupListener = new org.lucterios.graphic.PopupListener(mnBrowser);
-        treeBrowser.addMouseListener(popupListener);
-        treeBrowser.putClientProperty("JTree.lineStyle","Angled");
-        treeBrowser.setCellRenderer(new IconNodeRenderer());
-        treeBrowser.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
     }
     
     private void initComponents() {
-        mnBrowser = new javax.swing.JPopupMenu();
-        mnDelete = new javax.swing.JMenuItem();
-        mnAdd = new javax.swing.JMenu();
-        mnText = new javax.swing.JMenuItem();
-        mnImage = new javax.swing.JMenuItem();
-        mnTable = new javax.swing.JMenuItem();
-        mnPage = new javax.swing.JMenuItem();
-        mnColumns = new javax.swing.JMenuItem();
-        mnRows = new javax.swing.JMenuItem();
-        scrBrowser = new javax.swing.JScrollPane();
-        treeBrowser = new javax.swing.JTree();
-
-        mnBrowser.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-                mnBrowserPopupMenuWillBecomeVisible(evt);
-            }
+    	GUIParam param = new GUIParam(0,0);
+    	param.setReSize(ReSizeMode.RSM_BOTH);
+    	param.setPad(5);
+        treeBrowser = mContainer.createTree(param);
+        treeBrowser.addActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+                treeBrowserValueChanged();
+			}
+		});
+        treeBrowser.setImagePaths(new URL[]{
+    		Resources.class.getResource("image.png"), //0
+        	Resources.class.getResource("text.png"),  //1
+        	Resources.class.getResource("table.png"), //2
+        	Resources.class.getResource("colonne.png"), //3
+        	Resources.class.getResource("ligne.png"), //4
+        	Resources.class.getResource("cellule.png"), //5
+        	Resources.class.getResource("model.png"), //6
+			Resources.class.getResource("page.png"), //7
+			Resources.class.getResource("area.png"), //8
+			Resources.class.getResource("columns.png"), //9
+		    Resources.class.getResource("rows.png"), //10
+			Resources.class.getResource("vector.png"), //11
+        });
+        
+        treeBrowser.clearPopupMenu();       
+        treeBrowser.setMenuOpenningListenner(new GUIActionListener() {		
+			public void actionPerformed() {
+                mnBrowserPopupMenuWillBecomeVisible();
+			}
         });
 
+        mnDelete=treeBrowser.newPopupMenu(false);
         mnDelete.setMnemonic('s');
         mnDelete.setText("Supprimer");
-        mnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnDeleteActionPerformed(evt);
+        mnDelete.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnDeleteActionPerformed();
             }
         });
-        mnBrowser.add(mnDelete);
 
+        mnAdd=treeBrowser.newPopupMenu(true);
         mnAdd.setMnemonic('a');
         mnAdd.setText("Ajouter...");
 
+        mnText=mnAdd.addMenu(false);
         mnText.setMnemonic('t');
         mnText.setText("Text");
-        mnText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnTextActionPerformed(evt);
+        mnText.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnTextActionPerformed();
             }
         });
-        mnAdd.add(mnText);
 
+        mnImage=mnAdd.addMenu(false);
         mnImage.setMnemonic('i');
         mnImage.setText("Image");
-        mnImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnImageActionPerformed(evt);
+        mnImage.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnImageActionPerformed();
             }
         });
-        mnAdd.add(mnImage);
 
+        mnTable=mnAdd.addMenu(false);
         mnTable.setMnemonic('b');
         mnTable.setText("Table");
-        mnTable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnTableActionPerformed(evt);
+        mnTable.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnTableActionPerformed();
             }
         });
-        mnAdd.add(mnTable);
 
+        mnColumns=mnAdd.addMenu(false);
         mnColumns.setMnemonic('c');
         mnColumns.setText("Colonne");
-        mnColumns.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnColumnsActionPerformed(evt);
+        mnColumns.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnColumnsActionPerformed();
             }
         });
-        mnAdd.add(mnColumns);
 
+        mnRows=mnAdd.addMenu(false);
         mnRows.setMnemonic('l');
         mnRows.setText("Ligne");
-        mnRows.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnRowsActionPerformed(evt);
+        mnRows.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnRowsActionPerformed();
             }
         });
-        mnAdd.add(mnRows);
 
+        mnPage=mnAdd.addMenu(false);
         mnPage.setMnemonic('p');
         mnPage.setText("Page");
-        mnPage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnPageActionPerformed(evt);
+        mnPage.setActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+                mnPageActionPerformed();
             }
         });
-        mnAdd.add(mnPage);
-
-        mnBrowser.add(mnAdd);
-
-        setLayout(new java.awt.GridBagLayout());
-        setMinimumSize(new java.awt.Dimension(100, 200));
-        setPreferredSize(new java.awt.Dimension(150, 300));
-        treeBrowser.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                treeBrowserValueChanged(evt);
-            }
-        });
-        scrBrowser.setViewportView(treeBrowser);
-        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 1;
-		gridBagConstraints.weighty = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.insets=new Insets(5,5,5,5);
-        add(scrBrowser, gridBagConstraints);
+        mContainer.setMinimumSize(150, 200);
     }
 
-    private void mnBrowserPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) 
+    private void mnBrowserPopupMenuWillBecomeVisible() 
     {
         PrintAbstract current=mPrintManager.getCurrent();
         if (current!=null)
@@ -305,125 +238,142 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
         }
     }
 
-    private void treeBrowserValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeBrowserValueChanged
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)treeBrowser.getLastSelectedPathComponent();
-        if ((node!=null) && (PrintAbstract.class.isInstance(node.getUserObject())))
-            mPrintManager.setCurrent((PrintAbstract)node.getUserObject());
+    private void treeBrowserValueChanged() {
+        Object nodeObj = treeBrowser.getLastSelectedObject();
+        if ((nodeObj!=null) && (PrintAbstract.class.isInstance(nodeObj)))
+            mPrintManager.setCurrent((PrintAbstract)nodeObj);
         else
             mPrintManager.setCurrent(null);
     }
 
-    private void mnPageActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnPageActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_PAGE);
     }
 
-    private void mnImageActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnImageActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_IMAGE);
     }
 
-    private void mnTextActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnTextActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_TEXT);
     }
 
-    private void mnTableActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnTableActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_TABLE);
     }
 
-    private void mnColumnsActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnColumnsActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_COL);
     }
 
-    private void mnRowsActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnRowsActionPerformed() {
         mPrintManager.addItem(PrintManager.OBJECT_ROW);
     }
 
-    private void mnDeleteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void mnDeleteActionPerformed() {
         mPrintManager.deleteCurrent();
     }
 
-    private javax.swing.JMenu mnAdd;
-    private javax.swing.JPopupMenu mnBrowser;
-    private javax.swing.JMenuItem mnDelete;
-    private javax.swing.JMenuItem mnImage;
-    private javax.swing.JMenuItem mnPage;
-    private javax.swing.JMenuItem mnText;
-    private javax.swing.JMenuItem mnTable;
-    private javax.swing.JMenuItem mnColumns;
-    private javax.swing.JMenuItem mnRows;
-    private javax.swing.JScrollPane scrBrowser;
-    private javax.swing.JTree treeBrowser;
-
-    private void addTableItem(DefaultMutableTreeNode tbl_node,PrintTable tbl)
+    private void addTableItem(GUITreeNode tbl_node,PrintTable tbl)
     {
-        DefaultMutableTreeNode col_node = new DefaultMutableTreeNode(tbl.columns);
+        GUITreeNode col_node = tbl_node.newNode(tbl.columns);
+        selectIconToNode(col_node);
         for(int ic=0;ic<tbl.columns.size();ic++)
-        {
-            DefaultMutableTreeNode new_node=new DefaultMutableTreeNode(tbl.columns.get(ic));
-            col_node.add(new_node);
-        }
-        tbl_node.add(col_node);
-        DefaultMutableTreeNode row_node = new DefaultMutableTreeNode(tbl.rows);
+        	selectIconToNode(col_node.newNode(tbl.columns.get(ic)));
+
+        GUITreeNode row_node = tbl_node.newNode(tbl.rows);
+        selectIconToNode(row_node);
         for(int ir=0;ir<tbl.rows.size();ir++)
         {
             PrintRow row=(PrintRow)tbl.rows.get(ir);
-            DefaultMutableTreeNode subrow_node=new DefaultMutableTreeNode(row);
+            GUITreeNode subrow_node=row_node.newNode(row);
+            selectIconToNode(subrow_node);
             for(int ic=0;ic<row.cell.size();ic++)
-            {
-                DefaultMutableTreeNode cell_node=new DefaultMutableTreeNode(row.cell.get(ic));
-                subrow_node.add(cell_node);
-            }
-            row_node.add(subrow_node);
+            	selectIconToNode(subrow_node.newNode(row.cell.get(ic)));
         }
-        tbl_node.add(row_node);        
     }
     
-    private void addAreaSubNodes(DefaultMutableTreeNode area_node,PrintArea area_obj)
+    private void addAreaSubNodes(GUITreeNode area_node,PrintArea area_obj)
     {
         for(int i=0;i<area_obj.size();i++)
         {
-            DefaultMutableTreeNode new_node=new DefaultMutableTreeNode(area_obj.get(i));
+        	GUITreeNode new_node=area_node.newNode(area_obj.get(i));
             if (PrintTable.class.isInstance(area_obj.get(i)))
                 addTableItem(new_node,(PrintTable)area_obj.get(i));
-            area_node.add(new_node);
+            selectIconToNode(new_node);
         }
     }
 
-    private void addSubNodes(DefaultMutableTreeNode area_parent_node,PrintArea area_obj)
+    private void addSubNodes(GUITreeNode area_parent_node,PrintArea area_obj)
     {
-        DefaultMutableTreeNode area_node=new DefaultMutableTreeNode(area_obj);
+        GUITreeNode area_node=area_parent_node.newNode(area_obj);
         addAreaSubNodes(area_node,area_obj);
-        area_parent_node.add(area_node);
+        selectIconToNode(area_node);
     }
 
     public void refresh()
     {
         PrintPage page=mPrintManager.getPage();
-        DefaultMutableTreeNode root_node = new DefaultMutableTreeNode(page);
+        GUITreeNode root_node = treeBrowser.newRootNode(page);
+        selectIconToNode(root_node);
         addSubNodes(root_node,page.header);
         addSubNodes(root_node,page.left);
-        DefaultMutableTreeNode body_node;
-        body_node = new DefaultMutableTreeNode(page.body);
-        root_node.add(body_node);
+        GUITreeNode body_node;
+        body_node = root_node.newNode(page.body);
+        selectIconToNode(body_node);
         for(int i=0;i<page.body.size();i++)
             addSubNodes(body_node,(PrintArea)page.body.get(i));
         addSubNodes(root_node,page.bottom);
         addSubNodes(root_node,page.rigth);
-        treeBrowser.setModel(new DefaultTreeModel(root_node));
     }
     
-    public TreeNode findObject(PrintAbstract obj_select) 
+    private void selectIconToNode(GUITreeNode node){
+    	Object node_value=node.getUserObject();
+	    int iconIndex = -1;
+        if (PrintImage.class.isInstance(node_value))
+        	iconIndex = 0;
+        else if (PrintText.class.isInstance(node_value))
+        	iconIndex = 1;
+        else if (PrintTable.class.isInstance(node_value))
+        	iconIndex = 2;
+        else if (PrintColumn.class.isInstance(node_value))
+        	iconIndex = 3;
+        else if (PrintRow.class.isInstance(node_value))
+        	iconIndex = 4;
+        else if (PrintCell.class.isInstance(node_value))
+        	iconIndex = 5;
+        else if (PrintPage.class.isInstance(node_value))
+        	iconIndex = 6;
+        else if (PrintArea.class.isInstance(node_value)) {
+			if (((PrintArea)node_value).name.equalsIgnoreCase("body"))
+				iconIndex = 7;
+			else
+				iconIndex = 8;
+        }
+        else if (PrintVector.class.isInstance(node_value)) {
+			if (((PrintVector)node_value).name.equalsIgnoreCase("Colonnes"))
+				iconIndex = 9;
+			else if (((PrintVector)node_value).name.equalsIgnoreCase("Lignes"))
+				iconIndex = 10;
+			else
+				iconIndex = 11;
+        }
+        node.setIconIndex(iconIndex);
+    }
+    
+    public GUITreeNode findObject(PrintAbstract obj_select) 
     {
-        TreeNode current_node = null;
+        GUITreeNode current_node = null;
         if (obj_select!=null)
         {
-            TreeNode root = (TreeNode)treeBrowser.getModel().getRoot();
+            GUITreeNode root = treeBrowser.getRoot();
             if (PrintPage.class.isInstance(obj_select))
             {
                 current_node=root;
             }
             else if (obj_select.isPage())
             {
-                current_node=root.getChildAt(2);
+                current_node=root.getNode(2);
             }
             else if (PrintArea.class.isInstance(obj_select))
             {
@@ -447,59 +397,59 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
             }
             else if (obj_select.isColumn())
             {
-                TreeNode parent_node=findObject(obj_select.getOwner());
-                current_node=parent_node.getChildAt(0);
+                GUITreeNode parent_node=findObject(obj_select.getOwner());
+                current_node=parent_node.getNode(0);
             }
             else if (obj_select.isRow())
             {
-                TreeNode parent_node=findObject(obj_select.getOwner());
-                current_node=parent_node.getChildAt(1);
+                GUITreeNode parent_node=findObject(obj_select.getOwner());
+                current_node=parent_node.getNode(1);
             }
         }
         return current_node;
     }
 
-	private TreeNode getCell(PrintAbstract objectSelect) 
+	private GUITreeNode getCell(PrintAbstract objectSelect) 
 	{
-		TreeNode currentNode=null;
+		GUITreeNode currentNode=null;
 		PrintVector cells=(PrintVector)objectSelect.getOwner();
-		TreeNode parent_node=findObject(cells.getOwner());
+		GUITreeNode parent_node=findObject(cells.getOwner());
 		int idx=cells.indexOf(objectSelect);
 		if ((parent_node!=null) && (idx>=0))
-		    currentNode=parent_node.getChildAt(idx);
+		    currentNode=parent_node.getNode(idx);
 		return currentNode;
 	}
 
-	private TreeNode getColumn(PrintAbstract objectSelect) 
+	private GUITreeNode getColumn(PrintAbstract objectSelect) 
 	{
-		TreeNode current_node=null;
+		GUITreeNode current_node=null;
 		PrintVector cols=(PrintVector)objectSelect.getOwner();
-		TreeNode parent_node=findObject(cols);
+		GUITreeNode parent_node=findObject(cols);
 		int idx=cols.indexOf(objectSelect);
 		if ((parent_node!=null) && (idx>=0))
-		    current_node=parent_node.getChildAt(idx);
+		    current_node=parent_node.getNode(idx);
 		return current_node;
 	}
 
-	private TreeNode getContentArea(PrintAbstract objectSelect)
+	private GUITreeNode getContentArea(PrintAbstract objectSelect)
 	{
-		TreeNode current_node=null;
+		GUITreeNode current_node=null;
 		PrintArea area=(PrintArea)objectSelect.getOwner();
-		TreeNode parent_node=findObject(area);
+		GUITreeNode parent_node=findObject(area);
 		int idx=area.indexOf(objectSelect);
 		if ((parent_node!=null) && (idx>=0))
-		    current_node=parent_node.getChildAt(idx);
+		    current_node=parent_node.getNode(idx);
 		else
 		    System.out.println("+++ find cmp "+objectSelect+" owner"+objectSelect.getOwner()+" "+idx);
 		return current_node;
 	}
 
-	private TreeNode getPageArea(PrintAbstract objectSelect, TreeNode root) 
+	private GUITreeNode getPageArea(PrintAbstract objectSelect, GUITreeNode root) 
 	{
-		TreeNode current_node=null;
+		GUITreeNode current_node=null;
 		int idx=-1;
 		PrintPage page=mPrintManager.getPage();
-		TreeNode parent_node=root;
+		GUITreeNode parent_node=root;
 		if (objectSelect.equals(page.header))
 		    idx=0;
 		else if (objectSelect.equals(page.left))
@@ -514,7 +464,7 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
 		    idx=mPrintManager.getPage().body.indexOf(objectSelect);
 		}
 		if ((parent_node!=null) && (idx>=0))
-		    current_node=parent_node.getChildAt(idx);
+		    current_node=parent_node.getNode(idx);
 		else
 		    System.out.println("+++ find area "+objectSelect+" owner"+objectSelect.getOwner()+" "+idx);
 		return current_node;
@@ -522,12 +472,9 @@ public class BrowserObserver extends javax.swing.JPanel implements PrintObserver
 
     public void changeCurrentEvent()
     {
-        TreeNode current=findObject(mPrintManager.getCurrent());
-        if (current!=null)
-        {
-            TreePath current_path=new TreePath(((DefaultMutableTreeNode)current).getPath());
-            treeBrowser.getSelectionModel().setSelectionPath(current_path);
-            treeBrowser.expandPath(current_path);
+    	GUITreeNode current=findObject(mPrintManager.getCurrent());
+        if (current!=null) {
+        	treeBrowser.setSelectNodeAndExpand(current);
         }
     }
 

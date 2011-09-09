@@ -182,8 +182,14 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 
 		reverse = false;
 		setFocusable(false);
-		setMinimumSize(new Dimension(30, 20));
-		setPreferredSize(new Dimension(30, 20));
+		numberField.setMinimumSize(new Dimension(50, 20));
+		numberField.setPreferredSize(new Dimension(50, 20));
+		upButton.setMinimumSize(new Dimension(10, 10));
+		upButton.setPreferredSize(new Dimension(10, 10));
+		downButton.setMinimumSize(new Dimension(10, 10));
+		downButton.setPreferredSize(new Dimension(10, 10));
+		setMinimumSize(new Dimension(60, 20));
+		setPreferredSize(new Dimension(60, 20));
 	}
 
 	// /////////////////

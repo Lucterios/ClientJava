@@ -20,21 +20,15 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-
 import org.lucterios.Print.Data.PrintAbstract;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.ui.GUIActionListener;
 
-
-public abstract class PrintPanelAbstract extends JPanel implements MouseListener
+public abstract class PrintPanelAbstract implements GUIActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	public static final double Ratio=75;
+	public static final double Ratio=50;
 	
 	public static final int PAGE=0;
 	public static final int CENTER=1;
@@ -50,14 +44,16 @@ public abstract class PrintPanelAbstract extends JPanel implements MouseListener
 	}
 
 	protected ObserverCallBack mObserver;
+	protected GUIContainer mContainer;
 	
-	public PrintPanelAbstract(ObserverCallBack observer)
+	public PrintPanelAbstract(ObserverCallBack observer,GUIContainer container)
 	{
 		super();
-		addMouseListener(this);
+		mContainer=container;
+		mContainer.setObject(this);
+		mContainer.setMouseClickAction(this);
 		mObserver=observer;
-		setLayout(null);
-		setBackground(Color.WHITE);
+		mContainer.setBackgroundColor(0xFFFFFF);
 		setActive(false);
 	}
 	
@@ -78,28 +74,20 @@ public abstract class PrintPanelAbstract extends JPanel implements MouseListener
 		mActive=active;
 		if (mActive)
 		{
-			setBackground(Color.LIGHT_GRAY);
-			setBorder(new LineBorder(Color.RED,1));
+			mContainer.setBackgroundColor(0xC0C0C0);
+			mContainer.setBorder(1,1,1,1,0xFF0000);
 		}
 		else
 		{
-			setBackground(Color.WHITE);
-			setBorder(new LineBorder(Color.BLACK,1));
+			mContainer.setBackgroundColor(0xFFFFFF);
+			mContainer.setBorder(1,1,1,1,0x000000);
 		}
 	}
 	
 	public abstract void activate();
 	
-	public void mouseClicked(MouseEvent e) 
+	public void actionPerformed() 
 	{
 		activate();
 	}
-
-	public void mouseEntered(MouseEvent e) {}
-
-	public void mouseExited(MouseEvent e) {}
-
-	public void mousePressed(MouseEvent e) {}
-
-	public void mouseReleased(MouseEvent e) {}
 }

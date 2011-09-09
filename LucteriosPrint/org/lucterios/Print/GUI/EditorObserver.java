@@ -1,54 +1,47 @@
 package org.lucterios.Print.GUI;
 
-import java.awt.GridBagLayout;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.JPanel;
-
 import org.lucterios.Print.Data.PrintAbstract;
 import org.lucterios.Print.Data.PrintCell;
 import org.lucterios.Print.Data.PrintColumn;
 import org.lucterios.Print.Data.PrintText;
 import org.lucterios.Print.Observer.PrintManager;
 import org.lucterios.Print.Observer.PrintObserverAbstract;
-import org.lucterios.graphic.LucteriosEditor;
+import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIHyperMemo;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIComponent.GUIFocusListener;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class EditorObserver extends JPanel implements PrintObserverAbstract {
+public class EditorObserver implements PrintObserverAbstract {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MENU_SPECIAL="Variables";
 	private static final String TAG_BEGIN="[{";
 	private static final String TAG_END="}]";
 
-    protected LucteriosEditor mFormedEditor=null;
+    protected GUIHyperMemo mFormedEditor=null;
 	private PrintManager mPrintManager;
+	private GUIContainer mContainer;
 
-	public EditorObserver(PrintManager aPrintManager) 
+	public EditorObserver(PrintManager aPrintManager, GUIContainer guiContainer) 
     {
         super();
+        mContainer=guiContainer;
         mPrintManager=aPrintManager;
         mPrintManager.addObserver(this);
-        setLayout(new GridBagLayout());
-        mFormedEditor=new LucteriosEditor(false);
-        mFormedEditor.setMinimumSize(new java.awt.Dimension(50,50));
-        mFormedEditor.setPreferredSize(new java.awt.Dimension(100,100));
+        GUIParam param;
+
+        param=new GUIParam(0,0);
+        param.setReSize(ReSizeMode.RSM_BOTH);
+        mFormedEditor=mContainer.createHyperMemo(param);
         mFormedEditor.addStandardPopupMenu(false);
-        mFormedEditor.setOpaque(false);
-        mFormedEditor.addFocusListener(new FocusListener(){
-			public void focusGained(FocusEvent e) {}
-			public void focusLost(FocusEvent e) {
+        mFormedEditor.addFocusListener(new GUIFocusListener(){
+			public void focusLost(GUIComponent origine, GUIComponent target) {
 				propertyFocusLost();
 			}
-        });
-        
-        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(mFormedEditor, gridBagConstraints);
+        });      
+        mContainer.setMinimumSize(100, 100);
         refresh();
     }
 
@@ -82,7 +75,7 @@ public class EditorObserver extends JPanel implements PrintObserverAbstract {
 	        }
 	        else
 	        	clear();
-        	repaint();       
+        	mContainer.repaint();       
 		}
 		finally
 		{

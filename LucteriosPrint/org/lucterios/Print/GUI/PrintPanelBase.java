@@ -20,20 +20,20 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.Component;
-
-import javax.swing.border.EmptyBorder;
-
 import org.lucterios.Print.Data.*;
+import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
 
 
 public class PrintPanelBase extends PrintPanelAbstract
 {
 	private static final long serialVersionUID = 1L;
 	
-	public PrintPanelBase(ObserverCallBack observer)
+	public PrintPanelBase(ObserverCallBack observer,GUIContainer container)
 	{
-		super(observer);
+		super(observer,container);
 		mPrintPage=null;
 	}
 	
@@ -90,12 +90,12 @@ public class PrintPanelBase extends PrintPanelAbstract
 	public void refresh()
 	{
 		super.refresh();
-		for(int index=0;index<getComponentCount();index++)
+		for(int index=0;index<mContainer.count();index++)
 		{
-			Component cmp=getComponent(index);
-			if (PrintPanelObject.class.isInstance(cmp))
+			GUIComponent cmp=mContainer.get(index);
+			if (GUIContainer.class.isInstance(cmp) && PrintPanelObject.class.isInstance(((GUIContainer)cmp).getObject()))
 			{
-				PrintPanelObject current_obj=(PrintPanelObject)cmp;
+				PrintPanelObject current_obj=(PrintPanelObject)((GUIContainer)cmp).getObject();
 				current_obj.refresh();
 			}
 		}
@@ -104,11 +104,11 @@ public class PrintPanelBase extends PrintPanelAbstract
 	public void initialize()
 	{
 		int idx=0;
-		while(idx<getComponentCount())
+		while(idx<mContainer.count())
 		{
-			Component cmp=getComponent(idx);
-			if (PrintPanelObject.class.isInstance(cmp))
-				remove(idx);
+			GUIComponent cmp=mContainer.get(idx);
+			if (GUIContainer.class.isInstance(cmp) && PrintPanelObject.class.isInstance(((GUIContainer)cmp).getObject()))
+				mContainer.remove(idx);
 			else
 				idx++;
 		}
@@ -117,10 +117,9 @@ public class PrintPanelBase extends PrintPanelAbstract
 			for(int index=0;index<area.size();index++)
 				if (PrintContainer.class.isInstance(area.get(index)))
 				{
-					PrintPanelObject new_obj=new PrintPanelObject(mObserver);
+					PrintPanelObject new_obj=new PrintPanelObject(mObserver,mContainer.createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0)));
 					new_obj.setPrintContainer((PrintContainer)area.get(index));
 					new_obj.setSizeEchelle(mEchelle);
-					add(new_obj);
 				}
 	}
 
@@ -130,12 +129,12 @@ public class PrintPanelBase extends PrintPanelAbstract
 			setActive(mPrintPage.equals( printObject ));
 		else
 			setActive(getPrintArea().equals( printObject ));
-		for(int index=0;index<getComponentCount();index++)
+		for(int index=0;index<mContainer.count();index++)
 		{
-			Component cmp=getComponent(index);
-			if (PrintPanelObject.class.isInstance(cmp))
+			GUIComponent cmp=mContainer.get(index);
+			if (GUIContainer.class.isInstance(cmp) && PrintPanelObject.class.isInstance(((GUIContainer)cmp).getObject()))
 			{
-				PrintPanelObject current_obj=(PrintPanelObject)cmp;
+				PrintPanelObject current_obj=(PrintPanelObject)((GUIContainer)cmp).getObject();
 				current_obj.setVisit(printObject);
 			}
 		}
@@ -169,7 +168,7 @@ public class PrintPanelBase extends PrintPanelAbstract
 				height=mPrintPage.page_height-mPrintPage.margin_top-mPrintPage.margin_bottom-mPrintPage.header.extent-mPrintPage.bottom.extent;
 				break;
 			case PAGE:
-				setBorder(new EmptyBorder((int)(mPrintPage.margin_top*echelle/Ratio), (int)(mPrintPage.margin_left*echelle/Ratio), (int)(mPrintPage.margin_bottom*echelle/Ratio), (int)(mPrintPage.margin_right*echelle/Ratio)));
+				mContainer.setBorder((int)(mPrintPage.margin_top*echelle/Ratio), (int)(mPrintPage.margin_left*echelle/Ratio), (int)(mPrintPage.margin_bottom*echelle/Ratio), (int)(mPrintPage.margin_right*echelle/Ratio),0xFFFFFF);
 				width=mPrintPage.page_width;
 				height=mPrintPage.page_height;
 				break;
@@ -177,16 +176,15 @@ public class PrintPanelBase extends PrintPanelAbstract
 				//TODO: Implement 'default' statement
 				break;
 		}
-        setPreferredSize(new java.awt.Dimension((int)(width*echelle/Ratio),(int)(height*echelle/Ratio)));
-        setMinimumSize(new java.awt.Dimension((int)(width*echelle/Ratio),(int)(height*echelle/Ratio)));
-        setMaximumSize(new java.awt.Dimension((int)(width*echelle/Ratio),(int)(height*echelle/Ratio)));
-        setSize(new java.awt.Dimension((int)(width*echelle/Ratio),(int)(height*echelle/Ratio)));
-		for(int index=0;index<getComponentCount();index++)
+        mContainer.setSize((int)(width*echelle/Ratio),(int)(height*echelle/Ratio));
+        mContainer.setMinimumSize((int)(width*echelle/Ratio),(int)(height*echelle/Ratio));
+        mContainer.setMaximumSize((int)(width*echelle/Ratio),(int)(height*echelle/Ratio));
+		for(int index=0;index<mContainer.count();index++)
 		{
-			Component cmp=getComponent(index);
-			if (PrintPanelObject.class.isInstance(cmp))
+			GUIComponent cmp=mContainer.get(index);
+			if (GUIContainer.class.isInstance(cmp) && PrintPanelObject.class.isInstance(((GUIContainer)cmp).getObject()))
 			{
-				PrintPanelObject current_obj=(PrintPanelObject)cmp;
+				PrintPanelObject current_obj=(PrintPanelObject)((GUIContainer)cmp).getObject();
 				current_obj.setSizeEchelle(echelle);
 			}
 		}

@@ -174,12 +174,13 @@ public class ExceptionDlg {
         mDialog.initialPosition();
     }
 
-    protected void addTrace(Exception expt)
+    protected void addTrace(Throwable expt)
     {
         StringWriter str_wrt=new StringWriter();
         PrintWriter prt=new PrintWriter(str_wrt);
         expt.printStackTrace(prt);
         addStack(str_wrt.getBuffer().toString());
+        expt.printStackTrace();
     }
 
     protected void addStack(String aText)
@@ -248,7 +249,7 @@ public class ExceptionDlg {
         btn_send.setVisible(btn_more.isVisible() && (mInfoDescription!=null));
     }
     
-    protected void setException(Exception e)
+    protected void setException(Throwable e)
     {
     	setMessage(e.getClass().getName()+" "+e.getMessage(),FAILURE);
         addTrace(e);
@@ -317,7 +318,7 @@ public class ExceptionDlg {
         err_dlg.showDialog();
     }
     
-    public static void throwException(Exception expt)
+    public static void throwException(Throwable expt)
     {
         ExceptionDlg err_dlg=new ExceptionDlg();
         if (LucteriosException.class.isInstance(expt))

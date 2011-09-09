@@ -20,27 +20,34 @@
 
 package org.lucterios.Print.GUI;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.lang.reflect.Field;
 
-import javax.swing.*;
-
 import org.lucterios.Print.Data.*;
+import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIEdit;
+import org.lucterios.gui.GUIHyperText;
+import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUISpinEdit;
+import org.lucterios.gui.GUIComponent.GUIFocusListener;
+import org.lucterios.gui.GUIParam.ReSizeMode;
         
 /**
  *
  * @author  lg
  */
-public abstract class PropertyPanel extends javax.swing.JPanel
+public abstract class PropertyPanel implements GUIFocusListener
 {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected javax.swing.JLabel lblProperty=null;
-    protected javax.swing.JLabel lblAligne=null;
-    protected javax.swing.JLabel lblTitle=null;
+	protected GUIHyperText lblProperty=null;
+    protected GUILabel lblAligne=null;
+    protected GUIHyperText lblTitle=null;
+    protected GUIContainer mContainer;
 
     protected class SelectData
     {
@@ -62,7 +69,12 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         }
         public String toString(){return Title;}
     }
-    static public String[] splitName(String cmpName)
+    public PropertyPanel(GUIContainer guiContainer) {
+		super();
+		mContainer=guiContainer;
+	}
+
+	static public String[] splitName(String cmpName)
     {
         String[] cmp_names;
         try{
@@ -79,9 +91,9 @@ public abstract class PropertyPanel extends javax.swing.JPanel
     {
         if (mCurrent!=null)
         {
-            for(int idx=0;idx<getComponentCount();idx++)
+            for(int idx=0;idx<mContainer.count();idx++)
             {
-                java.awt.Component cmp=getComponent(idx);
+                GUIComponent cmp=mContainer.get(idx);
                 if ((cmp!=null) && (cmp.getName()!=null))
                 {
                     if ("__".equals( cmp.getName().substring(0,2) ))
@@ -91,7 +103,7 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         }
     }
 
-    private void componentReturn(java.awt.Component cmp)
+    private void componentReturn(GUIComponent cmp)
     {
         java.lang.reflect.Field field=null;
         String cmpName=cmp.getName().substring(2);
@@ -119,24 +131,24 @@ public abstract class PropertyPanel extends javax.swing.JPanel
         }
     }
 
-	private void setFieldValue(java.awt.Component cmp, Field field, Object objectValue) throws IllegalAccessException 
+	private void setFieldValue(GUIComponent cmp, Field field, Object objectValue) throws IllegalAccessException 
 	{
 		if (field.getType().isAssignableFrom(Integer.TYPE))
 		{
-		    int value=(int)((org.lucterios.form.FloatField)cmp).getValue();
+		    int value=(int)((GUISpinEdit)cmp).getNumber();
 		    field.setInt(objectValue,value);
 		}
 		else if (field.getType().isAssignableFrom(Double.TYPE))
 		{
-		    double value=((org.lucterios.form.FloatField)cmp).getValue();
+		    double value=((GUIEdit)cmp).getValue();
 		    field.setDouble(objectValue,value);
 		}
 		else if (field.getType().isAssignableFrom(String.class))
 		{
 		    String value=null;
-		    if (JComboBox.class.isInstance(cmp))
+		    if (GUICombo.class.isInstance(cmp))
 		    {
-		        JComboBox combo=(JComboBox)cmp;
+		    	GUICombo combo=(GUICombo)cmp;
 		        Object select_obj=combo.getSelectedItem();
 		        if (select_obj!=null)
 		        {
@@ -147,43 +159,27 @@ public abstract class PropertyPanel extends javax.swing.JPanel
 		        }
 		    }
 		    else
-		        value=((JTextField)cmp).getText();
+		        value=((GUIEdit)cmp).getTextString();
 		    if (value!=null)
 		        field.set(objectValue,value);
 		}
 	}
 
-    protected void addComponent(int posY,String cmpTitle,JComponent cmp,int width)
+    protected GUIParam addComponent(int posY,String cmpTitle,int width)
     {
-        java.awt.GridBagConstraints gridBagConstraints;
-        JLabel lbl_cmp_title = new JLabel();
-        lbl_cmp_title.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lbl_cmp_title.setText(cmpTitle);
-        lbl_cmp_title.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 11));
-        lbl_cmp_title.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = posY;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1,3,3,1);
-        add(lbl_cmp_title, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = width;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.gridy = posY;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1,3,3,1);
-        cmp.addFocusListener(new FocusListener(){
-			public void focusGained(FocusEvent e) {}
-			public void focusLost(FocusEvent e) {
-				propertyFocusLost();
-			}
-        });
-        add(cmp, gridBagConstraints);
+        GUIParam param;
+        
+        param=new GUIParam(0,posY);
+        param.setReSize(ReSizeMode.RSM_NONE);
+        param.setPad(2);
+        GUILabel lbl_cmp_title = mContainer.createLabel(param);
+        lbl_cmp_title.setTextString(cmpTitle);
+        
+        param=new GUIParam(1,posY,width,1);
+        param.setReSize(ReSizeMode.RSM_HORIZONTAL);
+        param.setPad(2);
+        return param;
     }
-    
-    protected abstract void propertyFocusLost();
 	
     protected void addEdit(int posY,String cmpTitle,String cmpName,Object[] select)
     {
@@ -197,39 +193,41 @@ public abstract class PropertyPanel extends javax.swing.JPanel
             }
         }catch(java.lang.NoSuchFieldException fe){field=null;System.out.println("Error "+fe);}
         catch(java.lang.IllegalAccessException ae){field=null;System.out.println("Error "+ae);}
-        JComponent edit_cmp=null;
+        
+        GUIComponent edit_cmp=null;
         if (field!=null)
         {
+            GUIParam param=addComponent(posY,cmpTitle,2);
             if (field.getType().isAssignableFrom(Integer.TYPE))
             {
-                edit_cmp = new org.lucterios.form.FloatField();
-                ((org.lucterios.form.FloatField)edit_cmp).setRange(1,50,0);
-                ((org.lucterios.form.FloatField)edit_cmp).setValue(((Integer)temp_value).intValue());
+                edit_cmp = mContainer.createSpinEdit(param);
+                ((GUISpinEdit)edit_cmp).init(((Integer)temp_value).intValue(), 1,50);
             }
             else if (field.getType().isAssignableFrom(Double.TYPE))
             {
-                edit_cmp = new org.lucterios.form.FloatField();
-                ((org.lucterios.form.FloatField)edit_cmp).setRange(0,5000,2);
-                ((org.lucterios.form.FloatField)edit_cmp).setValue(((Double)temp_value).doubleValue());
+                edit_cmp = mContainer.createEdit(param);
+                ((GUIEdit)edit_cmp).setRange(0,5000,2);
+                ((GUIEdit)edit_cmp).setValue(((Double)temp_value).doubleValue());
             }
             else 
             {
                 if (select==null)
                 {
-                    edit_cmp = new JTextField();
-                    ((JTextField)edit_cmp).setText(temp_value.toString());
+                    edit_cmp = mContainer.createEdit(param);
+                    ((GUIEdit)edit_cmp).setTextString(temp_value.toString());
                 }
-                else
-                    edit_cmp = createCombo(select, temp_value);
+                else 
+                    edit_cmp = createCombo(param,select, temp_value);
             }
             edit_cmp.setName("__"+cmpName);
-            addComponent(posY,cmpTitle,edit_cmp,2);
+            edit_cmp.addFocusListener(this);
         }
     }
 
-	private JComponent createCombo(Object[] select, Object temp_value) {
-		JComponent edit_cmp;
-		edit_cmp = new JComboBox(select);
+	private GUIComponent createCombo(GUIParam param, Object[] select, Object temp_value) {
+		GUIComponent edit_cmp;
+		edit_cmp = mContainer.createCombo(param);
+		((GUICombo)edit_cmp).addList(select);
 		int select_idx=-1;
 		if (SelectData[].class.isInstance(select))
 		{
@@ -245,18 +243,18 @@ public abstract class PropertyPanel extends javax.swing.JPanel
 		            select_idx=idx;
 		    }
 		}
-		((JComboBox)edit_cmp).setSelectedIndex(select_idx);
+		((GUICombo)edit_cmp).setSelectedIndex(select_idx);
 		return edit_cmp;
 	}
 
     public void clear()
     {
-        lblTitle.setText("");
+        lblTitle.setTextString("");
         int idx=0;
-        while (idx<getComponentCount())
+        while (idx<mContainer.count())
         {
-            if ((!getComponent(idx).equals( lblTitle )) && (!getComponent(idx).equals( lblAligne )) && (!getComponent(idx).equals( lblProperty )))
-                remove(idx);
+            if ((!mContainer.get(idx).equals( lblTitle )) && (!mContainer.get(idx).equals( lblAligne )) && (!mContainer.get(idx).equals( lblProperty )))
+            	mContainer.remove(idx);
             else
                 idx++;
         }

@@ -20,163 +20,116 @@
 
 package org.lucterios.Print;
 
-
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import org.lucterios.Print.resources.Resources;
+import org.lucterios.swing.SGenerator;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
 import org.lucterios.graphic.ExceptionDlg;
-import org.lucterios.graphic.HtmlLabel;
+import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICheckBox;
+import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIFrame;
+import org.lucterios.gui.GUIMemo;
+import org.lucterios.gui.GUIParam;
+import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.gui.GUIFrame.FrameVisitor;
 
 /**
  *
  * @author  lg
  */
-public class DemoPrint extends JFrame
+public class DemoPrint implements FrameVisitor 
 {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private MainPrintPanel newContentPane;
-    private JScrollPane scrCode;
-    private HtmlLabel CodeEditor;
-    private JEditorPane XmlDataEditor;
+    private GUIContainer scrCode;
+    private GUIMemo CodeEditor;
+    private GUIMemo XmlDataEditor;
 
-    private JPanel pnl_main;
-    private JPanel pnl_bnt;
-    private JButton btn_in;
-    private JButton btn_out;
-    private JCheckBox cb_WithText;
+    private GUIContainer pnl_main;
+    private GUIContainer pnl_bnt;
+    private GUIButton btn_in;
+    private GUIButton btn_out;
+    private GUICheckBox cb_WithText;
+
+    public String modelFileName="";
+    public String xmlFileName="";
     
     public DemoPrint()
     {
-        super("Exemple");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super();     
+    }
+    
+	public void execute(GUIFrame mainFrame) {
+        mainFrame.setTitle("Exemple");
+        GUIParam param;
 
-        pnl_main=new JPanel();
-        pnl_main.setLayout(new java.awt.GridBagLayout());
-        java.awt.GridBagConstraints gridBagConstraints;
+        pnl_main=mainFrame.getContainer();
 
-        Image font_img=Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("MainFont.jpg"));
-        newContentPane = new MainPrintPanel();
-        newContentPane.setFontImage(font_img,MainPrintPanel.TEXTURE);
-        newContentPane.setOpaqueChild(false);
-        //newContentPane.getManager().
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.weightx = 1.0;
-        pnl_main.add(newContentPane, gridBagConstraints);
+        param=new GUIParam(0,4,2,1);
+        newContentPane = new MainPrintPanel(pnl_main.createContainer(ContainerType.CT_NORMAL, param));
 
-
-        CodeEditor=new HtmlLabel();
+        param=new GUIParam(0,0,1,3);
+        scrCode=pnl_main.createContainer(ContainerType.CT_SCROLL, param);
+        CodeEditor=scrCode.createMemo(new GUIParam(0,0));
         CodeEditor.setText("");
-        scrCode=new JScrollPane();
-        scrCode.setViewportView(CodeEditor);
-        scrCode.setMinimumSize(new java.awt.Dimension(100,200));
-        scrCode.setPreferredSize(new java.awt.Dimension(200,200));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        pnl_main.add(scrCode, gridBagConstraints);
 
-        pnl_bnt=new JPanel();
-        pnl_bnt.setLayout(new java.awt.GridBagLayout());
-        btn_in=new JButton();
-        btn_in.setText("Import");
-        btn_in.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) 
+        param=new GUIParam(1,2,1,1);
+        pnl_bnt=pnl_main.createContainer(ContainerType.CT_NORMAL, param);
+        
+        param=new GUIParam(0,0);
+        btn_in=pnl_bnt.createButton(param);
+        btn_in.setTextString("Import");
+        btn_in.addActionListener(new GUIActionListener() {		
+			public void actionPerformed() {
+				btn_in_actionPerformed();
+			}
+		});
+
+        param=new GUIParam(1,0);
+        btn_out=pnl_bnt.createButton(param);
+        btn_out.setTextString("Export");
+        btn_out.addActionListener(new GUIActionListener() {
+            public void actionPerformed() 
             {
-                    btn_in_actionPerformed(e);
+            	btn_out_actionPerformed();
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnl_bnt.add(btn_in, gridBagConstraints);
 
-        btn_out=new JButton();
-        btn_out.setText("Export");
-        btn_out.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) 
-            {
-                    btn_out_actionPerformed(e);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnl_bnt.add(btn_out, gridBagConstraints);
-
-        cb_WithText=new JCheckBox();
-        cb_WithText.setText("With text export ?");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth=3;
-        pnl_bnt.add(cb_WithText, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnl_main.add(pnl_bnt, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight=2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-
-        XmlDataEditor=new JEditorPane();
-        XmlDataEditor.setContentType("text/plain");
+        param=new GUIParam(0,1,3,1);
+        cb_WithText=pnl_bnt.createCheckBox(param);
+        cb_WithText.setTextString("With text export ?");
+                
+        param=new GUIParam(1,0,1,2);
+        GUIContainer xmlCode=pnl_main.createContainer(ContainerType.CT_SCROLL, param);
+        XmlDataEditor=xmlCode.createMemo(new GUIParam(0,0));
         XmlDataEditor.setText("<DATA>\n</DATA>");
-        JScrollPane xmlCode=new JScrollPane();
-        xmlCode.setViewportView(XmlDataEditor);
-        xmlCode.setMinimumSize(new java.awt.Dimension(100,150));
-        xmlCode.setPreferredSize(new java.awt.Dimension(200,150));        
-        pnl_main.add(xmlCode, gridBagConstraints);
-
-        setContentPane(pnl_main);
-
-        pack();
-        setLocationRelativeTo(null);
+        
+        mainFrame.getGenerator().invokeLater(new Runnable() {
+			public void run() {
+		        loadModel();
+			}
+		});
     }
 
-    public void btn_out_actionPerformed(java.awt.event.ActionEvent e) 
+    public void btn_out_actionPerformed() 
     {
         CodeEditor.setText(newContentPane.getManager().getPage().Save());
     }
     
-    public void btn_in_actionPerformed(java.awt.event.ActionEvent e) 
+    public void btn_in_actionPerformed() 
     {
         try
         {
-            newContentPane.getData(CodeEditor.getText(),XmlDataEditor.getText());
+            newContentPane.getData(CodeEditor.getValue(),XmlDataEditor.getValue());
         }
         catch(java.io.IOException ierr)
         {
@@ -188,32 +141,44 @@ public class DemoPrint extends JFrame
         }
     }
 
-    public static void main(String args[])
-    {
-        if (args.length>1) {
-	        DemoPrint frame=new DemoPrint();
-	        if ((args.length==2) || (args.length==3))
-	        	frame.loadModel(args[0],args[1]);
-	        frame.setVisible(true);
-        }
-        else
-        	ExceptionDlg.throwException(new LucteriosException("Minimum 1 arguments"));
-    }
-
-	private void loadModel(String modelFileName, String xmlFileName) {
-		File f_model=new File(modelFileName);
-		File f_xml=new File(xmlFileName);
-		if (f_model.isFile() && f_xml.isFile())
-		{
-			try {
+	private void loadModel() {
+		try {
+			File f_model=new File(modelFileName);
+			File f_xml=new File(xmlFileName);
+			if (f_model.isFile() && f_xml.isFile())
+			{
 				InputStream is_model = new FileInputStream(f_model);
 				InputStream is_xml=new FileInputStream(f_xml);
 			    CodeEditor.setText(Tools.parseISToString(is_model));
 			    XmlDataEditor.setText(Tools.parseISToString(is_xml));
-			    btn_in_actionPerformed(null);
-			} 
-			catch (LucteriosException e) {} 
-			catch (FileNotFoundException e) {}
-		}
+			    btn_in_actionPerformed();
+			}
+		} 
+		catch (Exception e) {
+        	ExceptionDlg.throwException(e);
+		} 
 	}
+    
+    public static void main(String args[])
+    {
+    	ExceptionDlg.mGenerator=new SGenerator();
+		try {
+	        if (args.length>1) {
+	        	GUIFrame frame=ExceptionDlg.mGenerator.getFrame();
+		        DemoPrint demo=new DemoPrint();
+		        if ((args.length==2) || (args.length==3)) {
+		        	demo.modelFileName=args[0];
+		        	demo.xmlFileName=args[0];
+		        }
+		        frame.setFrameVisitor(demo);
+		        frame.setVisible(true);
+	        }
+	        else
+	        	throw new LucteriosException("Minimum 1 arguments");
+		} 
+		catch (Throwable e) {
+        	ExceptionDlg.throwException(e);
+		} 
+    }
+
 }
