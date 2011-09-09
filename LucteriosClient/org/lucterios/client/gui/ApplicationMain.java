@@ -20,11 +20,11 @@
 
 package org.lucterios.client.gui;
 
-import org.lucterios.client.application.observer.LogonBox;
-import org.lucterios.client.application.observer.ObserverAcknowledge;
-import org.lucterios.client.application.observer.ObserverAuthentification;
-import org.lucterios.client.application.observer.ObserverMenu;
-import org.lucterios.client.application.observer.ObserverMenu.ToolBarInterface;
+import org.lucterios.engine.application.observer.LogonBox;
+import org.lucterios.engine.application.observer.ObserverAcknowledge;
+import org.lucterios.engine.application.observer.ObserverAuthentification;
+import org.lucterios.engine.application.observer.ObserverMenu;
+import org.lucterios.engine.application.observer.ObserverMenu.ToolBarInterface;
 import org.lucterios.client.setting.Constants;
 import org.lucterios.client.setting.Update;
 import org.lucterios.engine.application.Action;

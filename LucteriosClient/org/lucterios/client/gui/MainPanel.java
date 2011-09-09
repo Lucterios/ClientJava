@@ -22,6 +22,7 @@ package org.lucterios.client.gui;
 
 import org.lucterios.engine.gui.CategoryPanel;
 import org.lucterios.engine.gui.RefreshButtonPanel;
+import org.lucterios.engine.gui.ToogleManager;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.gui.AbstractImage;
