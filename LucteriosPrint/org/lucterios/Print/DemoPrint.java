@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.lucterios.swing.SGenerator;
 import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.Tools;
@@ -159,9 +158,9 @@ public class DemoPrint implements FrameVisitor
 		} 
 	}
     
-    public static void main(String args[])
+    public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-    	ExceptionDlg.mGenerator=new SGenerator();
+    	ExceptionDlg.mGenerator=Tools.findGenerator("org.lucterios.swing.SGenerator");
 		try {
 	        if (args.length>1) {
 	        	GUIFrame frame=ExceptionDlg.mGenerator.getFrame();

@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
 
+import org.lucterios.gui.GUIGenerator;
+
 public class Tools {
 	
 	public final static int EPSILON_RATIO=1;
@@ -202,4 +204,11 @@ public class Tools {
 		Logging.getInstance().writeLog("%%% clearGC() %%%","END",2);
     }
 
+    static public GUIGenerator findGenerator(String arg) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+		GUIGenerator result=null;
+		Class<?> generatorClass=Class.forName(arg);
+		result=(GUIGenerator)generatorClass.newInstance();
+		return result;
+	}
+	    
 }
