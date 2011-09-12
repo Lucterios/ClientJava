@@ -111,6 +111,13 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 		return res;
 	}
 
+	public void parse(String xmlReceive, boolean b) throws LucteriosException {
+		if (!parse(xmlReceive)) {
+			throw new LucteriosException("Parsing error");
+		}
+		
+	}
+	
     private void fillElement (String aSimpleName,Attributes aAttrs) {
     	mSimpleName=aSimpleName;
     	mTexts.clear();
@@ -332,4 +339,5 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	{
 		return getContent();
 	}
+
 }

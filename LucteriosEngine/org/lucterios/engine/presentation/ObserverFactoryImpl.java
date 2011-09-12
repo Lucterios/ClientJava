@@ -108,18 +108,6 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		return result;
 	}
 
-	private MapContext getContext(SimpleParsing aReponse) {
-		MapContext context = new MapContext();
-		SimpleParsing xmlcontext = aReponse.getFirstSubTag("CONTEXT");
-		if (xmlcontext != null) {
-			SimpleParsing xmlparams[] = xmlcontext.getSubTag("PARAM");
-			for (int index = 0; index < xmlparams.length; index++)
-				context.put(xmlparams[index].getAttribut("name"),
-						xmlparams[index].getText());
-		}
-		return context;
-	}
-
 	protected Observer factoryObserver(String aObserverName, String aParamTxt,
 			String aXmlText) throws LucteriosException {
 		Observer res_obs = null;
@@ -172,7 +160,6 @@ public class ObserverFactoryImpl implements ObserverFactory {
 				}
 				if (rep!=null) {
 					res_obs.setCaption(rep.getCDataOfFirstTag("TITLE"));
-					res_obs.setContext(getContext(rep));
 					res_obs.setContent(rep);
 				}
 			}
@@ -183,40 +170,5 @@ public class ObserverFactoryImpl implements ObserverFactory {
 			throw new LucteriosException("Erreur de parsing xml", m_XMLParameters,
 					xml_text);
 		return res_obs;
-	}
-
-	public void refreshAction(Observer aObserver) throws LucteriosException {
-		if (mTransport == null)
-			throw new LucteriosException("Transport null");
-		String xml_text = mTransport.transfertXMLFromServer(convertParameters(aObserver.getSourceExtension(),
-				aObserver.getSourceAction(), aObserver.getContext()));
-		SimpleParsing parse = new SimpleParsing();
-		if (parse.parse(xml_text)) {
-			SimpleParsing rep = parse.getFirstSubTag("REPONSE");
-			String observer_name = rep.getAttribut("observer");
-			String source_extension = rep.getAttribut("source_extension");
-			String source_action = rep.getAttribut("source_action");
-			if (aObserver.getObserverName().equals(observer_name)
-					&& aObserver.getSourceAction().equals(source_action)
-					&& aObserver.getSourceExtension().equals(source_extension)) {
-				aObserver.setContext(getContext(rep));
-				aObserver.setContent(rep);
-				aObserver.show(null);
-			} else {
-				if (observer_name.equalsIgnoreCase("CORE.Auth")
-						|| observer_name.equalsIgnoreCase("CORE.Exception")) {
-					Observer res_obs = factoryObserver(observer_name,
-							m_XMLParameters, xml_text);
-					res_obs.setSource(source_extension, source_action);
-					res_obs.setContext(getContext(rep));
-					res_obs.setContent(rep);
-					res_obs.show(null);
-				} else
-					throw new LucteriosException("Observeur non respecté",
-							m_XMLParameters, xml_text);
-			}
-		} else
-			throw new LucteriosException("Erreur de parsing xml", m_XMLParameters,
-					xml_text);
 	}
 }

@@ -18,7 +18,7 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client.application;
+package org.lucterios.engine.application;
 
 import org.lucterios.engine.application.Action;
 import org.lucterios.engine.application.ActionConstantes;
@@ -29,7 +29,7 @@ import org.lucterios.engine.presentation.ObserverStub;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransportStub;
 import org.lucterios.gui.AbstractImage;
-import org.lucterios.swing.SGenerator;
+import org.lucterios.mock.MockGenerator;
 import org.lucterios.utils.SimpleParsing;
 
 import junit.framework.TestCase;
@@ -39,7 +39,7 @@ public class ActionUnit extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		Singletons.setWindowGenerator(new SGenerator());
+		Singletons.setWindowGenerator(new MockGenerator());
 		mAction = new ActionImpl();
 		Singletons.setHttpTransportClass(HttpTransportStub.class);
 		ObserverStub.mParameters.clear();

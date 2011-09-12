@@ -192,4 +192,8 @@ public class ApplicationDescription implements InfoDescription {
 		return mSupportEmail;
 	}
 
+	public String getLogin() {
+		return mLogin;
+	}
+
 }

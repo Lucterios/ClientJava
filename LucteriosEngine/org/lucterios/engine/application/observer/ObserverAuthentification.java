@@ -86,4 +86,8 @@ public class ObserverAuthentification extends ObserverAbstract {
 
 	public void setNameComponentFocused(String aNameComponentFocused) {
 	}
+
+	public boolean getRefreshMenu() {
+		return refreshMenu;
+	}
 }

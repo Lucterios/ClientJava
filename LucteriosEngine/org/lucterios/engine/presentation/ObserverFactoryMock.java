@@ -8,14 +8,18 @@ import java.util.Map;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.StringList;
 
 /**
  * @author lag
  * 
  */
 public class ObserverFactoryMock implements ObserverFactory {
+	
+	
 	public ObserverFactoryMock() {
 		super();
+		CallList.clear();
 	}
 
 	public void setHttpTransport(HttpTransport aTransport) {
@@ -31,6 +35,8 @@ public class ObserverFactoryMock implements ObserverFactory {
 		return null;
 	}
 
+	public StringList CallList=new StringList();
+	
 	static public String LastLogin = "";
 	static public String LastPassWord = "";
 	static public boolean NewAuthentification = true;
@@ -59,6 +65,7 @@ public class ObserverFactoryMock implements ObserverFactory {
 		LastExtension = aExtension;
 		LastAction = aAction;
 		LastParam = aParam;
+		CallList.add(String.format("%s->%s(%s)", LastExtension,LastAction,aParam.toString()));
 		return NewObserver;
 	}
 }

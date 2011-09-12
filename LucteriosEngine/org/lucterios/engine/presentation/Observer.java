@@ -20,6 +20,8 @@
 
 package org.lucterios.engine.presentation;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.lucterios.gui.GUIDialog;
@@ -32,7 +34,20 @@ import org.lucterios.utils.SimpleParsing;
 public interface Observer extends NotifyFrameObserver {
 	
 	@SuppressWarnings("serial")
-	public class MapContext extends TreeMap<String,Object> {}
+	public class MapContext extends TreeMap<String,Object> {
+		@SuppressWarnings("unchecked")
+		public String toString(){
+			String result="";
+			for (Iterator<?> iterator = entrySet().iterator(); iterator.hasNext();) {
+				Map.Entry entry = (Map.Entry) iterator.next();
+				String key = (String) entry.getKey();
+				Object value_obj = entry.getValue();
+				String value = value_obj.toString();
+				result = result + key + "='" + value + "',";
+			}
+			return result;
+		}
+	}
 	
 	public String getObserverName();
 

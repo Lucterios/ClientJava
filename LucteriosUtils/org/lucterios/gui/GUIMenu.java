@@ -47,7 +47,7 @@ public interface GUIMenu {
 
 	public void addSeparator();
 
-	public void remove(int index);
+	public void removeMenu(int index);
 
 	public void setEnabled(boolean b);
 

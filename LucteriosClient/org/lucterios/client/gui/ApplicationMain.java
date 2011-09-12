@@ -454,7 +454,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 	private void refreshIntFrame() {
 		while (windowsMenu.getMenuCount() > NB_WIND_MENU)
-			windowsMenu.remove(NB_WIND_MENU);
+			windowsMenu.removeMenu(NB_WIND_MENU);
 		if (getFormList().count() > 0) {
 			for (int menu_idx = 0; menu_idx < windowsMenu.getMenuCount(); menu_idx++)
 				windowsMenu.getMenu(menu_idx).setEnabled(true);

@@ -144,6 +144,11 @@ public class Singletons {
 		return gFactory;
 	}
  	
+ 	static public void initalize(LucteriosConfiguration config,ObserverFactory factory){
+		gConfiguration=config;
+		gFactory=factory;
+ 	}
+ 	
  	static public void initalize(File storagePath) throws IOException {
 		gConfiguration=new LucteriosConfiguration(storagePath);
 		gFactory=new ObserverFactoryImpl();

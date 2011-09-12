@@ -9,6 +9,16 @@ import org.lucterios.utils.Tools;
 
 public class TestImage extends AbstractImage {
 
+	public TestImage() {
+		super();
+		initialize(new byte[]{});
+	}
+	
+	public TestImage(byte[] dataImage) {
+		super();
+		initialize(dataImage);
+	}
+
 	@Override
 	public int getHeight() {
 		return intValue(18);
@@ -21,8 +31,10 @@ public class TestImage extends AbstractImage {
 	
 	private int intValue(int begin){
 		int ret=0;
-		for(int step=begin;step<(begin+4);step++)
-			ret=ret*256+mImageData[step];
+		if ((begin+4)<mImageData.length) {
+			for(int step=begin;step<(begin+4);step++)
+				ret=ret*256+mImageData[step];
+		}
 		return ret;
 	}
 
@@ -46,7 +58,13 @@ public class TestImage extends AbstractImage {
 
 	@Override
 	public boolean load(URL url) {
-		return false;
+		try {
+			String value=Tools.parseISToString(url.openStream());
+			initialize(value.getBytes());
+			return false;
+		} catch (Exception e) {
+			return false;	
+		}
 	}
 
 	@Override

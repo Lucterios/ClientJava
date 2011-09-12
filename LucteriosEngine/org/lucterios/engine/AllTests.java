@@ -18,11 +18,12 @@
  *	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
  */
 
-package org.lucterios.client;
+package org.lucterios.engine;
 
-import org.lucterios.client.application.ActionUnit;
 import org.lucterios.engine.transport.HttpTranportUnit;
 import org.lucterios.engine.presentation.ObserverFactoryUnit;
+import org.lucterios.engine.application.ActionUnit;
+import org.lucterios.engine.application.observer.ObserverUnit;
 import org.lucterios.utils.Logging;
 
 import junit.framework.Test;
@@ -35,6 +36,7 @@ public class AllTests {
 		suite.addTest(new TestSuite(HttpTranportUnit.class));
 		suite.addTest(new TestSuite(ObserverFactoryUnit.class));
 		suite.addTest(new TestSuite(ActionUnit.class));
+		suite.addTest(new TestSuite(ObserverUnit.class));
 		return suite;
 	}
 }

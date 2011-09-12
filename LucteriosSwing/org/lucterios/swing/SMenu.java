@@ -168,7 +168,7 @@ public class SMenu implements GUIMenu {
 		return mMenu.getText();
 	}
 
-	public void remove(int index) {
+	public void removeMenu(int index) {
 		if (isNode()) {
 			((JMenu)mMenu).remove(index);
 		}		

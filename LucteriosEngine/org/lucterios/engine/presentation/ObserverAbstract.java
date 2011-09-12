@@ -33,6 +33,10 @@ import org.lucterios.utils.SimpleParsing;
 
 public abstract class ObserverAbstract implements Observer {
 	protected Action mCloseAction = null;
+
+	public Action getCloseAction() {
+		return mCloseAction;
+	}
 	
 	public static int ObserverCount=0;
 	
@@ -89,9 +93,21 @@ public abstract class ObserverAbstract implements Observer {
 
 	protected SimpleParsing mContent;
 
+	protected void fillContext() {
+		mContext= new MapContext();
+		SimpleParsing xmlcontext = mContent.getFirstSubTag("CONTEXT");
+		if (xmlcontext != null) {
+			SimpleParsing xmlparams[] = xmlcontext.getSubTag("PARAM");
+			for (int index = 0; index < xmlparams.length; index++)
+				mContext.put(xmlparams[index].getAttribut("name"),
+						xmlparams[index].getText());
+		}
+	}
+	
 	public void setContent(SimpleParsing aContent) {
 		mContent = aContent;
         if (mContent!=null) {
+			fillContext();
             SimpleParsing xml_item_close = mContent.getFirstSubTag("CLOSE_ACTION");
             if (xml_item_close != null) {
                 SimpleParsing[] xml_items = xml_item_close.getSubTag("ACTION");

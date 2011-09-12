@@ -34,6 +34,7 @@ public class ObserverFactoryUnit extends TestCase {
 		super.setUp();
 		ObserverStub.ObserverName = "ObserverStub";
 
+		HttpTransportStub.cleanAll();
 		mHttpTransport = new HttpTransportStub();
 		mObserverFactory = new ObserverFactoryImpl();
 		mObserverFactory.setHttpTransport(mHttpTransport);
@@ -46,7 +47,7 @@ public class ObserverFactoryUnit extends TestCase {
 	}
 
 	public void testCallAction() throws LucteriosException {
-		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
+		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TITLE>Réinitialisation de modele</TITLE><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
 
 		Observer obs = mObserverFactory.callAction("CORE",
 				"printmodel_APAS_reinit", new MapContext());
@@ -60,9 +61,11 @@ public class ObserverFactoryUnit extends TestCase {
 				"CONFIRME"));
 		assertEquals(
 				"Content",
-				"<TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
+				"<TITLE><![CDATA[Réinitialisation de modele]]></TITLE><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
 				obs.getContentText());
 
+		assertEquals("Titre","Réinitialisation de modele",obs.getTitle());
+		
 		assertEquals(
 				"XmlParam",
 				"<REQUETE extension='CORE' action='printmodel_APAS_reinit'></REQUETE>",
@@ -71,7 +74,7 @@ public class ObserverFactoryUnit extends TestCase {
 
 	public void testRefresh() throws LucteriosException {
 		ObserverStub.ObserverName = "Core.DialogBox";
-		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
+		mHttpTransport.XmlReceved = "<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='Core.DialogBox' source_extension='CORE' source_action='printmodel_APAS_reinit'><CONTEXT><PARAM name='print_model'><![CDATA[107]]></PARAM><PARAM name='CONFIRME'><![CDATA[YES]]></PARAM></CONTEXT><TITLE>Réinitialisation</TITLE><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION icon='images/ok.png' extension='CORE' action='printmodel_APAS_reinit'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS></REPONSE></REPONSES>";
 
 		ObserverStub obs = new ObserverStub();
 		obs.setSource("CORE", "printmodel_APAS_reinit");
@@ -93,8 +96,9 @@ public class ObserverFactoryUnit extends TestCase {
 				"CONFIRME"));
 		assertEquals(
 				"Content",
-				"<TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
+				"<TITLE><![CDATA[Réinitialisation]]></TITLE><TEXT type='2'><![CDATA[Etes-vous sure de reinitialiser ce modele?]]></TEXT><ACTIONS><ACTION action='printmodel_APAS_reinit' extension='CORE' icon='images/ok.png'><![CDATA[Oui]]></ACTION><ACTION icon='images/cancel.png'><![CDATA[Non]]></ACTION></ACTIONS>",
 				obs.getContentText());
+		assertEquals("Titre","Réinitialisation",obs.getTitle());
 
 		assertEquals(
 				"XmlParam",

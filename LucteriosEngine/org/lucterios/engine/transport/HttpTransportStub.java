@@ -34,6 +34,14 @@ public class HttpTransportStub implements HttpTransport {
 	static private String mSession = "";
 	static private boolean mSecurity=false;
 
+	static public void cleanAll(){
+		mServerHost = "";
+		mCurrentPort = 0;
+		mRootPath = "";
+		mSession = "";
+		mSecurity=false;
+	}
+	
 	public HttpTransportStub() {
 		super();
 	}

@@ -45,6 +45,7 @@ public class ObserverStub extends ObserverAbstract {
 	}
 
 	public void setContent(SimpleParsing aContent) {
+		super.setContent(aContent);
 		mContent = aContent;
 	}
 

@@ -31,8 +31,13 @@ import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
 
 public class ObserverAcknowledge extends ObserverAbstract {
+
 	protected Action mRedirectAction = null;
 
+	public Action getRedirectAction() {
+		return mRedirectAction;
+	}
+	
 	public String getObserverName() {
 		return "Core.Acknowledge";
 	}
