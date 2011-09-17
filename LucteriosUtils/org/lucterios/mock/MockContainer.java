@@ -43,7 +43,7 @@ public class MockContainer extends MockComponent implements GUIContainer {
 	public void setResizeAction(GUIActionListener mResizeAction) { }
 
 	private Object mObject = null;
-	private int mTag = 0;
+	private Object mTag = 0;
 
 	public Object getObject() {
 		return mObject;
@@ -53,11 +53,11 @@ public class MockContainer extends MockComponent implements GUIContainer {
 		mObject = obj;
 	}
 
-	public int getTag() {
+	public Object getTag() {
 		return mTag;
 	}
 
-	public void setTag(int tag) {
+	public void setTag(Object tag) {
 		mTag = tag;
 	}
 
@@ -68,7 +68,7 @@ public class MockContainer extends MockComponent implements GUIContainer {
 	public MockContainer(ContainerType type, GUIComponent aOwner) {
 		super(aOwner);
 		mType = type;
-		if (mType == ContainerType.CT_TAB) {
+		if (mType == ContainerType.CT_SPLITER) {
 			mComponentList.add(null);
 			mComponentList.add(null);
 		}
@@ -375,7 +375,68 @@ public class MockContainer extends MockComponent implements GUIContainer {
 	public void repaint() {
 	}
 
-	public void requestFocus() {
+	public void requestFocusGUI() {
 	}
 
+	public int getSelectColor() {
+		return 0x0000FF;
+	}
+
+	
+	public MockButton getButton(int index) {		
+		return (MockButton)mComponentList.get(index);
+	}
+
+	public MockCheckBox getCheckBox(int index) {
+		return (MockCheckBox)mComponentList.get(index);
+	}
+
+	public MockCheckList getCheckList(int index) {
+		return (MockCheckList)mComponentList.get(index);
+	}
+
+	public MockCombo getCombo(int index) {
+		return (MockCombo)mComponentList.get(index);
+	}
+
+	public MockContainer getContainer(int index) {
+		return (MockContainer)mComponentList.get(index);
+	}
+
+	public MockEdit getEdit(int index) {
+		return (MockEdit)mComponentList.get(index);
+	}
+
+	public MockGrid getGrid(int index) {
+		return (MockGrid)mComponentList.get(index);
+	}
+
+	public MockLabel getLabel(int index) {
+		return (MockLabel)mComponentList.get(index);
+	}
+
+	public MockImage getImage(int index) {
+		return (MockImage)mComponentList.get(index);
+	}
+
+	public MockMemo getMemo(int index) {
+		return (MockMemo)mComponentList.get(index);
+	}
+
+	public MockSpinEdit getSpinEdit(int index) {
+		return (MockSpinEdit)mComponentList.get(index);
+	}
+
+	public MockHyperText getHyperText(int index) {
+		return (MockHyperText)mComponentList.get(index);
+	}
+
+	public MockHyperMemo getHyperMemo(int index) {
+		return (MockHyperMemo)mComponentList.get(index);
+	}
+
+	public MockTree getTree(int index) {
+		return (MockTree)mComponentList.get(index);
+	}
+	
 }

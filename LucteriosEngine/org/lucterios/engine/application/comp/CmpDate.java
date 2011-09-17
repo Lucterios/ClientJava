@@ -50,7 +50,7 @@ public class CmpDate extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		spe_day.requestFocus();
+		spe_day.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

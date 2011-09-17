@@ -53,7 +53,7 @@ public class CmpSelect extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		cmp_cnbb.requestFocus();
+		cmp_cnbb.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

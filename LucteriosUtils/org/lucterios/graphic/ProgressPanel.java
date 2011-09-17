@@ -10,7 +10,7 @@ public class ProgressPanel implements GUIContainer.Redrawing {
 	 */
 	private static final long serialVersionUID = 1L;
 	public int MaxValue = 30;
-	public int progressColor=0xFF0000;
+	public int progressColor=-1;
 	public int backgroudColor=0xC0C0C0;
 
 	protected Thread  animation = null;
@@ -18,6 +18,7 @@ public class ProgressPanel implements GUIContainer.Redrawing {
     protected int value = 0;
     protected boolean increase;
     protected GUIContainer mContainer;
+    protected int curentprogressColor;
 
 	public ProgressPanel(boolean aIncrease,GUIContainer container)
     {
@@ -29,6 +30,9 @@ public class ProgressPanel implements GUIContainer.Redrawing {
 	
 	public void start()
     {
+		curentprogressColor=progressColor;
+		if (curentprogressColor==-1)
+			curentprogressColor=mContainer.getSelectColor();
     	mContainer.repaint();        
         if (animation == null) {
 	        animation = new Thread(new Animator());
@@ -70,7 +74,7 @@ public class ProgressPanel implements GUIContainer.Redrawing {
             g.setColor(backgroudColor);
             g.fillRect(0, 0, begin, height);
             g.fillRect(end, 0, width-end, height);
-        	g.setColor(progressColor);
+        	g.setColor(curentprogressColor);
         	g.fillRect(begin,0,progress_step,height);
         }
         else

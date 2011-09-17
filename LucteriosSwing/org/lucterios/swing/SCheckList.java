@@ -112,4 +112,7 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

@@ -11,7 +11,7 @@ public interface GUIDialog extends GUIObject {
 
 	public GUIGenerator getGenerator();
 	
-	public void setTitle(String title);
+	public void setTextTitle(String title);
 
 	public void setLocation(int x, int y);
 

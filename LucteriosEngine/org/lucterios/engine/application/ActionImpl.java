@@ -330,7 +330,7 @@ public class ActionImpl implements Action {
 					if (mOwner != null) {
 						mOwner.setActive(false);
 					}
-					Thread thd = new Thread() {
+					Singletons.getWindowGenerator().runSubThread(new Runnable() {
 						public void run() {
 							try {
 								runAction(param);
@@ -340,8 +340,7 @@ public class ActionImpl implements Action {
 								}
 							}
 						}
-					};
-					thd.start();
+					});
 				}
 			} catch (LucteriosException e) {
 				ExceptionDlg.throwException(e);

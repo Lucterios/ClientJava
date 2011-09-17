@@ -184,4 +184,7 @@ public class STree extends JScrollPane implements GUITree {
 		return getBackground().getRGB();
 	}
 
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

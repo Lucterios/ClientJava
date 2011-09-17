@@ -43,8 +43,8 @@ public class CompDefault extends Cmponent {
 	}
 
 	protected void initComponent() {
-		mParam.setH(50);
-		mParam.setW(75);
+		mParam.setPrefSizeY(50);
+		mParam.setPrefSizeX(75);
 		lbl_result = mPanel.createMemo(mParam);
 		lbl_result.setText("");
 	}

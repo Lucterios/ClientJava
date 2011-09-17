@@ -45,6 +45,7 @@ import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.gui.GUITree;
+import org.lucterios.style.ThemeMenu;
 import org.lucterios.ui.GUIActionListener;
 
 public class SContainer extends Container implements GUIContainer,ComponentListener {
@@ -98,7 +99,7 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	public void removeActionListener(GUIActionListener l) {	}
 
 	private Object mObject=null;
-	private int mTag=0;
+	private Object mTag=0;
 
 	public Object getObject() {
 		return mObject;
@@ -108,11 +109,11 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		mObject=obj;
 	}
 
-	public int getTag() {
+	public Object getTag() {
 		return mTag;
 	}
 
-	public void setTag(int tag) {
+	public void setTag(Object tag) {
 		mTag=tag;		
 	}
 	
@@ -240,6 +241,14 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	
 	public void setRedraw(Redrawing redrawing) {
 		mRedrawing=redrawing;
+		if (mRedrawing!=null) {
+			if (mTab != null)
+				mTab.setOpaque(!OPAQUE);
+			if (mSpliter!=null)
+				mSpliter.setOpaque(!OPAQUE);
+			if (mPanel != null)
+				mPanel.setOpaque(!OPAQUE);			
+		}
 	}
 	
 	public ContainerType getType() {
@@ -709,4 +718,15 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 		}
 	}
 
+	public void requestFocusGUI() {
+		requestFocus();
+	}
+
+
+	public int getSelectColor(){
+		int color=0x0000FF;
+		if (ThemeMenu.getDefaultTheme()!=null)
+			color=ThemeMenu.getDefaultTheme().getPrimaryControlDarkShadow().getRGB();
+		return color;
+	}
 }

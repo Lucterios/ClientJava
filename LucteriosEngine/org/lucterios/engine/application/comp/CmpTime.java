@@ -41,7 +41,7 @@ public class CmpTime extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		spe_hour.requestFocus();
+		spe_hour.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

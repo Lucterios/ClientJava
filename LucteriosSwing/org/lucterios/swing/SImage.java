@@ -92,4 +92,7 @@ public class SImage extends JComponent implements GUIImage {
 			g.drawImage(((ImageIcon)mImage.getData()).getImage(), 0, 0, this);
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

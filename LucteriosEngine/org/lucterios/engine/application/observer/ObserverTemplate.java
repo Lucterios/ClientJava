@@ -109,7 +109,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 	}
 
 	public void execute(GUIDialog dialog) {
-		dialog.setTitle(mTitle);
+		dialog.setTextTitle(mTitle);
 		GUIParam param;
 
 		param=new GUIParam(0,0);
@@ -121,8 +121,8 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		lbl_Title.setTextString("Titre du model");
 
 		param=new GUIParam(1,0);
-		param.setH(19);
-		param.setW(250);
+		param.setPrefSizeY(19);
+		param.setPrefSizeX(250);
 		txt_Title = pnl_Cst.createEdit(param);
 
 		param=new GUIParam(0,1);

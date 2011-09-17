@@ -264,4 +264,12 @@ public class SForm extends JFrame implements GUIForm {
 			this.getRootPane().setDefaultButton((JButton)defaultBtn);
 	}
 
+	public String getTextTitle() {
+		return getTitle();
+	}
+
+	public void setTextTitle(String title) {
+		setTitle(title);
+	}
+
 }

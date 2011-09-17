@@ -36,7 +36,7 @@ public interface GUIComponent {
 
 	public void setActiveMouseAction(boolean isActive);
 
-	public void requestFocus();
+	public void requestFocusGUI();
 
 	public GUIComponent getOwner();
 

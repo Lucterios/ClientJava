@@ -36,15 +36,15 @@ public class CmpFloat extends CmpAbstractEvent {
 	public CmpFloat() {
 		super();
 		setWeightx(1.0);
-		mParam.setW(20);
-		mParam.setH(20);
+		mParam.setPrefSizeX(20);
+		mParam.setPrefSizeY(20);
 	}
 
 	public void requestFocus() {
 		if (mIsInteger)
-			getCmpInt().requestFocus();
+			getCmpInt().requestFocusGUI();
 		else
-			getCmpFloat().requestFocus();
+			getCmpFloat().requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

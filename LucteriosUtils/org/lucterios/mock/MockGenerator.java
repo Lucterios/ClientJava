@@ -126,5 +126,9 @@ public class MockGenerator implements GUIGenerator {
 	public boolean isEventDispatchThread() {
 		return true;
 	}
+
+	public void runSubThread(Runnable runnable) {
+		runnable.run();
+	}
 	
 }

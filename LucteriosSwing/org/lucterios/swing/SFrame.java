@@ -141,13 +141,24 @@ public class SFrame extends JFrame implements GUIFrame {
 	}
 	
 	public AbstractImage getImage() {
-		return new SwingImage(new ImageIcon(getIconImage()));
+		if (getIconImage()!=null)
+			return new SwingImage(new ImageIcon(getIconImage()));
+		else
+			return AbstractImage.Null;
 	}
 	
 	public void refreshSize() {
 		Dimension dim = getSize();
 		pack();
 		setSize(dim);
+	}
+
+	public String getTextTitle() {
+		return getTitle();
+	}
+
+	public void setTextTitle(String title) {
+		setTitle(title);
 	}
 	
 }

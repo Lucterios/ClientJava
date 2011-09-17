@@ -88,7 +88,7 @@ public class SetupDialog implements DialogVisitor {
 
 	public void Init() {
 		pnl_main = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 0, 4, 1));
-		mDialog.setTitle("Configuration");
+		mDialog.setTextTitle("Configuration");
 
 		lbl_Title = pnl_main.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		lbl_Title.setTextString("Titre de l'application");

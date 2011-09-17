@@ -46,7 +46,7 @@ import org.lucterios.utils.Tools.InfoDescription;
  */
 public class ExceptionDlg {
     
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -57,6 +57,7 @@ public class ExceptionDlg {
 	public static final int IMPORTANT=3;
 	public static final int MINOR=4;
 	
+	public static ExceptionDlg mLastException=null;
 	public static InfoDescription mInfoDescription=null;
 	public static GUIGenerator mGenerator=null;
 
@@ -77,11 +78,14 @@ public class ExceptionDlg {
     private GUIMemo txtStack;
     
     private GUIDialog mDialog;
+    public GUIDialog getDialog() {
+		return mDialog;
+	}
 	
-    public ExceptionDlg() 
+    private ExceptionDlg() 
     {
     	mDialog=mGenerator.newDialog(null);
-    	mDialog.setTitle("Erreur");
+    	mDialog.setTextTitle("Erreur");
 
     	PnlMain = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
     	lbl_img = PnlMain.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
@@ -89,25 +93,7 @@ public class ExceptionDlg {
         lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_NONE));
 
         GUIContainer PnlBtn= PnlMain.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,2,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
-        btn_more = PnlBtn.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
-        btn_more.setToggle(true);
-        btn_more.setTextString(">>");
-        btn_more.addActionListener(new GUIActionListener() {		
-			public void actionPerformed() {
-                btn_moreActionPerformed();
-				
-			}
-		});
 
-        btn_send = PnlBtn.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
-        btn_send.setTextString("Envoyer au support");
-        btn_send.addActionListener(new GUIActionListener() {
-            public void actionPerformed() {
-            	sendSupport();
-            }
-        });
-      
-        
         btn_exit = PnlBtn.createButton(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
         btn_exit.setTextString("Ok");
         btn_exit.setMnemonic('O');
@@ -118,8 +104,26 @@ public class ExceptionDlg {
             }
         });
         	
-    	PnlExtra = mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0,1,2,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
-   	
+        
+        btn_send = PnlBtn.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+        btn_send.setTextString("Envoyer au support");
+        btn_send.addActionListener(new GUIActionListener() {
+            public void actionPerformed() {
+            	sendSupport();
+            }
+        });
+      
+        btn_more = PnlBtn.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+        btn_more.setToggle(true);
+        btn_more.setTextString(">>");
+        btn_more.addActionListener(new GUIActionListener() {		
+			public void actionPerformed() {
+                btn_moreActionPerformed();
+				
+			}
+		});
+        
+    	PnlExtra = mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0,1,2,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));  	
     }
 
     protected String removeHTMLHeader(String aText) {
@@ -305,26 +309,26 @@ public class ExceptionDlg {
     
     public static void show(int aType,String aMessage,String aStack,String aExtra)
     {
-        ExceptionDlg err_dlg=new ExceptionDlg();
-        err_dlg.setMessage(Tools.convertLuctoriosFormatToHtml(aMessage),aType);
+    	mLastException=new ExceptionDlg();
         String stack_text="";
         String[] stack_texts=aStack.split("\\{\\[newline\\]\\}");
         for(String stacktext:stack_texts)
             stack_text+=formatStack(stacktext)+"\n";
         stack_text=stack_text.replace('|','\t');
-        err_dlg.addStack(stack_text);
+        mLastException.addStack(stack_text);
         if ((aType==FAILURE) || (aType==CRITIC))
-        	err_dlg.addExtra(aExtra.trim());
-        err_dlg.showDialog();
+        	mLastException.addExtra(aExtra.trim());
+    	mLastException.setMessage(Tools.convertLuctoriosFormatToHtml(aMessage),aType);
+        mLastException.showDialog();
     }
     
     public static void throwException(Throwable expt)
     {
-        ExceptionDlg err_dlg=new ExceptionDlg();
+    	mLastException=new ExceptionDlg();
         if (LucteriosException.class.isInstance(expt))
-            err_dlg.setLucteriosException((LucteriosException)expt);
+        	mLastException.setLucteriosException((LucteriosException)expt);
         else
-        	err_dlg.setException(expt);
-        err_dlg.showDialog();
+        	mLastException.setException(expt);
+        mLastException.showDialog();
     }
 }

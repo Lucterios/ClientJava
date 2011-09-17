@@ -81,4 +81,7 @@ public class SLabel extends JLabel implements GUILabel {
 		mCursorMouseListener.setActiveMouseAction(isActive);		
 	}
 
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

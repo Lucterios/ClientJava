@@ -231,4 +231,7 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

@@ -21,6 +21,8 @@
 	</path>
 
 	<target name="instrument">
+		<delete dir="${projet.src.dir}/org/lucterios/style" /> 
+		<delete dir="${projet.src.dir}/org/lucterios/swing" /> 
 		<mkdir dir="${build.instrumented.dir}" /> 		
 		<cobertura-instrument todir="${build.instrumented.dir}">
 		    <fileset dir="${projet.src.dir}/org/lucterios">
@@ -54,7 +56,7 @@
 	      <cobertura-report destdir="${ant.project.name}/cobertura-html">
 		      <fileset dir="${projet.src.dir}">
 			      <include name="**/*.java"/>
-		      </fileset>
+			</fileset>
 	      </cobertura-report>
 	</target>
 

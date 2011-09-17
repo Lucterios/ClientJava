@@ -33,7 +33,6 @@ import org.lucterios.utils.ZipManager;
 import org.lucterios.graphic.FilesFilter;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIEdit;
-import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
@@ -44,10 +43,11 @@ public class CmpUpload extends CmpAbstractEvent {
 	public final static String SUFFIX_FILE_NAME = "_FILENAME";
 
 	private static final long serialVersionUID = 1L;
-	private GUILabel lbl_message;
 	private GUIEdit txt_FileName;
 	private GUIButton btn_select;
 
+	private String mHelpText;
+	
 	private boolean m_isCompress = false;
 	private boolean m_isHttpFile = false;
 	private int m_maxsize = 1048576;
@@ -113,24 +113,19 @@ public class CmpUpload extends CmpAbstractEvent {
 	}
 
 	protected void initComponent() {
-		lbl_message = mPanel.createLabel(new GUIParam(0,0));
-
-		mParam.setX(1);
-		mParam.setW(250);
-		mParam.setH(19);
-		mParam.setReSize(ReSizeMode.RSM_HORIZONTAL);
-		mParam.setFill(FillMode.FM_BOTH);
-		txt_FileName = mPanel.createEdit(mParam);
+		GUIParam editParam=new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_HORIZONTAL);
+		editParam.setPrefSizeX(100);
+		editParam.setPrefSizeY(20);
+		txt_FileName = mPanel.createEdit(editParam);
 		txt_FileName.setEnabled(false);
 
-		btn_select = mPanel.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+		btn_select = mPanel.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
 		btn_select.setTextString("...");
 		btn_select.addActionListener(this);
 	}
 
 	public void actionPerformed() {
-		java.io.File file_exp = Singletons.getWindowGenerator().selectOpenFileDialog(new FilesFilter(filters, 
-				"Fichier à télécharger"),this.getObsCustom().getGUIObject());
+		java.io.File file_exp = Singletons.getWindowGenerator().selectOpenFileDialog(new FilesFilter(filters, mHelpText),this.getObsCustom().getGUIObject());
 		if (file_exp!=null) {
 			CurrentDirectory = file_exp.getParentFile();
 			txt_FileName.setTextString(file_exp.getAbsolutePath());
@@ -144,7 +139,8 @@ public class CmpUpload extends CmpAbstractEvent {
 		m_isCompress = (getXmlItem().getAttributInt("Compress", 0) != 0);
 		m_isHttpFile = (getXmlItem().getAttributInt("HttpFile", 0) != 0);
 		m_maxsize = getXmlItem().getAttributInt("maxsize", 1048576);
-		lbl_message.setTextString(getXmlItem().getText().trim());
+		mHelpText=getXmlItem().getText().trim();
+		txt_FileName.setToolTipText(mHelpText);
 		SimpleParsing[] filer_list = getXmlItem().getSubTag("FILTER");
 		filters = new String[filer_list.length];
 		for (int index = 0; index < filer_list.length; index++)

@@ -85,4 +85,7 @@ public class SCheckBox extends JCheckBox implements GUICheckBox {
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

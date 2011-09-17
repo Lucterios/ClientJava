@@ -216,11 +216,11 @@ public class MockForm implements GUIForm {
 	}
 
 	private String mTitle="";
-	public void setTitle(String title) {
+	public void setTextTitle(String title) {
 		mTitle=title;
 	}
 	
-	public String getTitle() {
+	public String getTextTitle() {
 		return mTitle;
 	}
 

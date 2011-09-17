@@ -30,7 +30,7 @@ public class FormExample implements FormVisitor {
 	
 	public void execute(GUIForm form) {
 		mOwner=form;
-		mOwner.setTitle("Example form");
+		mOwner.setTextTitle("Example form");
 		Init();
 		InitBtn();
 	}

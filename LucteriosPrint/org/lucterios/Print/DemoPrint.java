@@ -68,7 +68,7 @@ public class DemoPrint implements FrameVisitor
     }
     
 	public void execute(GUIFrame mainFrame) {
-        mainFrame.setTitle("Exemple");
+        mainFrame.setTextTitle("Exemple");
         GUIParam param;
 
         pnl_main=mainFrame.getContainer();

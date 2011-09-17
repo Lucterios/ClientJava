@@ -56,7 +56,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 			mOwner=aOwner;
 			Initial();
 			if ((mExtName!=null) && (mAppliName!=null)) { 
-				mOwner.setTitle("Modifier");
+				mOwner.setTextTitle("Modifier");
 				txt_name.setTextString(mExtName);
 				txt_name.setEnabled(false);
 				txt_application.setTextString(mAppliName);
@@ -64,7 +64,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		}
 		
 		private void Initial() {
-			mOwner.setTitle("Ajouter");
+			mOwner.setTextTitle("Ajouter");
 			Init();
 			InitBtn();
 			mOwner.setResizable(false);

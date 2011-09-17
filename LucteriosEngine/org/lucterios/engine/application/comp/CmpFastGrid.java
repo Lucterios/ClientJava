@@ -78,7 +78,7 @@ public class CmpFastGrid extends Cmponent
 	}
 
 	public void requestFocus() {
-		cmp_tbl.requestFocus();
+		cmp_tbl.requestFocusGUI();
 	}
 
 	public MapContext getRequete(String aActionIdent) {
@@ -244,7 +244,7 @@ public class CmpFastGrid extends Cmponent
 		SimpleParsing xml_item = getXmlItem().getFirstSubTag("ACTIONS");
 		GraphicTool.fillPanelByButton(pnl_Btn, this.getObsCustom(),
 				Singletons.Factory(), xml_item, false);
-		int nb=pnl_Btn.count()-1;
+		int nb=Math.max(0,pnl_Btn.count()-1);
 		mActions = new Action[nb];
 
 		mSelectMode = ActionConstantes.SELECT_NONE;

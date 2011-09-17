@@ -137,4 +137,7 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

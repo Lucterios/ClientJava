@@ -75,7 +75,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	private static final long serialVersionUID = 1L;
 	private static final int OFFSET = 75;
 
-	private static final int PROGRESS_SIZE = 7;
+	private static final int PROGRESS_SIZE = 5;
 
 	private GUIMenu refreshWinItem;
 	private GUIMenu closeAllWinItem;
@@ -250,7 +250,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	}
 
 	private void initialize() {
-		mFrame.setTitle("Application");
+		mFrame.setTextTitle("Application");
 		mFrame.addWindowClose(new GUIActionListener() {			
 			public void actionPerformed() {
 				ExitConnection();
@@ -258,13 +258,18 @@ public class ApplicationMain implements RefreshButtonPanel,
 		});
 	
 		GUIContainer pnl;
+		GUIParam param;
+		
 		pnl=getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 		mToolBar = new ToolBar();
 		mToolBar.initialize(pnl);
 
-		pnl=getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,1,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
+		param=new GUIParam(0,1,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
+		param.setPrefSizeX(PROGRESS_SIZE);
+		param.setPrefSizeY(PROGRESS_SIZE);
+		pnl=getContainer().createContainer(ContainerType.CT_NORMAL, param);
+		pnl.setMinimumSize(PROGRESS_SIZE, PROGRESS_SIZE);
 		mProgressPanelTop = new ProgressPanel(true,pnl);
-		pnl.setSize(PROGRESS_SIZE,PROGRESS_SIZE);
 
 		pnl=getContainer().createContainer(ContainerType.CT_SPLITER, new GUIParam(0,2,1,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
 		mMainPanel = new MainPanel(this, mConnectionInfoOwnerObserber);
@@ -277,7 +282,6 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mStatBarPnl =getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,4,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
 		mConnectionLogo = mStatBarPnl.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH));
-		GUIParam param;
 
 		param=new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
 		mServer = mStatBarPnl.createLabel(param);
@@ -430,6 +434,10 @@ public class ApplicationMain implements RefreshButtonPanel,
 			getFormList().get(frame_idx).refresh();
 		mFrame.toFront();
 	}
+
+	public void refreshAll() {
+		refreshMainFrame();
+	}
 	
 	private class WinActionListener implements GUIActionListener{
 		private String cmd;
@@ -463,7 +471,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 			for (int frame_idx = 0; frame_idx < getFormList().count(); frame_idx++) {
 				String num_str = "" + (frame_idx + 1);
 				new_menu = windowsMenu.addMenu(false);
-				new_menu.setText(num_str + " - " + getFormList().get(frame_idx).getTitle());
+				new_menu.setText(num_str + " - " + getFormList().get(frame_idx).getTextTitle());
 				new_menu.setMnemonic(num_str.charAt(0));
 				new_menu.setActionListener(new WinActionListener(getFormList().get(frame_idx).getName()));
 			}
@@ -533,9 +541,9 @@ public class ApplicationMain implements RefreshButtonPanel,
 		mFrame.setImage(mDescription.getLogoImage());
 		String sub_title = aSubTitle;
 		if (!sub_title.equals(""))
-			mFrame.setTitle(mDescription.getTitle() + " - " + sub_title);
+			mFrame.setTextTitle(mDescription.getTitle() + " - " + sub_title);
 		else
-			mFrame.setTitle(mDescription.getTitle());
+			mFrame.setTextTitle(mDescription.getTitle());
 		Server server = LogonBox.getLastServer();
 		mConnectionLogo.setImage(Resources.class.getResource("connection" + server.ConnectionMode + ".png"));
 		mLogName.setTextString(aRealName);

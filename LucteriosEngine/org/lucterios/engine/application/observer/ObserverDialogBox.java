@@ -70,7 +70,7 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable, Dia
 		super.show(aTitle);
 		if ((getGUIDialog() != null) && (mGUIContainer != null)) {
 			if (aTitle != null)
-				getGUIDialog().setTitle(getTitle());
+				getGUIDialog().setTextTitle(getTitle());
 			mGUIContainer.removeAll();
 
 			GUIImage lbl_img=mGUIContainer.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));

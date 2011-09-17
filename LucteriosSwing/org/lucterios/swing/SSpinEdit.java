@@ -448,4 +448,7 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

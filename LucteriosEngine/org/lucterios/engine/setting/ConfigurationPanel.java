@@ -59,7 +59,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			mOwner=aOwner;
 			Initial();
 			if (mServer!=null) {
-				mOwner.setTitle("Modifier");
+				mOwner.setTextTitle("Modifier");
 				txt_name.setTextString(mServer.ServerName);
 				txt_srv.setTextString(mServer.HostName);
 				spe_port.setNumber(mServer.HostPort);
@@ -71,7 +71,7 @@ public class ConfigurationPanel implements GUISelectListener {
 		public void closing(){}
 
 		private void Initial() {
-			mOwner.setTitle("Ajouter");
+			mOwner.setTextTitle("Ajouter");
 			Init();
 			InitBtn();
 			spe_port.init(LucteriosConfiguration.DEFAULT_PORT, 10, 9999);

@@ -64,8 +64,10 @@ public interface GUIContainer extends GUIComponent {
 	public void removeSplite(boolean right);
 	public int getSelectedIndex();
 	public void setSelectedIndex(int tabActif);
-	public int getTag();
-	public void setTag(int tag);
-	public void requestFocus();
+	public Object getTag();
+	public void setTag(Object tag);
+	public void requestFocusGUI();
 	public void setActive(boolean aActive);
+	
+	public int getSelectColor();	
 }

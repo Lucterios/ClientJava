@@ -35,7 +35,7 @@ public class DialogExample implements DialogVisitor {
 	
 	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
-		mDialog.setTitle("Example dialog");
+		mDialog.setTextTitle("Example dialog");
 		mTab=mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0, 0));
 		initScroll();	
 		initGraph();	
@@ -86,7 +86,6 @@ public class DialogExample implements DialogVisitor {
 		pnl=prg.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL,20,20));		
         progress= new ProgressPanel(true,pnl);
         progress.backgroudColor=pnl.getBackgroundColor();
-        progress.progressColor=0x101010;
         progress.MaxValue=10;
         progress.start();
         

@@ -149,4 +149,7 @@ public class SButton extends JComponent implements GUIButton {
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

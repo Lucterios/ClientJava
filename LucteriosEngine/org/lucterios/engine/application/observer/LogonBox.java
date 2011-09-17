@@ -96,7 +96,8 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 				cmp_Server.addElement(Singletons.getConfiguration().GetServer(server_idx));
 			if (getLastServer() == null)
 				setLastServer(Singletons.getConfiguration().GetServer(0));
-			cmp_Server.setSelectedIndex(Singletons.getConfiguration().getServers().indexOf(getLastServer()));
+			int index=Singletons.getConfiguration().getServers().indexOf(getLastServer());
+			cmp_Server.setSelectedIndex(Math.max(0,index));
 			cmp_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		}
@@ -104,8 +105,10 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	public void actionPerformed() {
 		int index=cmp_Server.getSelectedIndex();
-		Server new_server=Singletons.getConfiguration().getServers().get(index);
-		setLastServer(new_server);
+		if (index>0) {
+			Server new_server=Singletons.getConfiguration().getServers().get(index);
+			setLastServer(new_server);
+		}
 	}
 
 	private void setReason() {
@@ -170,7 +173,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		dialog.setVisible(false);
 
 		String title = Singletons.getConfiguration().TitreDefault + " Connexion";
-		dialog.setTitle(title.trim());
+		dialog.setTextTitle(title.trim());
 		
 		editPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,0));
 

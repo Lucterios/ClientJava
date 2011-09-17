@@ -88,4 +88,7 @@ public class SCombo extends JComboBox implements GUICombo  {
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

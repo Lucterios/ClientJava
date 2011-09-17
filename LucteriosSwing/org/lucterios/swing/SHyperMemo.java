@@ -57,4 +57,7 @@ public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
 		setBackground(new Color(color));	
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

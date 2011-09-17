@@ -227,4 +227,12 @@ public class SDialog extends JDialog implements GUIDialog {
 		mPosition=position;
 	}
 
+	public String getTextTitle() {
+		return getTitle();
+	}
+
+	public void setTextTitle(String title) {
+		setTitle(title);
+	}
+	
 }

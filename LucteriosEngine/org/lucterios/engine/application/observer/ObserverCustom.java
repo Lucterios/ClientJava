@@ -166,13 +166,13 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 				fillPanel();
 			if (getGUIFrame() != null) {
 				if (aTitle != null)
-					getGUIFrame().setTitle(getTitle());
+					getGUIFrame().setTextTitle(getTitle());
 				getGUIFrame().setDefaultButton(mDefaultBtn);
 				getGUIFrame().refreshSize();
 			}
 			if (getGUIDialog() != null) {
 				if (aTitle != null)
-					getGUIDialog().setTitle(getTitle());
+					getGUIDialog().setTextTitle(getTitle());
 				getGUIDialog().setDefaultButton(mDefaultBtn);
 				getGUIDialog().refreshSize();
 			}
@@ -205,7 +205,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 	
 	public void execute(GUIDialog dialog) {
 		if (getTitle() != null)
-			getGUIDialog().setTitle(getTitle());
+			getGUIDialog().setTextTitle(getTitle());
 		fillPanel();
 		getGUIDialog().setNotifyFrameClose(this);
 		getGUIDialog().setDefaultButton(mDefaultBtn);
@@ -214,7 +214,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 
 	public void execute(GUIForm form) {
 		if (getTitle() != null)
-			getGUIFrame().setTitle(getTitle());
+			getGUIFrame().setTextTitle(getTitle());
 		fillPanel();
 		getGUIFrame().setNotifyFrameObserver(this);
 		getGUIFrame().setDefaultButton(mDefaultBtn);

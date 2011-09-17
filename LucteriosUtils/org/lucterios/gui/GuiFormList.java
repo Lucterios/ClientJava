@@ -72,7 +72,16 @@ public abstract class GuiFormList implements NotifyFrameList, NotifyFrameChange 
 		if (mNotifyFrameChange!=null)
 			mNotifyFrameChange.Change();
 	}
+	
+	public void refreshAll() {
+		if (mNotifyFrameChange!=null)
+			mNotifyFrameChange.refreshAll();
+	}
 
+	public void changingTheme() {
+		refreshAll();
+	}
+	
 	public void setNotifyFrameChange(NotifyFrameChange notifyFrameChange) {
 		this.mNotifyFrameChange = notifyFrameChange;
 	}

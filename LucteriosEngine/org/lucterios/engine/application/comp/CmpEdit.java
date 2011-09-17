@@ -38,7 +38,7 @@ public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 	}
 
 	public void requestFocus() {
-		cmp_text.requestFocus();
+		cmp_text.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {
@@ -57,7 +57,7 @@ public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 	}
 
 	public void forceFocus() {
-		cmp_text.requestFocus();
+		cmp_text.requestFocusGUI();
 	}
 
 	protected void initComponent() {

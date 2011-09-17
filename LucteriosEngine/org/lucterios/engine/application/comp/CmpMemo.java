@@ -65,7 +65,7 @@ public class CmpMemo extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		cmp_text.requestFocus();
+		cmp_text.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {
@@ -94,7 +94,7 @@ public class CmpMemo extends CmpAbstractEvent {
 	}
 
 	public void forceFocus() {
-		cmp_text.requestFocus();
+		cmp_text.requestFocusGUI();
 	}
 
 	protected void initComponent() {

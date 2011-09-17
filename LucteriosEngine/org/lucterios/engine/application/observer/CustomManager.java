@@ -211,7 +211,7 @@ public class CustomManager  {
 		return new_comp;
 	}
 
-	private GUIContainer getTab(int tag) {
+	private GUIContainer getTab(Object tag) {
 		GUIContainer pnl = null;
 		for (int tb_cmp = 0; (pnl == null) && (tb_cmp < PnlTab.count()); tb_cmp++){
 			GUIContainer ad_pnl = (GUIContainer)PnlTab.get(tb_cmp);
@@ -219,11 +219,11 @@ public class CustomManager  {
 				pnl = ad_pnl;
 		}
 		if (pnl == null)
-			pnl = newTab(new Integer(tag).toString(), tag);
+			pnl = newTab(tag.toString(), tag);
 		return pnl;
 	}
 
-	private GUIContainer newTab(String aName, int tag) {
+	private GUIContainer newTab(String aName, Object tag) {
 		PnlTab.removeChangeListener(ChangeTab);
 		GUIContainer new_pnl = PnlTab.addTab(ContainerType.CT_SCROLL, aName,AbstractImage.Null);
 		new_pnl.setTag(tag);
@@ -316,7 +316,7 @@ public class CustomManager  {
 			param.setH(1);
 			param.setFill(FillMode.FM_BOTH);
 			param.setReSize(ReSizeMode.RSM_BOTH);
-			param.setPad(1);
+			param.setPad(0);
 		}
 		return param;
 	}

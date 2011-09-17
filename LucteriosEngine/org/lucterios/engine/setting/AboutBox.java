@@ -52,7 +52,7 @@ public class AboutBox {
 
 	public AboutBox(GUIFrame aOwner) {
 		mDialog=Singletons.getWindowGenerator().newDialog(aOwner);
-		mDialog.setTitle("A propos");
+		mDialog.setTextTitle("A propos");
 		mDialog.setResizable(false);
 		
 		m_ImageLogo=mDialog.getContainer().createImage(new GUIParam(0, 0, 1, 2));
@@ -115,7 +115,7 @@ public class AboutBox {
 
 	private void showConfigDialog() {
 		GUIDialog config = Singletons.getWindowGenerator().newDialog(mDialog,null);
-		config.setTitle("Configuration");
+		config.setTextTitle("Configuration");
 
 		GUIHyperText text = config.getContainer().createHyperText(new GUIParam(0, 0));
 		text.setTextString(mDescription.getHTML(null));

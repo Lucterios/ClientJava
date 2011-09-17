@@ -192,5 +192,10 @@ public class SGenerator implements GUIGenerator {
 	public boolean isEventDispatchThread() {
 		return SwingUtilities.isEventDispatchThread();
 	}
-	
+
+	public void runSubThread(Runnable runnable) {
+		Thread th=new Thread(runnable);
+		th.start();
+	}
+		
 }

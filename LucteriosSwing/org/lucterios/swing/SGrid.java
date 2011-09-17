@@ -218,4 +218,7 @@ public class SGrid extends JScrollPane implements GUIGrid, ListSelectionListener
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

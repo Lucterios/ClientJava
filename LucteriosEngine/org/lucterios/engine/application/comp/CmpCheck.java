@@ -35,7 +35,7 @@ public class CmpCheck extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		cmp_Check.requestFocus();
+		cmp_Check.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

@@ -65,7 +65,7 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 	}
 
 	public void requestFocus() {
-		cmp_list.requestFocus();
+		cmp_list.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {
@@ -97,12 +97,12 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 	}
 
 	public void forceFocus() {
-		cmp_list.requestFocus();
+		cmp_list.requestFocusGUI();
 	}
 
 	protected void initComponent() {
-		mParam.setH(100);
-		mParam.setW(30);
+		mParam.setPrefSizeX(100);
+		mParam.setPrefSizeY(30);
 		mParam.setFill(FillMode.FM_BOTH);
 		mParam.setReSize(ReSizeMode.RSM_BOTH);
 		cmp_list = mPanel.createCheckList(mParam);

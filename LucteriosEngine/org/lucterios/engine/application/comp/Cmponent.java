@@ -112,7 +112,7 @@ public abstract class Cmponent {
 	}
 
 	public void forceFocus() {
-		mPanel.requestFocus();
+		mPanel.requestFocusGUI();
 	}
 
 	public boolean isFocusable() {

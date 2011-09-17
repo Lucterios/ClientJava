@@ -23,6 +23,7 @@ package org.lucterios.engine.application.comp;
 import org.lucterios.engine.gui.GraphicTool;
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.ui.GUIActionListener;
 
 public class CmpButton extends CmpAbstractEvent {
@@ -38,6 +39,7 @@ public class CmpButton extends CmpAbstractEvent {
 
 	public CmpButton() {
 		super();
+		mFill=FillMode.FM_NONE;
 	}
 
 	public MapContext getRequete(String aActionIdent) {
@@ -70,12 +72,12 @@ public class CmpButton extends CmpAbstractEvent {
 				mParam.setPrefSizeY(22);
 			}
 			actbtn = mPanel.createButton(mParam);
-			GraphicTool.fillButton(actbtn,mEventAction);
 			actbtn.addActionListener(new GUIActionListener() {
 				public void actionPerformed() {
 					m_hasBeenClicked=true;
 				}
 			});
+			GraphicTool.fillButton(actbtn,mEventAction);
 		}
 	}
 

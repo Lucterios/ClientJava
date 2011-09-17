@@ -67,7 +67,7 @@ public class MockComponent implements GUIComponent {
 		mEnabled=enabled;
 	}
 
-	private boolean mVisible=false;
+	private boolean mVisible=true;
 	public boolean isVisible() {
 		return mVisible;
 	}
@@ -78,7 +78,7 @@ public class MockComponent implements GUIComponent {
 	
 	public void repaint() { }
 
-	public void requestFocus() { }
+	public void requestFocusGUI() { }
 
 	public void setActiveMouseAction(boolean isActive) { }
 

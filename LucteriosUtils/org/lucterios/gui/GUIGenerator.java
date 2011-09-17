@@ -61,6 +61,8 @@ public interface GUIGenerator {
 	public void invokeLater(Runnable runnable);
 
 	public void invokeAndWait(Runnable runnable);
+
+	public void runSubThread(Runnable runnable);
 	
 	public boolean isEventDispatchThread();
 

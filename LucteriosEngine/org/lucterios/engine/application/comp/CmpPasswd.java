@@ -33,7 +33,7 @@ public class CmpPasswd extends CmpAbstractEvent {
 	}
 
 	public void requestFocus() {
-		cmp_text.requestFocus();
+		cmp_text.requestFocusGUI();
 	}
 
 	public void setEnabled(boolean aEnabled) {

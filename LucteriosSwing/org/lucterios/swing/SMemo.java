@@ -342,4 +342,7 @@ public class SMemo extends JTextPane implements GUIMemo, KeyListener,CaretListen
 		return getOwner().isActive();
 	}
 	
+	public void requestFocusGUI() {
+		requestFocus();
+	}
 }

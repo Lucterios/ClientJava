@@ -114,8 +114,8 @@ public class PreviewObserver implements PrintObserverAbstract,PrintPanelBase.Obs
 
         param=new GUIParam(4,0);
         param.setFill(FillMode.FM_NONE);
-        param.setH(20);
-        param.setW(150);
+        param.setPrefSizeY(20);
+        param.setPrefSizeX(150);
         mPages= mTopPanel.createCombo(param);
         mPages.setName("mPages");
         mPages.addActionListener(new GUIActionListener() {

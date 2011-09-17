@@ -19,6 +19,7 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 
 	public interface LookAndFeelCallBack {
 		public Component[] getComponentsForLookAndFeel();
+		public void changingTheme();
 	}
 	
 	/**
@@ -59,6 +60,7 @@ public class ThemeMenu extends JRadioButtonMenuItem implements ActionListener {
 				for (int cmp_i = 0; cmp_i < cmps.length; cmp_i++)
 					if (cmps[cmp_i]!=null)
 						javax.swing.SwingUtilities.updateComponentTreeUI(cmps[cmp_i]);
+				CallBack.changingTheme();
 			}
 		} catch (Exception e) {
 			ExceptionDlg.throwException(e);

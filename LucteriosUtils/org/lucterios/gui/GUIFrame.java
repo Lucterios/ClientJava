@@ -18,11 +18,11 @@ public interface GUIFrame extends GUIObject {
 	
 	public String getName();
 
-	public String getTitle();
+	public String getTextTitle();
 	
 	public AbstractImage getImage();
 
-	public void setTitle(String title);
+	public void setTextTitle(String title);
 
 	public void setImage(AbstractImage image);
 		
