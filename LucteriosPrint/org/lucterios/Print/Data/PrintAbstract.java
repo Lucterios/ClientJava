@@ -20,9 +20,9 @@
 
 package org.lucterios.Print.Data;
 
+import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringDico;
 import org.lucterios.utils.StringList;
-import org.w3c.dom.NodeList;
 
 public abstract class PrintAbstract
 {
@@ -178,7 +178,7 @@ public abstract class PrintAbstract
         return write(this.getClass().getName());
     }
 
-    public void read(org.w3c.dom.Element aXmlItem)
+    public void read(SimpleParsing aXmlItem)
     {
         this.init();
         java.lang.reflect.Field[] fields=this.getClass().getFields();
@@ -203,8 +203,8 @@ public abstract class PrintAbstract
             }
             else
             {
-                 org.w3c.dom.NodeList nodes=aXmlItem.getElementsByTagName(field_name);
-                 if (nodes.getLength()>0)
+                 SimpleParsing[] nodes=aXmlItem.getSubTag(field_name);
+                 if (nodes.length>0)
                  {
                     try
                     {
@@ -220,7 +220,7 @@ public abstract class PrintAbstract
         }
     }
 
-	private void readPrintObject(String fieldName, NodeList nodes, Object value) throws ClassNotFoundException 
+	private void readPrintObject(String fieldName, SimpleParsing[] nodes, Object value) throws ClassNotFoundException 
 	{
 		if (ReadProperty.containsKey(fieldName) && (PrintVector.class.isInstance(value)))
 		{
@@ -234,7 +234,7 @@ public abstract class PrintAbstract
 		{
 		    PrintAbstract obj=(PrintAbstract)value;
 		    obj.setOwner(this);
-		    obj.read((org.w3c.dom.Element)nodes.item(0));
+		    obj.read(nodes[0]);
 		}
 	}
 

@@ -20,6 +20,8 @@
 
 package org.lucterios.Print.Data;
 
+import org.lucterios.utils.SimpleParsing;
+
 public class PrintAbstractText extends PrintAbstract
 {
     public String text_align="start";
@@ -89,18 +91,9 @@ public class PrintAbstractText extends PrintAbstract
         return result;
     }
 
-    public void read(org.w3c.dom.Element aXmlItem)
+    public void read(SimpleParsing aXmlItem)
     {
         super.read(aXmlItem);
-        content="";
-        org.w3c.dom.NodeList nodes=aXmlItem.getChildNodes();
-        for(int n_idx=0;n_idx<nodes.getLength();n_idx++)
-            if ((nodes.item(n_idx).getNodeType()==org.w3c.dom.Node.CDATA_SECTION_NODE) || (nodes.item(n_idx).getNodeType()==org.w3c.dom.Node.TEXT_NODE))
-            {
-                content+="\n"+nodes.item(n_idx).getNodeValue().trim();
-            }
-            else if (nodes.item(n_idx).getNodeType()==org.w3c.dom.Node.ELEMENT_NODE)
-                content+=NewText((org.w3c.dom.Element)nodes.item(n_idx));
-        content=content.trim();
+        content=aXmlItem.getText();
     }
 }

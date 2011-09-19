@@ -95,7 +95,7 @@ public class CmpSelect extends CmpAbstractEvent {
 		for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
 			SimpleParsing case_item = xml_items[case_idx];
 			ItemObj item_obj = new ItemObj(case_item.getText(), case_item
-					.getAttribut("id"));
+					.getAttribute("id"));
 			if (item_obj.mID.equals(id))
 				sel_item_idx = size;
 			cmp_cnbb.addElement(item_obj);

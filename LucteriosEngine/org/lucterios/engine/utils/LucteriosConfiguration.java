@@ -162,12 +162,12 @@ public class LucteriosConfiguration implements GridInterface {
 			ProxyPort = proxy_port.getCDataInt(0);
 		SimpleParsing[] servers = root.getSubTag("SERVER");
 		for (int item_idx = 0; item_idx < servers.length; item_idx++) {
-			int port_host = servers[item_idx].getAttributInt("port",
+			int port_host = servers[item_idx].getAttributeInt("port",
 					DEFAULT_PORT);
-			int mode = servers[item_idx].getAttributInt("mode", MODE_NORMAL);
-			AddServer(servers[item_idx].getAttribut("name"), servers[item_idx]
-					.getAttribut("host"), port_host, servers[item_idx]
-					.getAttribut("dir"), mode);
+			int mode = servers[item_idx].getAttributeInt("mode", MODE_NORMAL);
+			AddServer(servers[item_idx].getAttribute("name"), servers[item_idx]
+					.getAttribute("host"), port_host, servers[item_idx]
+					.getAttribute("dir"), mode);
 		}
 	}
 

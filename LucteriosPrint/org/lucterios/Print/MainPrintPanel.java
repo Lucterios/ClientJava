@@ -27,6 +27,7 @@ import org.lucterios.Print.GUI.PropertyObserver;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIContainer.ContainerType;
+import org.lucterios.utils.LucteriosException;
 
 /**
  *
@@ -82,7 +83,7 @@ public class MainPrintPanel  {
         bottomSplit.setDividerLocation(600);
     }
 
-    public void getData(String aModal,String aXmlData) throws org.xml.sax.SAXException,java.io.IOException
+    public void getData(String aModal,String aXmlData) throws LucteriosException
     {
         if (aModal.trim().length()==0)
             aModal="<model></model>";

@@ -110,7 +110,7 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 
 	public void init(GUIContainer aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
-		if (aXmlItem.getAttributInt("simple", 0) != 0) {
+		if (aXmlItem.getAttributeInt("simple", 0) != 0) {
 			mFill = FillMode.FM_BOTH;
 			setWeighty(1.0);
 		}
@@ -119,7 +119,7 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 
 	protected void refreshComponent() {
 		super.refreshComponent();
-		mSimple = (getXmlItem().getAttributInt("simple", 0) != 0);
+		mSimple = (getXmlItem().getAttributeInt("simple", 0) != 0);
 		ArrayList<ItemObj> ItemObjs = new ArrayList<ItemObj>();
 		int[] indices = null;
 		cmp_list.clearList();
@@ -133,8 +133,8 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 			for (int case_idx = 0; case_idx < xml_items.length; case_idx++) {
 				SimpleParsing xml_item = xml_items[case_idx];
 				ItemObj item_obj = new ItemObj(xml_item.getText(), xml_item
-						.getAttribut("id"));
-				sel_itx[case_idx] = (xml_item.getAttributInt("checked", 0) != 0);
+						.getAttribute("id"));
+				sel_itx[case_idx] = (xml_item.getAttributeInt("checked", 0) != 0);
 				if (sel_itx[case_idx])
 					nb_selected++;
 				ItemObjs.add(item_obj);

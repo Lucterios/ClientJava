@@ -96,7 +96,6 @@
 		<unzip src="${projet.lib.dir}/js.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/junit.jar" dest="${projet.src.dir}" />
 		<unzip src="${projet.lib.dir}/PgsLookAndFeel.jar" dest="${projet.src.dir}" />
-		<unzip src="${projet.lib.dir}/xercesImpl-2.7.1.jar" dest="${projet.src.dir}" />
 		<delete dir="${projet.src.dir}/junit3.8.1" /> 
 		<delete dir="${projet.src.dir}/META-INF" /> 
 		<delete file="${projet.src.dir}/Manifest.txt" /> 

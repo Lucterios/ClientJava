@@ -49,8 +49,8 @@ public class CmpImage extends Cmponent {
 
 	protected void refreshComponent() {
 		String type = getXmlItem().getCDataOfFirstTag("TYPE");
-		int height = getXmlItem().getAttributInt("height", 0);
-		int width = getXmlItem().getAttributInt("width", 0);
+		int height = getXmlItem().getAttributeInt("height", 0);
+		int width = getXmlItem().getAttributeInt("width", 0);
 		String val = getXmlItem().getText();
 		AbstractImage image;
 		if (type.equals(""))

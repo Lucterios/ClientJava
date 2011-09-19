@@ -124,7 +124,7 @@ public class CustomManager  {
 		for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
 			SimpleParsing component = aXmlComponent.getSubTag(index);
 			mComposants.add(component);
-			mCompNames[index] = component.getAttribut("name");
+			mCompNames[index] = component.getAttribute("name");
 		}
 	}
 
@@ -328,7 +328,7 @@ public class CustomManager  {
 		int tag_num = 1;
 		if (PnlTab != null)
 			tag_num = (PnlTab.count() + 1);
-		tag_num = value_obj.getAttributInt("tab", tag_num);
+		tag_num = value_obj.getAttributeInt("tab", tag_num);
 		if (CST_TABPANE.equals(value_obj.getTagName())) {
 			if (PnlTab == null) {
 				GUIParam param=reorganiseComponents(mContainer, true);
@@ -344,10 +344,10 @@ public class CustomManager  {
 			}
 
 			comp = getComponentWithClassCheck(current_panel, value_obj
-					.getAttribut("name"), value_obj.getTagName());
+					.getAttribute("name"), value_obj.getTagName());
 			if (comp == null) {
 				comp = createComponent(value_obj.getTagName(), value_obj
-						.getAttribut("name"));
+						.getAttribute("name"));
 				comp.init(current_panel, getObserver(), value_obj);
 			}
 			comp.setValue(value_obj);

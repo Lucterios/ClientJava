@@ -33,6 +33,8 @@ import org.lucterios.engine.application.ActionLocal;
 import org.lucterios.engine.application.ApplicationDescription;
 import org.lucterios.engine.application.Connection;
 import org.lucterios.engine.gui.RefreshButtonPanel;
+import org.lucterios.engine.gui.TabCategoriesPanel;
+import org.lucterios.engine.gui.ToogleManagerPanel;
 import org.lucterios.engine.gui.ToolBar;
 import org.lucterios.engine.presentation.Observer;
 import org.lucterios.engine.presentation.ObserverFactory;
@@ -96,9 +98,11 @@ public class ApplicationMain implements RefreshButtonPanel,
 	private TimeLabel mTimeValue;
 	private MemoryJauge mMemoryJauge;
 	private GUIContainer mStatBarPnl;
-	private MainPanel mMainPanel;
 	private ToolBar mToolBar;
 
+	private TabCategoriesPanel mTabCategoriesPanel;
+	private ToogleManagerPanel mToogleManagerPanel;
+	
 	static private int NB_WIND_MENU = 4;
 
 	private ApplicationDescription mDescription;
@@ -122,6 +126,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	private ProgressPanel mProgressPanelBottom;
 	
 	private GUIFrame mFrame;
+	private GUIContainer mMainSplitPanel;
 
 	public ApplicationMain(GUIGenerator generator) throws LucteriosException {
 		super();	
@@ -271,10 +276,19 @@ public class ApplicationMain implements RefreshButtonPanel,
 		pnl.setMinimumSize(PROGRESS_SIZE, PROGRESS_SIZE);
 		mProgressPanelTop = new ProgressPanel(true,pnl);
 
-		pnl=getContainer().createContainer(ContainerType.CT_SPLITER, new GUIParam(0,2,1,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
-		mMainPanel = new MainPanel(this, mConnectionInfoOwnerObserber);
-		mMainPanel.initialize(pnl);
-
+		mMainSplitPanel=getContainer().createContainer(ContainerType.CT_SPLITER, new GUIParam(0,2,1,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
+		
+		mTabCategoriesPanel=new TabCategoriesPanel(this, mConnectionInfoOwnerObserber);
+		mTabCategoriesPanel.initialize(mMainSplitPanel.getSplite(ContainerType.CT_TAB, true));
+		mTabCategoriesPanel.getContainer().setMouseClickAction(new GUIActionListener() {
+			public void actionPerformed() {
+				doubleClickSpliter();
+			}
+		});
+		
+		mToogleManagerPanel=new ToogleManagerPanel(this, mConnectionInfoOwnerObserber);
+		mToogleManagerPanel.initialize(mMainSplitPanel.getSplite(ContainerType.CT_NORMAL, false));
+		
 		pnl=getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,3,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 		mProgressPanelBottom = new ProgressPanel(false,pnl);
 		pnl.setSize(PROGRESS_SIZE,PROGRESS_SIZE);
@@ -302,7 +316,8 @@ public class ApplicationMain implements RefreshButtonPanel,
 
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.start();
-		getFormList().setObjects(new Object[]{this,mMainPanel});
+		getFormList().setObjects(new Object[]{this,mTabCategoriesPanel});
+		getFormList().setObjects(new Object[]{this,mToogleManagerPanel});
 	}
 
 	private void initMenu() {
@@ -374,15 +389,26 @@ public class ApplicationMain implements RefreshButtonPanel,
 		getFormList().newShortCut(aActionName, aShortCut, aActionListener);
 	}
 
+	private double mDividerLocation = -1;
 	public void initialToolBar() {
 		setActive(false);
-		mMainPanel.clearTools();
+		if (mDividerLocation != -1)
+			mDividerLocation = (1.0 * mMainSplitPanel.getDividerLocation()) / mMainSplitPanel.getSizeX();
+		else
+			mDividerLocation = 0.25;
+		mMainSplitPanel.setDividerLocation(0);		
+		mTabCategoriesPanel.clearTools();
+		mToogleManagerPanel.clearTools();
 	}
 
 	public void terminatToolBar() {
-		mMainPanel.getContainer().setVisible(true);
-		mMainPanel.setMainMenuBar(mFrame);
-		getFormList().assignShortCut(mMainPanel.getContainer());
+		mTabCategoriesPanel.getContainer().setVisible(true);
+		mTabCategoriesPanel.setMainMenuBar(mFrame);
+		getFormList().assignShortCut(mTabCategoriesPanel.getContainer());
+		mToogleManagerPanel.getContainer().setVisible(true);
+		mToogleManagerPanel.setMainMenuBar(mFrame);			
+		getFormList().assignShortCut(mTabCategoriesPanel.getContainer());
+		
 		mConnectionInfoAction.actionPerformed();
 		newShortCut("disconnect", mDisconnectAction.getKeyStroke(),
 				mDisconnectAction);
@@ -399,6 +425,14 @@ public class ApplicationMain implements RefreshButtonPanel,
 		setActive(true);
 	}
 
+	public void doubleClickSpliter() {
+		if (mToogleManagerPanel.getContainer().isVisible())
+			mDividerLocation = (1.0 * mMainSplitPanel.getDividerLocation()) / mMainSplitPanel.getSizeX();
+		mToogleManagerPanel.getContainer().setVisible(!mToogleManagerPanel.getContainer().isVisible());
+		if (mToogleManagerPanel.getContainer().isVisible())
+			mMainSplitPanel.setDividerLocation(mDividerLocation);
+	}
+	
 	private void aboutMenuItemActionPerformed() {
 		AboutBox about_dlg = new AboutBox(mFrame);
 		about_dlg.show(mDescription);
@@ -515,6 +549,11 @@ public class ApplicationMain implements RefreshButtonPanel,
 		}
 		if (nb > 0)
 			getFormList().getFrameSelected().setSelected(true);
+		if (mToogleManagerPanel.hasToggle()) {
+			mMainSplitPanel.setDividerLocation((int) (mDividerLocation * mMainSplitPanel.getSizeX()));
+		} else {
+			mMainSplitPanel.setDividerLocation(0);
+		}
 	}
 
 	public void Change() {

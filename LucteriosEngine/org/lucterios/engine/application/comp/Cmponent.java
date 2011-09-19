@@ -157,16 +157,16 @@ public abstract class Cmponent {
 		
 	public void init(GUIContainer aOwnerPanel, Observer aObsCustom,
 			SimpleParsing aXmlItem) {
-		setName(aXmlItem.getAttribut("name"));
-		Description = aXmlItem.getAttribut("description");
-		X = aXmlItem.getAttributInt("x", -1);
-		Y = aXmlItem.getAttributInt("y", -1);
-		W = aXmlItem.getAttributInt("colspan", 1);
-		H = aXmlItem.getAttributInt("rowspan", 1);
-		HMin = aXmlItem.getAttributInt("HMin", HMin);
-		VMin = aXmlItem.getAttributInt("VMin", VMin);
-		HMax = aXmlItem.getAttributInt("HMax", Integer.MAX_VALUE);
-		VMax = aXmlItem.getAttributInt("VMax", Integer.MAX_VALUE);
+		setName(aXmlItem.getAttribute("name"));
+		Description = aXmlItem.getAttribute("description");
+		X = aXmlItem.getAttributeInt("x", -1);
+		Y = aXmlItem.getAttributeInt("y", -1);
+		W = aXmlItem.getAttributeInt("colspan", 1);
+		H = aXmlItem.getAttributeInt("rowspan", 1);
+		HMin = aXmlItem.getAttributeInt("HMin", HMin);
+		VMin = aXmlItem.getAttributeInt("VMin", VMin);
+		HMax = aXmlItem.getAttributeInt("HMax", Integer.MAX_VALUE);
+		VMax = aXmlItem.getAttributeInt("VMax", Integer.MAX_VALUE);
 		GUIParam param=new GUIParam(X,Y); 
 		param.setW(W);
 		param.setH(H);
@@ -177,7 +177,7 @@ public abstract class Cmponent {
 			param.setPrefSizeX(HMin);
 			param.setPrefSizeY(VMin);
 		}
-		mNeeded = (aXmlItem.getAttributInt("needed", 0) == 1);
+		mNeeded = (aXmlItem.getAttributeInt("needed", 0) == 1);
 		try {
 			JavaScript = java.net.URLDecoder.decode(aXmlItem
 					.getCDataOfFirstTag("JavaScript"), "utf-8");

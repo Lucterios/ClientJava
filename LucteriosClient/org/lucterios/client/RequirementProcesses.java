@@ -47,8 +47,8 @@ public class RequirementProcesses implements ApplicationTerminate {
 		if (root.parse(aConfigText)) {
 			SimpleParsing[] plateforms = root.getSubTag("PLATFORM");
 			for (SimpleParsing plateform : plateforms)
-				if (os_name.equals(plateform.getAttribut("name"))
-						&& os_arch.equals(plateform.getAttribut("archi")))
+				if (os_name.equals(plateform.getAttribute("name"))
+						&& os_arch.equals(plateform.getAttribute("archi")))
 					manageArchi(plateform);
 		}
 	}
@@ -59,7 +59,7 @@ public class RequirementProcesses implements ApplicationTerminate {
 			if ("CMD".equalsIgnoreCase(action.getTagName()))
 				ExternalProcess.executeCommand(action.getText(), 60000);
 			else if ("PROCESS".equalsIgnoreCase(action.getTagName()))
-				addProcessor(action.getAttribut("name"), action.getText());
+				addProcessor(action.getAttribute("name"), action.getText());
 		}
 	}
 

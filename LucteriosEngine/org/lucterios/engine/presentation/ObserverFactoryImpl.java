@@ -133,10 +133,10 @@ public class ObserverFactoryImpl implements ObserverFactory {
 		SimpleParsing parse = new SimpleParsing();
 		if (parse.parse(xml_text)) {
 			SimpleParsing rep = parse.getFirstSubTag("REPONSE");
-			String observer_name = (rep!=null)?rep.getAttribut("observer"):"";
+			String observer_name = (rep!=null)?rep.getAttribute("observer"):"";
 			if (mObservers.containsKey(observer_name)) {
-				String source_extension = (rep!=null)?rep.getAttribut("source_extension"):"";
-				String source_action = (rep!=null)?rep.getAttribut("source_action"):"";
+				String source_extension = (rep!=null)?rep.getAttribute("source_extension"):"";
+				String source_action = (rep!=null)?rep.getAttribute("source_action"):"";
 				if (aObserver == null) {
 					res_obs = factoryObserver(observer_name, m_XMLParameters,
 							xml_text);

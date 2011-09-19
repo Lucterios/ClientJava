@@ -259,8 +259,8 @@ public class CmpFastGrid extends Cmponent
 				current_act.setCheckNull(false);
 				mActions[action_idx++] = current_act;
 			}
-		mPageMax = getXmlItem().getAttributInt("PageMax", 0);
-		mPageNum = getXmlItem().getAttributInt("PageNum", 0);
+		mPageMax = getXmlItem().getAttributeInt("PageMax", 0);
+		mPageNum = getXmlItem().getAttributeInt("PageNum", 0);
 		pnl_Pages.removeAll();
 		if (mPageMax > 1) {
 			pnl_Pages.setVisible(nb == 0);

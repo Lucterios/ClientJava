@@ -76,15 +76,15 @@ public class ActionImpl implements Action {
 	public void initialize(Observer aOwner, ObserverFactory aFactory,
 			SimpleParsing aXml) {
 		initialize(aOwner, aFactory, aXml.getText(), aXml
-				.getAttribut("extension"), aXml.getAttribut("action"));
-		if (!aXml.getAttribut("id").equals(""))
-			mID = aXml.getAttribut("id");
-		mFormType = aXml.getAttributInt("modal", ActionConstantes.FORM_NOMODAL);
-		mClose = (aXml.getAttributInt("close", 1) != 0);
-		mSelect = aXml.getAttributInt("unique", ActionConstantes.SELECT_NONE);
-		mIcon = aXml.getAttribut("icon");
-		mSizeIcon = aXml.getAttributInt("sizeicon", 0);
-		mKeyStroke = aXml.getAttribut("shortcut");
+				.getAttribute("extension"), aXml.getAttribute("action"));
+		if (!aXml.getAttribute("id").equals(""))
+			mID = aXml.getAttribute("id");
+		mFormType = aXml.getAttributeInt("modal", ActionConstantes.FORM_NOMODAL);
+		mClose = (aXml.getAttributeInt("close", 1) != 0);
+		mSelect = aXml.getAttributeInt("unique", ActionConstantes.SELECT_NONE);
+		mIcon = aXml.getAttribute("icon");
+		mSizeIcon = aXml.getAttributeInt("sizeicon", 0);
+		mKeyStroke = aXml.getAttribute("shortcut");
 	}
 
 	public void initialize(Observer aOwner, ObserverFactory aFactory,

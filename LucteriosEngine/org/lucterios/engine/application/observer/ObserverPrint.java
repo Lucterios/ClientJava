@@ -73,10 +73,10 @@ public class ObserverPrint extends ObserverAbstract {
 		title = "";
 		SimpleParsing fo_elements = mContent.getFirstSubTag("PRINT");
 		if (fo_elements != null) {
-			title = fo_elements.getAttribut("title");
-			type = fo_elements.getAttributInt("type", 0);
-			mode = fo_elements.getAttributInt("mode",MODE_PREVIEW);
-			withTextExport = (fo_elements.getAttributInt("withTextExport", 0) != 0);
+			title = fo_elements.getAttribute("title");
+			type = fo_elements.getAttributeInt("type", 0);
+			mode = fo_elements.getAttributeInt("mode",MODE_PREVIEW);
+			withTextExport = (fo_elements.getAttributeInt("withTextExport", 0) != 0);
 			xml_content = fo_elements.getText();
 		}
 	}

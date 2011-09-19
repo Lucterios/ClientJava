@@ -14,7 +14,7 @@ public class ActionTest {
 	private MapContext attributMap=new MapContext(); 
 	
 	public ActionTest(SimpleParsing aAction){
-		id=aAction.getAttributInt("id",0);
+		id=aAction.getAttributeInt("id",0);
 		SimpleParsing item=aAction.getFirstSubTag("name");
 		actionName=item.getText();
 		String[] action_text=actionName.split("\\.");
@@ -22,7 +22,7 @@ public class ActionTest {
 		name=action_text[1].replaceAll("::","_APAS_");
 		SimpleParsing[] params=aAction.getSubTag("param");
 		for(SimpleParsing param:params){
-			attributMap.put(param.getAttribut("name"), param.getText());
+			attributMap.put(param.getAttribute("name"), param.getText());
 		}
 		expectedObserver=aAction.getCDataOfFirstTag("expected");
 	}

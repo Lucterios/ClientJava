@@ -99,7 +99,7 @@ public abstract class ObserverAbstract implements Observer {
 		if (xmlcontext != null) {
 			SimpleParsing xmlparams[] = xmlcontext.getSubTag("PARAM");
 			for (int index = 0; index < xmlparams.length; index++)
-				mContext.put(xmlparams[index].getAttribut("name"),
+				mContext.put(xmlparams[index].getAttribute("name"),
 						xmlparams[index].getText());
 		}
 	}

@@ -87,7 +87,10 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	private GUIActionListener mResizeAction=null;
 
 	public void setMouseClickAction(GUIActionListener mMouseClickAction) {
-		mCursorMouseListener.add(mMouseClickAction);
+		if (mMouseClickAction!=null)
+			mCursorMouseListener.add(mMouseClickAction);
+		else
+			mCursorMouseListener.clear();
 	}
 
 	public void setResizeAction(GUIActionListener mResizeAction) {

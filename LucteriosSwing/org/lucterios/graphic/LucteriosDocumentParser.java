@@ -184,7 +184,7 @@ public class LucteriosDocumentParser {
 			new_model.underline=true;
 		if (aItem.getTagName().equalsIgnoreCase("font"))
 		{
-			String txt_color=aItem.getAttribut("color");
+			String txt_color=aItem.getAttribute("color");
 			if (txt_color.equalsIgnoreCase("#0000ff"))
 				new_model.color=Color.blue;
 			if (txt_color.equalsIgnoreCase("#00ff00"))

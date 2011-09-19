@@ -70,8 +70,8 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		mTitle = "";
 		SimpleParsing template = mContent.getFirstSubTag("TEMPLATE");
 		if (template != null) {
-			mModelId = template.getAttributInt("model", 0);
-			mTitle = template.getAttribut("title");
+			mModelId = template.getAttributeInt("model", 0);
+			mTitle = template.getAttribute("title");
 			data_elements = template.getFirstSubTag("XMLOBJECT");
 			style_elements = template.getFirstSubTag("XSLTEXT");
 		}

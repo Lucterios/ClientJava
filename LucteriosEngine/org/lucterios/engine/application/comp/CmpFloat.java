@@ -90,10 +90,10 @@ public class CmpFloat extends CmpAbstractEvent {
 	protected void refreshComponent() {
 		super.refreshComponent();
 		double min_val = getXmlItem()
-				.getAttributDouble("min", Double.MIN_VALUE);
+				.getAttributeDouble("min", Double.MIN_VALUE);
 		double max_val = getXmlItem()
-				.getAttributDouble("max", Double.MAX_VALUE);
-		int prec_val = getXmlItem().getAttributInt("prec", 2);
+				.getAttributeDouble("max", Double.MAX_VALUE);
+		int prec_val = getXmlItem().getAttributeInt("prec", 2);
 		double val = getXmlItem().getCDataDouble(min_val);
 		mIsInteger = (prec_val == 0);
 		if (mIsInteger) {

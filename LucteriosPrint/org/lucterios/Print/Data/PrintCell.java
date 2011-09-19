@@ -20,6 +20,7 @@
 
 package org.lucterios.Print.Data;
 
+import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringList;
 
 public class PrintCell extends PrintBorder
@@ -107,7 +108,7 @@ public class PrintCell extends PrintBorder
         return xml_attributes;
     }
 
-    public void read(org.w3c.dom.Element aXmlItem)
+    public void read(SimpleParsing aXmlItem)
     {
             super.read(aXmlItem);
             print_text.read(aXmlItem);

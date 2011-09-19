@@ -145,7 +145,7 @@ public class CmpMemo extends CmpAbstractEvent {
 	protected void refreshComponent() {
 		super.refreshComponent();
 		String in_text = getXmlItem().getText().trim();
-		mEncode = (getXmlItem().getAttributInt("Encode", 0) != 0);
+		mEncode = (getXmlItem().getAttributeInt("Encode", 0) != 0);
 		if (mEncode)
 			try {
 				in_text = java.net.URLDecoder.decode(in_text.trim(), ENCODE);
@@ -156,8 +156,8 @@ public class CmpMemo extends CmpAbstractEvent {
 		else
 			in_text = Tools.replace(in_text, "{[newline]}", "\n");
 		cmp_text.setText(in_text);
-		cmp_text.setStringSize(getXmlItem().getAttributInt("stringSize", 0));
-		cmp_text.setFirstLine(getXmlItem().getAttributInt("FirstLine", -1));
+		cmp_text.setStringSize(getXmlItem().getAttributeInt("stringSize", 0));
+		cmp_text.setFirstLine(getXmlItem().getAttributeInt("FirstLine", -1));
 		cmp_text.addFocusListener(this);
 		fillSubMenu(getXmlItem().getSubTag("SUBMENU"));
 		SubMenu.setVisible(SubMenu.getMenuCount() > 0);

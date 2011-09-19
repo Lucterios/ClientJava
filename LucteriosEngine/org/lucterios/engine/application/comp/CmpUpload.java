@@ -136,9 +136,9 @@ public class CmpUpload extends CmpAbstractEvent {
 
 	protected void refreshComponent() {
 		super.refreshComponent();
-		m_isCompress = (getXmlItem().getAttributInt("Compress", 0) != 0);
-		m_isHttpFile = (getXmlItem().getAttributInt("HttpFile", 0) != 0);
-		m_maxsize = getXmlItem().getAttributInt("maxsize", 1048576);
+		m_isCompress = (getXmlItem().getAttributeInt("Compress", 0) != 0);
+		m_isHttpFile = (getXmlItem().getAttributeInt("HttpFile", 0) != 0);
+		m_maxsize = getXmlItem().getAttributeInt("maxsize", 1048576);
 		mHelpText=getXmlItem().getText().trim();
 		txt_FileName.setToolTipText(mHelpText);
 		SimpleParsing[] filer_list = getXmlItem().getSubTag("FILTER");

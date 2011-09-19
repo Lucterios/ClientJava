@@ -20,6 +20,8 @@
 
 package org.lucterios.Print.Data;
 
+import org.lucterios.utils.SimpleParsing;
+
 public class PrintImage extends PrintContainer
 {
     public String picture="";
@@ -42,16 +44,10 @@ public class PrintImage extends PrintContainer
        return "Image "+idx;
     }
 
-    public void read(org.w3c.dom.Element aXmlItem)
+    public void read(SimpleParsing aXmlItem)
     {
         super.read(aXmlItem);
-        picture="";
-        org.w3c.dom.NodeList nodes=aXmlItem.getChildNodes();
-        for(int n_idx=0;n_idx<nodes.getLength();n_idx++)
-            if ((nodes.item(n_idx).getNodeType()==org.w3c.dom.Node.CDATA_SECTION_NODE) || (nodes.item(n_idx).getNodeType()==org.w3c.dom.Node.TEXT_NODE))
-            {
-                picture=nodes.item(n_idx).getNodeValue().trim();
-            }
+        picture=aXmlItem.getText();
     }
 
 }

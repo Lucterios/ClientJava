@@ -22,6 +22,8 @@ package org.lucterios.Print.Data;
 
 import java.util.*;
 
+import org.lucterios.utils.SimpleParsing;
+
 public class PrintVector extends PrintAbstract
 {
     public String name="";
@@ -104,15 +106,15 @@ public class PrintVector extends PrintAbstract
         return xml_childs;
     }
 
-    public void readArrayList(org.w3c.dom.NodeList aNodes, Class<?> aClass)
+    public void readArrayList(SimpleParsing[] aNodes, Class<?> aClass)
     {
         init();
-        for(int node_idx=0;node_idx<aNodes.getLength();node_idx++)
+        for(int node_idx=0;node_idx<aNodes.length;node_idx++)
         try
         {
             PrintAbstract obj=(PrintAbstract)aClass.newInstance();
             add(obj);
-            obj.read((org.w3c.dom.Element)aNodes.item(node_idx));
+            obj.read(aNodes[node_idx]);
         } catch(IllegalAccessException e) {
                 System.out.println("Access illegal "+e);
         } catch(InstantiationException e){

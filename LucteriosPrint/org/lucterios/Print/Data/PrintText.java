@@ -20,6 +20,8 @@
 
 package org.lucterios.Print.Data;
 
+import org.lucterios.utils.SimpleParsing;
+
 public class PrintText extends PrintContainer
 {
     public PrintAbstractText print_text=new PrintAbstractText();
@@ -62,7 +64,7 @@ public class PrintText extends PrintContainer
         return xml_attributes;
     }
 
-    public void read(org.w3c.dom.Element aXmlItem)
+    public void read(SimpleParsing aXmlItem)
     {
             super.read(aXmlItem);
             print_text.read(aXmlItem);

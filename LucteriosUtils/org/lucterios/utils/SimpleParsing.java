@@ -91,7 +91,17 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	public boolean parse(String aText)
 	{
 		boolean res;
-		
+        try {
+        	res=parse(aText,false);
+		}
+		catch(LucteriosException e) {
+			res=false;
+		}
+		return res;
+	}
+
+	public boolean parse(String aText, boolean throwExcept) throws LucteriosException {
+		boolean res;
 		mCurrent=null;
 		SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
@@ -106,16 +116,12 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 		}
 		catch(Exception e)
 		{
+			if (throwExcept) {
+				throw new LucteriosException("Parsing error",aText,"",e);
+			}
 			res=false;
 		}
-		return res;
-	}
-
-	public void parse(String xmlReceive, boolean b) throws LucteriosException {
-		if (!parse(xmlReceive)) {
-			throw new LucteriosException("Parsing error");
-		}
-		
+		return res;		
 	}
 	
     private void fillElement (String aSimpleName,Attributes aAttrs) {
@@ -161,13 +167,19 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 	{
 		return mSimpleName;
 	}
-	
-	public String getAttribut(String aName,String aDefault)
-	{
+
+	public boolean hasAttribute(String aName) {
 		if (mAttrs!=null) {
-			String value=null;
-			if (mAttrs.containsKey(aName))
-				value=mAttrs.get(aName);	
+			return mAttrs.containsKey(aName);
+		}
+		else
+			return false;
+	}
+	
+	public String getAttribute(String aName,String aDefault)
+	{
+		if (hasAttribute(aName)) {
+			String value=mAttrs.get(aName);	
 			if (value!=null)
 				return value;
 			else
@@ -177,14 +189,14 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 			return aDefault;
 	}
 
-	public String getAttribut(String aName)
+	public String getAttribute(String aName)
 	{
-		return getAttribut(aName,"");
+		return getAttribute(aName,"");
 	}
 	
-	public int getAttributInt(String aName,int aDefault)
+	public int getAttributeInt(String aName,int aDefault)
 	{
-		String value=getAttribut(aName);
+		String value=getAttribute(aName);
         try
         {
             return new Integer(value).intValue();
@@ -195,9 +207,9 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
         }
 	}
 	
-	public double getAttributDouble(String aName,double aDefault)
+	public double getAttributeDouble(String aName,double aDefault)
 	{
-		String value=getAttribut(aName);
+		String value=getAttribute(aName);
         try
         {
             return new Double(value).doubleValue();
@@ -307,7 +319,7 @@ public class SimpleParsing extends DefaultHandler implements Cloneable
 		
 	public SimpleParsing getSubTag(int aIndex)
 	{
-		return (SimpleParsing)mFields.get(aIndex);
+		return mFields.get(aIndex);
 	}
 	
 	public SimpleParsing[] getSubTag(String aName)

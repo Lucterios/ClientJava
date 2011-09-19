@@ -69,7 +69,7 @@ public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 	protected void refreshComponent() {
 		super.refreshComponent();
 		m_RegularExpression = getXmlItem().getCDataOfFirstTag("REG_EXPR");
-		m_StringSize = getXmlItem().getAttributInt("stringSize", 0);
+		m_StringSize = getXmlItem().getAttributeInt("stringSize", 0);
 		cmp_text.setTextString(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));

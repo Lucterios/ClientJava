@@ -26,9 +26,9 @@ public class CmpFastTableModel implements GridInterface {
 
 		public GridColomn(SimpleParsing aXmlItem) {
 			if (aXmlItem.getTagName().equalsIgnoreCase(TAGNAME)) {
-				mHeaderId = aXmlItem.getAttribut("name");
+				mHeaderId = aXmlItem.getAttribute("name");
 				mName = aXmlItem.getText();
-				String type = aXmlItem.getAttribut("type");
+				String type = aXmlItem.getAttribute("type");
 				if (type == null)
 					mHeaderType = TypeString;
 				else if ("int".equals(type))
@@ -130,11 +130,11 @@ public class CmpFastTableModel implements GridInterface {
 		public GridRow(SimpleParsing aXmlItem) {
 			mCells.clear();
 			if (aXmlItem.getTagName().equalsIgnoreCase(TAGNAME)) {
-				mId = aXmlItem.getAttribut("id");
+				mId = aXmlItem.getAttribute("id");
 
 				SimpleParsing[] xml_items = aXmlItem.getSubTag("VALUE");
 				for (int val_idx = 0; val_idx < xml_items.length; val_idx++) {
-					String field_name = xml_items[val_idx].getAttribut("name");
+					String field_name = xml_items[val_idx].getAttribute("name");
 					String value = xml_items[val_idx].getText().trim();
 					mCells.put(field_name, value);
 				}

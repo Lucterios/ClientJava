@@ -62,9 +62,9 @@ public class CmpButton extends CmpAbstractEvent {
 
 	protected void refreshComponent() {
 		super.refreshComponent();
-		m_clickName = getXmlItem().getAttribut("clickname", "");
-		m_clickValue = getXmlItem().getAttribut("clickvalue", "");
-		m_isMini = (getXmlItem().getAttributInt("isMini", 0)==1);
+		m_clickName = getXmlItem().getAttribute("clickname", "");
+		m_clickValue = getXmlItem().getAttribute("clickvalue", "");
+		m_isMini = (getXmlItem().getAttributeInt("isMini", 0)==1);
 		actbtn = null;
 		if (mEventAction != null) {
 			if (m_isMini && mEventAction.getTitle().length()==0) {

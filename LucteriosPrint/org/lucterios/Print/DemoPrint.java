@@ -130,13 +130,10 @@ public class DemoPrint implements FrameVisitor
         {
             newContentPane.getData(CodeEditor.getValue(),XmlDataEditor.getValue());
         }
-        catch(java.io.IOException ierr)
+        catch(LucteriosException ierr)
         {
             System.out.println("+++ Erreur "+ierr);
-        }
-        catch(org.xml.sax.SAXException serr)
-        {
-            System.out.println("%%% Erreur "+serr);
+        	ierr.printStackTrace();
         }
     }
 

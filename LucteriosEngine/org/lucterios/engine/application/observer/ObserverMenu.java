@@ -113,8 +113,8 @@ public class ObserverMenu extends ObserverAbstract {
 			SimpleParsing[] sub_xml_menus = aXml[menu_idx].getSubTag("MENU");
 			if (sub_xml_menus.length > 0) {
 				new_menu = newMenu.addMenu(true);
-				fillMenuNode(new_menu,aXml[menu_idx].getText(), aXml[menu_idx].getAttribut("icon"), 
-						aXml[menu_idx].getAttributInt("sizeicon", 0), help_text, 
+				fillMenuNode(new_menu,aXml[menu_idx].getText(), aXml[menu_idx].getAttribute("icon"), 
+						aXml[menu_idx].getAttributeInt("sizeicon", 0), help_text, 
 						sub_xml_menus, false);
 			}
 			else {
@@ -182,8 +182,8 @@ public class ObserverMenu extends ObserverAbstract {
 			if (sub_xml_menus.length > 0) {
 				new_menu = aJPOwner.addMenu(true);
 				fillMenuNode(new_menu,xml_menus[menu_idx].getText(),
-						xml_menus[menu_idx].getAttribut("icon"),
-						xml_menus[menu_idx].getAttributInt("sizeicon", 0),
+						xml_menus[menu_idx].getAttribute("icon"),
+						xml_menus[menu_idx].getAttributeInt("sizeicon", 0),
 						help_text, sub_xml_menus, true);
 			}
 			else {

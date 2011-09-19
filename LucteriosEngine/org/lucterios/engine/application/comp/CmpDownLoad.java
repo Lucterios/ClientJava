@@ -104,9 +104,9 @@ public class CmpDownLoad extends CmpAbstractEvent implements
 		m_LocalFile = null;
 		btn_open.setEnabled(false);
 		btn_save.setEnabled(false);
-		m_isCompress = (getXmlItem().getAttributInt("Compress", 0) != 0);
-		m_isHttpFile = (getXmlItem().getAttributInt("HttpFile", 0) != 0);
-		m_maxsize = getXmlItem().getAttributInt("maxsize", 1048576);
+		m_isCompress = (getXmlItem().getAttributeInt("Compress", 0) != 0);
+		m_isHttpFile = (getXmlItem().getAttributeInt("HttpFile", 0) != 0);
+		m_maxsize = getXmlItem().getAttributeInt("maxsize", 1048576);
 		;
 		m_FileName = getXmlItem().getText();
 		String message = m_FileName;

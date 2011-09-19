@@ -20,11 +20,9 @@
 
 package org.lucterios.Print.Data;
 
-import java.io.*;
-
+import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringList;
-import org.w3c.dom.*;
-import org.apache.xerces.parsers.DOMParser;
 
 public class PrintPage extends PrintAbstract
 {
@@ -41,7 +39,7 @@ public class PrintPage extends PrintAbstract
     public PrintArea rigth;
     public PrintVector body;
 
-    public org.w3c.dom.Document XMLDataDom;
+    public SimpleParsing XMLDataDom;
 
     public PrintPage()
     {
@@ -92,23 +90,20 @@ public class PrintPage extends PrintAbstract
         return "";
     }
 
-    public Document parse(String xmlText) throws org.xml.sax.SAXException,java.io.IOException
+    public SimpleParsing parse(String xmlText) throws LucteriosException
     {
-        DOMParser parser = new DOMParser();
-        InputStream xml_src= new org.lucterios.utils.BufferInputStream(xmlText);
-        parser.parse(new org.xml.sax.InputSource(xml_src));
-        return parser.getDocument();
+    	SimpleParsing parser = new SimpleParsing();
+        parser.parse(xmlText,true);
+        return parser;
     }
 
-    public void Load(String printString) throws org.xml.sax.SAXException,java.io.IOException
+    public void Load(String printString) throws LucteriosException
     {
-        org.w3c.dom.Element RootDomNode=null;
-        org.w3c.dom.Document DomDocument = parse("<?xml version='1.0' encoding='iso-8859-1'?>\n"+printString);
+        SimpleParsing DomDocument = parse("<?xml version='1.0' encoding='iso-8859-1'?>\n"+printString);
         if (DomDocument!=null)
         {
-            RootDomNode = DomDocument.getDocumentElement();
-            if (RootDomNode.getNodeName().equalsIgnoreCase("model"))
-                read(RootDomNode);
+            if (DomDocument.getTagName().equalsIgnoreCase("model"))
+                read(DomDocument);
         }
     }
 
@@ -117,25 +112,23 @@ public class PrintPage extends PrintAbstract
         return write("model");
     }
 
-    private void addDataElement(org.w3c.dom.Element aItem,String aLastName)
+    private void addDataElement(SimpleParsing aItem,String aLastName)
     {
-        String node_name=aLastName+"/"+aItem.getNodeName();
+        String node_name=aLastName+"/"+aItem.getTagName();
         if (!mDataList.contains(node_name))
             mDataList.add(node_name);
-        org.w3c.dom.NodeList nodes=aItem.getChildNodes();
-        for(int node_idx=0;node_idx<nodes.getLength();node_idx++)
-            if (nodes.item(node_idx).getNodeType()==org.w3c.dom.Node.ELEMENT_NODE)
-                addDataElement((org.w3c.dom.Element)nodes.item(node_idx),node_name);
+        for(int node_idx=0;node_idx<aItem.getTagCount();node_idx++)
+               addDataElement(aItem.getSubTag(node_idx),node_name);
     }
 
-    public void setXML(String XMLString) throws org.xml.sax.SAXException,java.io.IOException
+    public void setXML(String XMLString) throws LucteriosException
     {
         mDataList.clear();
         if ((XMLString!=null) && (XMLString.trim().length()>0))
         {
             XMLDataDom=parse("<?xml version='1.0' encoding='iso-8859-1'?>"+XMLString);
             mDataList.add("");
-            addDataElement(XMLDataDom.getDocumentElement(),"");
+            addDataElement(XMLDataDom,"");
         }
         else
             XMLDataDom=null;

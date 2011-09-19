@@ -43,7 +43,7 @@ public class SimpleParsingUnit extends TestCase
 	{
 		assertFalse(mParsing.parse(""));
 		assertEquals("Tag",SimpleParsing.EMPTY_NAME,mParsing.getTagName());
-		assertEquals("Attr","",mParsing.getAttribut("aa"));
+		assertEquals("Attr","",mParsing.getAttribute("aa"));
 		assertEquals("SubContent","",mParsing.getSubContent());
 		assertEquals("CData","",mParsing.getText());
 		assertEquals("SubTag",0,mParsing.getSubTag("TOTO").length);
@@ -53,7 +53,7 @@ public class SimpleParsingUnit extends TestCase
 	{
 		assertTrue(mParsing.parse("<SIMPLE aa='123'><![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE></SIMPLE>"));
 		assertEquals("Tag","SIMPLE",mParsing.getTagName());
-		assertEquals("Attr","123",mParsing.getAttribut("aa"));
+		assertEquals("Attr","123",mParsing.getAttribute("aa"));
 		assertEquals("SubContent","<![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE>",mParsing.getSubContent());
 		assertEquals("CData","WXCVBN",mParsing.getText());
 		SimpleParsing[] sub=mParsing.getSubTag("SUBSIMPLE");
@@ -66,7 +66,7 @@ public class SimpleParsingUnit extends TestCase
 	{
 		assertTrue(mParsing.parse("<?xml version='1.0' encoding='ISO-8859-1'?><!-- commentaire --><SIMPLE aa='123'><![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]><!-- Autre commentaire --></SUBSIMPLE></SIMPLE><!-- dernier commentaire -->"));
 		assertEquals("Tag","SIMPLE",mParsing.getTagName());
-		assertEquals("Attr","123",mParsing.getAttribut("aa"));
+		assertEquals("Attr","123",mParsing.getAttribute("aa"));
 		assertEquals("SubContent","<![CDATA[WXCVBN]]><SUBSIMPLE><![CDATA[101]]></SUBSIMPLE><SUBSIMPLE><![CDATA[102]]></SUBSIMPLE>",mParsing.getSubContent());
 		assertEquals("CData","WXCVBN",mParsing.getText());
 		SimpleParsing[] sub=mParsing.getSubTag("SUBSIMPLE");
@@ -93,33 +93,33 @@ public class SimpleParsingUnit extends TestCase
 		SimpleParsing[] sub_rep=mParsing.getSubTag("REPONSE");
 		assertEquals("SubTag A",1,sub_rep.length);
 		assertEquals("Tag 1","REPONSE",sub_rep[0].getTagName());
-		assertEquals("Attr a","Core.DialogBox",sub_rep[0].getAttribut("observer"));
-		assertEquals("Attr b","CORE",sub_rep[0].getAttribut("source_extension"));
-		assertEquals("Attr c","printmodel_APAS_reinit",sub_rep[0].getAttribut("source_action"));
+		assertEquals("Attr a","Core.DialogBox",sub_rep[0].getAttribute("observer"));
+		assertEquals("Attr b","CORE",sub_rep[0].getAttribute("source_extension"));
+		assertEquals("Attr c","printmodel_APAS_reinit",sub_rep[0].getAttribute("source_action"));
 		
 		SimpleParsing sub_context=sub_rep[0].getFirstSubTag("CONTEXT");		
 		SimpleParsing[] sub_param=sub_context.getSubTag("PARAM");
 		assertEquals("SubTag C",2,sub_param.length);
-		assertEquals("Attr d","print_model",sub_param[0].getAttribut("name"));
+		assertEquals("Attr d","print_model",sub_param[0].getAttribute("name"));
 		assertEquals("CData 1","107",sub_param[0].getText());
-		assertEquals("Attr e","CONFIRME",sub_param[1].getAttribut("name"));
+		assertEquals("Attr e","CONFIRME",sub_param[1].getAttribute("name"));
 		assertEquals("CData 2","YES",sub_param[1].getText());
 		
 		SimpleParsing[] sub_text=sub_rep[0].getSubTag("TEXT");
 		assertEquals("SubTag D",1,sub_text.length);
-		assertEquals("Attr f","2",sub_text[0].getAttribut("type"));
+		assertEquals("Attr f","2",sub_text[0].getAttribute("type"));
 		assertEquals("CData 3","Etes-vous sure de reinitialiser ce modele?",sub_text[0].getText());
 		
 		SimpleParsing sub_actions=sub_rep[0].getFirstSubTag("ACTIONS");		
 		SimpleParsing[] sub_action=sub_actions.getSubTag("ACTION");
 		assertEquals("SubTag F",2,sub_action.length);
-		assertEquals("Attr g","images/ok.png",sub_action[0].getAttribut("icon"));
-		assertEquals("Attr h","CORE",sub_action[0].getAttribut("extension"));
-		assertEquals("Attr i","printmodel_APAS_reinit",sub_action[0].getAttribut("action"));
+		assertEquals("Attr g","images/ok.png",sub_action[0].getAttribute("icon"));
+		assertEquals("Attr h","CORE",sub_action[0].getAttribute("extension"));
+		assertEquals("Attr i","printmodel_APAS_reinit",sub_action[0].getAttribute("action"));
 		assertEquals("CData 4","Oui",sub_action[0].getText());
-		assertEquals("Attr j","images/cancel.png",sub_action[1].getAttribut("icon"));
-		assertEquals("Attr k","",sub_action[1].getAttribut("extension"));
-		assertEquals("Attr l","",sub_action[1].getAttribut("action"));
+		assertEquals("Attr j","images/cancel.png",sub_action[1].getAttribute("icon"));
+		assertEquals("Attr k","",sub_action[1].getAttribute("extension"));
+		assertEquals("Attr l","",sub_action[1].getAttribute("action"));
 		assertEquals("CData 5","Non",sub_action[1].getText());
 	}
 
@@ -135,7 +135,7 @@ public class SimpleParsingUnit extends TestCase
 		assertEquals("name 3","ACTIONS",tag_names[2]);
 
 		SimpleParsing sub_text=sub_rep.getSubTag(1);	
-		assertEquals("Attr f","2",sub_text.getAttribut("type"));
+		assertEquals("Attr f","2",sub_text.getAttribute("type"));
 		assertEquals("CData 3","Etes-vous sure de reinitialiser ce modele?",sub_text.getText());
 	}
 	

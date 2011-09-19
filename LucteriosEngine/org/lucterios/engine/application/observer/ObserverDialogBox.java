@@ -59,7 +59,7 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable, Dia
 		super.setContent(aContent);
 		SimpleParsing xml_text = mContent.getFirstSubTag("TEXT");
 		mText = xml_text.getText();
-		mType = xml_text.getAttributInt("type", 0);
+		mType = xml_text.getAttributeInt("type", 0);
 		mActions = mContent.getFirstSubTag("ACTIONS");
 	}
 
