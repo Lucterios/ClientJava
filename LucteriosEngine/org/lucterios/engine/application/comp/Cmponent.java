@@ -57,8 +57,8 @@ public abstract class Cmponent {
 	public int Y;
 	public int H;
 	public int W;
-	public int HMin;
-	public int VMin;
+	public int HMin=0;
+	public int VMin=0;
 	public int HMax;
 	public int VMax;
 
@@ -163,8 +163,8 @@ public abstract class Cmponent {
 		Y = aXmlItem.getAttributInt("y", -1);
 		W = aXmlItem.getAttributInt("colspan", 1);
 		H = aXmlItem.getAttributInt("rowspan", 1);
-		HMin = aXmlItem.getAttributInt("HMin", 0);
-		VMin = aXmlItem.getAttributInt("VMin", 0);
+		HMin = aXmlItem.getAttributInt("HMin", HMin);
+		VMin = aXmlItem.getAttributInt("VMin", VMin);
 		HMax = aXmlItem.getAttributInt("HMax", Integer.MAX_VALUE);
 		VMax = aXmlItem.getAttributInt("VMax", Integer.MAX_VALUE);
 		GUIParam param=new GUIParam(X,Y); 

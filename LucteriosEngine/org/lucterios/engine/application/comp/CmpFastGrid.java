@@ -62,6 +62,8 @@ public class CmpFastGrid extends Cmponent
 	public CmpFastGrid() {
 		super();
 		mFill = FillMode.FM_BOTH;
+		VMin=100;
+		HMin=100;
 		setWeightx(1.0);
 		setWeighty(1.0);
 	}

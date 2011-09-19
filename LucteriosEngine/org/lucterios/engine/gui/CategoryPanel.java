@@ -78,7 +78,6 @@ public class CategoryPanel {
 	public void refreshButtons(int aWidth) {
 		GUIMenu aMenu = getMenu();
 		if (aMenu != null) {
-			mContainer.setVisible(false);
 			try {
 				nb_col = Math.max(1, (int) aWidth / activator_width);
 				pos_y = 5;
@@ -89,7 +88,6 @@ public class CategoryPanel {
 				refreshMenus(aMenu);
 				addSeparator(max_width, pos_y + 1);
 			} finally {
-				mContainer.setVisible(true);
 				mContainer.repaint();
 			}
 		}

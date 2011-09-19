@@ -69,12 +69,21 @@ public class MockGenerator implements GUIGenerator {
 		return new_dialog;
 	}
 
-	public GUIFrame mFrame=null;
+	public GUIFrame mFrame=null;	
 	public GUIFrame getFrame() {
 		if (mFrame==null)
 			mFrame=new MockFrame(this);
 		return mFrame;
-	}	
+	}
+
+	private File mSelectFile=new File(".");
+	public File getSelectFile() {
+		return mSelectFile;
+	}
+
+	public void setSelectFile(File mSelectFile) {
+		this.mSelectFile = mSelectFile;
+	}
 
 	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
 		return new MockDialog((MockFrame) aOwnerFrame,this);
@@ -105,14 +114,11 @@ public class MockGenerator implements GUIGenerator {
 	}
 	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner) {
-		File result=new File(".");
-		return result;
+		return getSelectFile();
 	}
 
-	public File selectSaveFileDialog(final FileFilter filter,final GUIObject aGUIOwner,
-			String aDefaultFileName) {
-		File result=new File(".");
-		return result;
+	public File selectSaveFileDialog(final FileFilter filter,final GUIObject aGUIOwner, String aDefaultFileName) {
+		return getSelectFile();
 	}
 	
 	public void invokeLater(Runnable runnable){

@@ -48,29 +48,30 @@ public class MainPanel implements Runnable {
 	private GUIContainer mContainer;
 
 	private double mDividerLocation = -1;
-	
-	private Observer mParent=null;
+
+	private Observer mParent = null;
 
 	public GUIContainer getContainer() {
 		return mContainer;
 	}
 
-	public MainPanel(RefreshButtonPanel refreshButtonPanel,Observer aParent) {
+	public MainPanel(RefreshButtonPanel refreshButtonPanel, Observer aParent) {
 		super();
 		mRefreshButtonPanel = refreshButtonPanel;
-		mParent=aParent;
+		mParent = aParent;
 	}
 
 	public void initialize(GUIContainer container) {
 		this.mContainer = container;
 		mToogleManager = new ToogleManager(mParent);
-		mToogleManager.initialize(mContainer.getSplite(ContainerType.CT_NORMAL,false));
+		mToogleManager.initialize(mContainer.getSplite(ContainerType.CT_NORMAL,
+				false));
 		addTabs();
 	}
 
 	private void addTabs() {
 		if (mtabs == null) {
-			mtabs = mContainer.getSplite(ContainerType.CT_TAB,true);
+			mtabs = mContainer.getSplite(ContainerType.CT_TAB, true);
 			mtabs.setMouseClickAction(new GUIActionListener() {
 				public void actionPerformed() {
 					doubleClickSpliter();
@@ -90,7 +91,8 @@ public class MainPanel implements Runnable {
 
 	public void clearTools() {
 		if (mDividerLocation != -1)
-			mDividerLocation = (1.0 * mContainer.getDividerLocation()) / mContainer.getSizeX();
+			mDividerLocation = (1.0 * mContainer.getDividerLocation())
+					/ mContainer.getSizeX();
 		else
 			mDividerLocation = 0.25;
 		mContainer.setVisible(false);
@@ -103,10 +105,12 @@ public class MainPanel implements Runnable {
 		addTabs();
 		for (int index = 0; (aframe != null) && (index < aframe.getMenuCount()); index++) {
 			GUIMenu current_menu = aframe.getMenu(index);
-			if (current_menu.isNode() && (current_menu.getTag()==0)) {
+			if (current_menu.isNode() && (current_menu.getTag() == 0)) {
 				if (!current_menu.getMenuImage().isNull()) {
-					AbstractImage icon = current_menu.getMenuImage().resizeIcon(32, true);
-					GUIContainer panel=mtabs.addTab(ContainerType.CT_SCROLL,current_menu.getText(),icon);
+					AbstractImage icon = current_menu.getMenuImage()
+							.resizeIcon(32, true);
+					GUIContainer panel = mtabs.addTab(ContainerType.CT_SCROLL,
+							current_menu.getText(), icon);
 					CategoryPanel new_subpanel = new CategoryPanel(current_menu);
 					new_subpanel.initialize(panel);
 					panel.setObject(new_subpanel);
@@ -126,7 +130,8 @@ public class MainPanel implements Runnable {
 		mContainer.repaint();
 		mToogleManager.showToggles();
 		if (mToogleManager.getToggleCount() > 0) {
-			mContainer.setDividerLocation((int) (mDividerLocation * mContainer.getSizeX()));
+			mContainer.setDividerLocation((int) (mDividerLocation * mContainer
+					.getSizeX()));
 			mToogleManager.getContainer().setVisible(true);
 		} else {
 			mToogleManager.getContainer().setVisible(false);
@@ -142,7 +147,8 @@ public class MainPanel implements Runnable {
 	public void doubleClickSpliter() {
 		if (mToogleManager.getContainer().isVisible())
 			lastDividerLocation = mContainer.getDividerLocation();
-		mToogleManager.getContainer().setVisible(!mToogleManager.getContainer().isVisible());
+		mToogleManager.getContainer().setVisible(
+				!mToogleManager.getContainer().isVisible());
 		if (mToogleManager.getContainer().isVisible())
 			mContainer.setDividerLocation(lastDividerLocation);
 	}
@@ -150,10 +156,9 @@ public class MainPanel implements Runnable {
 	private void invokeReinitScrollBar() {
 		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
-				if (mtabs!=null) {
-					for(int idx = 0;idx<mtabs.count();idx++)
-					{
-						GUIContainer tab=(GUIContainer)mtabs.get(idx);
+				if (mtabs != null) {
+					for (int idx = 0; idx < mtabs.count(); idx++) {
+						GUIContainer tab = (GUIContainer) mtabs.get(idx);
 						tab.setMinimumScroll();
 					}
 				}
@@ -164,16 +169,17 @@ public class MainPanel implements Runnable {
 	public void resizeSpliter() {
 		Singletons.getWindowGenerator().invokeLater(new Runnable() {
 			public void run() {
-					for(int idx = 0;idx<mtabs.count();idx++) {
-						GUIContainer tab=(GUIContainer)mtabs.get(idx);
-						if (CategoryPanel.class.isInstance(tab.getObject())) {
-							CategoryPanel subpanel = (CategoryPanel) tab.getObject();
-							subpanel.refreshButtons(mtabs.getSizeX());
-						}
+				for (int idx = 0; idx < mtabs.count(); idx++) {
+					GUIContainer tab = (GUIContainer) mtabs.get(idx);
+					if (CategoryPanel.class.isInstance(tab.getObject())) {
+						CategoryPanel subpanel = (CategoryPanel) tab
+								.getObject();
+						subpanel.refreshButtons(mtabs.getSizeX());
 					}
-					invokeReinitScrollBar();
+				}
+				invokeReinitScrollBar();
 			}
 		});
 	}
-	
+
 }

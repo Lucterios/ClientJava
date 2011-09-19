@@ -1,6 +1,7 @@
 package org.lucterios.engine.application.observer;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.application.ApplicationDescription;
@@ -12,6 +13,7 @@ import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIContainer;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.mock.MockButton;
 import org.lucterios.mock.MockContainer;
@@ -22,6 +24,8 @@ import org.lucterios.mock.MockMemo;
 import org.lucterios.utils.DesktopBasic;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.utils.SimpleParsing;
+import org.lucterios.utils.StringList;
+import org.lucterios.utils.Tools;
 
 import junit.framework.TestCase;
 
@@ -36,6 +40,7 @@ public class ObserverUnit extends TestCase implements Connection {
 	private boolean mRefreshMenu;
 	
 	private ObserverFactoryMock mObsFactory;
+	private MockGenerator mGenerator;
 
 	public void setValue(ApplicationDescription aDescription, String aSubTitle,
 			String aLogin, String aRealName, boolean refreshMenu) {
@@ -49,20 +54,23 @@ public class ObserverUnit extends TestCase implements Connection {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		setValue(null,"","","",false);
+		mGenerator=new MockGenerator();
+		mObsFactory=new ObserverFactoryMock();
+		mParse = new SimpleParsing();
+
 		Singletons.setHttpTransportClass(HttpTransportStub.class);
-		Singletons.setWindowGenerator(new MockGenerator());
+		Singletons.setWindowGenerator(mGenerator);
 		Singletons.setDesktop(new DesktopBasic());
 		Singletons.setActionClass(ActionImpl.class);
-		mObsFactory=new ObserverFactoryMock();
-		ObserverFactoryMock.NewObserver=new ObserverAcknowledge();
 		Singletons.initalize(new LucteriosConfiguration(new File(".")),mObsFactory);
 		Singletons.Transport().setSession("abc123");
-		mParse = new SimpleParsing();
-		ObserverAuthentification.mConnection=this;
-		setValue(null,"","","",false);
-		ExceptionDlg.mGenerator=Singletons.getWindowGenerator();
+
+		ExceptionDlg.mGenerator=mGenerator;
 		ExceptionDlg.mLastException=null;
 		ExceptionDlg.mInfoDescription=new ApplicationDescription("test", "", "", "0.0", "0.0");
+		ObserverFactoryMock.NewObserver=new ObserverAcknowledge();
+		ObserverAuthentification.mConnection=this;
 	}
 
 	@Override
@@ -245,5 +253,86 @@ public class ObserverUnit extends TestCase implements Connection {
 		
 		assertEquals("Call Nb",0,mObsFactory.CallList.size());
 	}
+
+	public void testPrint() throws LucteriosException, IOException {
+		String xml_receive="<REPONSE>" +
+				"<TITLE><![CDATA[Imprimer une liste de personneMorale]]></TITLE>" +
+				"<CONTEXT><PARAM name='Filtretype'><![CDATA[2]]></PARAM><PARAM name='PRINT_MODE'><![CDATA[4]]></PARAM></CONTEXT>" +
+				"<PRINT title='Liste des Personnes Morales' type='2' mode='4' withTextExport='1'>" +
+				"<![CDATA[CiJMaXN0ZSBkZXMgUGVyc29ubmVzIE1vcmFsZXMiCgoKIlJhaXNvbiBTb2NpYWxlIjsiQWRyZXNzZSI7IlTpbOlwaG9uZXMiOyJDb3VycmllbCI7CiJMZXMgcCd0aXQgTWlja2V5IjsicGxhY2UgR3JlbmV0dGUgMzgwMDAgR1JFTk9CTEUgRlJBTkNFIjsiMDQuMTIuMzQuNTYuNzggMDYuOTguNzYuNTQuMzIiOyJwZXRpdC5taWNrZXlAZnJlZS5mciI7CiJMZSBnbG9zIG1pbmV0IjsiQ291cnMgQmVyaWF0IDM4MDAwIEdSRU5PQkxFIEZSQU5DRSI7IjA0LjE5LjI4LjM3LjQ2IjsiZ2xvcy5taW5ldEBob3RtYWlsLmZyIjsKImpqaiI7ImpqaiA2NDAwMCBQQVUgRlJBTkNFIjsiIjsibGF1cmVudDM4NjAwQGZyZWUuZnIiOwoKCiIiCgoK]]>" +
+				"</PRINT>"+
+				"</REPONSE>";
+		mGenerator.setSelectFile(new File("./testprint.csv"));
+		mGenerator.getSelectFile().delete();
+		assertEquals("File deleted",false,mGenerator.getSelectFile().isFile());
+		mParse.parse(xml_receive,true);
+		ObserverPrint  obs=new ObserverPrint();
+		obs.setSource("CORE", "validerAct");
+		obs.setContent(mParse);
+		obs.show("Mon titre");
+		
+		assertEquals("Context size",2,obs.getContext().size());
+		assertEquals("Context 1","2",obs.getContext().get("Filtretype"));
+		assertEquals("Context 2","4",obs.getContext().get("PRINT_MODE"));
+		
+		assertEquals("File exist",true,mGenerator.getSelectFile().isFile());
+		StringList contents=Tools.readFileText(mGenerator.getSelectFile(),"ISO-8859-1");
+		assertEquals("File size",13,contents.size());
+		assertEquals("title","\"Liste des Personnes Morales\"",contents.get(1).trim());
+		assertEquals("header","\"Raison Sociale\";\"Adresse\";\"Téléphones\";\"Courriel\";",contents.get(4).trim());
+		assertEquals("line #2","\"Le glos minet\";\"Cours Beriat 38000 GRENOBLE FRANCE\";\"04.19.28.37.46\";\"glos.minet@hotmail.fr\";",contents.get(6).trim());
+		
+		mGenerator.getSelectFile().delete();
+		assertEquals("Call Nb",0,mObsFactory.CallList.size());
+	}
+	
+	public void testDialog() throws LucteriosException {
+		String xml_receive="<REPONSE>" +
+				"<TITLE><![CDATA[Confirmation]]></TITLE>" +
+				"<CONTEXT>" +
+					"<PARAM name='Filtretype'><![CDATA[2]]></PARAM>" +
+					"<PARAM name='ORIGINE'><![CDATA[personneMorale_APAS_Fiche]]></PARAM>" +
+					"<PARAM name='RECORD_ID'><![CDATA[100]]></PARAM>" +
+					"<PARAM name='TABLE_NAME'><![CDATA[org_lucterios_contacts_personneMorale]]></PARAM>" +
+					"<PARAM name='abstractContact'><![CDATA[1196]]></PARAM>" +
+					"<PARAM name='personneMorale'><![CDATA[100]]></PARAM>" +
+					"<PARAM name='CONFIRME'><![CDATA[YES]]></PARAM>" +
+				"</CONTEXT>" +
+				"<TEXT type='2'><![CDATA[Voulez vous supprimer 'jjj'?]]></TEXT>" +
+				"<ACTIONS>" +
+					"<ACTION icon='images/ok.png' sizeicon='1731' extension='org_lucterios_contacts' action='personneAbstraite_APAS_Delete' close='1' modal='1'><![CDATA[Oui]]></ACTION>" +
+					"<ACTION icon='images/cancel.png' sizeicon='1656'><![CDATA[Non]]></ACTION>" +
+				"</ACTIONS>"+
+				"</REPONSE>";
+
+		mParse.parse(xml_receive,true);
+		GUIDialog dialog=mGenerator.newDialog(null);
+		ObserverDialogBox obs=new ObserverDialogBox();
+		obs.setSource("org_lucterios_contacts", "personneMorale_APAS_Fiche");
+		obs.setContent(mParse);
+		obs.show("Confirmation",dialog);
+
+		MockContainer cont=(MockContainer)dialog.getContainer();
+		assertEquals("nb component",3,cont.count());
+		
+		assertEquals("class 1",MockImage.class,cont.get(0).getClass());
+		assertEquals("class 2",MockHyperText.class,cont.get(1).getClass());
+		assertEquals("Text 2","Voulez vous supprimer 'jjj'?",((MockHyperText)cont.get(1)).getTextString());
+
+		MockContainer cont3 = checkContainer(cont.get(2),2,ContainerType.CT_NORMAL,"3");
+		assertEquals("class 3.1",MockButton.class,cont3.get(0).getClass());
+		assertEquals("class 3.2",MockButton.class,cont3.get(1).getClass());
+		assertEquals("enabled 3.1",true,cont3.getButton(0).isVisible());
+		assertEquals("enabled 3.2",true,cont3.getButton(1).isVisible());
+		assertEquals("enabled 3.1","Oui",cont3.getButton(0).getTextString());
+		assertEquals("enabled 3.2","Non",cont3.getButton(1).getTextString());
+		
+		assertEquals("Context size",7,obs.getContext().size());
+		assertEquals("Context 1","100",obs.getContext().get("personneMorale"));
+		assertEquals("Context 2","YES",obs.getContext().get("CONFIRME"));
+		
+		assertEquals("Call Nb",0,mObsFactory.CallList.size());
+	}
+	
 	
 }
