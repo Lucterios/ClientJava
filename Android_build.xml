@@ -65,7 +65,6 @@ key.alias.password=lucterios
     </target>
 
     <target name="compile" depends="init" description="Compilation des classes">
-	  <copy file="${projet.sources.dir}/build.xml" todir="${root.dir}" />
 	  <ant antfile="build.xml" target="compile" dir="${root.dir}"/>
     </target>      
 
