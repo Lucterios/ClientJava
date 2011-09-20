@@ -20,7 +20,6 @@
 
 package org.lucterios.engine.presentation;
 
-import java.lang.ref.WeakReference;
 import java.util.Set;
 
 import org.lucterios.engine.application.Action;
@@ -50,17 +49,14 @@ public abstract class ObserverAbstract implements Observer {
 		super.finalize();
 	}
 
-	protected WeakReference<Observer> mParent = null;
+	protected Observer mParent = null;
 
 	public void setParent(Observer aParent) {
-		mParent = new WeakReference<Observer>(aParent);
+		mParent = aParent;
 	}
 
 	public Observer getParent() {
-		if (mParent!=null)
-			return mParent.get();
-		else
-			return null;
+		return mParent;
 	}
 
 	protected String mExtension = "";
@@ -172,21 +168,15 @@ public abstract class ObserverAbstract implements Observer {
 			mTitle = aTitle;
 	}
 
-	protected WeakReference<GUIForm> mGUIFrame = null;
-	protected WeakReference<GUIDialog> mGUIDialog = null;
+	protected GUIForm mGUIFrame = null;
+	protected GUIDialog mGUIDialog = null;
 
 	public GUIForm getGUIFrame() {
-        if (mGUIFrame!=null)
-            return mGUIFrame.get();
-        else
-            return null;
+		return mGUIFrame;
 	}
 
 	public GUIDialog getGUIDialog() {
-        if (mGUIDialog!=null)
-            return mGUIDialog.get();
-        else
-            return null;
+        return mGUIDialog;
 	}
 	
 	public GUIObject getGUIObject(){

@@ -277,6 +277,7 @@ public class CmpFastGrid extends Cmponent
 				param.setFill(FillMode.FM_NONE);
 				cmp_Pages = pnl_Pages.createCombo(param);
 			}
+			cmp_Pages.addList(values);
 			cmp_Pages.setSelectedIndex(mPageNum);
 			cmp_Pages.addActionListener(new GUIActionListener() {
 				public void actionPerformed() {

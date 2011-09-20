@@ -20,8 +20,6 @@
 
 package org.lucterios.engine.application.observer;
 
-import java.lang.ref.WeakReference;
-
 import org.lucterios.engine.application.comp.Cmponent;
 import org.lucterios.engine.gui.GraphicTool;
 import org.lucterios.engine.presentation.ObserverAbstract;
@@ -185,7 +183,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 
 	public void show(String aTitle, GUIForm aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIFrame = new WeakReference<GUIForm>(aGUI);
+		mGUIFrame = aGUI;
 		if (getGUIFrame() != null) {
 			mGUIContainer = getGUIFrame().getContainer();
 			getGUIFrame().setFormVisitor(this);
@@ -195,7 +193,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 
 	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		super.show(aTitle);
-		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
+		mGUIDialog = aGUI;
 		if (getGUIDialog() != null) {
 			mGUIContainer = getGUIDialog().getContainer();
 			getGUIDialog().setDialogVisitor(this);

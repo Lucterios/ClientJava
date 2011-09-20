@@ -20,8 +20,6 @@
 
 package org.lucterios.engine.presentation;
 
-import java.lang.ref.WeakReference;
-
 import org.lucterios.engine.application.ActionConstantes;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIDialog;
@@ -70,12 +68,12 @@ public class ObserverStub extends ObserverAbstract {
 	}
 
 	public void show(String aTitle, GUIForm aGUI) {
-		mGUIFrame = new WeakReference<GUIForm>(aGUI);
+		mGUIFrame = aGUI;
 		show(aTitle);
 	}
 
 	public void show(String aTitle, GUIDialog aGUI) {
-		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
+		mGUIDialog = aGUI;
 		show(aTitle);
 	}
 

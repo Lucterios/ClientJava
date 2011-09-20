@@ -1,7 +1,6 @@
 package org.lucterios.engine.application.observer;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
@@ -70,10 +69,10 @@ public class CustomManager  {
 		return true;
 	}
 
-	private WeakReference<Observer> mObserver;
+	private Observer mObserver;
 
 	private Observer getObserver() {
-		return mObserver.get();
+		return mObserver;
 	}
 
 	public ArrayList<SimpleParsing> mComposants = new ArrayList<SimpleParsing>();
@@ -91,7 +90,7 @@ public class CustomManager  {
 	public CustomManager(Observer aObserver) {
 		super();
 		CustomManagerCount++;
-		mObserver = new WeakReference<Observer>(aObserver);
+		mObserver = aObserver;
 		mCmponents.clear();
 		mComposants.clear();
 	}

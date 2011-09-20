@@ -20,8 +20,6 @@
 
 package org.lucterios.engine.application.observer;
 
-import java.lang.ref.WeakReference;
-
 import org.lucterios.Print.MainPrintPanel;
 import org.lucterios.engine.gui.GraphicTool;
 import org.lucterios.engine.presentation.ObserverAbstract;
@@ -103,7 +101,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 
 	public void show(String aTitle, GUIDialog aGUI) throws LucteriosException {
 		mTitle=aTitle;
-		mGUIDialog = new WeakReference<GUIDialog>(aGUI);
+		mGUIDialog = aGUI;
 		getGUIDialog().setDialogVisitor(this);
 		getGUIDialog().setVisible(true);
 	}

@@ -20,6 +20,8 @@
 	  <delete file="${ant.project.name}.apk" />
 	  <delete dir="${projet.sources.dir}/gen"/>
 	  <delete dir="${projet.sources.dir}/bin"/>
+	  <mkdir dir="${projet.sources.dir}/gen"/>
+	  <mkdir dir="${projet.sources.dir}/bin"/>
     </target>
     
     <target name="init" depends="clear">

@@ -21,7 +21,6 @@
 package org.lucterios.engine.application.comp;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.ref.WeakReference;
 
 import org.lucterios.engine.application.Action.ActionList;
 import org.lucterios.engine.presentation.Observer;
@@ -47,7 +46,7 @@ public abstract class Cmponent {
 
 	protected FillMode mFill;
 	protected SimpleParsing mXmlItem;
-	protected WeakReference<Observer> mObsCustom;
+	protected Observer mObsCustom;
 	public String Description;
 	public String JavaScript;
 	private double mWeightx;
@@ -127,10 +126,7 @@ public abstract class Cmponent {
 	}
 
 	protected Observer getObsCustom() {
-		if (mObsCustom != null)
-			return mObsCustom.get();
-		else
-			return null;
+		return mObsCustom;
 	}
 
 	public void setEnabled(boolean aEnabled) {
@@ -149,7 +145,7 @@ public abstract class Cmponent {
 	public void initPanel(GUIContainer panel, Observer aObsCustom,
 			SimpleParsing aXmlItem){
 		mPanel=panel;
-		mObsCustom = new WeakReference<Observer>(aObsCustom);
+		mObsCustom = aObsCustom;
 		mXmlItem = aXmlItem;
 		mPanel.setObject(this);
 		initComponent();
