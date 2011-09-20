@@ -1,5 +1,6 @@
 package org.lucterios.android.widget;
 
+import org.lucterios.android.R;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
@@ -13,6 +14,7 @@ import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.utils.LucteriosException;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 
 public class WForm extends Activity implements GUIForm {
@@ -28,16 +30,22 @@ public class WForm extends Activity implements GUIForm {
 	public WForm(String aActionId,WGenerator generator) {
 		super();
 		mGenerator=generator;
-		mContainer=new WContainer(getBaseContext(), ContainerType.CT_NORMAL,null);
 	}
 
     @Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		mContainer=new WContainer(this, ContainerType.CT_NORMAL,null);
+	}
+
+	@Override
     public void onStart() {
         super.onStart();
+		addContentView(mContainer, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		if (mFormVisitor!=null) {
 			mFormVisitor.execute(this);
 	    }
-		addContentView(mContainer, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     }
 	
 	public void activate() {

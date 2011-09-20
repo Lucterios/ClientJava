@@ -8,11 +8,16 @@ import org.lucterios.ui.GUIActionListener;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 
-public class WMenu implements GUIMenu {
+public class WMenu implements GUIMenu,GUIAction {
 
 	private MenuItem mMenu;
-	
+	private GUIActionListener mActionListener;
+	private String mDescription;
+	private int mTag;
+	private String mName;
+
 	public WMenu(MenuItem menuItem) {
 		mMenu=menuItem;
 	}
@@ -41,15 +46,15 @@ public class WMenu implements GUIMenu {
 	}
 
 	public GUIAction getAction() {
-		return null;
+		return this;
 	}
 
 	public GUIActionListener getActionListener() {
-		return null;
+		return mActionListener;
 	}
 
 	public String getDescription() {
-		return "";
+		return mDescription;
 	}
 
 	public GUIMenu getMenu(int index) {
@@ -73,12 +78,11 @@ public class WMenu implements GUIMenu {
 	}
 
 	public String getName() {
-		return "";
+		return mName;
 	}
 
 	public int getTag() {
-		// TODO Auto-generated method stub
-		return 0;
+		return mTag;
 	}
 
 	public String getText() {
@@ -104,18 +108,24 @@ public class WMenu implements GUIMenu {
 	}
 
 	public void setAction(GUIAction action) {
-		// TODO Auto-generated method stub
-
+		setText(action.getTitle());
+		setMenuImage(action.getIcon(), true);
+		setActionListener(action);
+		setMnemonic(action.getMnemonic());
 	}
 
 	public void setActionListener(GUIActionListener actionListener) {
-		// TODO Auto-generated method stub
-
+		mActionListener=actionListener;
+		mMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				mActionListener.actionPerformed();
+				return true;
+			}
+		});
 	}
 
 	public void setDescription(String description) {
-		// TODO Auto-generated method stub
-
+		mDescription=description;
 	}
 
 	public void setEnabled(boolean b) {
@@ -127,18 +137,15 @@ public class WMenu implements GUIMenu {
 	}
 
 	public void setMnemonic(char c) {
-		// TODO Auto-generated method stub
-
+		mMenu.setAlphabeticShortcut(c);
 	}
 
-	public void setName(String string) {
-		// TODO Auto-generated method stub
-
+	public void setName(String name) {
+		mName=name;
 	}
 
 	public void setTag(int tag) {
-		// TODO Auto-generated method stub
-
+		mTag=tag;
 	}
 
 	public void setText(String string) {
@@ -147,6 +154,26 @@ public class WMenu implements GUIMenu {
 
 	public void setVisible(boolean isVisible) {
 		mMenu.setVisible(isVisible);
+	}
+
+	public void actionPerformed() {
+		mActionListener.actionPerformed();
+	}
+
+	public AbstractImage getIcon() {
+		return getMenuImage();
+	}
+
+	public String getKeyStroke() {
+		return getAcceleratorText();
+	}
+
+	public char getMnemonic() {
+		return mMenu.getAlphabeticShortcut();
+	}
+
+	public String getTitle() {
+		return getText();
 	}
 
 }

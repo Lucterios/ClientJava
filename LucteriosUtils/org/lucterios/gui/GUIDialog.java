@@ -45,4 +45,6 @@ public interface GUIDialog extends GUIObject {
 
 	public void setPosition(double position);
 	
+	public String getTextTitle();
+	
 }

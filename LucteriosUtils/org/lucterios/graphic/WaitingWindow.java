@@ -20,6 +20,7 @@
 
 package org.lucterios.graphic;
 
+import org.lucterios.graphic.resources.Resources;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUILabel;
@@ -68,7 +69,7 @@ public class WaitingWindow implements WindowVisitor
         param.setY(1);
         GUIContainer imgPnl = main.createContainer(ContainerType.CT_NORMAL,param);
         imgPnl.setBackgroundColor(BACKGROUND_COLOR);
-        new GifAnime(mWindows.getGenerator().CreateImage(getClass().getResource("attente-optim.gif")),imgPnl);
+        new GifAnime(mWindows.getGenerator().CreateImage(Resources.class.getResource("attente-optim.gif")),imgPnl);
 
         String[] lines=mText.split("<br>");
         int index=0;

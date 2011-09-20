@@ -1,6 +1,7 @@
 package org.lucterios.android.widget;
 
 
+import org.lucterios.android.R;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
@@ -12,6 +13,7 @@ import org.lucterios.utils.LucteriosException;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup.LayoutParams;
 
@@ -22,7 +24,9 @@ public class WDialog extends Dialog implements GUIDialog {
 	private WContainer mContainer;
 	private WGenerator mGenerator;
 
-	private double mPosition=0.5; 
+	private double mPosition=0.5;
+	private boolean isCreate=false;
+	private String mTitle; 
 	
 	public WDialog(Context context,WGenerator generator) {
 		super(context);
@@ -47,22 +51,34 @@ public class WDialog extends Dialog implements GUIDialog {
 	}
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+	}
+
+	@Override
     public void onStart() {
         super.onStart();
+		addContentView(mContainer, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		if (mDialogVisitor!=null) {
 			mDialogVisitor.execute(this);
 	    }
 		this.initialPosition();
-		addContentView(mContainer, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	
 	public void setTextTitle(String title) {
 		super.setTitle(title);
+		mTitle=title;
 	}
 	
 	public void setVisible(boolean aVisible) {
 		if (aVisible) {
-			show();
+			if (!isCreate) {
+				isCreate=true;
+				((WFrame)mGenerator.getFrame()).showNewDialog(this);
+			}
+			else
+				show();
 		}
 		else
 			hide();
@@ -144,5 +160,9 @@ public class WDialog extends Dialog implements GUIDialog {
 	public void requestFocus() { }
 
 	public void toFront() {	}
+
+	public String getTextTitle() {
+		return mTitle;
+	}
 
 }

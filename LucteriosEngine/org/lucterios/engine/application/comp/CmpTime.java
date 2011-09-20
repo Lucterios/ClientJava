@@ -21,7 +21,7 @@
 package org.lucterios.engine.application.comp;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.graphic.date.DatePickerSimple;
+import org.lucterios.graphic.DatePickerSimple;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;

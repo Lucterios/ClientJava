@@ -23,6 +23,7 @@ package org.lucterios.graphic;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.lucterios.graphic.resources.Resources;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIContainer;
@@ -89,7 +90,7 @@ public class ExceptionDlg {
 
     	PnlMain = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
     	lbl_img = PnlMain.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
-        lbl_img.setImage(mGenerator.CreateImage(getClass().getResource("resources/error.png")));
+        lbl_img.setImage(mGenerator.CreateImage(Resources.class.getResource("error.png")));
         lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_NONE));
 
         GUIContainer PnlBtn= PnlMain.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,2,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
@@ -233,14 +234,14 @@ public class ExceptionDlg {
 		{
 			case FAILURE:
 			case CRITIC:
-				return mGenerator.CreateImage(getClass().getResource("resources/error.png"));
+				return mGenerator.CreateImage(Resources.class.getResource("error.png"));
 			case GRAVE:
 			case IMPORTANT:
-				return mGenerator.CreateImage(getClass().getResource("resources/warning.png"));
+				return mGenerator.CreateImage(Resources.class.getResource("warning.png"));
 			case MINOR:
-				return mGenerator.CreateImage(getClass().getResource("resources/info.png"));
+				return mGenerator.CreateImage(Resources.class.getResource("info.png"));
 			default:
-				return mGenerator.CreateImage(getClass().getResource("resources/error.png"));
+				return mGenerator.CreateImage(Resources.class.getResource("error.png"));
 		}
     	
     }

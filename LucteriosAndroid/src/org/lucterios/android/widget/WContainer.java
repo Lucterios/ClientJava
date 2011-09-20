@@ -277,28 +277,35 @@ public class WContainer extends TableLayout implements GUIContainer {
 	}
 	
 	public GUITree createTree(GUIParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mPanel==null) return null;
+		WTree result=new WTree(getContext(),this);
+		addView(result,param);
+		return result;
 	}
 
 	public GUIHyperMemo createHyperMemo(GUIParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mPanel==null) return null;
+		WHyperMemo result=new WHyperMemo(getContext(),this);
+		addView(result,param);
+		return result;
 	}
 
 	public GUIHyperText createHyperText(GUIParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mPanel==null) return null;
+		WHyperText result=new WHyperText(getContext(),this);
+		addView(result,param);
+		return result;
 	}
 
 	public GUIImage createImage(GUIParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mPanel==null) return null;
+		WImage result=new WImage(getContext(),this);
+		addView(result,param);
+		return result;
 	}
 	
 	public void calculBtnSize(GUIButton[] btns) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public String toString(){
@@ -408,7 +415,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	}
 
 	public void removeAll() {
-		removeAll();
+		super.removeAllViews();
 		creator();
 	}
 

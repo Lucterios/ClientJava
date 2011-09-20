@@ -1,62 +1,78 @@
 package org.lucterios.android;
 
+import org.lucterios.android.widget.WFrame;
 import org.lucterios.android.widget.WGenerator;
 
 import org.lucterios.gui.GUIDialog;
-import org.lucterios.gui.GUIGenerator;
+import org.lucterios.gui.GUIFrame;
+import org.lucterios.gui.GUIMenu;
+import org.lucterios.gui.GUIFrame.FrameVisitor;
 import org.lucterios.gui.test.DialogExample;
+import org.lucterios.gui.test.DialogSimple;
+import org.lucterios.ui.GUIActionListener;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.widget.Toast;
 
-public class Main extends Activity {
+public class Main extends WFrame implements FrameVisitor {
 
-	private GUIGenerator mGenerator;
+	public Main() {
+		super(new WGenerator());
+		((WGenerator)getGenerator()).setFrame(this);
+		setFrameVisitor(this);
+	}
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        mGenerator=new WGenerator();
-    }
-    
-    @Override
+	public Main(WGenerator generator) {
+		super(generator);
+		generator.setFrame(this);
+		setFrameVisitor(this);
+	}
+
+	public void execute(GUIFrame frame) {
+		
+	}
+		
 	public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuItem disconnect=menu.add("Déconnecter");
-    	disconnect.setOnMenuItemClickListener(new OnMenuItemClickListener(){
-			public boolean onMenuItemClick(MenuItem item) {
-				Toast.makeText(Main.this, "Déconnecter", Toast.LENGTH_SHORT).show();
-				return true;
-			}    		
+		boolean result=super.onCreateOptionsMenu(menu);
+    	GUIMenu disconnect=addMenu(false);
+    	disconnect.setText("Déconnecter");
+    	disconnect.setActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				getGenerator().showMessageDialog("Déconnecter", "Main");
+			}
     	});
-    	MenuItem help=menu.add("Aide...");
-    	help.setOnMenuItemClickListener(new OnMenuItemClickListener(){
-			public boolean onMenuItemClick(MenuItem item) {
-				GUIDialog dlg=mGenerator.newDialog(null);
+    	GUIMenu help=addMenu(false);
+    	help.setText("Aide...");
+    	help.setActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				GUIDialog dlg=getGenerator().newDialog(Main.this);
 				dlg.setDialogVisitor(new DialogExample());
 				dlg.setVisible(true);
-				return true;
 			}    		
     	});
-    	MenuItem about=menu.add("A propos...");
-    	about.setOnMenuItemClickListener(new OnMenuItemClickListener(){
-			public boolean onMenuItemClick(MenuItem item) {
-				Toast.makeText(Main.this, "A propos", Toast.LENGTH_SHORT).show();
-				return true;
+    	GUIMenu help2=addMenu(false);
+    	help2.setText("Aide2...");
+    	help2.setActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				GUIDialog dlg=getGenerator().newDialog(Main.this);
+				dlg.setDialogVisitor(new DialogSimple());
+				dlg.setVisible(true);
 			}    		
     	});
-    	MenuItem exit=menu.add("Quitter");
-    	exit.setOnMenuItemClickListener(new OnMenuItemClickListener(){
-			public boolean onMenuItemClick(MenuItem item) {
+    	GUIMenu about=addMenu(false);
+    	about.setText("A propos...");
+    	about.setActionListener(new GUIActionListener() {
+			public void actionPerformed() {
+				getGenerator().showErrorDialog("A propos", "Main");
+			}    		
+    	});
+    	GUIMenu exit=addMenu(false);
+    	exit.setText("Quitter");
+    	exit.setActionListener(new GUIActionListener() {
+			public void actionPerformed() {
 				System.exit(0);
-				return true;
 			}    		
     	});
-		return true;
+    	return result;
 	}
    
 }

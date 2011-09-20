@@ -3,7 +3,7 @@ package org.lucterios.gui.test;
 import java.io.File;
 import java.util.Date;
 
-import org.lucterios.graphic.date.DatePickerSimple;
+import org.lucterios.graphic.DatePickerSimple;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.graphic.MemoryJauge;
 import org.lucterios.graphic.NavigatorBar;

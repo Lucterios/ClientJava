@@ -208,7 +208,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		btnPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
 
 		btn_OK = btnPnl.createButton(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
-		btn_OK.setImage(this.getClass().getResource("ok.png"));
+		btn_OK.setImage(LogonBox.class.getResource("ok.png"));
 		btn_OK.setMnemonic('o');
 		btn_OK.setTextString("Ok");
 		btn_OK.addActionListener(new GUIActionListener() {
@@ -219,13 +219,13 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		});
 
 		btn_SetUp = btnPnl.createButton(new GUIParam(1,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
-		btn_SetUp.setImage(this.getClass().getResource("configure.png"));
+		btn_SetUp.setImage(LogonBox.class.getResource("configure.png"));
 		btn_SetUp.setMnemonic('c');
 		btn_SetUp.setTextString("Configurer");
 		btn_SetUp.addActionListener(mActionSetUp);
 				
 		btn_Cancel = btnPnl.createButton(new GUIParam(2,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,100, 25));
-		btn_Cancel.setImage(this.getClass().getResource("cancel.png"));
+		btn_Cancel.setImage(LogonBox.class.getResource("cancel.png"));
 		btn_Cancel.setMnemonic('a');
 		btn_Cancel.setTextString("Annuler");
 		btn_Cancel.addActionListener(new GUIActionListener() {

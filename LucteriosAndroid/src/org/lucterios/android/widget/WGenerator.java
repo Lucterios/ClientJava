@@ -39,7 +39,10 @@ public class WGenerator implements GUIGenerator {
 		if (mFrame==null)
 			mFrame=new WFrame(this);
 		return mFrame;
-	}	
+	}
+	public void setFrame(WFrame frame) {
+		mFrame=frame;
+	}
 
 	public int[] getScreenSize() {
 		DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -65,16 +68,19 @@ public class WGenerator implements GUIGenerator {
 	}	
 	
 	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
-		return new WDialog(((WFrame)aOwnerFrame).getBaseContext(),this);
+		if (aOwnerFrame!=null)
+			return new WDialog((WFrame)aOwnerFrame,this);
+		else
+			return new WDialog(mFrame,this);
 	}
 
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
 		if (aOwnerDialog!=null)
 			return new WDialog(((WDialog)aOwnerDialog).getContext(),this);
 		else if (aOwnerFrame!=null)
-			return new WDialog(((WForm)aOwnerFrame).getBaseContext(),this);
+			return new WDialog((WForm)aOwnerFrame,this);
 		else
-			return new WDialog(mFrame.getBaseContext(),this);
+			return new WDialog(mFrame,this);
 	}
 
 	public GUIForm newForm(String aActionId) {
@@ -140,5 +146,5 @@ public class WGenerator implements GUIGenerator {
 	    } });
 	    alertDialog.show();
 	}
-
+	
 }

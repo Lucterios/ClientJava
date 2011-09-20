@@ -4,9 +4,10 @@ import java.util.Calendar;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.presentation.Observer.MapContext;
-import org.lucterios.graphic.date.DatePickerSimple;
+import org.lucterios.graphic.DatePickerSimple;
 import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUICombo;
+import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
@@ -62,9 +63,11 @@ public class CmpDateTime extends CmpAbstractEvent {
 		return tree_map;
 	}
 
+	private GUIDialog mDatePickerDialog;
 	protected void initComponent() {
 		date_simple = new DatePickerSimple();
-		Singletons.getWindowGenerator().newDialog(null).setDialogVisitor(date_simple);
+		mDatePickerDialog=Singletons.getWindowGenerator().newDialog(null);
+		mDatePickerDialog.setDialogVisitor(date_simple);
 
 		GUIParam param;
 		param=new GUIParam(0,0,1,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH);
@@ -107,7 +110,7 @@ public class CmpDateTime extends CmpAbstractEvent {
 		edit_date.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
 				fillData();
-				date_simple.setVisible(true);
+				mDatePickerDialog.setVisible(true);
 				refreshData();
 			}
 		});
