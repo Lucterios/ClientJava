@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:visible="true" android:enabled="true" android:id="@+id/main">
+<item android:id="@+id/file" android:visible="true" android:title="Fichier" android:enabled="true">
+	<menu android:visible="true" android:title="Déconnecter" android:id="@+id/loggout" android:enabled="true"></menu>
+	<menu android:title="Configurer..." android:enabled="true" android:visible="true" android:id="@+id/setting"></menu>
+	<menu android:visible="true" android:enabled="true" android:title="Quitter" android:id="@+id/exit"></menu>
+</item>
+<item android:visible="true" android:title="Aide" android:enabled="true" android:id="@+id/helpabout">
+	<menu android:id="@+id/help" android:visible="true" android:title="Aide"></menu>
+	<menu android:enabled="true" android:id="@+id/about" android:visible="true" android:title="A propos..."></menu>
+</item>
+</group>
+</menu>

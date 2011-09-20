@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LucteriosAndroid" default="build">
+
+    <property name="sdk.dir" value="/opt/android-sdk-linux_86" />
+    <property name="target" value="android-8" />
+
+    <property name="projet.sources.dir" value="${ant.project.name}"/>
+    <property name="projet.lib.dir" value="lib"/>
+    
+    <property name="root.dir" value="andro" />
+    <property name="source.dir" location="${root.dir}/src" />
+    <property name="out.dir" location="${root.dir}/bin" />
+    <property name="gen.dir" location="${root.dir}/gen" />
+    <property name="resource.dir" location="${root.dir}/res" />
+   
+    <target name="build" depends="clear,compile,packaging" />
+
+    <target name="clear">
+	  <delete dir="${root.dir}" /> 
+	  <delete file="${ant.project.name}.apk" />
+	  <delete dir="${projet.sources.dir}/gen"/>
+	  <delete dir="${projet.sources.dir}/bin"/>
+    </target>
+    
+    <target name="init" depends="clear">
+	  <mkdir dir="${root.dir}" />
+	  <mkdir dir="${gen.dir}" />
+
+	  <copy todir="${source.dir}" >
+	      <fileset dir="${projet.sources.dir}/src"/>
+	  </copy>
+	  <copy todir="${resource.dir}" >
+	      <fileset dir="${projet.sources.dir}/res"/>
+	  </copy>
+	  <copy todir="${source.dir}/org">
+	      <fileset dir="LucteriosUtils/org"/>
+	      <fileset dir="LucteriosPrint/org"/>
+	  </copy>
+	  <unzip src="${projet.lib.dir}/commons-codec-1.3.jar" dest="${source.dir}" />
+	  <delete file="${source.dir}/org/lucterios/utils/SimpleParsingUnit.java" />
+	  <delete file="${source.dir}/org/lucterios/utils/AllTests.java" />
+    </target>
+
+    <target name="compile" depends="init" description="Compilation des classes">
+	  <copy file="${projet.sources.dir}/AndroidManifest.xml" todir="${root.dir}" />
+	  <copy file="${projet.sources.dir}/build.xml" todir="${root.dir}" />
+	  <copy file="${projet.sources.dir}/keystore" todir="${root.dir}" />
+	  <echo file="${root.dir}/local.properties">
+sdk.dir=${sdk.dir}
+	  </echo>
+	  <echo file="${root.dir}/build.properties">
+java.encoding=UTF-8
+build.sysclasspath=last
+key.store=keystore
+key.alias=www.lucterios.org
+key.store.password=lucterios
+key.alias.password=lucterios
+	  </echo>  
+	  <echo file="${root.dir}/default.properties">
+target=${target}
+	  </echo>
+	  <ant antfile="build.xml" target="compile" dir="${root.dir}"/>
+    </target>      
+
+    <target name="packaging">
+	  <ant antfile="build.xml" target="release" dir="${root.dir}"/>
+	  <copy file="${out.dir}/${ant.project.name}-release.apk" tofile="./${ant.project.name}.apk" overwrite="true"/>
+    </target>      
+
+</project>

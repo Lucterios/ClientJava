@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="600px"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="fill_parent" 
+		              android:layout_height="wrap_content"
+		              android:orientation="horizontal"
+		              android:layout_weight="0">
+		<TextView android:text="Titre de l'application" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5px" android:paddingRight="5px"/>
+		<EditText android:id="@+id/appli_title" android:layout_width="fill_parent" android:layout_height="wrap_content"/>  
+	</LinearLayout>
+	<LinearLayout
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:orientation="horizontal"
+	  android:layout_weight="1">
+	  	<org.lucterios.android.graphic.Grid
+	  		android:id="@+id/gridview"
+ 			android:layout_width="500px"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="1"	  		
+	  		/>
+		<LinearLayout
+		  xmlns:android="http://schemas.android.com/apk/res/android"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:orientation="vertical"
+		  android:layout_gravity="center"
+		  android:layout_weight="1"
+		  android:minWidth="100px"
+		  >
+  			<Button android:layout_width="80px" 
+  			android:text="Modifier" android:id="@+id/modify" android:layout_height="wrap_content"
+  			android:layout_gravity="center_horizontal" android:singleLine="true"></Button>
+  			<Button android:layout_width="80px" 
+  			android:text="Ajouter" android:id="@+id/add" android:layout_height="wrap_content"
+  			android:layout_gravity="center_horizontal" android:singleLine="true"></Button>
+  			<Button android:layout_width="80px" 
+  			android:text="Supprimer" android:id="@+id/del" android:layout_height="wrap_content"
+  			android:layout_gravity="center_horizontal" android:singleLine="true"></Button>
+  		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="wrap_content" 
+		              android:layout_height="wrap_content"
+		              android:orientation="horizontal"
+		              android:layout_gravity="center">	
+	  	<Button android:layout_width="80px" android:text="OK" android:id="@+id/ok" android:layout_height="wrap_content" android:singleLine="true"></Button>
+		<Button android:layout_width="80px" android:text="Annuler" android:id="@+id/cancel" android:layout_height="wrap_content" android:singleLine="true"></Button>
+		<Button android:layout_width="80px" android:text="Import" android:id="@+id/conf_import" android:layout_height="wrap_content" android:singleLine="true"></Button>
+	</LinearLayout>
+
+</LinearLayout>

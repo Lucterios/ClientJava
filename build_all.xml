@@ -30,14 +30,26 @@
 	<target name="init">
 		<property name="projet.version.build" value="1"/>
 		<echo message="${projet.version.max} ${projet.version.min} ${projet.version.release} ${projet.version.build}" file="version.txt" />
+
 		<delete file="setup.inc.php"/>
 		<exec executable="./createSetup.sh">
 			<arg line="${projet.version.max}" />
 			<arg line="${projet.version.min}" />
 			<arg line="${projet.version.release}" />
 			<arg line="${projet.version.build}" />
+			<arg line="." />
 		</exec>
 		<copy file="version.txt" tofile="LucteriosClient/org/lucterios/client/resources/version.txt" />
+
+		<delete file="LucteriosAndroid/setup.inc.php"/>
+		<exec executable="./createSetup.sh">
+			<arg line="${projet.version.max}" />
+			<arg line="${projet.version.min}" />
+			<arg line="${projet.version.release}" />
+			<arg line="${projet.version.build}" />
+			<arg line="./LucteriosAndroid" />
+		</exec>
+		<copy file="version.txt" tofile="LucteriosAndroid/version.txt" />
 		<delete dir="${projet.lpk.dir}" /> 
 		<mkdir dir="${projet.lpk.dir}" />	
 		<delete dir="${projet.test.dir}" /> 
@@ -56,6 +68,7 @@
 		<ant antfile="Client_build.xml" target="clear"/>
 		<ant antfile="Update_build.xml" target="clear"/>
 		<ant antfile="StressTester_build.xml" target="clear"/>
+		<ant antfile="Android_build.xml" target="clear"/>
 	</target>	
 
 	<target name="javadoc">
@@ -68,6 +81,7 @@
 		<ant antfile="Client_build.xml" target="build"/>
 		<ant antfile="Update_build.xml" target="build"/>
 		<ant antfile="StressTester_build.xml" target="build"/>
+		<ant antfile="Android_build.xml" target="build"/>
 	</target>	
 
 	<target name="package">
@@ -100,6 +114,16 @@
 		
 		<copy file="LucteriosStressTester/LucteriosStressTester.jar" todir="${projet.lpk.dir}" overwrite="true"/>
 		<copy file="LucteriosStressTester/inputExample.xml" todir="${projet.lpk.dir}" overwrite="true"/>
+		
+		<copy file="LucteriosAndroid.apk" todir="${projet.lpk.dir}" overwrite="true"/>
+		<tar destfile="AndroidLucterios.tar">
+			<fileset dir="." includes="LucteriosAndroid.apk"/>
+			<fileset dir="LucteriosAndroid" includes="version.txt"/>
+			<fileset dir="LucteriosAndroid" includes="index.php"/>
+			<fileset dir="LucteriosAndroid" includes="setup.inc.php"/>
+		</tar>
+		<gzip src="AndroidLucterios.tar" destfile="${projet.lpk.dir}/Android_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
+		
  	</target>		
 	
 	<target name="doc">
