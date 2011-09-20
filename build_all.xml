@@ -69,6 +69,16 @@
 		<ant antfile="Update_build.xml" target="clear"/>
 		<ant antfile="StressTester_build.xml" target="clear"/>
 		<ant antfile="Android_build.xml" target="clear"/>
+		<delete file="version.txt" />
+		<delete file="LucteriosClient/org/lucterios/client/resources/version.txt" />
+		<delete file="LucteriosAndroid/version.txt" />
+		<delete file="setup.inc.php" />
+		<delete file="LucteriosAndroid/setup.inc.php" />
+		<delete>
+		  <fileset dir="." includes="*.jar"/>
+		  <fileset dir="." includes="*.zip"/>
+		  <fileset dir="." includes="*.tar"/>
+		</delete>
 	</target>	
 
 	<target name="javadoc">
@@ -123,7 +133,8 @@
 			<fileset dir="LucteriosAndroid" includes="setup.inc.php"/>
 		</tar>
 		<gzip src="AndroidLucterios.tar" destfile="${projet.lpk.dir}/Android_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
-		
+
+		<delete dir="*.tar" /> 
  	</target>		
 	
 	<target name="doc">

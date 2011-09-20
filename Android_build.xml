@@ -39,15 +39,21 @@
 	  <unzip src="${projet.lib.dir}/commons-codec-1.3.jar" dest="${source.dir}" />
 	  <delete file="${source.dir}/org/lucterios/utils/SimpleParsingUnit.java" />
 	  <delete file="${source.dir}/org/lucterios/utils/AllTests.java" />
-    </target>
 
-    <target name="compile" depends="init" description="Compilation des classes">
 	  <copy file="${projet.sources.dir}/AndroidManifest.xml" todir="${root.dir}" />
-	  <copy file="${projet.sources.dir}/build.xml" todir="${root.dir}" />
 	  <copy file="${projet.sources.dir}/keystore" todir="${root.dir}" />
-	  <echo file="${root.dir}/local.properties">
-sdk.dir=${sdk.dir}
-	  </echo>
+
+	  <exec executable="${sdk.dir}/tools/android">
+		<arg line="update" />
+		<arg line="project" />
+		<arg line="-t" />
+		<arg line="${target}" />
+		<arg line="-n" />
+		<arg line="${ant.project.name}" />
+		<arg line="-p" />
+		<arg line="${root.dir}" />
+	  </exec>
+
 	  <echo file="${root.dir}/build.properties">
 java.encoding=UTF-8
 build.sysclasspath=last
@@ -56,9 +62,10 @@ key.alias=www.lucterios.org
 key.store.password=lucterios
 key.alias.password=lucterios
 	  </echo>  
-	  <echo file="${root.dir}/default.properties">
-target=${target}
-	  </echo>
+    </target>
+
+    <target name="compile" depends="init" description="Compilation des classes">
+	  <copy file="${projet.sources.dir}/build.xml" todir="${root.dir}" />
 	  <ant antfile="build.xml" target="compile" dir="${root.dir}"/>
     </target>      
 
