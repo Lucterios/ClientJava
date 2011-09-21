@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 
-	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
+	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>();
+	private String mName;
+	private GUIComponent mOwner; 
 	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
@@ -26,6 +28,7 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	
 	public WMemo(Context context, WContainer owner) {
 		super(context);
+		mOwner=owner;
 		setOnFocusChangeListener(this);
 	}
 
@@ -41,8 +44,7 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	}
 
 	public String getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return getText().toString();
 	}
 
 	public void setFirstLine(int aFirstLine) {
@@ -61,28 +63,21 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	}
 
 	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
+		super.setText(text);
 	}
 
 	public boolean isVisible() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
-	public void setVisible(boolean visible) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setVisible(boolean visible) { }
 
 	public GUIMenu getPopupMenu() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void insertText(String specialToAdd) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	public void addActionListener(GUIActionListener l) {
@@ -91,23 +86,22 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	}
 
 	public int getBackgroundColor() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return mName;
 	}
 
 	public GUIComponent getOwner() {
-		// TODO Auto-generated method stub
-		return null;
+		return mOwner;
 	}
 
 	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
+		if (mOwner!=null)
+			return mOwner.isActive();
+		else
+			return false;
 	}
 
 	public void removeActionListener(GUIActionListener l) {
@@ -115,15 +109,9 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 		
 	}
 
-	public void repaint() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void repaint() {	}
 
-	public void requestFocusGUI() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void requestFocusGUI() {	}
 
 	public void setActiveMouseAction(boolean isActive) {
 		// TODO Auto-generated method stub
@@ -131,13 +119,9 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	}
 
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-		
+		mName=name;
 	}
 
-	public void setToolTipText(String toolTip) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setToolTipText(String toolTip) {}
 
 }

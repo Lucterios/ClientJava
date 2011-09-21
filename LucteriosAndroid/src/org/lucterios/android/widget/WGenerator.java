@@ -68,19 +68,33 @@ public class WGenerator implements GUIGenerator {
 	}	
 	
 	public GUIDialog newDialog(GUIFrame aOwnerFrame) {
+		WDialog result;
+		WFrame current_frame;
 		if (aOwnerFrame!=null)
-			return new WDialog((WFrame)aOwnerFrame,this);
+			current_frame=(WFrame)aOwnerFrame;
 		else
-			return new WDialog(mFrame,this);
+			current_frame=mFrame;
+		result=new WDialog(current_frame,this);
+		result.setIcon(AndroidImage.getDrawable(current_frame.getImage()));
+		return result;
 	}
 
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerFrame) {
-		if (aOwnerDialog!=null)
-			return new WDialog(((WDialog)aOwnerDialog).getContext(),this);
-		else if (aOwnerFrame!=null)
-			return new WDialog((WForm)aOwnerFrame,this);
-		else
-			return new WDialog(mFrame,this);
+		WDialog result;
+		if (aOwnerDialog!=null) {
+			result=new WDialog(((WDialog)aOwnerDialog).getContext(),this);
+			result.setIcon(((WDialog)aOwnerDialog).getIcon());
+		}
+		else {		
+			WFrame current_frame;
+			if (aOwnerFrame!=null)
+				current_frame=(WFrame)aOwnerFrame;
+			else
+				current_frame=mFrame;
+			result=new WDialog(current_frame,this);
+			result.setIcon(AndroidImage.getDrawable(current_frame.getImage()));
+		}
+		return result;
 	}
 
 	public GUIForm newForm(String aActionId) {

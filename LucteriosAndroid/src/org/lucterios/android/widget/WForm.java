@@ -1,6 +1,7 @@
 package org.lucterios.android.widget;
 
 import org.lucterios.android.R;
+import org.lucterios.android.graphic.AndroidImage;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIButton;
@@ -26,6 +27,7 @@ public class WForm extends Activity implements GUIForm {
 	private NotifyFrameList mNotifyFrameList = null;
 	private NotifyFrameChange mNotifyFrameChange = null;
 	private NotifyFrameObserver mNotifyFrameObserver = null;
+	private AbstractImage mImage=AbstractImage.Null;
 	
 	public WForm(String aActionId,WGenerator generator) {
 		super();
@@ -68,7 +70,7 @@ public class WForm extends Activity implements GUIForm {
 	}
 
 	public AbstractImage getImage() {
-		return AbstractImage.Null;
+		return mImage;
 	}
 
 	public String getName() {
@@ -84,7 +86,11 @@ public class WForm extends Activity implements GUIForm {
 	}
 
 	public void setImage(AbstractImage image) {
-		
+		if (AndroidImage.class.isInstance(image)) {
+			mImage=image;
+		}
+		else
+			mImage=AbstractImage.Null;
 	}
 
 	public void setNotifyFrameChange(NotifyFrameChange aNotifyFrameChange) {

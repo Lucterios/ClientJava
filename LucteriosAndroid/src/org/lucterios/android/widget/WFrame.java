@@ -1,12 +1,10 @@
 package org.lucterios.android.widget;
 
-
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GuiFormList;
 import org.lucterios.ui.GUIActionListener;
 
-import android.app.Dialog;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -91,22 +89,4 @@ public class WFrame extends WForm implements GUIFrame {
 
 	public void addWindowClose(GUIActionListener guiActionListener) {}
 
-	private WDialog mLastNewDialog=null;
-	public void showNewDialog(WDialog aDialog) {
-		mLastNewDialog=aDialog;
-		showDialog(0);
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog result;
-		if ((id==0) && (mLastNewDialog!=null)) {
-			result=mLastNewDialog;
-			mLastNewDialog=null;
-		}
-		else
-			result=super.onCreateDialog(id);
-		return result;
-	}
-	
 }

@@ -19,10 +19,12 @@ import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUISpinEdit;
 import org.lucterios.gui.GUITree;
+import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.ui.GUIActionListener;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
@@ -59,7 +61,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 				addViewEx(this,scroll,new GUIParam(0,0));
 				mPanel=new TableLayout(getContext());
 				mPanel.setBaselineAligned(false);
-				scroll.addView(mPanel,new ScrollView.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+				scroll.addView(mPanel,new TableLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 				break;
 			case CT_TAB:
 				mTab = new TabHost(getContext());
@@ -74,7 +76,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 		        FrameLayout frameLayout = new FrameLayout(getContext());
 		        frameLayout.setId(android.R.id.tabcontent);
 		        frameLayout.setPadding(0, 65, 0, 0);
-		        TabHost.LayoutParams params2=new TabHost.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		        FrameLayout.LayoutParams params2=new TabHost.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		        mTab.addView(frameLayout,params2); 
 		 
 		        // setup must be called if you are not initialising the tabhost from XML
@@ -149,12 +151,18 @@ public class WContainer extends TableLayout implements GUIContainer {
 		while (target.getChildCount()<(param.getY()+1)) {
 			TableRow new_row=new TableRow(getContext());
 			new_row.setBaselineAligned(false);
-			LayoutParams param_row=new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+			new_row.setBackgroundColor(0xFF0000);
+			new_row.setPadding(2, 2, 2, 2);
+			TableLayout.LayoutParams param_row=new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			target.addView(new_row,param_row);
 		}
 		TableRow row=(TableRow)target.getChildAt(param.getY());
 		while (row.getChildCount()<param.getX()) {
-			row.addView(new View(getContext()),new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			TableRow.LayoutParams param_row=new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+			View new_view=new View(getContext());
+			new_view.setBackgroundColor(0x00FF00);
+			new_view.setPadding(2, 2, 2, 2);
+			row.addView(new_view,param_row);
 		}
 		if (row.getChildCount()>param.getX())
 			row.removeView(row.getChildAt(param.getX()));
@@ -164,6 +172,10 @@ public class WContainer extends TableLayout implements GUIContainer {
 	private TableRow.LayoutParams getParam(GUIParam param) {
 		TableRow.LayoutParams params=new TableRow.LayoutParams();
 		params.span=param.getH();
+		if (param.getReSize()==ReSizeMode.RSM_NONE)
+			params.weight=0;
+		else
+			params.weight=1;
 		switch (param.getFill()) {
 			case FM_NONE:
 				params.height=LayoutParams.WRAP_CONTENT;
@@ -198,6 +210,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	}
 
 	public GUIContainer addTab(ContainerType type, String name,AbstractImage icon) {
+		if (mTab==null) return null;
 		WContainer result=new WContainer(getContext(),type,this);
 		TabSpec ts1 = mTab.newTabSpec("TAB_"+name);
         ts1.setIndicator(name);
@@ -305,7 +318,18 @@ public class WContainer extends TableLayout implements GUIContainer {
 	}
 	
 	public void calculBtnSize(GUIButton[] btns) {
-		// TODO Auto-generated method stub
+		int wbtn = -Integer.MAX_VALUE;
+		int hbtn = -Integer.MAX_VALUE;;
+		for (GUIButton btn : btns) {
+			wbtn = Math.max(wbtn, ((WButton) btn).getLayoutParams().width);
+			hbtn = Math.max(hbtn, ((WButton) btn).getLayoutParams().height);
+		}
+		for (GUIButton btn : btns) {
+			ViewGroup.LayoutParams params = ((WButton) btn).getLayoutParams();
+			params.height = wbtn;
+			params.width = hbtn;
+			((WButton) btn).setLayoutParams(params);
+		}
 	}
 
 	public String toString(){

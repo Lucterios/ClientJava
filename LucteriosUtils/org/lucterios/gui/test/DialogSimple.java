@@ -36,10 +36,11 @@ public class DialogSimple implements DialogVisitor {
 		GUIContainer btnPnl = mDialog.getContainer().createContainer(
 				ContainerType.CT_NORMAL,
 				new GUIParam(0, 5, 2, 1, ReSizeMode.RSM_HORIZONTAL,
-						FillMode.FM_HORIZONTAL));
+						FillMode.FM_NONE));
 		GUIButton bt1 = btnPnl.createButton(new GUIParam(0, 0, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		bt1.setTextString("Success...");
+		bt1.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("new.gif")));
 		bt1.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
 				mDialog.getGenerator().showMessageDialog("Success message",
@@ -49,15 +50,17 @@ public class DialogSimple implements DialogVisitor {
 		GUIButton bt2 = btnPnl.createButton(new GUIParam(1, 0, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		bt2.setTextString("Error...");
+		bt2.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("open.gif")));
 		bt2.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
 				mDialog.getGenerator().showErrorDialog("Error message",
 						mDialog.getTextTitle());
 			}
 		});
-		GUIButton bt3 = btnPnl.createButton(new GUIParam(4, 0, 1, 1,
+		GUIButton bt3 = btnPnl.createButton(new GUIParam(2, 0, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		bt3.setTextString("Exit");
+		bt3.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("paste.gif")));
 		bt3.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
 				System.exit(0);

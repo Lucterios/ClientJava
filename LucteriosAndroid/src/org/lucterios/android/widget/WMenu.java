@@ -133,7 +133,7 @@ public class WMenu implements GUIMenu,GUIAction {
 	}
 
 	public void setMenuImage(AbstractImage image, boolean showIcon) {
-		mMenu.setIcon(((AndroidImage)image).getDrawable());
+		mMenu.setIcon(AndroidImage.getDrawable(image));
 	}
 
 	public void setMnemonic(char c) {

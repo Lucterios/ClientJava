@@ -53,8 +53,6 @@ public class WButton extends Button implements GUIButton,OnFocusChangeListener,O
 	}
 	
 	public void setImage(AbstractImage image) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public boolean isVisible() {

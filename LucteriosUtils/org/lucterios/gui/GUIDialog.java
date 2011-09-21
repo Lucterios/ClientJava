@@ -8,6 +8,8 @@ public interface GUIDialog extends GUIObject {
 	}
 	
 	public void setDialogVisitor(DialogVisitor dialogVisitor);
+	
+	public GUIDialog createDialog();
 
 	public GUIGenerator getGenerator();
 	
@@ -26,8 +28,6 @@ public interface GUIDialog extends GUIObject {
 	public void toFront();
 
 	public void refreshSize();
-	
-	public GUIDialog createDialog();
 	
 	public GUIContainer getContainer();
 

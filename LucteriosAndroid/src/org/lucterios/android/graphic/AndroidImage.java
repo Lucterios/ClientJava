@@ -40,8 +40,11 @@ public class AndroidImage extends AbstractImage {
 		icon.draw(canvas);	
 	}
 
-	public BitmapDrawable getDrawable(){
-		return new BitmapDrawable((Bitmap)mObject);
+	public static BitmapDrawable getDrawable(AbstractImage image){
+		if (AndroidImage.class.isInstance(image))
+			return new BitmapDrawable((Bitmap)image.getData());
+		else
+			return null;
 	}
 	
 	@Override

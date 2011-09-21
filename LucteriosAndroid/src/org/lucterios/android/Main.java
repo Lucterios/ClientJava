@@ -3,6 +3,8 @@ package org.lucterios.android;
 import org.lucterios.android.widget.WFrame;
 import org.lucterios.android.widget.WGenerator;
 
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.graphic.resources.Resources;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIFrame;
 import org.lucterios.gui.GUIMenu;
@@ -18,6 +20,7 @@ public class Main extends WFrame implements FrameVisitor {
 	public Main() {
 		super(new WGenerator());
 		((WGenerator)getGenerator()).setFrame(this);
+		ExceptionDlg.mGenerator=getGenerator();
 		setFrameVisitor(this);
 	}
 	
@@ -28,7 +31,7 @@ public class Main extends WFrame implements FrameVisitor {
 	}
 
 	public void execute(GUIFrame frame) {
-		
+		setImage(getGenerator().CreateImage(Resources.class.getResource("LucteriosLogo.png")));
 	}
 		
 	public boolean onCreateOptionsMenu(Menu menu) {
