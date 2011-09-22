@@ -63,7 +63,7 @@ public class DialogSimple implements DialogVisitor {
 		bt3.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("paste.gif")));
 		bt3.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
-				System.exit(0);
+				mDialog.setVisible(false);
 			}
 		});
 		btnPnl.calculBtnSize(new GUIButton[] { bt1, bt2, bt3 });

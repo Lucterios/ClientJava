@@ -187,4 +187,8 @@ public class STree extends JScrollPane implements GUITree {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

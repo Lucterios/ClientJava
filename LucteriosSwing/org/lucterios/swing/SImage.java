@@ -95,4 +95,8 @@ public class SImage extends JComponent implements GUIImage {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

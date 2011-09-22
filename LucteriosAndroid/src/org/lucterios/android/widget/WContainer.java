@@ -565,4 +565,6 @@ public class WContainer extends TableLayout implements GUIContainer {
 		return 0x0F0F0F;
 	}
 
+	public void setNbClick(int mNbClick) { }
+
 }

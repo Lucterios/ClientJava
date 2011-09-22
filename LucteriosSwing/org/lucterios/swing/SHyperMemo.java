@@ -60,4 +60,8 @@ public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

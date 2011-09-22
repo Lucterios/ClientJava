@@ -52,7 +52,7 @@ public class DialogExample implements DialogVisitor {
 
 	private void initScroll() {
 		GUIContainer sv=mTab.addTab(ContainerType.CT_SCROLL,"Scroll", AbstractImage.Null);
-		for(int index=0;index<10;index++) {
+		for(int index=0;index<30;index++) {
 			GUILabel tv=sv.createLabel(new GUIParam(0, index,1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 			tv.setTextString("Text"+(index+1));
 			GUIEdit et=sv.createEdit(new GUIParam(1, index, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL));
@@ -170,7 +170,6 @@ public class DialogExample implements DialogVisitor {
 	}
 
 	private void exceptionDlg() {
-		ExceptionDlg.mGenerator=mDialog.getGenerator();
 		try {
 			throw new LucteriosException("Error");
 		}
@@ -203,17 +202,18 @@ public class DialogExample implements DialogVisitor {
 	}
 	
 	private void openForm() {
-		mDialog.getContainer().invokeLater(new Runnable() {
-			public void run() {
+		/*mDialog.getContainer().invokeLater(new Runnable() {
+			public void run() {*/
 				try {
+					mDialog.setVisible(false);
 					GUIForm form=mDialog.getGenerator().newForm("example");
 					form.setFormVisitor(new FormExample());
 					form.setVisible(true);
 				}catch (Exception e) {
 					ExceptionDlg.throwException(e);
 				}
-			}
-		});
+			/*}
+		});*/
 	}
 
 	private void initComp(){

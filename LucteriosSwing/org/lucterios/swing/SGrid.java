@@ -221,4 +221,8 @@ public class SGrid extends JScrollPane implements GUIGrid, ListSelectionListener
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

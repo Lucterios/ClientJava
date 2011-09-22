@@ -84,4 +84,8 @@ public class SLabel extends JLabel implements GUILabel {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

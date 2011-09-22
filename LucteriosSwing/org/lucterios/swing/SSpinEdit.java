@@ -451,4 +451,8 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

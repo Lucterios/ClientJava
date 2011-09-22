@@ -64,6 +64,7 @@ public class SButton extends JComponent implements GUIButton {
         add(mButton);
         addFocusListener(mFocusListener);
         addMouseListener(mCursorMouseListener);
+        setNbClick(-1);
 	}
 
 	public void doClick() {		
@@ -151,5 +152,9 @@ public class SButton extends JComponent implements GUIButton {
 	
 	public void requestFocusGUI() {
 		requestFocus();
+	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
 	}
 }

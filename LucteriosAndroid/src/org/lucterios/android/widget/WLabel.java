@@ -122,4 +122,5 @@ public class WLabel extends TextView implements GUILabel {
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

@@ -148,5 +148,6 @@ public class WButton extends Button implements GUIButton,OnFocusChangeListener,O
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 
 }

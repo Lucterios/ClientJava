@@ -194,4 +194,5 @@ public class WCombo extends LinearLayout implements GUICombo,OnFocusChangeListen
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

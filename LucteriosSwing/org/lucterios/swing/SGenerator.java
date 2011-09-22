@@ -93,12 +93,15 @@ public class SGenerator implements GUIGenerator {
 	
 	public GUIDialog newDialog(GUIDialog aOwnerDialog, GUIForm aOwnerForm) {
 		SDialog new_dialog;
-		if (aOwnerDialog != null)
+		if (aOwnerDialog != null) {
 			new_dialog = new SDialog((SDialog) aOwnerDialog,this);
-		else if (aOwnerForm != null)
+		}
+		else if (aOwnerForm != null) {
 			new_dialog = new SDialog((SForm) aOwnerForm,this);
-		else
+		}
+		else {
 			new_dialog = new SDialog((SFrame)getFrame(),this);
+		}
 		return new_dialog;
 	}
 

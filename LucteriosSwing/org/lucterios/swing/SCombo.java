@@ -91,4 +91,8 @@ public class SCombo extends JComboBox implements GUICombo  {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

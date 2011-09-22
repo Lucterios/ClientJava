@@ -135,4 +135,5 @@ public class WCheckList extends RelativeLayout implements GUICheckList,OnFocusCh
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

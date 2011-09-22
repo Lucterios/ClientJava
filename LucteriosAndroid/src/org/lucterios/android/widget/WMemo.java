@@ -124,4 +124,5 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 
 	public void setToolTipText(String toolTip) {}
 
+	public void setNbClick(int mNbClick) { }
 }

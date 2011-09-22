@@ -255,4 +255,5 @@ public class WGrid extends ScrollView implements GUIGrid,OnFocusChangeListener,O
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

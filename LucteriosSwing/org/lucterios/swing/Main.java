@@ -1,8 +1,8 @@
 package org.lucterios.swing;
 
-import org.lucterios.gui.GUIDialog;
-import org.lucterios.gui.test.DialogExample;
-import org.lucterios.gui.test.DialogSimple;
+import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.gui.GUIFrame;
+import org.lucterios.gui.test.FrameTest;
 import org.lucterios.style.ThemeMenu;
 
 public class Main {
@@ -12,11 +12,9 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		ThemeMenu.initializedTheme();
-		GUIDialog mDialog=new SGenerator().newDialog(null);
-		if (args.length>0)
-			mDialog.setDialogVisitor(new DialogExample());
-		else
-			mDialog.setDialogVisitor(new DialogSimple());
+		ExceptionDlg.mGenerator=new SGenerator();
+		GUIFrame mDialog=ExceptionDlg.mGenerator.getFrame();
+		mDialog.setFrameVisitor(new FrameTest());
 		mDialog.setVisible(true);
 	}
 

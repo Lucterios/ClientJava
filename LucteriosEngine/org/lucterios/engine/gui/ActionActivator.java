@@ -129,6 +129,7 @@ public class ActionActivator implements GUIActionListener {
 		if (mActionListener != null) {
 			comp.setActiveMouseAction(true);
 			comp.addActionListener(this);
+			comp.setNbClick(1);
 		}
 	}
 

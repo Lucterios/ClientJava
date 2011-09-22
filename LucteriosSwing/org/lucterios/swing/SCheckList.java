@@ -18,7 +18,7 @@ import org.lucterios.ui.GUIActionListener;
 public class SCheckList extends JScrollPane implements GUICheckList, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 
-	JList cmp_list;
+	private JList cmp_list;
 	
 	private CursorMouseListener mCursorMouseListener;
 	
@@ -114,5 +114,9 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 	
 	public void requestFocusGUI() {
 		requestFocus();
+	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
 	}
 }

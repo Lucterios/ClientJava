@@ -115,4 +115,5 @@ public class WCheckBox extends CheckBox implements GUICheckBox,OnFocusChangeList
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

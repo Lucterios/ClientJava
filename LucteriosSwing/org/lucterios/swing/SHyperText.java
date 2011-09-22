@@ -57,6 +57,7 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		});
 		popupListener.getPopup().add(mi);
 		addMouseListener(popupListener);
+		setNbClick(1);
 	}
 
 	private void copyToClipboard() {
@@ -139,5 +140,9 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 	
 	public void requestFocusGUI() {
 		requestFocus();
+	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
 	}
 }

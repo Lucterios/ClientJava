@@ -35,6 +35,8 @@ public interface GUIComponent {
 	public void setToolTipText(String toolTip);
 
 	public void setActiveMouseAction(boolean isActive);
+	
+	public void setNbClick(int mNbClick);
 
 	public void requestFocusGUI();
 

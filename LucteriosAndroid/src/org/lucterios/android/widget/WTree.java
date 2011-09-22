@@ -147,4 +147,5 @@ public class WTree extends View implements GUITree {
 
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

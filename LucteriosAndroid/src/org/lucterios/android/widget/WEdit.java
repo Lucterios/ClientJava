@@ -169,4 +169,5 @@ public class WEdit extends EditText implements GUIEdit,OnFocusChangeListener {
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

@@ -144,4 +144,5 @@ public class WSpinEdit extends TextView implements GUISpinEdit,OnFocusChangeList
 		
 	}
 
+	public void setNbClick(int mNbClick) { }
 }

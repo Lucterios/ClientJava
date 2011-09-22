@@ -88,4 +88,8 @@ public class SCheckBox extends JCheckBox implements GUICheckBox {
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

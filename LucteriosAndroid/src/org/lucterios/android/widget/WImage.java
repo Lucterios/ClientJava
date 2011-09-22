@@ -103,4 +103,5 @@ public class WImage extends ImageView implements GUIImage {
 
 	public void setVisible(boolean visible) { }
 
+	public void setNbClick(int mNbClick) { }
 }

@@ -234,4 +234,8 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 	public void requestFocusGUI() {
 		requestFocus();
 	}
+
+	public void setNbClick(int mNbClick) {
+		mCursorMouseListener.setNbClick(mNbClick);
+	}
 }

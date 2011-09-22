@@ -26,7 +26,17 @@ public class CursorMouseListener extends ArrayList<GUIActionListener> implements
 		super();
 		mComp=comp;
 	}
+
+	private int mNbClick=2;
 	
+	public int getNbClick() {
+		return mNbClick;
+	}
+
+	public void setNbClick(int mNbClick) {
+		this.mNbClick = mNbClick;
+	}
+
 	private boolean mIsActiveMouse=false;
 	public void setActiveMouseAction(boolean isActive) {
 		mIsActiveMouse=isActive;		
@@ -47,13 +57,12 @@ public class CursorMouseListener extends ArrayList<GUIActionListener> implements
 	}
 
 	public void mouseClicked(MouseEvent e) { 
-		if (e.getClickCount()==2) {
+		if (e.getClickCount()==mNbClick) {
 			actionPerformed(null);
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		//mComp.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		for(GUIActionListener l:this)
 			if (l!=null)
 				l.actionPerformed();
