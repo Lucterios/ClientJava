@@ -54,7 +54,7 @@ public class MockMemo extends MockComponent implements GUIMemo {
 		mText+=specialToAdd;
 	}
 
-	public void setText(String text) {
+	public void setValue(String text) {
 		mText=text;
 	}
 		

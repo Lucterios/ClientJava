@@ -6,6 +6,7 @@ public interface GUIFrame extends GUIObject {
 
 	public interface FrameVisitor {
 		public void execute(GUIFrame frame);
+		public void menuCreate();
 	}
 	
 	public GUIGenerator getGenerator();

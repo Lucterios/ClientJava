@@ -10,7 +10,7 @@ public interface GUIMemo extends GUIComponent {
 
 	public void setTabs(int charactersPerTab);
 	
-	public void setText(String text);
+	public void setValue(String text);
 	
 	public String getValue();
 

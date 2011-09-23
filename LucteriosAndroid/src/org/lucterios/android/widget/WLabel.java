@@ -1,6 +1,5 @@
 package org.lucterios.android.widget;
 
-import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.ui.GUIActionListener;
@@ -17,16 +16,6 @@ public class WLabel extends TextView implements GUILabel {
 	
 	public WLabel(Context context, WContainer owner) {
 		super(context);
-	}
-
-	public AbstractImage getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setImage(AbstractImage iamge) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public String getTextString() {

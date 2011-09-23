@@ -1,6 +1,7 @@
 package org.lucterios.android.widget;
 
 import org.lucterios.gui.GUIHyperMemo;
+import org.lucterios.utils.Tools;
 
 import android.content.Context;
 
@@ -22,7 +23,7 @@ public class WHyperMemo extends WMemo implements GUIHyperMemo {
 	}
 
 	public void load(String source) {
-		setText(source);
+		setText(Tools.replace(source, "{[newline]}", "\n"));
 	}
 
 	public String save() {

@@ -92,7 +92,7 @@ public class FormExample implements FormVisitor {
 		txt_memo = pnl_new_btn.createMemo(new GUIParam(1, 2, 1, 1, ReSizeMode.RSM_BOTH, FillMode.FM_BOTH));
 		txt_memo.setFirstLine(1);
 		try {
-			txt_memo.setText(Tools.parseISToString(this.getClass().getResourceAsStream("FormExample.java")));
+			txt_memo.setValue(Tools.parseISToString(this.getClass().getResourceAsStream("FormExample.java")));
 		} catch (LucteriosException e) {
 			e.printStackTrace();
 		}

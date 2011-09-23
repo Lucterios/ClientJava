@@ -100,7 +100,7 @@ public class SMemo extends JScrollPane implements GUIMemo {
 	}
 
 	public String getValue() {
-		return cmp_text.getValue();
+		return cmp_text.getText();
 	}
 
 	public void insertText(String specialToAdd) {
@@ -119,7 +119,7 @@ public class SMemo extends JScrollPane implements GUIMemo {
 		cmp_text.setTabs(charactersPerTab);	
 	}
 
-	public void setText(String text) {
+	public void setValue(String text) {
 		cmp_text.setText(text);
 	}
 

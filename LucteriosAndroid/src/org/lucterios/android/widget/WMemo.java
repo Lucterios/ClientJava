@@ -6,13 +6,14 @@ import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.ui.GUIActionListener;
+import org.lucterios.utils.Tools;
 
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.widget.TextView;
+import android.widget.EditText;
 
-public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
+public class WMemo extends EditText implements GUIMemo,OnFocusChangeListener {
 
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>();
 	private String mName;
@@ -29,6 +30,8 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	public WMemo(Context context, WContainer owner) {
 		super(context);
 		mOwner=owner;
+		setSingleLine(false);
+		setLines(5);
 		setOnFocusChangeListener(this);
 	}
 
@@ -44,7 +47,7 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 	}
 
 	public String getValue() {
-		return getText().toString();
+		return Tools.replace(getText().toString(), "\n", "{[newline]}");
 	}
 
 	public void setFirstLine(int aFirstLine) {
@@ -62,7 +65,7 @@ public class WMemo extends TextView implements GUIMemo,OnFocusChangeListener {
 		
 	}
 
-	public void setText(String text) {
+	public void setValue(String text) {
 		super.setText(text);
 	}
 

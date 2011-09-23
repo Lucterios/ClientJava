@@ -171,7 +171,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	
 	private TableRow.LayoutParams getParam(GUIParam param) {
 		TableRow.LayoutParams params=new TableRow.LayoutParams();
-		params.span=param.getH();
+		params.span=param.getW();
 		if (param.getReSize()==ReSizeMode.RSM_NONE)
 			params.weight=0;
 		else

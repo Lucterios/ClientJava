@@ -99,7 +99,7 @@ public class CmpMemo extends CmpAbstractEvent {
 
 	protected void initComponent() {
 		cmp_text = mPanel.createMemo(mParam);
-		cmp_text.setText("");
+		cmp_text.setValue("");
 
 		SubMenu = cmp_text.getPopupMenu();
 	}
@@ -155,7 +155,7 @@ public class CmpMemo extends CmpAbstractEvent {
 			}
 		else
 			in_text = Tools.replace(in_text, "{[newline]}", "\n");
-		cmp_text.setText(in_text);
+		cmp_text.setValue(in_text);
 		cmp_text.setStringSize(getXmlItem().getAttributeInt("stringSize", 0));
 		cmp_text.setFirstLine(getXmlItem().getAttributeInt("FirstLine", -1));
 		cmp_text.addFocusListener(this);

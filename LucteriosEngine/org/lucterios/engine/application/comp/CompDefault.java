@@ -46,14 +46,14 @@ public class CompDefault extends Cmponent {
 		mParam.setPrefSizeY(50);
 		mParam.setPrefSizeX(75);
 		lbl_result = mPanel.createMemo(mParam);
-		lbl_result.setText("");
+		lbl_result.setValue("");
 	}
 
 	protected void refreshComponent() {
 		String value = "";
 		value = value + "ComponentName=" + mComponentName + "\n";
 		value = value + "XmlItem=" + getXmlItem() + "\n";
-		lbl_result.setText(value);
+		lbl_result.setValue(value);
 	}
 
 	public void init(GUIContainer aOwnerPanel, Observer aObsCustom,

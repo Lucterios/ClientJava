@@ -30,8 +30,6 @@ import javax.swing.text.StyledDocument;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
-import org.lucterios.utils.Tools;
-
 public class TextCode extends JTextPane implements KeyListener, CaretListener {
 
 	private static final long serialVersionUID = 1L;
@@ -226,7 +224,7 @@ public class TextCode extends JTextPane implements KeyListener, CaretListener {
  
 	public void keyReleased(KeyEvent e) {
 		if (m_StringSize>0) {
-			String current_text=getValue();
+			String current_text=getText();
 			if ((current_text.length()<=m_StringSize)){
 				Caret car=getCaret();
 				int dot=car.getDot();
@@ -257,10 +255,6 @@ public class TextCode extends JTextPane implements KeyListener, CaretListener {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-	}
-
-    public String getValue(){
-		return Tools.replace(getText(), "\n", "{[newline]}");
 	}
 
 	public void caretUpdate(CaretEvent e) {

@@ -194,7 +194,7 @@ public class ExceptionDlg {
     	{
             Stack = PnlExtra.addTab(ContainerType.CT_SCROLL,"Pile d'appel", AbstractImage.Null);
             txtStack = Stack.createMemo(new GUIParam(0,0));
-            txtStack.setText(aText);
+            txtStack.setValue(aText);
     	}
     }
     
@@ -214,7 +214,7 @@ public class ExceptionDlg {
     	{
 		    Requette = PnlExtra.addTab(ContainerType.CT_SCROLL,"Requette", AbstractImage.Null);
 		    txtRequette = Requette.createMemo(new GUIParam(0,0));
-		    txtRequette.setText(aText);
+		    txtRequette.setValue(aText);
     	}
     }
 
@@ -224,7 +224,7 @@ public class ExceptionDlg {
     	{
 		    Reponse = PnlExtra.addTab(ContainerType.CT_SCROLL,"Reponse", AbstractImage.Null);
 		    txtReponse = Reponse.createMemo(new GUIParam(0,0));
-	        txtReponse.setText(aText);
+	        txtReponse.setValue(aText);
     	}
     }
 

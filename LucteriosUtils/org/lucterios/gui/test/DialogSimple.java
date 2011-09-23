@@ -6,6 +6,7 @@ import org.lucterios.gui.GUICheckList;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIHyperMemo;
+import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUIImage;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
@@ -14,11 +15,14 @@ import org.lucterios.gui.GUIDialog.DialogVisitor;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.ui.GUIActionListener;
+import org.lucterios.utils.Tools;
 
 public class DialogSimple implements DialogVisitor {
 
 	private GUIDialog mDialog;
 	private GUIContainer mContainer;
+	private GUIHyperText mHyperText;
+	private GUIHyperMemo mHyperMemo;
 
 	public void execute(GUIDialog dialog) {
 		mDialog = dialog;
@@ -43,6 +47,9 @@ public class DialogSimple implements DialogVisitor {
 		bt1.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("new.gif")));
 		bt1.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
+				String text=mHyperMemo.save();
+				text=Tools.convertLuctoriosFormatToHtml(text);
+				mHyperText.setTextString(text);
 				mDialog.getGenerator().showMessageDialog("Success message",
 						mDialog.getTextTitle());
 			}
@@ -53,6 +60,7 @@ public class DialogSimple implements DialogVisitor {
 		bt2.setImage(mDialog.getGenerator().CreateImage(Resources.class.getResource("open.gif")));
 		bt2.addActionListener(new GUIActionListener() {
 			public void actionPerformed() {
+				mHyperText.repaint();
 				mDialog.getGenerator().showErrorDialog("Error message",
 						mDialog.getTextTitle());
 			}
@@ -84,8 +92,8 @@ public class DialogSimple implements DialogVisitor {
 		lb = mContainer.createLabel(new GUIParam(0, 1, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Complex text");
-		GUIHyperMemo memo = mContainer.createHyperMemo(new GUIParam(1, 1));
-		memo.load("blablablablablabla{[newline]}blablablabla");	
+		mHyperMemo = mContainer.createHyperMemo(new GUIParam(1, 1));
+		mHyperMemo.load("blablablablablabla{[newline]}blablablabla");	
 
 		lb = mContainer.createLabel(new GUIParam(0, 2, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
@@ -93,6 +101,11 @@ public class DialogSimple implements DialogVisitor {
 		GUIImage img=mContainer.createImage(new GUIParam(1, 2));
 		img.setImage(Resources.class.getResource("warning.png"));
 
+		lb = mContainer.createLabel(new GUIParam(0, 3, 1, 1,
+				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb.setTextString("Html");		
+		mHyperText=mContainer.createHyperText(new GUIParam(1, 3));
+		
 		mContainer.createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 4));
 	}
 

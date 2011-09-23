@@ -16,7 +16,6 @@ import org.lucterios.gui.GUICheckList;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIEdit;
-import org.lucterios.gui.GUIForm;
 import org.lucterios.gui.GUILabel;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIWindows;
@@ -130,14 +129,7 @@ public class DialogExample implements DialogVisitor {
 				showWaitingWindow();
 			}
 		});
-		GUIButton bt5=btnPnl.createButton(new GUIParam(4, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
-        bt5.setTextString("Open form");
-        bt5.addActionListener(new GUIActionListener() {		
-			public void actionPerformed() {
-				openForm();
-			}
-		});
-        btnPnl.calculBtnSize(new GUIButton[]{bt1,bt2,bt3,bt4,bt5});
+        btnPnl.calculBtnSize(new GUIButton[]{bt1,bt2,bt3,bt4});
 	}
 
 	private void openFile() {
@@ -201,21 +193,6 @@ public class DialogExample implements DialogVisitor {
 		}
 	}
 	
-	private void openForm() {
-		/*mDialog.getContainer().invokeLater(new Runnable() {
-			public void run() {*/
-				try {
-					mDialog.setVisible(false);
-					GUIForm form=mDialog.getGenerator().newForm("example");
-					form.setFormVisitor(new FormExample());
-					form.setVisible(true);
-				}catch (Exception e) {
-					ExceptionDlg.throwException(e);
-				}
-			/*}
-		});*/
-	}
-
 	private void initComp(){
 		GUIContainer prg=mTab.addTab(ContainerType.CT_SCROLL,"Composants", AbstractImage.Null);
 

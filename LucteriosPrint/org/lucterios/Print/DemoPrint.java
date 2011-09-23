@@ -79,7 +79,7 @@ public class DemoPrint implements FrameVisitor
         param=new GUIParam(0,0,1,3);
         scrCode=pnl_main.createContainer(ContainerType.CT_SCROLL, param);
         CodeEditor=scrCode.createMemo(new GUIParam(0,0));
-        CodeEditor.setText("");
+        CodeEditor.setValue("");
 
         param=new GUIParam(1,2,1,1);
         pnl_bnt=pnl_main.createContainer(ContainerType.CT_NORMAL, param);
@@ -110,7 +110,7 @@ public class DemoPrint implements FrameVisitor
         param=new GUIParam(1,0,1,2);
         GUIContainer xmlCode=pnl_main.createContainer(ContainerType.CT_SCROLL, param);
         XmlDataEditor=xmlCode.createMemo(new GUIParam(0,0));
-        XmlDataEditor.setText("<DATA>\n</DATA>");
+        XmlDataEditor.setValue("<DATA>\n</DATA>");
         
         mainFrame.getGenerator().invokeLater(new Runnable() {
 			public void run() {
@@ -119,9 +119,13 @@ public class DemoPrint implements FrameVisitor
 		});
     }
 
+	public void menuCreate() {
+		
+	}
+	
     public void btn_out_actionPerformed() 
     {
-        CodeEditor.setText(newContentPane.getManager().getPage().Save());
+        CodeEditor.setValue(newContentPane.getManager().getPage().Save());
     }
     
     public void btn_in_actionPerformed() 
@@ -145,8 +149,8 @@ public class DemoPrint implements FrameVisitor
 			{
 				InputStream is_model = new FileInputStream(f_model);
 				InputStream is_xml=new FileInputStream(f_xml);
-			    CodeEditor.setText(Tools.parseISToString(is_model));
-			    XmlDataEditor.setText(Tools.parseISToString(is_xml));
+			    CodeEditor.setValue(Tools.parseISToString(is_model));
+			    XmlDataEditor.setValue(Tools.parseISToString(is_xml));
 			    btn_in_actionPerformed();
 			}
 		} 

@@ -127,8 +127,10 @@ public class SFrame extends JFrame implements GUIFrame {
 
 	public void setVisible(boolean aVisible) {
 		if (!isCreate) {
-			if (mFrameVisitor!=null)
+			if (mFrameVisitor!=null) {
 				mFrameVisitor.execute(this);
+				mFrameVisitor.menuCreate();
+			}
 			this.pack();
 			isCreate=true;
 		}

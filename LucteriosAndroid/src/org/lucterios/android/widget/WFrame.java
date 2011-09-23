@@ -36,6 +36,9 @@ public class WFrame extends WForm implements GUIFrame {
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
     	mRootMenu=menu;
+		if (mFrameVisitor!=null) {
+			mFrameVisitor.menuCreate();
+	    }
     	return true;
     }
 	
