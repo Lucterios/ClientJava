@@ -181,6 +181,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		lb_Reason.setTextString("");
 
 		lb_Server = editPnl.createLabel(new GUIParam(0,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_Server.setStyle(1);
 		lb_Server.setTextString("Serveur");
 
 
@@ -193,12 +194,14 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 		txt_Server.setBackgroundColor(cmp_Server.getBackgroundColor());
 		
 		lb_User = editPnl.createLabel(new GUIParam(0,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_User.setStyle(1);
 		lb_User.setTextString("Alias");
 
 		txt_User = editPnl.createEdit(new GUIParam(1,2,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
 		txt_User.setTextString("");
 
 		lb_PassWord = editPnl.createLabel(new GUIParam(0,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_PassWord.setStyle(1);
 		lb_PassWord.setTextString("Mot de passe");
 
 		txt_PassWord = editPnl.createEdit(new GUIParam(1,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));

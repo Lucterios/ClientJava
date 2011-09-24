@@ -395,7 +395,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		if (mDividerLocation != -1)
 			mDividerLocation = (1.0 * mMainSplitPanel.getDividerLocation()) / mMainSplitPanel.getSizeX();
 		else
-			mDividerLocation = 0.25;
+			mDividerLocation = 0.33;
 		mMainSplitPanel.setDividerLocation(0);		
 		mTabCategoriesPanel.clearTools();
 		mToogleManagerPanel.clearTools();

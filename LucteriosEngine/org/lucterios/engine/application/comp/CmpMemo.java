@@ -99,7 +99,6 @@ public class CmpMemo extends CmpAbstractEvent {
 
 	protected void initComponent() {
 		cmp_text = mPanel.createMemo(mParam);
-		cmp_text.setValue("");
 
 		SubMenu = cmp_text.getPopupMenu();
 	}

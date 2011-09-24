@@ -727,12 +727,19 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 
 
 	public int getSelectColor(){
-		int color=0x0000FF;
+		int color=Color.BLUE.getRGB();
 		if (ThemeMenu.getDefaultTheme()!=null)
 			color=ThemeMenu.getDefaultTheme().getPrimaryControl().getRGB();
 		return color;
 	}
 
+	public int getHighlightColor(){
+		int color=Color.WHITE.getRGB();
+		if (ThemeMenu.getDefaultTheme()!=null)
+			color=ThemeMenu.getDefaultTheme().getControlHighlight().getRGB();
+		return color;
+	}
+	
 	public void setNbClick(int mNbClick) {
 		mCursorMouseListener.setNbClick(mNbClick);
 	}

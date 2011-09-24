@@ -1,7 +1,9 @@
 package org.lucterios.swing;
 
 import java.awt.Color;
+import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
@@ -9,6 +11,7 @@ import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.FocusListenerList;
 import org.lucterios.gui.GUICombo;
 import org.lucterios.gui.GUIComponent;
+import org.lucterios.gui.GUIContainer;
 import org.lucterios.ui.GUIActionListener;
 
 public class SCombo extends JComboBox implements GUICombo  {
@@ -45,6 +48,11 @@ public class SCombo extends JComboBox implements GUICombo  {
         super();
         mOwner=aOwner;
         mCursorMouseListener=new CursorMouseListener(this,this);
+        Font font=getFont();
+        setFont(new Font(font.getName(),Font.PLAIN,font.getSize()));
+        if (GUIContainer.class.isInstance(mOwner))
+        	setBackgroundColor(((GUIContainer)mOwner).getHighlightColor());
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));        
         addFocusListener(mFocusListener);	
         addActionListener(mCursorMouseListener);
         addMouseListener(mCursorMouseListener);

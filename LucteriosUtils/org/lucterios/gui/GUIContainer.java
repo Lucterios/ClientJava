@@ -69,5 +69,6 @@ public interface GUIContainer extends GUIComponent {
 	public void requestFocusGUI();
 	public void setActive(boolean aActive);
 	
-	public int getSelectColor();	
+	public int getSelectColor();
+	public int getHighlightColor();
 }

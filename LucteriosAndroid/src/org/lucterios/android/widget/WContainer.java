@@ -567,4 +567,8 @@ public class WContainer extends TableLayout implements GUIContainer {
 
 	public void setNbClick(int mNbClick) { }
 
+	public int getHighlightColor() {
+		return 0xFFFFFF;
+	}
+
 }

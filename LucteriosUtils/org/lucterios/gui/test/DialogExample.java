@@ -17,6 +17,7 @@ import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
 import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUILabel;
+import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIParam;
 import org.lucterios.gui.GUIWindows;
 import org.lucterios.gui.GUIContainer.ContainerType;
@@ -196,14 +197,28 @@ public class DialogExample implements DialogVisitor {
 	private void initComp(){
 		GUIContainer prg=mTab.addTab(ContainerType.CT_SCROLL,"Composants", AbstractImage.Null);
 
-		GUILabel tv=prg.createLabel(new GUIParam(0, 0,1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
-		tv.setTextString("Séléction");
+		GUILabel lb1=prg.createLabel(new GUIParam(0, 0,1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb1.setTextString("Séléction");
 		
 		GUICheckList checkList=prg.createCheckList(new GUIParam(1,0));
 		checkList.clearList();
 		checkList.setListData(new Object[]{"aaa","bbbb","ccc","dddd"});
 		checkList.setMultiSelection(true);
 		checkList.setSelectedIndices(new int[]{1,2});
+
+		GUILabel lb2=prg.createLabel(new GUIParam(0, 1, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb2.setTextString("Memo");
+		
+		GUIMemo memo1=prg.createMemo(new GUIParam(1,1));
+		memo1.setFirstLine(0);
+		memo1.setValue("blabla bla\nbla bla");
+
+		GUILabel lb3=prg.createLabel(new GUIParam(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb3.setTextString("Memo empty");
+		
+		GUIMemo memo2=prg.createMemo(new GUIParam(1,2));
+		memo2.setFirstLine(0);
+		memo2.setValue("");
 		
 		prg.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,4));
 	}

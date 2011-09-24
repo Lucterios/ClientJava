@@ -20,6 +20,7 @@ public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
 	public SHyperMemo(GUIComponent owner) {
 		super(false);
 		mOwner=owner;
+        mCursorMouseListener=new CursorMouseListener(this,this);
         addFocusListener(mFocusListener);
         addMouseListener(mCursorMouseListener);
 	}

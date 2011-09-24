@@ -382,6 +382,9 @@ public class MockContainer extends MockComponent implements GUIContainer {
 		return 0x0000FF;
 	}
 
+	public int getHighlightColor() {
+		return 0xFFFFFF;
+	}
 	
 	public MockButton getButton(int index) {		
 		return (MockButton)mComponentList.get(index);

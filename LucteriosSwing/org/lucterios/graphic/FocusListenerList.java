@@ -19,6 +19,7 @@ public class FocusListenerList extends ArrayList<GUIFocusListener> implements Fo
 		GUIComponent target=null;
 		if (GUIComponent.class.isInstance(e.getOppositeComponent()))
 			target=(GUIComponent)e.getOppositeComponent();
+		//System.out.println("Focus lost \n\torigine:"+e.getComponent()+"\n\ttarget:"+e.getOppositeComponent());
 		for(GUIFocusListener l:this) {
 			if (l!=null) {
 				l.focusLost(origine,target);
