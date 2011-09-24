@@ -31,7 +31,7 @@ public class WMemo extends EditText implements GUIMemo,OnFocusChangeListener {
 		super(context);
 		mOwner=owner;
 		setSingleLine(false);
-		setLines(5);
+		setLines(10);
 		setOnFocusChangeListener(this);
 	}
 

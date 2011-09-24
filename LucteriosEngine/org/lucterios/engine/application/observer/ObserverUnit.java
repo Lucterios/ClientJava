@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.lucterios.engine.application.ActionImpl;
 import org.lucterios.engine.application.ApplicationDescription;
 import org.lucterios.engine.application.Connection;
+import org.lucterios.engine.application.comp.Cmponent;
 import org.lucterios.engine.presentation.ObserverFactoryMock;
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransportStub;
@@ -20,6 +21,7 @@ import org.lucterios.mock.MockContainer;
 import org.lucterios.mock.MockGenerator;
 import org.lucterios.mock.MockHyperText;
 import org.lucterios.mock.MockImage;
+import org.lucterios.mock.MockLabel;
 import org.lucterios.mock.MockMemo;
 import org.lucterios.utils.DesktopBasic;
 import org.lucterios.utils.LucteriosException;
@@ -334,5 +336,49 @@ public class ObserverUnit extends TestCase implements Connection {
 		assertEquals("Call Nb",0,mObsFactory.CallList.size());
 	}
 	
+
+	public void testCustom1() throws LucteriosException {
+		String xml_receive="<REPONSE>" +
+		"<TITLE><![CDATA[Résumé]]></TITLE>" +
+		"<CONTEXT></CONTEXT>" +
+		"<COMPONENTS>" +
+		"<LABELFORM name='documenttitle' description=''  tab='0' x='0' y='70' colspan='4' rowspan='1'><![CDATA[{[center]}{[bold]}{[underline]}Gestion documentaire{[/underline]}{[/bold]}{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='lbl_nbdocument' description=''  tab='0' x='0' y='71' colspan='4' rowspan='1'><![CDATA[{[center]}13 fichiers actuellement disponibles{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='lbl_remainingsize' description=''  tab='0' x='0' y='72' colspan='4' rowspan='1'><![CDATA[{[center]}{[italic]}Taille de stockage: restant 30.03 Mo. sur 1 Go.{[/italic]}{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='documentend' description=''  tab='0' x='0' y='73' colspan='4' rowspan='1'><![CDATA[{[center]}{[hr/]}{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='updatestitle' description=''  tab='0' x='0' y='100' colspan='4' rowspan='1'><![CDATA[{[center]}{[bold]}{[underline]}Mises à jour{[/underline]}{[/bold]}{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='updatelbl' description=''  tab='0' x='0' y='101' colspan='4' rowspan='1'><![CDATA[{[center]}Votre logiciel est à jour.{[/center]}]]></LABELFORM>" +
+		"<LABELFORM name='updatesend' description=''  tab='0' x='0' y='103' colspan='4' rowspan='1'><![CDATA[{[center]}{[hr/]}{[/center]}]]></LABELFORM>" +
+		"</COMPONENTS>"+
+		"</REPONSE>";
+
+		mParse.parse(xml_receive,true);
+		GUIDialog dialog=mGenerator.newDialog(null);
+		ObserverCustom obs=new ObserverCustom();
+		obs.setSource("CORE","status");
+		obs.setContent(mParse);
+		obs.show("Résumé",dialog);
+		
+		MockContainer cont=(MockContainer)dialog.getContainer();
+		assertEquals("nb component",2,cont.count());
+		MockContainer cont1 = checkContainer(cont.get(0),8,ContainerType.CT_SCROLL,"1");
+		MockContainer cont1_1 = checkContainer(cont1.get(0),1,ContainerType.CT_NORMAL,"1.1");
+		assertEquals("name 1.1","documenttitle",((Cmponent)cont1_1.getObject()).getName());
+		MockContainer cont1_2 = checkContainer(cont1.get(1),1,ContainerType.CT_NORMAL,"1.2");
+		assertEquals("name 1.2","lbl_nbdocument",((Cmponent)cont1_2.getObject()).getName());
+		MockContainer cont1_3 = checkContainer(cont1.get(2),1,ContainerType.CT_NORMAL,"1.3");
+		assertEquals("name 1.3","lbl_remainingsize",((Cmponent)cont1_3.getObject()).getName());
+		MockContainer cont1_4 = checkContainer(cont1.get(3),1,ContainerType.CT_NORMAL,"1.4");
+		assertEquals("name 1.4","documentend",((Cmponent)cont1_4.getObject()).getName());
+		MockContainer cont1_5 = checkContainer(cont1.get(4),1,ContainerType.CT_NORMAL,"1.5");
+		assertEquals("name 1.5","updatestitle",((Cmponent)cont1_5.getObject()).getName());
+		MockContainer cont1_6 = checkContainer(cont1.get(5),1,ContainerType.CT_NORMAL,"1.6");
+		assertEquals("name 1.6","updatelbl",((Cmponent)cont1_6.getObject()).getName());
+		MockContainer cont1_7 = checkContainer(cont1.get(6),1,ContainerType.CT_NORMAL,"1.7");
+		assertEquals("name 1.7","updatesend",((Cmponent)cont1_7.getObject()).getName());
+		assertEquals("class 1.8",MockLabel.class,cont1.get(7).getClass());
+
+		checkContainer(cont.get(1),0,ContainerType.CT_NORMAL,"2");
+	}
 	
 }

@@ -51,11 +51,11 @@ public class WGenerator implements GUIGenerator {
 	}
 
 	public void invokeAndWait(Runnable runnable) {
-		runnable.run();
+		mFrame.runOnUiThread(runnable);
 	}
 
 	public void invokeLater(Runnable runnable) {
-		runnable.run();
+		mFrame.runOnUiThread(runnable);
 	}
 
 	public boolean isEventDispatchThread() {

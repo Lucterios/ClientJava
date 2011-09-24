@@ -78,35 +78,36 @@ public class DialogSimple implements DialogVisitor {
 	}
 
 	private void initComp() {
+		GUIContainer scroll=mContainer.createContainer(ContainerType.CT_SCROLL,new GUIParam(0, 0));
 		GUILabel lb;
-		lb = mContainer.createLabel(new GUIParam(0, 0, 1, 1,
+		lb = scroll.createLabel(new GUIParam(0, 0, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Select");
 
-		GUICheckList checkList = mContainer.createCheckList(new GUIParam(1, 0));
+		GUICheckList checkList = scroll.createCheckList(new GUIParam(1, 0));
 		checkList.clearList();
-		checkList.setListData(new Object[] { "aaa", "bbbb", "ccc", "dddd" });
 		checkList.setMultiSelection(true);
+		checkList.setListData(new Object[] { "aaa", "bbbb", "ccc", "dddd" });
 		checkList.setSelectedIndices(new int[] { 1, 2 });
 
-		lb = mContainer.createLabel(new GUIParam(0, 1, 1, 1,
+		lb = scroll.createLabel(new GUIParam(0, 1, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Complex text");
-		mHyperMemo = mContainer.createHyperMemo(new GUIParam(1, 1));
+		mHyperMemo = scroll.createHyperMemo(new GUIParam(1, 1));
 		mHyperMemo.load("blablablablablabla{[newline]}blablablabla");	
 
-		lb = mContainer.createLabel(new GUIParam(0, 2, 1, 1,
+		lb = scroll.createLabel(new GUIParam(0, 2, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Picture");		
-		GUIImage img=mContainer.createImage(new GUIParam(1, 2));
+		GUIImage img=scroll.createImage(new GUIParam(1, 2));
 		img.setImage(Resources.class.getResource("warning.png"));
 
-		lb = mContainer.createLabel(new GUIParam(0, 3, 1, 1,
+		lb = scroll.createLabel(new GUIParam(0, 3, 1, 1,
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Html");		
-		mHyperText=mContainer.createHyperText(new GUIParam(1, 3));
+		mHyperText=scroll.createHyperText(new GUIParam(1, 3));
 		
-		mContainer.createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 4));
+		scroll.createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 4));
 	}
 
 }
