@@ -32,6 +32,8 @@ import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class ActionActivator implements GUIActionListener {
+	private static final int IMAGE_PAD_SIZE = 2;
+
 	/**
 	 * 
 	 */
@@ -91,8 +93,8 @@ public class ActionActivator implements GUIActionListener {
 			mContainer.setBorder(1, 0, 1, 0, 0x808080);
 
 		GUIParam param=new GUIParam(0,0,1,2);
-		param.setPad(5);
-		param.setFill(FillMode.FM_BOTH);
+		param.setPad(IMAGE_PAD_SIZE);
+		param.setFill(FillMode.FM_NONE);
 		param.setReSize(ReSizeMode.RSM_NONE);
 		mImage = mContainer.createImage(param);
 		mImage.setImage(mIcon);
@@ -113,7 +115,7 @@ public class ActionActivator implements GUIActionListener {
 		addMouseListenerByComponent(mtext);
 
 		if (mDescription.length() != 0) {
-			param=new GUIParam(1,1,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
+			param=new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_BOTH);
 			mdescription=mContainer.createHyperText(param);
 			if (mActionListener != null)
 				mdescription.setTextString("<h5>" + mDescription + "</h5>");

@@ -12,16 +12,20 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class CategoryPanel {
 
+	private static final int SEP_HEIGHT = 5;
+
+	private static final int ACTIVATOR_PAS_SIZE = 3;
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final int offset_width = 50;
+	private static final int offset_width = 20;
 
 	private static final int max_width = 10;
 
-	private static final int activator_width = 400;
+	private static final int activator_width = 300;
 
 	private GUIMenu mMenu = null;
 
@@ -64,14 +68,14 @@ public class CategoryPanel {
 	
 	private void addActivator(int x, int y, int width, ActionActivator activator) {
 		GUIParam param=new GUIParam(x,y,width,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH);
-		param.setPad(3);
+		param.setPad(ACTIVATOR_PAS_SIZE);
 		activator.initialize(mContainer.createContainer(ContainerType.CT_NORMAL,param));
 	}
 
 	private void addSeparator(int x, int y) {
 		if (x > 0) {
 			GUILabel sep = mContainer.createLabel(new GUIParam(0,y,x,1,ReSizeMode.RSM_VERTICAL,FillMode.FM_BOTH));
-			sep.setSize(x * offset_width, 10);
+			sep.setSize(x * offset_width, SEP_HEIGHT);
 		}
 	}
 
@@ -113,7 +117,7 @@ public class CategoryPanel {
 					if (num != 0)
 						pos_y++;
 					num = 0;
-					addSeparator(pos_x, pos_y);
+					//addSeparator(pos_x, pos_y);
 					addActivator(pos_x, pos_y++, max_width - pos_x,
 							new ActionActivator(current_menu.getText(),current_menu.getDescription(), 
 									current_menu.getMenuImage()));
@@ -128,8 +132,8 @@ public class CategoryPanel {
 				if (!current_menu.getMenuImage().isNull()) {
 					String key_string = current_menu.getText();
 					key_string += current_menu.getAcceleratorText();
-					if (num == 0)
-						addSeparator(pos_x, pos_y);
+					/*if (num == 0)
+						addSeparator(pos_x, pos_y);*/
 					addActivator(pos_x + num * (max_width - pos_x) / nb_col,
 							pos_y, (max_width - pos_x) / nb_col,
 							new ActionActivator(current_menu.getActionListener(),

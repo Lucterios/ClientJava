@@ -71,6 +71,7 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class ApplicationMain implements RefreshButtonPanel,
 		Connection, NotifyFrameChange, ToolBarInterface {
+	private static final double INITIAL_SPLIT_RATIO = 0.33;
 	/**
 	 * 
 	 */
@@ -395,7 +396,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		if (mDividerLocation != -1)
 			mDividerLocation = (1.0 * mMainSplitPanel.getDividerLocation()) / mMainSplitPanel.getSizeX();
 		else
-			mDividerLocation = 0.33;
+			mDividerLocation = INITIAL_SPLIT_RATIO;
 		mMainSplitPanel.setDividerLocation(0);		
 		mTabCategoriesPanel.clearTools();
 		mToogleManagerPanel.clearTools();

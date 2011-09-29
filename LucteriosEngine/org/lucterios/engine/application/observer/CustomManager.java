@@ -214,7 +214,7 @@ public class CustomManager  {
 		GUIContainer pnl = null;
 		for (int tb_cmp = 0; (pnl == null) && (tb_cmp < PnlTab.count()); tb_cmp++){
 			GUIContainer ad_pnl = (GUIContainer)PnlTab.get(tb_cmp);
-			if (ad_pnl.getTag() == tag)
+			if (tag.equals(ad_pnl.getTag()))
 				pnl = ad_pnl;
 		}
 		if (pnl == null)

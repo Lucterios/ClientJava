@@ -51,7 +51,7 @@ public class HtmlLabel extends JEditorPane {
 		addFont(bodyRule,"h2",font.deriveFont(font.getSize2D()*1.25f),true,true,false);
 		addFont(bodyRule,"h3",font.deriveFont(font.getSize2D()*1.20f),false,true,true);
 		addFont(bodyRule,"h4",font.deriveFont(font.getSize2D()*1.15f),false,true,false);
-		addFont(bodyRule,"h5",font.deriveFont(font.getSize2D()*1.10f),false,false,false);
+		addFont(bodyRule,"h5",font.deriveFont(font.getSize2D()*0.85f),false,false,false);
 		StyleText=bodyRule.toString();
 		
 	}
@@ -59,6 +59,8 @@ public class HtmlLabel extends JEditorPane {
 	private static void addFont(StringBuffer bodyRule,String name,Font font,boolean bold,boolean italic,boolean underline) {
 		bodyRule.append(name);
 		bodyRule.append("{");
+		bodyRule.append("margin: 0;"); 
+		bodyRule.append("padding: 0;"); 
 		bodyRule.append("font-family: ");
 		bodyRule.append(font.getFamily());
 		bodyRule.append(";");
