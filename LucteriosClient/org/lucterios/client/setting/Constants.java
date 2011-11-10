@@ -36,7 +36,7 @@ public class Constants {
 	}
 
 	public static final int CoreMainVersion = 1;
-	public static final int CoreSubVersion = 2;
+	public static final int CoreSubVersion = 3;
 
 	public static boolean CheckVersionInferiorEgual(String aCoreVersion,
 			int aMainVersion, int aSubVersion) {
