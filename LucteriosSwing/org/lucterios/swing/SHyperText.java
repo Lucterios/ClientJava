@@ -96,6 +96,7 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 			setText("<font size='-1' color='blue'><u><center>"+mText+"</center></u></font>");
 			if (mUrl.length()>0) {
 				setToolTipText(mUrl);
+				mCursorMouseListener.clear();
 				mActionLink=new GUIActionListener() {		
 					public void actionPerformed() {
 						try {
@@ -111,7 +112,7 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		}
 		else {
 			setText(mText);
-			removeActionListener(mActionLink);
+			mCursorMouseListener.clear();
 			mActionLink=null;					
 		}
 	}

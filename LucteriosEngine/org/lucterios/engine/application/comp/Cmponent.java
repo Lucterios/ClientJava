@@ -134,6 +134,14 @@ public abstract class Cmponent {
 		mEnabled = aEnabled;
 	}
 
+	public void setVisible(boolean aVisible) {
+		mPanel.setVisible(aVisible);
+	}
+
+	public boolean isVisible() {
+		return mPanel.isVisible();
+	}
+
 	public void setName(String name) {
 		this.mName=name;
 	}

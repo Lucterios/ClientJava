@@ -33,6 +33,13 @@ public class CursorMouseListener extends ArrayList<GUIActionListener> implements
 		return mNbClick;
 	}
 
+	public boolean add(GUIActionListener l){
+		if (!contains(l))
+			return super.add(l);
+		else
+			return false;
+	}
+	
 	public void setNbClick(int mNbClick) {
 		this.mNbClick = mNbClick;
 	}

@@ -140,9 +140,9 @@ public class CustomManager  {
 		if (aPnl != null)
 			for (int index = 0; (res == null) && (index < aPnl.count()); index++) {
 				GUIComponent cmp = aPnl.get(index);
-				if (GUIContainer.class.isInstance(cmp)) {
+				if ((cmp!=null) && GUIContainer.class.isInstance(cmp)) {
 					GUIContainer cont=(GUIContainer)cmp;
-					if ((Cmponent.class.isInstance(cont.getObject())) && (((Cmponent)cont.getObject()).getName() != null)
+					if ((cont.getObject()!=null) && (Cmponent.class.isInstance(cont.getObject())) && (((Cmponent)cont.getObject()).getName() != null)
 							&& (((Cmponent)cont.getObject()).getName().equals(aName)))
 						res = cont;
 				}

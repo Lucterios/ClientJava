@@ -35,6 +35,8 @@ import android.widget.TabHost.TabSpec;
 
 public class WContainer extends TableLayout implements GUIContainer {
 
+	private static final int DEFAULT_HEIGHT = 80;
+
 	private GUIComponent mOwner;
 	
 	private TableLayout mPanel=null;
@@ -243,6 +245,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	public GUICheckList createCheckList(GUIParam param) {
 		if (mPanel==null) return null;
 		WCheckList result=new WCheckList(getContext(),this);
+		param.setPrefSizeY(Math.max(param.getPrefSizeY(),DEFAULT_HEIGHT));
 		addView(result,param);
 		return result;
 	}
@@ -278,6 +281,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	public GUIMemo createMemo(GUIParam param) {
 		if (mPanel==null) return null;
 		WMemo result=new WMemo(getContext(),this);
+		param.setPrefSizeY(Math.max(param.getPrefSizeY(),DEFAULT_HEIGHT));
 		addView(result,param);
 		return result;
 	}
@@ -299,6 +303,7 @@ public class WContainer extends TableLayout implements GUIContainer {
 	public GUIHyperMemo createHyperMemo(GUIParam param) {
 		if (mPanel==null) return null;
 		WHyperMemo result=new WHyperMemo(getContext(),this);
+		param.setPrefSizeY(Math.max(param.getPrefSizeY(),DEFAULT_HEIGHT));
 		addView(result,param);
 		return result;
 	}

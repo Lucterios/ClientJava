@@ -48,7 +48,7 @@ public class Tools {
 
 	static public StringList readFileText(File fileName, String encoding)
 			throws IOException {
-		StringList result=new StringList();
+		StringList result = new StringList();
 		Scanner scanner = new Scanner(new FileInputStream(fileName), encoding);
 		try {
 			while (scanner.hasNextLine()) {
@@ -62,16 +62,19 @@ public class Tools {
 
 	static public String parseISToString(java.io.InputStream is)
 			throws LucteriosException {
-		try {
-			java.io.DataInputStream din = new java.io.DataInputStream(is);
-			StringBuffer out = new StringBuffer();
-			byte[] b = new byte[2048];
-			for (int n; (n = din.read(b)) != -1;)
-				out.append(new String(b, 0, n));
-			return out.toString();
-		} catch (IOException e) {
-			throw new LucteriosException("Erreur de parsing en chaine", e);
-		}
+		String result = "";
+		if (is != null)
+			try {
+				java.io.DataInputStream din = new java.io.DataInputStream(is);
+				StringBuffer out = new StringBuffer();
+				byte[] b = new byte[2048];
+				for (int n; (n = din.read(b)) != -1;)
+					out.append(new String(b, 0, n));
+				result = out.toString();
+			} catch (IOException e) {
+				throw new LucteriosException("Erreur de parsing en chaine", e);
+			}
+		return result;
 	}
 
 	static public String padRigth(String aValue, int size) {
