@@ -47,7 +47,7 @@ public class CmpDate extends CmpAbstractEvent {
 
 	public CmpDate() {
 		super();
-		setWeightx(1.0);
+		setWeightx(0.0);
 	}
 
 	public void requestFocus() {

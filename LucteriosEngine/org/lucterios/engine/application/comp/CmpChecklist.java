@@ -56,7 +56,7 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 		super();
 		mFill=FillMode.FM_BOTH;
 		setWeightx(1.0);
-		setWeighty(1.0);
+		setWeighty(0.0);
 	}
 
 	public void close() {

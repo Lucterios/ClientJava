@@ -182,6 +182,12 @@ public abstract class Cmponent {
 			param.setPrefSizeY(VMin);
 		}
 		mNeeded = (aXmlItem.getAttributeInt("needed", 0) == 1);
+		loadJavaScript(aXmlItem);
+		initPanel(aOwnerPanel.createContainer(ContainerType.CT_NORMAL, param),
+				aObsCustom,aXmlItem);
+	}
+
+	protected void loadJavaScript(SimpleParsing aXmlItem) {
 		try {
 			JavaScript = java.net.URLDecoder.decode(aXmlItem
 					.getCDataOfFirstTag("JavaScript"), "utf-8");
@@ -193,14 +199,13 @@ public abstract class Cmponent {
 			e.printStackTrace();
 			JavaScript = "";
 		}
-		initPanel(aOwnerPanel.createContainer(ContainerType.CT_NORMAL, param),
-				aObsCustom,aXmlItem);
 	}
 
 	private boolean mFirstRefresh = true;
 
 	public void setValue(SimpleParsing aXmlItem) {
 		if (mFirstRefresh || !mXmlItem.equals(aXmlItem)) {
+			loadJavaScript(aXmlItem);
 			mXmlItem = aXmlItem;
 			refreshComponent();
 			mFirstRefresh = false;
