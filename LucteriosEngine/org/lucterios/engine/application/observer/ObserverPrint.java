@@ -74,6 +74,7 @@ public class ObserverPrint extends ObserverAbstract {
 		SimpleParsing fo_elements = mContent.getFirstSubTag("PRINT");
 		if (fo_elements != null) {
 			title = fo_elements.getAttribute("title");
+			title+= fo_elements.getCDataOfFirstTag("TITLE");
 			type = fo_elements.getAttributeInt("type", 0);
 			mode = fo_elements.getAttributeInt("mode",MODE_PREVIEW);
 			withTextExport = (fo_elements.getAttributeInt("withTextExport", 0) != 0);
