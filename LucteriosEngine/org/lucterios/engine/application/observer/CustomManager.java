@@ -105,6 +105,7 @@ public class CustomManager  {
 	}
 
 	protected void clear() {
+		mCompNames = new String[0];
 		mCmponents.clear();
 		mComposants.clear();
 		if (PnlTab != null)
@@ -119,11 +120,13 @@ public class CustomManager  {
 
 	public void init(SimpleParsing aXmlComponent) {
 		clear();
-		mCompNames = new String[aXmlComponent.getTagCount()];
-		for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
-			SimpleParsing component = aXmlComponent.getSubTag(index);
-			mComposants.add(component);
-			mCompNames[index] = component.getAttribute("name");
+		if (aXmlComponent!=null) {
+			mCompNames = new String[aXmlComponent.getTagCount()];
+			for (int index = 0; index < aXmlComponent.getTagCount(); index++) {
+				SimpleParsing component = aXmlComponent.getSubTag(index);
+				mComposants.add(component);
+				mCompNames[index] = component.getAttribute("name");
+			}
 		}
 	}
 

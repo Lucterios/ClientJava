@@ -37,7 +37,7 @@ public class SImage extends JComponent implements GUIImage {
         mOwner=aOwner;
         mCursorMouseListener=new CursorMouseListener(this,this);
 		setFocusable(false);
-		addMouseListener(mCursorMouseListener);		
+		addMouseListener(mCursorMouseListener);
 	}
 	
 	public AbstractImage getImage() {		
@@ -88,8 +88,11 @@ public class SImage extends JComponent implements GUIImage {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (mImage.getData()!=null)
-			g.drawImage(((ImageIcon)mImage.getData()).getImage(), 0, 0, this);
+		if (mImage.getData()!=null) {
+			Dimension size=getSize();
+			g.drawImage(((ImageIcon)mImage.getData()).getImage(), 
+					(size.width-mImage.getWidth())/2, (size.height-mImage.getHeight())/2, this);
+		}
 	}
 	
 	public void requestFocusGUI() {
