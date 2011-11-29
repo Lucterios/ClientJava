@@ -71,18 +71,28 @@ public class CmpFloat extends CmpAbstractEvent {
 	}
 
 	protected GUIEdit getCmpFloat() {
+		if (cmp_int != null) {
+			cmp_int.setVisible(true);
+		}
 		if (cmp_float == null) {
 			mPanel.removeAll();
 			cmp_float = mPanel.createEdit(mParam);
 			cmp_float.setTextString("");
+			cmp_float.setVisible(true);
+			cmp_float.repaint();
 		}
 		return cmp_float;
 	}
 
 	protected GUISpinEdit getCmpInt() {
+		if (cmp_float != null) {
+			cmp_float.setVisible(true);
+		}
 		if (cmp_int == null) {
 			mPanel.removeAll();
 			cmp_int = mPanel.createSpinEdit(mParam);
+			cmp_int.setVisible(true);
+			cmp_int.repaint();
 		}
 		return cmp_int;
 	}

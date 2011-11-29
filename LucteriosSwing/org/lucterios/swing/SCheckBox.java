@@ -25,6 +25,10 @@ public class SCheckBox extends JCheckBox implements GUICheckBox {
 			setIcon((ImageIcon)image.getData());
 	}
 
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

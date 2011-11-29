@@ -117,6 +117,8 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		}
 	}
 	
+	public void clearFocusListener() {}
+	
 	public void addFocusListener(GUIFocusListener l) { }
 
 	public void removeFocusListener(GUIFocusListener l) { }

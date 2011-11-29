@@ -16,6 +16,8 @@ public class SLabel extends JLabel implements GUILabel {
 	
 	private CursorMouseListener mCursorMouseListener;
 
+	public void clearFocusListener() {}
+	
 	public void addFocusListener(GUIFocusListener l) {}
 
 	public void removeFocusListener(GUIFocusListener l) {}

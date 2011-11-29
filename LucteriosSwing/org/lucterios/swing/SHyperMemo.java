@@ -29,6 +29,10 @@ public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
 		return mOwner;
 	}	
 	
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

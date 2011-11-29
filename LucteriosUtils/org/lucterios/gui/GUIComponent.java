@@ -8,6 +8,8 @@ public interface GUIComponent {
 	    public void focusLost(GUIComponent origine,GUIComponent target);
 	}
 	
+	public void clearFocusListener();
+
 	public void addFocusListener(GUIFocusListener l);
 
 	public void removeFocusListener(GUIFocusListener l);
@@ -45,4 +47,5 @@ public interface GUIComponent {
 	public String getName();
 	
 	public void setName(String name);
+
 }

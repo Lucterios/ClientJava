@@ -21,6 +21,8 @@ public class SImage extends JComponent implements GUIImage {
 	
 	private CursorMouseListener mCursorMouseListener;
 
+	public void clearFocusListener() {}
+	
 	public void addFocusListener(GUIFocusListener l) {}
 
 	public void removeFocusListener(GUIFocusListener l) {}

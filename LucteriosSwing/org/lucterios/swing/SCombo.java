@@ -25,6 +25,10 @@ public class SCombo extends JComboBox implements GUICombo  {
 		mFocusListener.add(l);
 	}
 
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addActionListener(GUIActionListener l){
 		mCursorMouseListener.add(l);
 	}

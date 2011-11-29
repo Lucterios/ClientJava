@@ -37,7 +37,10 @@ public class SButton extends JComponent implements GUIButton {
 	public void removeFocusListener(GUIFocusListener l){
 		mFocusListener.remove(l);
 	}
-
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	// ACTION
 	public void addActionListener(GUIActionListener l){
 		mCursorMouseListener.add(l);

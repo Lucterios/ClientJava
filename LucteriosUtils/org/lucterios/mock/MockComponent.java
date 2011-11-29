@@ -89,4 +89,6 @@ public class MockComponent implements GUIComponent {
 
 	public void setNbClick(int mNbClick) { }
 
+	public void clearFocusListener() {}
+
 }

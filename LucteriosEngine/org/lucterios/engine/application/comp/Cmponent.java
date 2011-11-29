@@ -265,7 +265,7 @@ public abstract class Cmponent {
 
 	public static Cmponent getParentOfControle(GUIComponent aComponent) {
 		Cmponent cmp = null;		
-		if (aComponent != null)
+		if (aComponent != null) {
 			if (GUIContainer.class.isInstance(aComponent)) {
 				
 				if (Cmponent.class.isInstance(((GUIContainer)aComponent).getObject()))
@@ -273,6 +273,7 @@ public abstract class Cmponent {
 			}
 			if (cmp==null)
 				cmp = getParentOfControle(aComponent.getOwner());
+		}
 		return cmp;
 	}
 	

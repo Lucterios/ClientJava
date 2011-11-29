@@ -22,6 +22,10 @@ public class SMemo extends TextCode implements GUIMemo {
 	private CursorMouseListener mCursorMouseListener;   
 	private FocusListenerList mFocusListener=new FocusListenerList();
 	
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

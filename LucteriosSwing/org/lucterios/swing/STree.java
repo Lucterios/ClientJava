@@ -68,6 +68,10 @@ public class STree extends JScrollPane implements GUITree {
 	private FocusListenerList mFocusListener=new FocusListenerList();
 	private JTree mTree;
 	
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addActionListener(GUIActionListener l) {
 		mCursorMouseListener.add(l);
 	}

@@ -65,6 +65,10 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	private CursorMouseListener mCursorMouseListener;
 	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private ArrayList<GUIActionListener> mChangeListener=new ArrayList<GUIActionListener>(); 
+
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
 	
 	public void addFocusListener(GUIFocusListener l){
 		if (l!=null)
@@ -209,8 +213,10 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	public void removeAll(){
 		for(int cnt_idx=0;cnt_idx<count();cnt_idx++) {
 			GUIComponent cnt=get(cnt_idx);
-			if (cnt!=null)
+			if (cnt!=null) {
+				cnt.clearFocusListener();
 				cnt.setVisible(false);
+			}
 		}
 		switch (mType) {
 		case CT_TAB:

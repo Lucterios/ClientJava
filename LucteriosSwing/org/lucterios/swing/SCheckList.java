@@ -25,6 +25,10 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private ArrayList<GUISelectListener> mSelectListener=new ArrayList<GUISelectListener>(); 
 	
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+		
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

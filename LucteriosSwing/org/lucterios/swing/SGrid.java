@@ -31,6 +31,10 @@ public class SGrid extends JScrollPane implements GUIGrid, ListSelectionListener
 	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private ArrayList<GUISelectListener> mSelectListener=new ArrayList<GUISelectListener>(); 
 	
+	public void clearFocusListener() {
+		mFocusListener.clear();
+	}
+	
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}
