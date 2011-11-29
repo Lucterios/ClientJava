@@ -56,6 +56,9 @@ public class WLabel extends TextView implements GUILabel {
 		
 	}
 
+	public void clearFocusListener(){
+	}
+
 	public void addActionListener(GUIActionListener l) {
 		// TODO Auto-generated method stub
 		

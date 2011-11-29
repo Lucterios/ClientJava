@@ -21,6 +21,10 @@ public class WCombo extends LinearLayout implements GUICombo,OnFocusChangeListen
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
 	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
 	
+	public void clearFocusListener(){
+		mFocusListener.clear();
+	}
+
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

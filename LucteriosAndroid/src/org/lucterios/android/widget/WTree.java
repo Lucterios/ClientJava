@@ -62,6 +62,9 @@ public class WTree extends View implements GUITree {
 
 	}
 
+	public void clearFocusListener(){
+	}
+
 	public void addFocusListener(GUIFocusListener l) {
 		// TODO Auto-generated method stub
 

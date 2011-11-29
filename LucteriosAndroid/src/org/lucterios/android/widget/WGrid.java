@@ -25,6 +25,10 @@ public class WGrid extends ScrollView implements GUIGrid,OnFocusChangeListener,O
 	private ArrayList<GUISelectListener> mSelectListener=new ArrayList<GUISelectListener>(); 
 	private ArrayList<GUIActionListener> mActionListener=new ArrayList<GUIActionListener>(); 
 	
+	public void clearFocusListener(){
+		mFocusListener.clear();
+	}
+
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

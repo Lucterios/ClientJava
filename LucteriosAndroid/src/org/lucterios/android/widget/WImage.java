@@ -43,6 +43,9 @@ public class WImage extends ImageView implements GUIImage {
 		setMaxWidth(width);
 	}
 
+	public void clearFocusListener(){}
+
+
 	public void addActionListener(GUIActionListener l) {
 		// TODO Auto-generated method stub
 

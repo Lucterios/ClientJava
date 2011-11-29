@@ -13,6 +13,8 @@ public class WHyperText extends WebView implements GUIHyperText {
 	private String mName;
 	private GUIComponent mOwner;
 
+	public void clearFocusListener(){}
+
 	public void addFocusListener(GUIFocusListener l){}
 
 	public void removeFocusListener(GUIFocusListener l){}

@@ -15,6 +15,10 @@ public class WEdit extends EditText implements GUIEdit,OnFocusChangeListener {
 
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
 	
+	public void clearFocusListener(){
+		mFocusListener.clear();
+	}
+
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

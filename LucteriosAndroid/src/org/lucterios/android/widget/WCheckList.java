@@ -24,6 +24,10 @@ public class WCheckList extends ListView implements GUICheckList,OnFocusChangeLi
 	private GUIComponent mOwner;
 	private String mName; 
 	
+	public void clearFocusListener(){
+		mFocusListener.clear();
+	}
+
 	public void addFocusListener(GUIFocusListener l){
 		mFocusListener.add(l);
 	}

@@ -93,6 +93,10 @@ public class WContainer extends TableLayout implements GUIContainer {
 	private ArrayList<GUIFocusListener> mFocusListener=new ArrayList<GUIFocusListener>(); 
 	private ArrayList<GUIActionListener> mChangeListener=new ArrayList<GUIActionListener>(); 
 	
+	public void clearFocusListener(){
+		mFocusListener.clear();
+	}
+
 	public void addFocusListener(GUIFocusListener l){
 		if (l!=null)
 			mFocusListener.add(l);
