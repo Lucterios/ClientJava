@@ -10,8 +10,18 @@ public abstract class DesktopInterface {
 	protected static DesktopInterface gInstance=null;
 	public static DesktopInterface getInstance() {
 		return gInstance;
-	}	
+	}
 	
+	private String mTempPath=".";	
+	
+	public String getTempPath() {
+		return mTempPath;
+	}
+
+	public void setTempPath(String tempPath) {
+		this.mTempPath = tempPath;
+	}
+
 	public abstract void initApplicationsSetting(
 			IniFileManager aApplicationsSettingFile);
 

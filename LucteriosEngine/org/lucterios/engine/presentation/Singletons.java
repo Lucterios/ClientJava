@@ -79,6 +79,7 @@ public class Singletons {
 
 	public static void setDesktop(DesktopInterface gDesktop) {
 		Singletons.gDesktop = gDesktop;
+		Singletons.gDesktop.setTempPath(TEMP_DIR);
 	}
 
 	public static DesktopInterface getDesktop() {

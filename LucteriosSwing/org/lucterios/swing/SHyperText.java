@@ -8,9 +8,16 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URLDecoder;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.html.FormSubmitEvent;
+import javax.swing.text.html.HTMLEditorKit;
 
 import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.ExceptionDlg;
@@ -22,7 +29,7 @@ import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.LucteriosException;
 
-public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText {
+public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText, HyperlinkListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -46,6 +53,9 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		setContentType("text/html");
 		setBackground(this.getBackground());
 		addMouseListener(mCursorMouseListener);
+        HTMLEditorKit kit = (HTMLEditorKit)getEditorKit();
+        kit.setAutoFormSubmission(false);
+		addHyperlinkListener(this); 
 		
 		PopupListener popupListener = new PopupListener();
 		popupListener.setActions(getActions());
@@ -91,6 +101,50 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 		initValues();
 	}
 
+	public void hyperlinkUpdate(HyperlinkEvent linkEvent)
+	{
+		try {
+            if (linkEvent instanceof FormSubmitEvent)
+            {
+            	FormSubmitEvent form_event=((FormSubmitEvent)linkEvent);
+            	String[] datas=form_event.getData().split("&");
+            	File html_file=new File(DesktopInterface.getInstance().getTempPath(),"tmp.html");
+            	html_file.delete();
+        		FileWriter file_html = new FileWriter(html_file);
+            	file_html.write("<html>\n");
+            	file_html.write("<body>\n");
+            	file_html.write("<form name='autoform'");
+            	file_html.write(" action='"+linkEvent.getURL().toString()+"'");
+            	file_html.write(" method='"+form_event.getMethod().toString()+"'");
+            	file_html.write(">\n");
+            	for (String data_item : datas) {
+            		int pos=data_item.indexOf('=');	                		
+            		String data_name="";
+            		String data_value="";
+            		if (pos>0) {
+            			data_name=data_item.substring(0,pos);
+            			data_value = URLDecoder.decode(data_item.substring(pos+1),"ISO-8859-1");
+            		}
+                	file_html.write("<input type='hidden' name='"+data_name+"' value='"+data_value+"'/>\n");
+				}
+            	file_html.write("<input type='submit' name='OK' value='OK'/>\n");
+                file_html.write("</form>\n");
+            	file_html.write("<script type='text/javascript'>\n");
+            	file_html.write("document.forms[\"autoform\"].submit();\n");
+            	file_html.write("</script>\n");
+            	file_html.write("</body>\n");
+            	file_html.write("</html>\n");
+            	file_html.flush();
+            	file_html.close();
+            	DesktopInterface.getInstance().launch(html_file.getAbsolutePath());
+            }
+            else
+            	DesktopInterface.getInstance().launch(linkEvent.getURL().toString());
+		} catch (Exception excep) {
+			excep.printStackTrace();
+		}
+	}
+	
 	private void initValues() {
 		if (mUrl!=null) {
 			setText("<font size='-1' color='blue'><u><center>"+mText+"</center></u></font>");
