@@ -112,11 +112,19 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
             	html_file.delete();
         		FileWriter file_html = new FileWriter(html_file);
             	file_html.write("<html>\n");
+            	file_html.write("<style type='text/css'>\n");
+                file_html.write("  body {\n");
+                file_html.write("    color: black;\n");
+                file_html.write("    text-align:center;\n"); 
+                file_html.write(String.format("    background-color: #%02X%02X%02X\n",getBackground().getRed(),getBackground().getGreen(),getBackground().getBlue()));
+                file_html.write("}\n");
+                file_html.write("</style>\n");
             	file_html.write("<body>\n");
             	file_html.write("<form name='autoform'");
             	file_html.write(" action='"+linkEvent.getURL().toString()+"'");
             	file_html.write(" method='"+form_event.getMethod().toString()+"'");
             	file_html.write(">\n");
+            	file_html.write("<p>Chargement de votre page en cours.</p>\n");
             	for (String data_item : datas) {
             		int pos=data_item.indexOf('=');	                		
             		String data_name="";
@@ -127,7 +135,7 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
             		}
                 	file_html.write("<input type='hidden' name='"+data_name+"' value='"+data_value+"'/>\n");
 				}
-            	file_html.write("<input type='submit' name='OK' value='OK'/>\n");
+            	file_html.write("<input type='submit' name='OK' value='Charger'/>\n");
                 file_html.write("</form>\n");
             	file_html.write("<script type='text/javascript'>\n");
             	file_html.write("document.forms[\"autoform\"].submit();\n");

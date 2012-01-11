@@ -61,6 +61,7 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 	
 	public SEdit(GUIComponent aOwner){
         super();
+        putClientProperty("JPasswordField.cutCopyAllowed",Boolean.TRUE);
         mOwner=aOwner;
         mCursorMouseListener=new CursorMouseListener(this,this);
         addFocusListener(this);
