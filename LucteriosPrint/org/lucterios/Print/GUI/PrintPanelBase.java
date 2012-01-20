@@ -29,8 +29,6 @@ import org.lucterios.gui.GUIContainer.ContainerType;
 
 public class PrintPanelBase extends PrintPanelAbstract
 {
-	private static final long serialVersionUID = 1L;
-	
 	public PrintPanelBase(ObserverCallBack observer,GUIContainer container)
 	{
 		super(observer,container);

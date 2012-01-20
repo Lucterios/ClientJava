@@ -29,11 +29,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class NavigatorBar {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private GUIContainer mPanel;
 
 	public NavigatorBar(GUIContainer panel)

@@ -27,7 +27,6 @@ import org.lucterios.gui.GUIImage;
 import org.lucterios.utils.DecodeBase64ToInputStream;
 
 public class CmpImage extends Cmponent {
-	private static final long serialVersionUID = 1L;
 	private GUIImage cmp_img;
 
 	public CmpImage(){

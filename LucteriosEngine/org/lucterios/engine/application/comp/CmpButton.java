@@ -27,10 +27,6 @@ import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.ui.GUIActionListener;
 
 public class CmpButton extends CmpAbstractEvent {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GUIButton actbtn;
 	private String m_clickName="";
 	private String m_clickValue="";

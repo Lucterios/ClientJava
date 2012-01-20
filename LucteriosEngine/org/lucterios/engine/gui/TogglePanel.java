@@ -9,11 +9,6 @@ import org.lucterios.gui.GUIContainer;
 
 public class TogglePanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private ObserverCustom mObserverCustom = null;
 	private String title;
 	private AbstractImage mIcon;

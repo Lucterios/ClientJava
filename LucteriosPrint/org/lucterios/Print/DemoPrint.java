@@ -43,12 +43,7 @@ import org.lucterios.gui.GUIFrame.FrameVisitor;
  */
 public class DemoPrint implements FrameVisitor 
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private MainPrintPanel newContentPane;
+    private MainPrintPanel newContentPane;
     private GUIContainer scrCode;
     private GUIMemo CodeEditor;
     private GUIMemo XmlDataEditor;

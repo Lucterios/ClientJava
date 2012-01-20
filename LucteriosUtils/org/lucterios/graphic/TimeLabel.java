@@ -10,11 +10,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class TimeLabel implements Runnable, GUIActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	public static final int REFRESH_PERIOD = 500;
 
 	private Thread time_thread = null;

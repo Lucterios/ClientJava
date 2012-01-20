@@ -39,7 +39,6 @@ public class CmpSelect extends CmpAbstractEvent {
 		}
 	}
 
-	private static final long serialVersionUID = 1L;
 	private GUICombo cmp_cnbb = null;
 
 	public CmpSelect() {

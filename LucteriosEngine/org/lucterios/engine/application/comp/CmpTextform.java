@@ -25,8 +25,6 @@ import org.lucterios.gui.GUIHyperMemo;
 import org.lucterios.gui.GUIParam.FillMode;
 
 public class CmpTextform extends CmpAbstractEvent  {
-	private static final long serialVersionUID = 1L;
-
 	private GUIHyperMemo cmp_text;
 	
 	public CmpTextform() {

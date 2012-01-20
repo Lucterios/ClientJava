@@ -30,11 +30,6 @@ import org.lucterios.gui.GUIContainer.ContainerType;
 
 public class TabCategoriesPanel implements Runnable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	RefreshButtonPanel mRefreshButtonPanel;
 
 	private GUIContainer mContainer;

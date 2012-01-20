@@ -15,7 +15,6 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class EditorObserver implements PrintObserverAbstract {
 
-	private static final long serialVersionUID = 1L;
 	private static final String MENU_SPECIAL="Variables";
 	private static final String TAG_BEGIN="[{";
 	private static final String TAG_END="}]";

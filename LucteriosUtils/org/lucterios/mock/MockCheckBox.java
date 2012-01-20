@@ -5,8 +5,6 @@ import org.lucterios.gui.GUICheckBox;
 import org.lucterios.gui.GUIComponent;
 
 public class MockCheckBox extends MockComponent implements GUICheckBox {
-	private static final long serialVersionUID = 1L;
-
 	public void setImage(AbstractImage image) {
 	}
 

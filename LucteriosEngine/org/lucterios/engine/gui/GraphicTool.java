@@ -33,10 +33,6 @@ import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class GraphicTool {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	public static final int OFFCET = 1;
 	
 	public static void fillButton(GUIButton btn,Action aAction) {

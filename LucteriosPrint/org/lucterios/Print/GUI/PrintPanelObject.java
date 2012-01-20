@@ -30,8 +30,6 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class PrintPanelObject extends PrintPanelAbstract
 {	
-	private static final long serialVersionUID = 1L;
-	
 	private GUILabel mText; 
 
 	private PrintContainer mPrintContainer; 

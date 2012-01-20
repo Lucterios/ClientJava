@@ -25,7 +25,6 @@ import org.lucterios.gui.GUIHyperText;
 import org.lucterios.utils.Tools;
 
 public class CmpLabelform extends Cmponent {
-	private static final long serialVersionUID = 1L;
 	private GUIHyperText cmp_text;
 
 	public CmpLabelform(){

@@ -23,11 +23,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class MockContainer extends MockComponent implements GUIContainer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private ContainerType mType;
 	private ArrayList<GUIComponent> mComponentList = new ArrayList<GUIComponent>();
 

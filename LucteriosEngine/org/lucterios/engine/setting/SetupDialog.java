@@ -42,11 +42,6 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 import org.lucterios.ui.GUIActionListener;
 
 public class SetupDialog implements DialogVisitor {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GUILabel lbl_Title;
 	private GUIEdit txt_Title;
 

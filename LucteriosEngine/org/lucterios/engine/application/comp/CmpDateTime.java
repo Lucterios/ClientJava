@@ -18,8 +18,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class CmpDateTime extends CmpAbstractEvent {
 
-	private static final long serialVersionUID = 1L;
-
 	private GUISpinEdit spe_day;
 	private GUICombo cmp_month;
 	private GUISpinEdit spe_year;

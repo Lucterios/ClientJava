@@ -35,7 +35,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class BrowserObserver implements PrintObserverAbstract 
 {  
-	private static final long serialVersionUID = 1L;
 	private PrintManager mPrintManager;
 	private GUIContainer mContainer;
 

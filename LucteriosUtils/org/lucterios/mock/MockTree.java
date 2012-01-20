@@ -11,8 +11,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class MockTree extends MockComponent implements GUITree {
 
-	private static final long serialVersionUID = 1L;
-
 	public MockTree(GUIComponent aOwner){
 		super(aOwner);
 	}

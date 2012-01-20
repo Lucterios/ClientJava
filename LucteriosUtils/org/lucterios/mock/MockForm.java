@@ -36,8 +36,6 @@ import org.lucterios.gui.test.TestImage;
 
 public class MockForm implements GUIForm {
 
-	private static final long serialVersionUID = 1L;
-
 	private NotifyFrameList mNotifyFrameList = null;
 	private NotifyFrameChange mNotifyFrameChange = null;
 	private NotifyFrameObserver mNotifyFrameObserver = null;

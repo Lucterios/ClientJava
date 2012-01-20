@@ -42,7 +42,6 @@ public class CmpUpload extends CmpAbstractEvent {
 	private static File CurrentDirectory = null;
 	public final static String SUFFIX_FILE_NAME = "_FILENAME";
 
-	private static final long serialVersionUID = 1L;
 	private GUIEdit txt_FileName;
 	private GUIButton btn_select;
 

@@ -28,11 +28,6 @@ import org.lucterios.gui.NotifyFrameObserver;
 
 public class MockDialog extends MockForm implements GUIDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private NotifyFrameObserver mNotifyFrameClose = null;
 	private DialogVisitor mDialogVisitor=null;
 	private boolean isCreate=false;

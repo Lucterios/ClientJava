@@ -28,11 +28,6 @@ import org.lucterios.gui.GUIMenu;
 
 public class ToogleManagerPanel implements Runnable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	RefreshButtonPanel mRefreshButtonPanel;
 
 	private ToogleManager mToogleManager;

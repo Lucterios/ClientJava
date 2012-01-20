@@ -72,10 +72,6 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 public class ApplicationMain implements RefreshButtonPanel,
 		Connection, NotifyFrameChange, ToolBarInterface {
 	private static final double INITIAL_SPLIT_RATIO = 0.33;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private static final int OFFSET = 75;
 
 	private static final int PROGRESS_SIZE = 5;

@@ -5,8 +5,6 @@ import org.lucterios.gui.GUIHyperMemo;
 
 public class MockHyperMemo extends MockMemo implements GUIHyperMemo {
 
-	private static final long serialVersionUID = 1L;
-
 	public MockHyperMemo(GUIComponent owner) {
 		super(owner);
 	}

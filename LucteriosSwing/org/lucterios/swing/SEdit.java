@@ -78,10 +78,9 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 		setEchoChar(c);
 	}	    
 	
-	private String convertValue(double init_value)
+	private String convertValue(Double init_value)
     {
-        double Val_r = (double) Math
-				.min(mMaxVal, Math.max(mMinVal, init_value));
+        double Val_r = (double)Math.min(mMaxVal, Math.max(mMinVal, init_value));
 		long val_i = Math.round(Val_r * Math.pow(10, mPrecVal));
 		String val = new Double(val_i / Math.pow(10, mPrecVal)).toString();
 		int pos = val.indexOf(".");
@@ -112,16 +111,16 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
         mPrecVal=Math.max(0,aPrecVal);
     }
                     
-    public void setValue(double aVal)
+    public void setValue(Double aVal)
     {
         setText(convertValue(aVal));
     }
 
-    protected double getValue(String aValue)
+    protected Double getValue(String aValue)
     {
         try
         {
-                return new Double(aValue).doubleValue();
+                return new Double(aValue.replace(',', '.'));
         }
         catch(NumberFormatException e)
         {
@@ -129,7 +128,7 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
         }
     }
     
-    public double getValue()
+    public Double getValue()
     {
         return getValue(getTextString());
     }

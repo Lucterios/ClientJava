@@ -6,11 +6,11 @@ public interface GUIEdit extends GUIComponent {
 
 	public String getTextString();
 
-	public void setValue(double aVal);
+	public void setValue(Double aVal);
 
 	public void setRange(double aMinVal, double aMaxVal, int aPrecVal);
 
-	public double getValue();
+	public Double getValue();
 
 	public void setFloatEditor(boolean isFloatEditor);
 

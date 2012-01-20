@@ -24,7 +24,6 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUIEdit;
 
 public class CmpPasswd extends CmpAbstractEvent {
-	private static final long serialVersionUID = 1L;
 	private GUIEdit cmp_text;
 
 	public CmpPasswd() {

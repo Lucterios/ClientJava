@@ -24,10 +24,6 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUICheckBox;
 
 public class CmpCheck extends CmpAbstractEvent {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GUICheckBox cmp_Check;
 
 	public CmpCheck() {

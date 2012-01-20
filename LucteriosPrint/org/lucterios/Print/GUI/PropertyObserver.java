@@ -35,11 +35,7 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
  */
 public class PropertyObserver extends PropertyPanel implements PrintObserverAbstract
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private PrintManager mPrintManager;
+    private PrintManager mPrintManager;
 	
     /** Creates new form PropertyObserver 
      * @param guiContainer */

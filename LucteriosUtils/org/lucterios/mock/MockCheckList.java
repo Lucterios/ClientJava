@@ -5,8 +5,6 @@ import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIGrid.GUISelectListener;
 
 public class MockCheckList extends MockComponent implements GUICheckList {
-	private static final long serialVersionUID = 1L;
-
 	public void addSelectListener(GUISelectListener l){
 	}
 

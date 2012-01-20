@@ -19,8 +19,6 @@ import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.StringList;
 
 public class DatePickerSimple implements DialogVisitor {
-	private static final long serialVersionUID = 1L;
-
 	static public int MIN_YEAR = 1930;
 	static public int MAX_YEAR = 2015;
 

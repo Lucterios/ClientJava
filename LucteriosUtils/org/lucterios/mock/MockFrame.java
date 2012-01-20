@@ -10,8 +10,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class MockFrame extends MockForm implements GUIFrame {
 
-	private static final long serialVersionUID = 1L;
-
 	private MockFormList mFormList;	
 	
 	private FrameVisitor mFrameVisitor;

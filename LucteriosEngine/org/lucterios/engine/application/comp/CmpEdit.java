@@ -27,7 +27,6 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.ui.GUIActionListener;
 
 public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
-	private static final long serialVersionUID = 1L;
 	private GUIEdit cmp_text;
 	private String m_RegularExpression = "";
 	private int m_StringSize = 0;

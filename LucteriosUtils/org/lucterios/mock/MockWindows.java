@@ -5,8 +5,6 @@ import org.lucterios.gui.GUIWindows;
 
 public class MockWindows extends MockForm implements GUIWindows {
 
-	private static final long serialVersionUID = 1L;
-
 	public MockWindows(GUIGenerator generator) {
 		super("WindowsTest",generator);
 	}

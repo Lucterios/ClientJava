@@ -29,7 +29,6 @@ import org.lucterios.gui.GridInterface;
 import org.lucterios.utils.SimpleParsing;
 
 public class LucteriosConfiguration implements GridInterface {
-	private static final long serialVersionUID = 1L;
 	public final static String CONF_FILE_NAME = "LucteriosClient.conf";
 	public final static int DEFAULT_PORT = 80;
 

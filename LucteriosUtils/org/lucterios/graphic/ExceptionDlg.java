@@ -47,11 +47,6 @@ import org.lucterios.utils.Tools.InfoDescription;
  */
 public class ExceptionDlg {
     
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	public static final int FAILURE=0;
 	public static final int CRITIC=1;
 	public static final int GRAVE=2;

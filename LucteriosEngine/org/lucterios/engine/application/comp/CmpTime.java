@@ -30,7 +30,6 @@ import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class CmpTime extends CmpAbstractEvent {
-	private static final long serialVersionUID = 1L;
 	private GUISpinEdit spe_hour;
 	private GUILabel lbl_text;
 	private GUISpinEdit spe_minute;

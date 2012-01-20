@@ -25,7 +25,6 @@ import org.lucterios.utils.Tools;
 import org.lucterios.gui.GUIHyperText;
 
 public class CmpHyperLink extends Cmponent {
-	private static final long serialVersionUID = 1L;
 	private GUIHyperText cmp_text;
 
 	public MapContext getRequete(String aActionIdent) {

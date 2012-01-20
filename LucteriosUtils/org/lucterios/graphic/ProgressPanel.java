@@ -5,11 +5,7 @@ import org.lucterios.gui.GUIGraphic;
 
 public class ProgressPanel implements GUIContainer.Redrawing {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public int MaxValue = 30;
+    public int MaxValue = 30;
 	public int progressColor=-1;
 	public int backgroudColor=0xC0C0C0;
 

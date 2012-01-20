@@ -23,11 +23,6 @@ import org.lucterios.gui.GUIParam;
 public class CmpDownLoad extends CmpAbstractEvent implements
 		FileDownloadCallBack, MonitoringCallback {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private static File CurrentDirectory = null;
 
 	private GUIHyperText lbl_message;

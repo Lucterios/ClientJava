@@ -24,8 +24,6 @@ public class ToogleManager implements Runnable,
 		WatchDogRefresher {
 
 	class ToggleAction implements GUIActionListener {
-		private static final long serialVersionUID = 1L;
-
 		private int num;
 
 		public ToggleAction(int num) {
@@ -40,11 +38,6 @@ public class ToogleManager implements Runnable,
 			});
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	private List<TogglePanel> mToggles = new ArrayList<TogglePanel>();
 	private List<GUIButton> mButtons = new ArrayList<GUIButton>();

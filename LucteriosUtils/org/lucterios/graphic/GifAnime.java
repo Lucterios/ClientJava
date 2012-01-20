@@ -26,11 +26,7 @@ import org.lucterios.gui.GUIGraphic;
 
 public class GifAnime implements GUIContainer.Redrawing {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private AbstractImage monImage;
+    private AbstractImage monImage;
 	private GUIContainer mPanel;
     
     /** Creates new form GifAnime */

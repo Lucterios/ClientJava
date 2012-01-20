@@ -40,8 +40,6 @@ import org.lucterios.utils.SimpleParsing;
 
 public class CustomManager  {
 
-	private static final long serialVersionUID = 1L;
-
 	public static int CustomManagerCount = 0;
 
 	static public Map<String, Class<? extends Cmponent>> ListComponents = new TreeMap<String, Class<? extends Cmponent>>();

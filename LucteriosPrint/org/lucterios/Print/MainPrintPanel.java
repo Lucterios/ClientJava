@@ -35,12 +35,7 @@ import org.lucterios.utils.LucteriosException;
  */
 public class MainPrintPanel  {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private GUIContainer mContainer;
+    private GUIContainer mContainer;
 	
 	public MainPrintPanel(GUIContainer container) 
     {

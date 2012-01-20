@@ -35,11 +35,10 @@ public interface Observer extends NotifyFrameObserver {
 	
 	@SuppressWarnings("serial")
 	public class MapContext extends TreeMap<String,Object> {
-		@SuppressWarnings("unchecked")
 		public String toString(){
 			String result="";
 			for (Iterator<?> iterator = entrySet().iterator(); iterator.hasNext();) {
-				Map.Entry entry = (Map.Entry) iterator.next();
+				Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iterator.next();
 				String key = (String) entry.getKey();
 				Object value_obj = entry.getValue();
 				String value = value_obj.toString();

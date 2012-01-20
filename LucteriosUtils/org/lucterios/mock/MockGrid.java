@@ -6,8 +6,6 @@ import org.lucterios.gui.GridInterface;
 
 public class MockGrid extends MockComponent implements GUIGrid {
 
-	private static final long serialVersionUID = 1L;
-
 	public void addSelectListener(GUISelectListener l) { }
 
 	public void removeSelectListener(GUISelectListener l) {	}

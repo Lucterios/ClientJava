@@ -33,11 +33,6 @@ import org.lucterios.gui.GUIComponent.GUIFocusListener;
 
 public abstract class CmpAbstractEvent extends Cmponent implements
 		GUIFocusListener, GUIActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	protected Action mEventAction = null;
 
 	public void fillActions(ActionList atns) {

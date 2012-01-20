@@ -25,8 +25,6 @@ import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUISpinEdit;
 
 public class CmpFloat extends CmpAbstractEvent {
-	private static final long serialVersionUID = 1L;
-
 	private GUIEdit cmp_float;
 
 	private GUISpinEdit cmp_int;
@@ -61,7 +59,7 @@ public class CmpFloat extends CmpAbstractEvent {
 			tree_map.put(getName(), new Long(getCmpInt().getNumber())
 					.toString());
 		else
-			tree_map.put(getName(), getCmpFloat().getTextString());
+			tree_map.put(getName(), getCmpFloat().getValue().toString());
 		return tree_map;
 	}
 

@@ -5,8 +5,6 @@ import org.lucterios.gui.GUILabel;
 
 public class MockLabel extends MockComponent implements GUILabel {
 
-	private static final long serialVersionUID = 1L;
-	
 	public MockLabel(GUIComponent aOwner){
         super(aOwner);
 		setStyle(0);

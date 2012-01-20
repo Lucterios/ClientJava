@@ -16,11 +16,6 @@ public class CategoryPanel {
 
 	private static final int ACTIVATOR_PAS_SIZE = 3;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private static final int offset_width = 20;
 
 	private static final int max_width = 10;

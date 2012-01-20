@@ -23,14 +23,7 @@ import org.lucterios.gui.GUIDialog.DialogVisitor;
 
 public class AssociationPanel implements GUISelectListener,GridInterface {
 
-	private static final long serialVersionUID = 1L;
-
 	class AssociationEditor implements DialogVisitor  {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		private GUIDialog mOwner;
 		
 		private GUIContainer pnl_new_btn;

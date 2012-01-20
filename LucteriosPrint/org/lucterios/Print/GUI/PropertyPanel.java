@@ -40,11 +40,7 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
  */
 public abstract class PropertyPanel implements GUIFocusListener
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected GUIHyperText lblProperty=null;
+    protected GUIHyperText lblProperty=null;
     protected GUILabel lblAligne=null;
     protected GUIHyperText lblTitle=null;
     protected GUIContainer mContainer;

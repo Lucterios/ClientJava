@@ -5,8 +5,6 @@ import org.lucterios.gui.GUISpinEdit;
 
 public class MockSpinEdit extends MockComponent implements GUISpinEdit {
 
-	private static final long serialVersionUID = 1L;
-
 	private long number;
 
 	private long upperLimit;

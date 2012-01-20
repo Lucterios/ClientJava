@@ -33,7 +33,6 @@ import org.lucterios.gui.GUIWindows.WindowVisitor;
 
 public class WaitingWindow implements WindowVisitor
 {
-	private static final long serialVersionUID = 1L;
 	private static final int BACKGROUND_COLOR=0xFFFFFF;  
 	//private static final int FRAME_COLOR=0xFF0000;  
 	private static final int PROGRESS_COLOR=0xFFC800;  

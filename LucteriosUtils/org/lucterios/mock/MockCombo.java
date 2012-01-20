@@ -8,8 +8,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class MockCombo extends MockComponent implements GUICombo  {
 
-	private static final long serialVersionUID = 1L;
-
 	public void addFocusListener(GUIFocusListener l){
 	}
 

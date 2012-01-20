@@ -8,8 +8,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class MemoryJauge implements GUIActionListener,GUIContainer.Redrawing {
 
-	private static final long serialVersionUID = 1L;
-
 	private static final long TIME_TO_REFRESH = 60*1000; // 1min
 
 	private int currentHeapPercent;

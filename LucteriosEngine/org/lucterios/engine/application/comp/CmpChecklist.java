@@ -48,7 +48,6 @@ public class CmpChecklist extends CmpAbstractEvent implements GUISelectListener 
 		}
 	}
 
-	private static final long serialVersionUID = 1L;
 	private GUICheckList cmp_list;
 	private boolean mSimple = false;
 

@@ -24,10 +24,8 @@ public class DecodeBase64ToInputStream extends InputStream {
         try {
             byte[] buffer = new byte[4096];
             int len;
-            int count = 0;
             while((len = read(buffer)) != -1) {
                 baos.write(buffer, 0, len);
-                count += len;
             }
             close();
         } catch(IOException e) {}

@@ -40,10 +40,6 @@ import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
 public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	GUIContainer editPnl;
 	GUIContainer btnPnl;
 	GUIButton btn_SetUp;

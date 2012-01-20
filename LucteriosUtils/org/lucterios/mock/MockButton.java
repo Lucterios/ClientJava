@@ -7,8 +7,6 @@ import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUIComponent;
 
 public class MockButton extends MockComponent implements GUIButton {
-	private static final long serialVersionUID = 1L;
-
 	public MockButton(GUIComponent aOwner){
         super(aOwner);
 	}

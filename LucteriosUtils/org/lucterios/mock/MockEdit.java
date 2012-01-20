@@ -5,8 +5,6 @@ import org.lucterios.gui.GUIEdit;
 
 public class MockEdit extends MockComponent implements GUIEdit {
 
-	private static final long serialVersionUID = 1L;
-
 	double mMinVal=Double.MIN_VALUE;
     double mMaxVal=Double.MAX_VALUE;
     int mPrecVal=2;
@@ -16,7 +14,7 @@ public class MockEdit extends MockComponent implements GUIEdit {
         super(aOwner);
     }
 
-	private String convertValue(double init_value)
+	private String convertValue(Double init_value)
     {
         double Val_r = (double) Math
 				.min(mMaxVal, Math.max(mMinVal, init_value));
@@ -58,16 +56,16 @@ public class MockEdit extends MockComponent implements GUIEdit {
         mPrecVal=Math.max(0,aPrecVal);
     }
                     
-    public void setValue(double aVal)
+    public void setValue(Double aVal)
     {
     	setTextString(convertValue(aVal));
     }
 
-    protected double getValue(String aValue)
+    protected Double getValue(String aValue)
     {
         try
         {
-                return new Double(aValue).doubleValue();
+                return new Double(aValue);
         }
         catch(NumberFormatException e)
         {
@@ -75,7 +73,7 @@ public class MockEdit extends MockComponent implements GUIEdit {
         }
     }
     
-    public double getValue()
+    public Double getValue()
     {
         return getValue(getTextString());
     }

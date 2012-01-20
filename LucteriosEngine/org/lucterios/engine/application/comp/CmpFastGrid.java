@@ -44,8 +44,6 @@ import org.lucterios.utils.SimpleParsing;
 
 public class CmpFastGrid extends Cmponent 
 		implements GUIActionListener,GUISelectListener {
-	private static final long serialVersionUID = 1L;
-
 	private GUIGrid cmp_tbl;
 	private CmpFastTableModel cmp_tbl_Model = null;
 	private GUIContainer pnl_Btn;

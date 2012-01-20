@@ -9,8 +9,6 @@ import org.lucterios.gui.test.TestImage;
 
 public class MockImage extends MockComponent implements GUIImage {
 
-	private static final long serialVersionUID = 1L;
-	
 	private TestImage mImage=new TestImage();
 
 	private GUIComponent mOwner=null;

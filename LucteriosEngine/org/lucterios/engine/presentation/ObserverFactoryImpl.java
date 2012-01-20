@@ -88,14 +88,13 @@ public class ObserverFactoryImpl implements ObserverFactory {
 	}
 
 	private String m_XMLParameters="";
-	@SuppressWarnings("unchecked")
 	protected MapContext convertParameters(String aExtension, String aAction, MapContext aParam) {
 		MapContext result=new MapContext();
 		m_XMLParameters = "<REQUETE extension='" + aExtension + "' action='" + aAction + "'>";
 
 		for (Iterator<?> iterator = aParam.entrySet().iterator(); iterator
 				.hasNext();) {
-			Map.Entry entry = (Map.Entry) iterator.next();
+			Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iterator.next();
 			String key = (String) entry.getKey();
 			Object value_obj = entry.getValue();
 			if (File.class.isInstance(value_obj))

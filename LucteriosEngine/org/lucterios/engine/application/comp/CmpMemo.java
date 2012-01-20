@@ -33,7 +33,6 @@ import org.lucterios.utils.Tools;
 
 public class CmpMemo extends CmpAbstractEvent {
 	final static public String ENCODE = "ISO-8859-1";
-	private static final long serialVersionUID = 1L;
 	private static final String SUB_MENU_SPECIAL = "@MENU@";
 	private GUIMemo cmp_text;
 	private GUIMenu SubMenu;

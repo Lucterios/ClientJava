@@ -27,10 +27,6 @@ import org.lucterios.gui.GUIMemo;
 import org.lucterios.utils.SimpleParsing;
 
 public class CompDefault extends Cmponent {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GUIMemo lbl_result;
 	private String mComponentName;
 

@@ -9,8 +9,6 @@ import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.StringDico;
 
 public class CmpFastTableModel implements GridInterface {
-	private static final long serialVersionUID = 1L;
-
 	class GridColomn {
 		public final static int TypeString = 0;
 

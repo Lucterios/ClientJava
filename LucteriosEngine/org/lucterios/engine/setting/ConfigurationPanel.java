@@ -22,14 +22,7 @@ import org.lucterios.gui.GUIDialog.DialogVisitor;
 import org.lucterios.ui.GUIActionListener;
 
 public class ConfigurationPanel implements GUISelectListener {
-	private static final long serialVersionUID = 1L;
-
 	class ServerEditor implements DialogVisitor {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		public LucteriosConfiguration.Server mServer = null;
 
 		private GUIContainer pnl_new_btn;

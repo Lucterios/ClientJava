@@ -34,11 +34,6 @@ import org.lucterios.gui.GUIParam.ReSizeMode;
 public class ActionActivator implements GUIActionListener {
 	private static final int IMAGE_PAD_SIZE = 2;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GUIActionListener mActionListener = null;
 	private String mText;
 	private String mDescription;

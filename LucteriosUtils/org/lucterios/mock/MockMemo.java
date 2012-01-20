@@ -8,9 +8,7 @@ import org.lucterios.gui.GUIMenu;
 
 public class MockMemo extends MockComponent implements GUIMemo {
 
-	private static final long serialVersionUID = 1L;
-
-    public static short NUMBERS_WIDTH=35;
+	public static short NUMBERS_WIDTH=35;
 
 	public MockMemo(GUIComponent aOwner){
     	super(aOwner);

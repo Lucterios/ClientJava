@@ -38,7 +38,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class PreviewObserver implements PrintObserverAbstract,PrintPanelBase.ObserverCallBack 
 {
-	private static final long serialVersionUID = 1L;
 	private PrintManager mPrintManager;
 	private GUIContainer mContainer;
     /** Creates new form BrowserObserver 

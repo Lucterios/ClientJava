@@ -35,11 +35,6 @@ import org.lucterios.ui.GUIActionListener;
 
 public class AboutBox {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GUIDialog mDialog;
 	private GUIHyperText m_TitleLbl;
 	private GUIHyperText m_VersionLbl;
