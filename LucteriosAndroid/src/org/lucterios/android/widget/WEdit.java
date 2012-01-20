@@ -41,7 +41,7 @@ public class WEdit extends EditText implements GUIEdit,OnFocusChangeListener {
 
 	public Double getValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return new Double(0);
 	}
 
 	public boolean isFloatEditor() {
