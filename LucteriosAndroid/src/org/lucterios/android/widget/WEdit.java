@@ -39,7 +39,7 @@ public class WEdit extends EditText implements GUIEdit,OnFocusChangeListener {
 				l.focusLost(null,(GUIComponent)v);		
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -60,7 +60,7 @@ public class WEdit extends EditText implements GUIEdit,OnFocusChangeListener {
 	}
 
 
-	public void setValue(double aVal) {
+	public void setValue(Double aVal) {
 		// TODO Auto-generated method stub
 		
 	}
