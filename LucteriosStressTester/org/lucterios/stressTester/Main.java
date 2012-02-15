@@ -52,7 +52,7 @@ public class Main {
 		Singletons.initalize(new File("."));
 		
 		m_current_transport = Singletons.Transport();
-		m_current_transport.connectToServer(m_test.getServerHost(), m_test.getRootPath(), m_test.getPort(), m_test.getSecurity());
+		m_current_transport.connectToServer(m_test.getServerHost(), m_test.getRootPath(), m_test.getPort(), m_test.getSecurity(), false);
 		m_current_factory = Singletons.Factory();
 		m_current_factory.AddObserver("CORE.Auth", ObserverTestAuthentification.class);
 		m_current_factory.AddObserver("CORE.Menu", ObserverTestMenu.class);

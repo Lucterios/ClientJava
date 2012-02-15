@@ -160,7 +160,6 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 	public LogonBox() {
 		super();
 		Singletons.getConfiguration().addRefreshListener(new GUIActionListener() {
-			@Override
 			public void actionPerformed() {
 				LogonBox.this.refresh();
 			}
