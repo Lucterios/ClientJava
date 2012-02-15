@@ -76,9 +76,9 @@ public class SetupDialog implements DialogVisitor {
 	
 	public LucteriosConfiguration.Server newServer(String aServerName,
 			String aHostName, int aHostPort, String aDirectory,
-			int aConnectionMode) {
+			int aConnectionMode, boolean aUseProxy) {
 		return Singletons.getConfiguration().newServer(aServerName, aHostName, aHostPort, aDirectory,
-				aConnectionMode);
+				aConnectionMode, aUseProxy);
 	}
 
 	public void Init() {

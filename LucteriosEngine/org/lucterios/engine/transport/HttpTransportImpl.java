@@ -27,8 +27,11 @@ import java.io.InputStream;
 import java.net.SocketException;
 import java.util.Set;
 
+import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -55,8 +58,17 @@ public class HttpTransportImpl extends HttpTransportAbstract {
 
 	private HostConfiguration getHostCnx() {
 		HostConfiguration host_cnx = new HostConfiguration();
-		if ((!"".equals( mProxyServer )) && (mProxyPort != 0))
-			host_cnx.setProxy(mProxyServer, mProxyPort);
+		if (getUseProxy() && (!"".equals( mProxyServer )) && (mProxyPort != 0)) {
+			String[] proxy_param=mProxyServer.split(":|@");
+			if (proxy_param.length!=3)
+				host_cnx.setProxy(mProxyServer, mProxyPort);
+			else {
+				host_cnx.setProxy(proxy_param[2], mProxyPort);
+				Credentials credentials =  new UsernamePasswordCredentials(proxy_param[0],proxy_param[1]);
+				AuthScope authscope = new AuthScope(proxy_param[2], mProxyPort);
+				m_Cnx.getState().setProxyCredentials(authscope, credentials);
+			}
+		}
 		return host_cnx;
 	}
 

@@ -43,6 +43,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	static private int mCurrentPort = 0;
 	static private String mRootPath = "";
 	static private String mSession = "";
+	static private boolean mCurrentUseProxy = true;
 
 	private ImageCache imageCache = null;
 	private DesktopInterface mDesktop=null;
@@ -60,13 +61,14 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		mDesktop=desktop;
 	}
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity) {
+	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity, boolean aCurrentUseProxy) {
 		mCurrentPort = aPort;
 		mServerHost = aServerHost;
 		mRootPath = aRootPath;
 		mSecurity = aSecurity;
 		if ((mRootPath.length() > 0) && (mRootPath.charAt(0) != '/'))
 			mRootPath = "/" + mRootPath;
+		mCurrentUseProxy=aCurrentUseProxy;
 	}
 
 	public void setProxy(String aProxyServer, int aProxyPort) {
@@ -82,6 +84,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		mProxyServer = "";
 		mProxyPort = 0;
 		mSecurity=false;
+		mCurrentUseProxy=true;
 	}
 
 	public String getSession() {
@@ -115,6 +118,10 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		return mServerHost;
 	}
 
+	public boolean getUseProxy() {
+		return mCurrentUseProxy;
+	}
+	
 	public URL getUrl() {
 		return getUrl("");
 	}

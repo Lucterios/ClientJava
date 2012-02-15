@@ -6,6 +6,7 @@ import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICheckBox;
 import org.lucterios.gui.GUICombo;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIEdit;
@@ -36,6 +37,8 @@ public class ConfigurationPanel implements GUISelectListener {
 		private GUICombo sel_mode;
 		private GUILabel lbl_dir;
 		private GUIEdit txt_dir;
+		private GUILabel lbl_proxy;
+		private GUICheckBox chk_proxy;
 
 		private GUIContainer pnl_btn;
 		private GUIButton btn_AddNew;
@@ -58,6 +61,7 @@ public class ConfigurationPanel implements GUISelectListener {
 				spe_port.setNumber(mServer.HostPort);
 				txt_dir.setTextString(mServer.Directory);
 				sel_mode.setSelectedIndex(mServer.ConnectionMode);
+				chk_proxy.setSelected(mServer.UseProxy);
 			}
 		}
 
@@ -69,6 +73,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			InitBtn();
 			spe_port.init(LucteriosConfiguration.DEFAULT_PORT, 10, 9999);
 			sel_mode.setSelectedIndex(LucteriosConfiguration.MODE_NORMAL);
+			chk_proxy.setSelected(true);
 			mOwner.pack();
 			mOwner.initialPosition();
 			GUIButton[] btns = { this.btn_AddNew, this.btn_ExitNew };
@@ -137,6 +142,13 @@ public class ConfigurationPanel implements GUISelectListener {
 
 			txt_dir = pnl_new_btn.createEdit(new GUIParam(1, 3, 3, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
 			txt_dir.setTextString("/");
+
+			lbl_proxy = pnl_new_btn.createLabel(new GUIParam(0, 4, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			lbl_proxy.setTextString("Proxy");
+			lbl_proxy.setStyle(1);
+			
+			chk_proxy = pnl_new_btn.createCheckBox(new GUIParam(1, 4, 3, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
+			chk_proxy.setSelected(true);
 		}
 
 		private void btn_Add() {
@@ -145,7 +157,7 @@ public class ConfigurationPanel implements GUISelectListener {
 			if ((name.length() != 0) && (srv.length() != 0)) {
 				int mode = sel_mode.getSelectedIndex();
 				mServer = newServer(name, srv, (int) (spe_port.getNumber()),
-						txt_dir.getTextString(), mode);
+						txt_dir.getTextString(), mode, chk_proxy.isSelected());
 				mOwner.dispose();
 			}
 		}
@@ -192,9 +204,9 @@ public class ConfigurationPanel implements GUISelectListener {
 
 	public LucteriosConfiguration.Server newServer(String aServerName,
 			String aHostName, int aHostPort, String aDirectory,
-			int aConnectionMode) {
+			int aConnectionMode, boolean aUseProxy) {
 		return Singletons.getConfiguration().newServer(aServerName, aHostName, aHostPort, aDirectory,
-				aConnectionMode);
+				aConnectionMode, aUseProxy);
 	}
 
 	public void Init() {

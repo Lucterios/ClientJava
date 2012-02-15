@@ -33,6 +33,7 @@ public class HttpTransportStub implements HttpTransport {
 	static private String mRootPath = "";
 	static private String mSession = "";
 	static private boolean mSecurity=false;
+	static private boolean mCurrentUseProxy=true;
 
 	static public void cleanAll(){
 		mServerHost = "";
@@ -40,19 +41,21 @@ public class HttpTransportStub implements HttpTransport {
 		mRootPath = "";
 		mSession = "";
 		mSecurity=false;
+		mCurrentUseProxy=true;
 	}
 	
 	public HttpTransportStub() {
 		super();
 	}
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity) {
+	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity, boolean aCurrentUseProxy) {
 		mCurrentPort = aPort;
 		mServerHost = aServerHost;
 		mRootPath = aRootPath;
 		mSecurity = aSecurity;
 		if ((mRootPath.length() > 0) && (mRootPath.charAt(0) != '/'))
 			mRootPath = "/" + mRootPath;
+		mCurrentUseProxy=aCurrentUseProxy;
 	}
 
 	public void setProxy(String aProxyServer, int aProxyPort) {
@@ -64,6 +67,7 @@ public class HttpTransportStub implements HttpTransport {
 		mCurrentPort = 0;
 		mRootPath = "";
 		mSecurity=false;
+		mCurrentUseProxy=true;
 	}
 
 	public String getSession() {
@@ -89,6 +93,10 @@ public class HttpTransportStub implements HttpTransport {
 	public String getServerHost() {
 		return mServerHost;
 	}
+
+	public boolean getUseProxy() {
+		return mCurrentUseProxy;
+	}	
 
 	public AbstractImage IconName = AbstractImage.Null;
 

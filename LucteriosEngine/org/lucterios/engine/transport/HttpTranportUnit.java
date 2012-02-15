@@ -56,7 +56,7 @@ public class HttpTranportUnit extends TestCase {
 		assertEquals("Port connect a", 0, http_transport.getCurrentPort());
 		assertEquals("Session initial", "", http_transport.getSession());
 
-		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false, true);
 		http_transport.setSession("ABCDEF12345");
 		assertEquals("Server connect b", "projets.lucterios.org", http_transport
 				.getServerHost());
@@ -67,7 +67,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testStatic() {
-		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false, true);
 		http_transport.setSession("ABCDEF12345");
 
 		HttpTransport new_http_transport = new HttpTransportImpl();
@@ -81,7 +81,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testImage() {
-		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false, true);
 		AbstractImage null_icon = http_transport.getIcon(null,0);
 		assertTrue("Null icon", null_icon == AbstractImage.Null);
 
@@ -95,7 +95,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActions() throws LucteriosException {
-		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 80, false, true);
 		String xml_retour;
 		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");
@@ -130,7 +130,7 @@ public class HttpTranportUnit extends TestCase {
 	}
 
 	public void testActionsSecurity() throws LucteriosException {
-		http_transport.connectToServer("projets.lucterios.org", "lucterios", 443, true);
+		http_transport.connectToServer("projets.lucterios.org", "lucterios", 443, true, true);
 		String xml_retour;
 		xml_retour = http_transport.transfertXMLFromServer(getParam("<REQUETE extension='CORE' action='menu'></REQUETE>"));
 		xml_retour = xml_retour.replaceAll("\n", "");

@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.lucterios.gui.GridInterface;
+import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.SimpleParsing;
 
 public class LucteriosConfiguration implements GridInterface {
@@ -39,7 +40,7 @@ public class LucteriosConfiguration implements GridInterface {
 
 	public class Server {
 		public Server(String aServerName, String aHostName, int aHostPort,
-				String aDirectory, int aConnectionMode) {
+				String aDirectory, int aConnectionMode, boolean aUseProxy) {
 			ServerName = aServerName;
 			HostName = aHostName;
 			HostPort = aHostPort;
@@ -48,6 +49,7 @@ public class LucteriosConfiguration implements GridInterface {
 					|| (Directory.charAt(Directory.length() - 1) != '/'))
 				Directory = Directory + "/";
 			ConnectionMode = aConnectionMode;
+			UseProxy = aUseProxy;
 		}
 
 		public String ServerName;
@@ -55,6 +57,7 @@ public class LucteriosConfiguration implements GridInterface {
 		public int HostPort;
 		public String Directory;
 		public int ConnectionMode;
+		public boolean UseProxy;
 
 		public String toString() {
 			return ServerName;
@@ -63,18 +66,33 @@ public class LucteriosConfiguration implements GridInterface {
 
 	private ArrayList<Server> mServers;
 	private File mStoragePath;
+	private ArrayList<GUIActionListener> mRefreshListener=new ArrayList<GUIActionListener>();
+
+	public void addRefreshListener(GUIActionListener l){
+		mRefreshListener.add(l);
+	}
+
+	public void removeRefreshListener(GUIActionListener l){
+		mRefreshListener.remove(l);
+	}
+	
+	public void refreshPerformed() {
+		for(GUIActionListener l:mRefreshListener)
+			if (l!=null)
+				l.actionPerformed();
+	}
 
 	public Server newServer(String aServerName, String aHostName,
-			int aHostPort, String aDirectory, int aConnectionMode) {
+			int aHostPort, String aDirectory, int aConnectionMode, boolean aUseProxy) {
 		return new Server(aServerName, aHostName, aHostPort, aDirectory,
-				aConnectionMode);
+				aConnectionMode, aUseProxy);
 	}
 
 	public LucteriosConfiguration(File storagePath) throws IOException {
 		mStoragePath=storagePath;
 		mServers = new ArrayList<Server>();
 		if (!new java.io.File(storagePath,CONF_FILE_NAME).exists()) {
-			AddServer("Demo sd-libre.fr","demo.sd-libre.fr",443,"/",MODE_SECURITY);
+			AddServer("Demo sd-libre.fr","demo.sd-libre.fr",443,"/",MODE_SECURITY,true);
 			write();
 		}
 		read();
@@ -119,9 +137,9 @@ public class LucteriosConfiguration implements GridInterface {
 	}
 
 	public void AddServer(String aServerName, String aHostName, int aHostPort,
-			String aDirectory, int aConnectionMode) {
+			String aDirectory, int aConnectionMode, boolean aUseProxy) {
 		mServers.add(new Server(aServerName, aHostName, aHostPort, aDirectory,
-				aConnectionMode));
+				aConnectionMode, aUseProxy));
 	}
 
 	public void read() throws IOException {
@@ -164,9 +182,10 @@ public class LucteriosConfiguration implements GridInterface {
 			int port_host = servers[item_idx].getAttributeInt("port",
 					DEFAULT_PORT);
 			int mode = servers[item_idx].getAttributeInt("mode", MODE_NORMAL);
+			boolean use_proxy = (servers[item_idx].getAttributeInt("proxy", 1)==1);
 			AddServer(servers[item_idx].getAttribute("name"), servers[item_idx]
 					.getAttribute("host"), port_host, servers[item_idx]
-					.getAttribute("dir"), mode);
+					.getAttribute("dir"), mode, use_proxy);
 		}
 	}
 
@@ -182,11 +201,13 @@ public class LucteriosConfiguration implements GridInterface {
 			file_conf.write("\t<SERVER name='" + serv.ServerName + "' host='"
 					+ serv.HostName + "' port='" + serv.HostPort + "' dir='"
 					+ serv.Directory + "' mode='" + serv.ConnectionMode
+					+ "' proxy='" + (serv.UseProxy?1:0)
 					+ "'/>\n");
 		}
 		file_conf.write("</CONFIG>\n");
 		file_conf.flush();
 		file_conf.close();
+		refreshPerformed();
 	}
 
 	public Vector<Server> getServers() {
@@ -199,7 +220,7 @@ public class LucteriosConfiguration implements GridInterface {
 	}
 
 	public int getColumnCount() {
-		return 5;
+		return 6;
 	}
 
 	public int getRowCount() {
@@ -218,6 +239,8 @@ public class LucteriosConfiguration implements GridInterface {
 			return "Port";
 		case 4:
 			return "Répertoire";
+		case 5:
+			return "Proxy";
 		default:
 			return "???";
 		}
@@ -239,6 +262,8 @@ public class LucteriosConfiguration implements GridInterface {
 			return new Integer(GetServer(row).HostPort);
 		case 4:
 			return GetServer(row).Directory;
+		case 5:
+			return GetServer(row).UseProxy;
 		default:
 			return null;
 		}

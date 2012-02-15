@@ -140,7 +140,8 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 							getLastServer().HostName,
 							getLastServer().Directory,
 							getLastServer().HostPort,
-							getLastServer().ConnectionMode == LucteriosConfiguration.MODE_SECURITY);
+							getLastServer().ConnectionMode == LucteriosConfiguration.MODE_SECURITY,
+							getLastServer().UseProxy);
 			mLastUserLogon = txt_User.getTextString();
 			try {
 				Singletons.Factory().setAuthentification(txt_User.getTextString(),
@@ -158,6 +159,12 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	public LogonBox() {
 		super();
+		Singletons.getConfiguration().addRefreshListener(new GUIActionListener() {
+			@Override
+			public void actionPerformed() {
+				LogonBox.this.refresh();
+			}
+		});
 	}
 	
 	private GUIContainer mContainer;

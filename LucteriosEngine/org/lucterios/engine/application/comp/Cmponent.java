@@ -189,12 +189,16 @@ public abstract class Cmponent {
 
 	protected void loadJavaScript(SimpleParsing aXmlItem) {
 		try {
-			JavaScript = java.net.URLDecoder.decode(aXmlItem
-					.getCDataOfFirstTag("JavaScript"), "utf-8");
-			if (JavaScript.length() > 0)
-				Logging.getInstance()
-						.writeLog("==> JavaScript '" + getName() + "' ==>",
-								JavaScript, 2);
+			SimpleParsing first=aXmlItem.getFirstSubTag("JavaScript");
+			if (first!=null) {
+					JavaScript = java.net.URLDecoder.decode(first.getText(), "utf-8");
+					if (JavaScript.length() > 0)
+						Logging.getInstance()
+								.writeLog("==> JavaScript '" + getName() + "' ==>",
+										JavaScript, 2);
+			}
+			else if (JavaScript==null)
+				JavaScript="";
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			JavaScript = "";
