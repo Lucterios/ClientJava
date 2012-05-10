@@ -203,6 +203,7 @@ public abstract class PropertyPanel implements GUIFocusListener
             {
                 edit_cmp = mContainer.createEdit(param);
                 ((GUIEdit)edit_cmp).setRange(0,5000,2);
+                ((GUIEdit)edit_cmp).setFloatEditor(true);
                 ((GUIEdit)edit_cmp).setValue(((Double)temp_value).doubleValue());
             }
             else 

@@ -106,9 +106,12 @@ public class MockEdit extends MockComponent implements GUIEdit {
 		mColNums=col;
 	}
 
+	@Override
+	public void setTextCondition(String regularExpression, int size) {	}	
 
 	public void setSelectionEnd(int pos) { }
 
-	public void setSelectionStart(int pos) { }	
+	public void setSelectionStart(int pos) { }
+
 	
 }

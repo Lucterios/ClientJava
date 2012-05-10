@@ -749,4 +749,29 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 	public void setNbClick(int mNbClick) {
 		mCursorMouseListener.setNbClick(mNbClick);
 	}
+
+	private String toStringComp(Component currentCmp,String tab) {
+		StringBuffer result=new StringBuffer();
+		result.append(tab+currentCmp.getClass().getName());
+		result.append(" Visible:"+currentCmp.isVisible());
+		result.append(" Enabled:"+currentCmp.isEnabled());
+		result.append(" Focusable:"+currentCmp.isFocusable());
+		result.append(" Bounds:"+currentCmp.getBounds());
+		if (currentCmp instanceof Container) {
+			Container ctn=(Container)currentCmp;
+			result.append("\n"+tab+"\tCount:"+ctn.getComponentCount()+"\n");
+			for(int cmp_idx=0;cmp_idx<ctn.getComponentCount();cmp_idx++) {
+				Component cmp=ctn.getComponent(cmp_idx);
+				result.append(toStringComp(cmp,tab+"\t#"+cmp_idx+"\t"));
+			}
+		}
+		return result.toString();
+	}
+
+	public String toString() {
+		StringBuffer result=new StringBuffer();
+		result.append(toStringComp(this,""));
+		return result.toString();
+	}
+	
 }

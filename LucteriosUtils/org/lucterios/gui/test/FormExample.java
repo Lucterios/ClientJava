@@ -81,9 +81,7 @@ public class FormExample implements FormVisitor {
 		lbl_value.setStyle(1);
 
 		txt_value = pnl_new_btn.createSpinEdit(new GUIParam(1, 1, 1, 1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_BOTH));
-		txt_value.setUpperLimit(+10);
-		txt_value.setBottomLimit(-10);
-		txt_value.setNumber(0);
+		txt_value.init(0, -10,+10);
 		
 		lbl_memo = pnl_new_btn.createLabel(new GUIParam(0, 2, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 		lbl_memo.setTextString("Code text");

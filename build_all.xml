@@ -5,7 +5,7 @@
 	<property name="projet.test.dir" value="test-results"/>
 	<property name="projet.version.max" value="1"/>
 	<property name="projet.version.min" value="3"/>
-	<property name="projet.version.release" value="4"/>
+	<property name="projet.version.release" value="5"/>
 	<tstamp>
 		<format property="TODAY" pattern="dd-MM-yyyy"/>
 	</tstamp>
@@ -41,7 +41,7 @@
 		</exec>
 		<copy file="version.txt" tofile="LucteriosClient/org/lucterios/client/resources/version.txt" />
 
-		<delete file="LucteriosAndroid/setup.inc.php"/>
+		<!-- delete file="LucteriosAndroid/setup.inc.php"/>
 		<exec executable="./createSetup.sh">
 			<arg line="${projet.version.max}" />
 			<arg line="${projet.version.min}" />
@@ -49,7 +49,7 @@
 			<arg line="${projet.version.build}" />
 			<arg line="./LucteriosAndroid" />
 		</exec>
-		<copy file="version.txt" tofile="LucteriosAndroid/version.txt" />
+		<copy file="version.txt" tofile="LucteriosAndroid/version.txt" / -->
 		<delete dir="${projet.lpk.dir}" /> 
 		<mkdir dir="${projet.lpk.dir}" />	
 		<delete dir="${projet.test.dir}" /> 
@@ -68,12 +68,12 @@
 		<ant antfile="Client_build.xml" target="clear"/>
 		<ant antfile="Update_build.xml" target="clear"/>
 		<ant antfile="StressTester_build.xml" target="clear"/>
-		<ant antfile="Android_build.xml" target="clear"/>
+		<!-- ant antfile="Android_build.xml" target="clear"/ -->
 		<delete file="version.txt" />
 		<delete file="LucteriosClient/org/lucterios/client/resources/version.txt" />
-		<delete file="LucteriosAndroid/version.txt" />
+		<!-- delete file="LucteriosAndroid/version.txt" / -->
 		<delete file="setup.inc.php" />
-		<delete file="LucteriosAndroid/setup.inc.php" />
+		<!-- delete file="LucteriosAndroid/setup.inc.php" /-->
 		<delete>
 		  <fileset dir="." includes="*.jar"/>
 		  <fileset dir="." includes="*.zip"/>
@@ -91,7 +91,7 @@
 		<ant antfile="Client_build.xml" target="build"/>
 		<ant antfile="Update_build.xml" target="build"/>
 		<ant antfile="StressTester_build.xml" target="build"/>
-		<ant antfile="Android_build.xml" target="build"/>
+		<!-- ant antfile="Android_build.xml" target="build"/ -->
 	</target>	
 
 	<target name="package">
@@ -125,14 +125,14 @@
 		<copy file="LucteriosStressTester/LucteriosStressTester.jar" todir="${projet.lpk.dir}" overwrite="true"/>
 		<copy file="LucteriosStressTester/inputExample.xml" todir="${projet.lpk.dir}" overwrite="true"/>
 		
-		<copy file="LucteriosAndroid.apk" todir="${projet.lpk.dir}" overwrite="true"/>
+		<!--copy file="LucteriosAndroid.apk" todir="${projet.lpk.dir}" overwrite="true"/>
 		<tar destfile="AndroidLucterios.tar">
 			<fileset dir="." includes="LucteriosAndroid.apk"/>
 			<fileset dir="LucteriosAndroid" includes="version.txt"/>
 			<fileset dir="LucteriosAndroid" includes="index.php"/>
 			<fileset dir="LucteriosAndroid" includes="setup.inc.php"/>
 		</tar>
-		<gzip src="AndroidLucterios.tar" destfile="${projet.lpk.dir}/Android_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
+		<gzip src="AndroidLucterios.tar" destfile="${projet.lpk.dir}/Android_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/ -->
 
 		<delete dir="*.tar" /> 
  	</target>		

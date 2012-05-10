@@ -77,7 +77,8 @@ public class CmpFloat extends CmpAbstractEvent {
 			cmp_float = mPanel.createEdit(mParam);
 			cmp_float.setTextString("");
 			cmp_float.setVisible(true);
-			cmp_float.repaint();
+			cmp_float.addFocusListener(this);
+			cmp_int=null;
 		}
 		return cmp_float;
 	}
@@ -90,7 +91,8 @@ public class CmpFloat extends CmpAbstractEvent {
 			mPanel.removeAll();
 			cmp_int = mPanel.createSpinEdit(mParam);
 			cmp_int.setVisible(true);
-			cmp_int.repaint();
+			cmp_int.addFocusListener(this);
+			cmp_float=null;
 		}
 		return cmp_int;
 	}
@@ -107,11 +109,10 @@ public class CmpFloat extends CmpAbstractEvent {
 		if (mIsInteger) {
 			getCmpInt().init(Math.round(val), Math.round(min_val),
 					Math.round(max_val));
-			getCmpInt().addFocusListener(this);
 		} else {
 			getCmpFloat().setRange(min_val, max_val, prec_val);
+			getCmpFloat().setFloatEditor(true);
 			getCmpFloat().setValue(val);
-			getCmpFloat().addFocusListener(this);
 		}
 	}
 

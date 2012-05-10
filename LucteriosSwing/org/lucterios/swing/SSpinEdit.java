@@ -2,6 +2,9 @@ package org.lucterios.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -116,37 +119,8 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		init(0, 0, Integer.MAX_VALUE);
 	}
 
-	/**
-	 * Creates SpinEdit control with upper limit of max integer value and bottom
-	 * limit of 0 and given start value .
-	 * 
-	 * @param num
-	 *            start value
-	 */
-
-	public SSpinEdit(long num) {
-		super();
-		init(num, 0, Integer.MAX_VALUE);
-	}
-
-	/**
-	 * Creates SpinEdit control with given upper limit, bottom limit and start
-	 * value.
-	 * 
-	 * @param num
-	 *            start value
-	 * @param bottomL
-	 *            bottom limit
-	 * @param upperL
-	 *            upper limit
-	 */
-
-	public SSpinEdit(long num, long bottomL, long upperL) {
-		super();
-		init(num, bottomL, upperL);
-	}
-
 	public void init(long num, long bottomL, long upperL) {
+		removeAll();
 		addMouseListener(mCursorMouseListener);
 		upperLimit = upperL;
 		bottomLimit = bottomL;
@@ -155,26 +129,45 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		else
 			number = bottomLimit;
 
-		setLayout(null);
+		setLayout(new GridBagLayout());
 
 		if (numberField != null) {
 			numberField.removeMouseListener(mCursorMouseListener);
 			remove(numberField);
 		}
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridheight = 2;
+		gridBagConstraints.gridwidth = 1;
+		gridBagConstraints.weightx = 1;
+		gridBagConstraints.weighty = 1;
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		
 		numberField = new ExtraField(this);
 		numberField.setName(getName());
 		numberField.setText(Long.toString(number));
 		numberField.setEnabled(true);
 		numberField.addMouseListener(mCursorMouseListener);
-		add(numberField);
+		add(numberField,gridBagConstraints);
 
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridheight = 1;
+		gridBagConstraints.weightx = 0.2;
+		gridBagConstraints.weighty = 1;
 		upButton = new BasicArrowButton(BasicArrowButton.NORTH);
 		upButton.setFocusable(false);
-		add(upButton);
+		add(upButton,gridBagConstraints);
 
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridheight = 1;
+		gridBagConstraints.weightx = 0.2;
+		gridBagConstraints.weighty = 1;
 		downButton = new BasicArrowButton(BasicArrowButton.SOUTH);
 		downButton.setFocusable(false);
-		add(downButton);
+		add(downButton,gridBagConstraints);
 
 		numberField.setActionCommand("numF");
 		numberField.addActionListener(this);
@@ -185,13 +178,9 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		downButton.addActionListener(this);
 
 		reverse = false;
-		setFocusable(false);
+		setFocusable(true);
 		numberField.setMinimumSize(new Dimension(50, 20));
 		numberField.setPreferredSize(new Dimension(50, 20));
-		upButton.setMinimumSize(new Dimension(10, 10));
-		upButton.setPreferredSize(new Dimension(10, 10));
-		downButton.setMinimumSize(new Dimension(10, 10));
-		downButton.setPreferredSize(new Dimension(10, 10));
 		setMinimumSize(new Dimension(60, 20));
 		setPreferredSize(new Dimension(60, 20));
 	}
@@ -423,11 +412,11 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
-		int fieldWidth = (3 * width) / 4;
+		/*int fieldWidth = (3 * width) / 4;
 		numberField.setBounds(0, 0, fieldWidth, height);
 		upButton.setBounds(fieldWidth, 0, width - fieldWidth, height / 2);
 		downButton.setBounds(fieldWidth, height / 2, width - fieldWidth,
-				height / 2);
+				height / 2);*/
 	}
 	
 	public void setBackgroundColor(int color) {

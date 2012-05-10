@@ -86,7 +86,7 @@ public class ExceptionDlg {
     	PnlMain = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
     	lbl_img = PnlMain.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
         lbl_img.setImage(mGenerator.CreateImage(Resources.class.getResource("error.png")));
-        lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_NONE));
+        lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
 
         GUIContainer PnlBtn= PnlMain.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,2,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
@@ -243,7 +243,7 @@ public class ExceptionDlg {
     
     protected void setMessage(String aText,int aType)
     {
-        lbl_message.setTextString(aText);
+        lbl_message.setTextString(aText.replaceAll(",", ", "));
         lbl_img.setImage(getIcon(aType));
         btn_more.setVisible((aType==FAILURE) || (aType==CRITIC) || (aType==GRAVE));
         btn_send.setVisible(btn_more.isVisible() && (mInfoDescription!=null));

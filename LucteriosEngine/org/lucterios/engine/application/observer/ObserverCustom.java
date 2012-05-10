@@ -138,7 +138,6 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 	}
 
 	public void run() {
-		System.out.print("RUN\n");
 		if (mScrollbar != null) {
 			mScrollbar.setMinimumScroll();
 		}

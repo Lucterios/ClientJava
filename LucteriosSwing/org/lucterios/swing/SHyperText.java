@@ -76,7 +76,6 @@ public class SHyperText extends HtmlLabel implements ClipboardOwner,GUIHyperText
 			value_to_copy = value_to_copy.substring(7);
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(new StringSelection(value_to_copy), this);
-		System.out.print("COPY:" + value_to_copy);
 	}
 	
 	public void addActionListener(GUIActionListener l){

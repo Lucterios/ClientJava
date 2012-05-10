@@ -5,6 +5,7 @@ import org.lucterios.gui.GUIButton;
 import org.lucterios.gui.GUICheckList;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
+import org.lucterios.gui.GUIEdit;
 import org.lucterios.gui.GUIHyperMemo;
 import org.lucterios.gui.GUIHyperText;
 import org.lucterios.gui.GUIImage;
@@ -106,8 +107,27 @@ public class DialogSimple implements DialogVisitor {
 				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
 		lb.setTextString("Html");		
 		mHyperText=scroll.createHyperText(new GUIParam(1, 3));
+
+		lb = scroll.createLabel(new GUIParam(0, 4, 1, 1,
+				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb.setTextString("Edit float");		
+		GUIEdit ed1=scroll.createEdit(new GUIParam(1, 4));
+		ed1.setRange(-54, 184, 2);
+		ed1.setFloatEditor(true);
 		
-		scroll.createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 4));
+		lb = scroll.createLabel(new GUIParam(0, 5, 1, 1,
+				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb.setTextString("Edit limited");		
+		GUIEdit ed2=scroll.createEdit(new GUIParam(1, 5));
+		ed2.setTextCondition("",10);
+		
+		lb = scroll.createLabel(new GUIParam(0, 6, 1, 1,
+				ReSizeMode.RSM_NONE, FillMode.FM_NONE));
+		lb.setTextString("Edit regular expression");		
+		GUIEdit ed3=scroll.createEdit(new GUIParam(1, 6));
+		ed3.setTextCondition("(7|70[0-9]{0,4})",0);
+		
+		scroll.createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 10));
 	}
 
 }

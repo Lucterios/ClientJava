@@ -30,4 +30,5 @@ public interface GUIEdit extends GUIComponent {
 
 	public void setSelectionEnd(int pos);
 
+	public void setTextCondition(String regularExpression,int size);
 }

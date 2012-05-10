@@ -5,6 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPasswordField;
@@ -27,7 +28,19 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 
 	private FocusListenerList mFocusListener=new FocusListenerList(); 
 	private CursorMouseListener mCursorMouseListener;
-	
+
+	private Pattern m_patternExp=null;
+
+	@Override
+	public void setTextCondition(String regularExpression, int size) {
+		if (size>0)
+			m_patternExp = Pattern.compile(String.format(".{0,%d}",size));
+		else if ((regularExpression!=null) && (regularExpression.length()>0))
+			m_patternExp = Pattern.compile(regularExpression);
+		else
+			m_patternExp=null;
+	}
+
 	public void clearFocusListener() {
 		mFocusListener.clear();
 	}
@@ -44,6 +57,10 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
     {
     	if (isFloatEditor())
     		setText(convertValue(getValue()));
+    	else if (m_patternExp!=null){
+			if (!m_patternExp.matcher(getTextString()).matches())
+				setText("");
+    	}
     	mFocusListener.focusLost(e);
     }
     
@@ -120,6 +137,8 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
     {
         try
         {
+        		if ("-".equals(aValue))
+        			aValue="0";
                 return new Double(aValue.replace(',', '.'));
         }
         catch(NumberFormatException e)
@@ -158,7 +177,7 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
                         return;
                 }
                 boolean is_numeric=true;
-                boolean has_point=(mFltFld.getTextString().indexOf(".")!=-1);
+                boolean has_point=(mFltFld.getTextString().indexOf(".")!=-1) || (mFltFld.getTextString().indexOf(",")!=-1);
                 char[] chars = str.toCharArray();
                 for (int i = 0; (i < chars.length) && is_numeric; i++) 
                 {
@@ -166,14 +185,23 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
                                 is_numeric=true;
                         else
                         {
-                                if (chars[i]=='.')
+                                if ((chars[i]=='.') || (chars[i]==','))
                                         is_numeric=(!has_point);
                                 else
-                                        is_numeric=false;
+                                        is_numeric=((i==0) && (chars[i]=='-'));
                         }
                 }
-                if (is_numeric)
-                        super.insertString(offs, new String(str), a);
+                if (is_numeric) {
+            		String resultText=mFltFld.getTextString().substring(0, offs)+str+mFltFld.getTextString().substring(offs);
+                	double tmp_val=getValue(resultText);
+                	if ((tmp_val>=mMinVal) && (tmp_val<=mMaxVal))
+                		super.insertString(offs, new String(str), a);
+                }
+        	}
+        	else if (m_patternExp!=null){
+        		String resultText=mFltFld.getTextString().substring(0, offs)+str+mFltFld.getTextString().substring(offs);
+    			if (m_patternExp.matcher(resultText).matches())
+        			super.insertString(offs, new String(str), a);
         	}
         	else
         		super.insertString(offs, str, a);
@@ -242,4 +270,5 @@ public class SEdit extends JPasswordField implements GUIEdit,FocusListener,KeyLi
 	public void setNbClick(int mNbClick) {
 		mCursorMouseListener.setNbClick(mNbClick);
 	}
+
 }

@@ -20,16 +20,11 @@
 
 package org.lucterios.engine.application.comp;
 
-import java.util.regex.Pattern;
-
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUIEdit;
-import org.lucterios.ui.GUIActionListener;
 
-public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
+public class CmpEdit extends CmpAbstractEvent {
 	private GUIEdit cmp_text;
-	private String m_RegularExpression = "";
-	private int m_StringSize = 0;
 
 	public CmpEdit() {
 		super();
@@ -62,13 +57,13 @@ public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 	protected void initComponent() {
 		cmp_text = mPanel.createEdit(mParam);
 		cmp_text.setTextString("");
-		cmp_text.addActionListener(this);
 	}
 
 	protected void refreshComponent() {
 		super.refreshComponent();
-		m_RegularExpression = getXmlItem().getCDataOfFirstTag("REG_EXPR");
-		m_StringSize = getXmlItem().getAttributeInt("stringSize", 0);
+		String regularExpression = getXmlItem().getCDataOfFirstTag("REG_EXPR");
+		int size = getXmlItem().getAttributeInt("stringSize", 0);
+		cmp_text.setTextCondition(regularExpression, size);
 		cmp_text.setTextString(getXmlItem().getText().trim());
 		int dim = cmp_text.getColumns();
 		cmp_text.setColumns(Math.max(15, dim));
@@ -78,25 +73,5 @@ public class CmpEdit extends CmpAbstractEvent implements GUIActionListener {
 
 	protected boolean hasChanged() {
 		return !cmp_text.getTextString().equals(getXmlItem().getText().trim());
-	}
-
-	public void actionPerformed() {
-		String current_text = cmp_text.getTextString();		
-		boolean accept = true;
-		if (m_RegularExpression.length() > 0) {
-			Pattern pat = Pattern.compile(m_RegularExpression);
-			accept = pat.matcher(current_text).matches();
-		}
-		if (accept && (m_StringSize > 0))
-			accept = (current_text.length() <= m_StringSize);
-		if (!accept) {
-			int car[] = cmp_text.getCaretPositions();
-			current_text = current_text.substring(0, Math.min(car[0], car[1]))
-					+ current_text.substring(Math.max(car[0], car[1]));
-			cmp_text.setTextString(current_text);
-			cmp_text.setCaretPosition(car[1]);
-			cmp_text.setSelectionStart(car[1]);
-			cmp_text.setSelectionEnd(car[1]);
-		}
 	}
 }

@@ -221,7 +221,9 @@ public class SDialog extends JDialog implements GUIDialog {
 	public void initialPosition() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension dim=getSize();
-		setSize((int)(dim.width*1.05), (int)(dim.height*1.05));
+		int width=Math.min((int)(dim.width*1.05),screen.width*98/100);
+		int height=Math.min((int)(dim.height*1.05),screen.height*95/100);
+		setSize(width, height);
 		setLocation((screen.width - getSize().width) / 2,(int)((screen.height - getSize().height)*mPosition));
 	}
 
