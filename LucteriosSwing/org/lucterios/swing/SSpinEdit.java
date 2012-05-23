@@ -140,7 +140,7 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		gridBagConstraints.gridy = 0;
 		gridBagConstraints.gridheight = 2;
 		gridBagConstraints.gridwidth = 1;
-		gridBagConstraints.weightx = 1;
+		gridBagConstraints.weightx = 0;
 		gridBagConstraints.weighty = 1;
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
 		
@@ -154,7 +154,7 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 0;
 		gridBagConstraints.gridheight = 1;
-		gridBagConstraints.weightx = 0.2;
+		gridBagConstraints.weightx = 0.4;
 		gridBagConstraints.weighty = 1;
 		upButton = new BasicArrowButton(BasicArrowButton.NORTH);
 		upButton.setFocusable(false);
@@ -163,7 +163,7 @@ public class SSpinEdit extends JComponent implements ActionListener,GUISpinEdit,
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 1;
 		gridBagConstraints.gridheight = 1;
-		gridBagConstraints.weightx = 0.2;
+		gridBagConstraints.weightx = 0.4;
 		gridBagConstraints.weighty = 1;
 		downButton = new BasicArrowButton(BasicArrowButton.SOUTH);
 		downButton.setFocusable(false);
