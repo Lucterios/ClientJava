@@ -113,7 +113,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		param=new GUIParam(0,0);
 		param.setFill(FillMode.FM_HORIZONTAL);
 		param.setReSize(ReSizeMode.RSM_HORIZONTAL);
-		pnl_Cst = dialog.getContainer().createContainer(ContainerType.CT_NORMAL,param);
+		pnl_Cst = dialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL,param);
 
 		lbl_Title = pnl_Cst.createLabel(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
 		lbl_Title.setTextString("Titre du model");
@@ -124,13 +124,13 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		txt_Title = pnl_Cst.createEdit(param);
 
 		param=new GUIParam(0,1);
-		scrl_StyleModel = dialog.getContainer().createContainer(ContainerType.CT_SCROLL, param);
+		scrl_StyleModel = dialog.getGUIContainer().createContainer(ContainerType.CT_SCROLL, param);
 		PrintPanel = new MainPrintPanel(scrl_StyleModel);
 
 		param=new GUIParam(0,2);
 		param.setFill(FillMode.FM_HORIZONTAL);
 		param.setReSize(ReSizeMode.RSM_HORIZONTAL);
-		pnl_Btn = dialog.getContainer().createContainer(ContainerType.CT_NORMAL, param);
+		pnl_Btn = dialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL, param);
 		SimpleParsing act = new SimpleParsing();
 		act.parse("<ACTIONS>"
 						+ "<ACTION extension='"

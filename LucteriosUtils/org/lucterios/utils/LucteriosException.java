@@ -26,10 +26,19 @@ import java.io.PrintWriter;
 public class LucteriosException extends Exception
 {
 	private static final long serialVersionUID = 1L;
+    
+	public static final int FAILURE=0;
+	public static final int CRITIC=1;
+	public static final int GRAVE=2;
+	public static final int IMPORTANT=3;
+	public static final int MINOR=4;
+	
+	
 	public String mRequest="";
 	public String mReponse="";
-	public Exception mLastException=null;
+	private Exception mLastException=null;
 	public boolean mWithTrace=true;
+	private int mType=FAILURE;
 
 	public LucteriosException(String aMsg)
 	{
@@ -40,31 +49,36 @@ public class LucteriosException extends Exception
 	
 	public LucteriosException(String aMsg,boolean aWithTrace)
 	{
-		super(aMsg);
+		this(aMsg);
 		mWithTrace=aWithTrace;
 	}
 
 	public LucteriosException(String aMsg,Exception aLastException)
 	{
-		super(aMsg);
+		this(aMsg);
 		mLastException=aLastException;
 	}
 
 	public LucteriosException(String aMsg,String aRequest,String aReponse)
 	{
-		super(aMsg);
+		this(aMsg);
         mRequest=aRequest;
         mReponse=aReponse;
 	}
 	
 	public LucteriosException(String S,String aRequest,String aReponse,Exception aLastException)
 	{
-		super(S);
-        mRequest=aRequest;
-        mReponse=aReponse;
+		this(S,aRequest,aReponse);
 		mLastException=aLastException;
 	}
-	
+
+	public LucteriosException(String S,String aRequest,String aReponse,Exception aLastException,int aType)
+	{
+		this(S,aRequest,aReponse,aLastException);
+		mType=aType;
+		mWithTrace=false;
+	}
+
 	public String getExtraInfo()
 	{
 		return "";
@@ -101,5 +115,10 @@ public class LucteriosException extends Exception
             s.println("Caused by:");
             mLastException.printStackTrace(s);
         }
-    }	
+    }
+
+
+	public int getType() {
+		return mType;
+	}	
 }

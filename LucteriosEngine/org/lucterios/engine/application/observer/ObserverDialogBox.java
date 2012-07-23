@@ -118,7 +118,7 @@ public class ObserverDialogBox extends ObserverAbstract implements Runnable, Dia
 	}
 
 	public void execute(GUIDialog dialog) {
-		mGUIContainer = dialog.getContainer();
+		mGUIContainer = dialog.getGUIContainer();
 		getGUIDialog().setNotifyFrameClose(this);
 		getGUIDialog().setResizable(false);
 		show(mTitle);

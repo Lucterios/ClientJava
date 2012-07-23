@@ -34,7 +34,7 @@ public class SWindows extends JWindow implements GUIWindows {
 		javax.swing.SwingUtilities.updateComponentTreeUI(this);
 	}	
 
-	public GUIContainer getContainer() {
+	public GUIContainer getGUIContainer() {
 		return mContainer;
 	}
 

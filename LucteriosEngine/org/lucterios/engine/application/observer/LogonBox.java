@@ -170,7 +170,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 	private GUIDialog mDialog;
 	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
-		mContainer=dialog.getContainer();
+		mContainer=dialog.getGUIContainer();
 		
 		dialog.setVisible(false);
 
@@ -257,6 +257,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	void btn_OK_actionPerformed() {
 		mModalResult = 1;
+		actionPerformed();
 		if (getLastServer()==null) {
 			setLastServer(Singletons.getConfiguration().GetServer(0));			
 		}

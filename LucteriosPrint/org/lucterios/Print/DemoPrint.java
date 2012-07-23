@@ -66,7 +66,7 @@ public class DemoPrint implements FrameVisitor
         mainFrame.setTextTitle("Exemple");
         GUIParam param;
 
-        pnl_main=mainFrame.getContainer();
+        pnl_main=mainFrame.getGUIContainer();
 
         param=new GUIParam(0,4,2,1);
         newContentPane = new MainPrintPanel(pnl_main.createContainer(ContainerType.CT_NORMAL, param));

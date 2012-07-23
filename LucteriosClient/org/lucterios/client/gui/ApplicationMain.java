@@ -142,7 +142,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 	}
 
 	private GUIContainer getContainer() {
-		return mFrame.getContainer();
+		return mFrame.getGUIContainer();
 	}
 
 	private GUIGenerator getGenerator() {

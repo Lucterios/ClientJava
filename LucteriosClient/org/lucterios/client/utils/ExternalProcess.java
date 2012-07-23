@@ -8,6 +8,7 @@ import java.lang.IllegalThreadStateException;
 
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.graphic.ExceptionDlg;
+import org.lucterios.utils.LucteriosException;
 
 public class ExternalProcess extends Thread
 {
@@ -51,7 +52,7 @@ public class ExternalProcess extends Thread
 	{
 		Singletons.getWindowGenerator().invokeLater(new Runnable(){
 			public void run(){
-				ExceptionDlg.show(ExceptionDlg.IMPORTANT, aError, "", "");
+				ExceptionDlg.show(LucteriosException.IMPORTANT, aError, "", "");
 				Runtime.getRuntime().exit(0);
 			}
 		});

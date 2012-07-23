@@ -184,7 +184,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 		super.show(aTitle);
 		mGUIFrame = aGUI;
 		if (getGUIFrame() != null) {
-			mGUIContainer = getGUIFrame().getContainer();
+			mGUIContainer = getGUIFrame().getGUIContainer();
 			getGUIFrame().setFormVisitor(this);
 			getGUIFrame().setVisible(true);
 		}
@@ -194,7 +194,7 @@ public class ObserverCustom extends ObserverAbstract implements Runnable, Dialog
 		super.show(aTitle);
 		mGUIDialog = aGUI;
 		if (getGUIDialog() != null) {
-			mGUIContainer = getGUIDialog().getContainer();
+			mGUIContainer = getGUIDialog().getGUIContainer();
 			getGUIDialog().setDialogVisitor(this);
 			getGUIDialog().setVisible(true);
 		}

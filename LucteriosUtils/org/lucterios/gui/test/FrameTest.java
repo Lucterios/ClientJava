@@ -77,7 +77,7 @@ public class FrameTest implements FrameVisitor {
 	}
 
 	private void initBtn() {
-		GUIContainer btnPnl = mFrame.getContainer().createContainer(
+		GUIContainer btnPnl = mFrame.getGUIContainer().createContainer(
 				ContainerType.CT_NORMAL,
 				new GUIParam(0, 5, 2, 1, ReSizeMode.RSM_HORIZONTAL,
 						FillMode.FM_NONE));

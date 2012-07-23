@@ -60,7 +60,7 @@ public class WaitingWindow implements WindowVisitor
 		GUIParam param=new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_HORIZONTAL);
 		param.setPad(0);
 
-		GUIContainer main=mWindows.getContainer();
+		GUIContainer main=mWindows.getGUIContainer();
         GUIHyperText title = main.createHyperText(param);
         title.setBackgroundColor(BACKGROUND_COLOR);
         title.setTextString("<center><b>"+mTitle+"</b></center>");

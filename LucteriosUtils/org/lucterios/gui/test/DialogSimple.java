@@ -28,7 +28,7 @@ public class DialogSimple implements DialogVisitor {
 	public void execute(GUIDialog dialog) {
 		mDialog = dialog;
 		mDialog.setTextTitle("Simple dialog");
-		mContainer = mDialog.getContainer();
+		mContainer = mDialog.getGUIContainer();
 		initComp();
 		initBtn();
 	}
@@ -38,7 +38,7 @@ public class DialogSimple implements DialogVisitor {
 	}
 
 	private void initBtn() {
-		GUIContainer btnPnl = mDialog.getContainer().createContainer(
+		GUIContainer btnPnl = mDialog.getGUIContainer().createContainer(
 				ContainerType.CT_NORMAL,
 				new GUIParam(0, 5, 2, 1, ReSizeMode.RSM_HORIZONTAL,
 						FillMode.FM_NONE));

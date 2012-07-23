@@ -64,7 +64,7 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 		}
 
 		public void InitBtn() {
-			pnl_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 1));
+			pnl_btn = mOwner.getGUIContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 1));
 
 			btn_AddNew = pnl_btn.createButton(new GUIParam(0,0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			btn_AddNew.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class
@@ -88,12 +88,12 @@ public class AssociationPanel implements GUISelectListener,GridInterface {
 				}
 			});
 			GUIButton[] btns = { btn_AddNew, btn_ExitNew };
-			mOwner.getContainer().calculBtnSize(btns);
+			mOwner.getGUIContainer().calculBtnSize(btns);
 			mOwner.setDefaultButton(btn_AddNew);
 		}
 
 		public void Init() {
-			pnl_new_btn = mOwner.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 0));
+			pnl_new_btn = mOwner.getGUIContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0, 0));
 
 			lbl_name = pnl_new_btn.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
 			lbl_name.setTextString("Extension");

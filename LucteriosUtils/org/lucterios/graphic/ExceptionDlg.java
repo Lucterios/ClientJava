@@ -46,12 +46,6 @@ import org.lucterios.utils.Tools.InfoDescription;
  * @author  lag
  */
 public class ExceptionDlg {
-    
-	public static final int FAILURE=0;
-	public static final int CRITIC=1;
-	public static final int GRAVE=2;
-	public static final int IMPORTANT=3;
-	public static final int MINOR=4;
 	
 	public static ExceptionDlg mLastException=null;
 	public static InfoDescription mInfoDescription=null;
@@ -83,7 +77,7 @@ public class ExceptionDlg {
     	mDialog=mGenerator.newDialog(null);
     	mDialog.setTextTitle("Erreur");
 
-    	PnlMain = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
+    	PnlMain = mDialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL, new GUIParam(0,0,1,1,ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
     	lbl_img = PnlMain.createImage(new GUIParam(0,0,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE)); 
         lbl_img.setImage(mGenerator.CreateImage(Resources.class.getResource("error.png")));
         lbl_message = PnlMain.createHyperText(new GUIParam(1,0,1,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));
@@ -119,7 +113,7 @@ public class ExceptionDlg {
 			}
 		});
         
-    	PnlExtra = mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0,1,2,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));  	
+    	PnlExtra = mDialog.getGUIContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0,1,2,1,ReSizeMode.RSM_BOTH,FillMode.FM_BOTH));  	
     }
 
     protected String removeHTMLHeader(String aText) {
@@ -227,13 +221,13 @@ public class ExceptionDlg {
     {
 		switch(aIconType)
 		{
-			case FAILURE:
-			case CRITIC:
+			case LucteriosException.FAILURE:
+			case LucteriosException.CRITIC:
 				return mGenerator.CreateImage(Resources.class.getResource("error.png"));
-			case GRAVE:
-			case IMPORTANT:
+			case LucteriosException.GRAVE:
+			case LucteriosException.IMPORTANT:
 				return mGenerator.CreateImage(Resources.class.getResource("warning.png"));
-			case MINOR:
+			case LucteriosException.MINOR:
 				return mGenerator.CreateImage(Resources.class.getResource("info.png"));
 			default:
 				return mGenerator.CreateImage(Resources.class.getResource("error.png"));
@@ -245,19 +239,19 @@ public class ExceptionDlg {
     {
         lbl_message.setTextString(aText.replaceAll(",", ", "));
         lbl_img.setImage(getIcon(aType));
-        btn_more.setVisible((aType==FAILURE) || (aType==CRITIC) || (aType==GRAVE));
+        btn_more.setVisible((aType==LucteriosException.FAILURE) || (aType==LucteriosException.CRITIC) || (aType==LucteriosException.GRAVE));
         btn_send.setVisible(btn_more.isVisible() && (mInfoDescription!=null));
     }
     
     protected void setException(Throwable e)
     {
-    	setMessage(e.getClass().getName()+" "+e.getMessage(),FAILURE);
+    	setMessage(e.getClass().getName()+" "+e.getMessage(),LucteriosException.FAILURE);
         addTrace(e);
     } 
     
     protected void setLucteriosException(LucteriosException le)
     {
-    	setMessage("<b>Message</b> "+le.getMessage()+"<br>"+le.getExtraInfo(),FAILURE);
+    	setMessage("<b>Message</b> "+le.getMessage().replaceAll("\n","<br/>")+"<br>"+le.getExtraInfo(),le.getType());
         btn_more.setVisible(le.mWithTrace);
     	if (le.mWithTrace) { 
     		addTrace(le);
@@ -278,7 +272,7 @@ public class ExceptionDlg {
 	        addRequette(le.mRequest.replaceAll("><",">\n<"));
     	}
     	else
-    		lbl_img.setImage(getIcon(IMPORTANT));
+    		lbl_img.setImage(getIcon(LucteriosException.IMPORTANT));
     }
     
     public void showDialog()
@@ -312,7 +306,7 @@ public class ExceptionDlg {
             stack_text+=formatStack(stacktext)+"\n";
         stack_text=stack_text.replace('|','\t');
         mLastException.addStack(stack_text);
-        if ((aType==FAILURE) || (aType==CRITIC))
+        if ((aType==LucteriosException.FAILURE) || (aType==LucteriosException.CRITIC))
         	mLastException.addExtra(aExtra.trim());
     	mLastException.setMessage(Tools.convertLuctoriosFormatToHtml(aMessage),aType);
         mLastException.showDialog();

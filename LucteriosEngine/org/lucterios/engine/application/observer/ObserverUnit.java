@@ -170,7 +170,7 @@ public class ObserverUnit extends TestCase implements Connection {
 		
 		assertNotNull("LastException", ExceptionDlg.mLastException);
 		assertNotNull("LastException.getDialog", ExceptionDlg.mLastException.getDialog());
-		GUIContainer cont=ExceptionDlg.mLastException.getDialog().getContainer();
+		GUIContainer cont=ExceptionDlg.mLastException.getDialog().getGUIContainer();
 		assertEquals("nb component",2,cont.count());
 		
 		MockContainer cont1 = checkContainer(cont.get(0),3,ContainerType.CT_NORMAL,"1");
@@ -225,7 +225,7 @@ public class ObserverUnit extends TestCase implements Connection {
 		
 		assertNotNull("LastException", ExceptionDlg.mLastException);
 		assertNotNull("LastException.getDialog", ExceptionDlg.mLastException.getDialog());
-		MockContainer cont=(MockContainer)ExceptionDlg.mLastException.getDialog().getContainer();
+		MockContainer cont=(MockContainer)ExceptionDlg.mLastException.getDialog().getGUIContainer();
 		assertEquals("nb component",2,cont.count());
 		
 		MockContainer cont1 = checkContainer(cont.get(0),3,ContainerType.CT_NORMAL,"1");
@@ -314,7 +314,7 @@ public class ObserverUnit extends TestCase implements Connection {
 		obs.setContent(mParse);
 		obs.show("Confirmation",dialog);
 
-		MockContainer cont=(MockContainer)dialog.getContainer();
+		MockContainer cont=(MockContainer)dialog.getGUIContainer();
 		assertEquals("nb component",3,cont.count());
 		
 		assertEquals("class 1",MockImage.class,cont.get(0).getClass());
@@ -359,7 +359,7 @@ public class ObserverUnit extends TestCase implements Connection {
 		obs.setContent(mParse);
 		obs.show("Résumé",dialog);
 		
-		MockContainer cont=(MockContainer)dialog.getContainer();
+		MockContainer cont=(MockContainer)dialog.getGUIContainer();
 		assertEquals("nb component",2,cont.count());
 		MockContainer cont1 = checkContainer(cont.get(0),8,ContainerType.CT_SCROLL,"1");
 		MockContainer cont1_1 = checkContainer(cont1.get(0),1,ContainerType.CT_NORMAL,"1.1");

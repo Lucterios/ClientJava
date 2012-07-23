@@ -26,6 +26,6 @@ public interface GUIWindows extends GUIObject {
 
 	public void setBackgroundColor(int frameColor);
 
-	public GUIContainer getContainer();
+	public GUIContainer getGUIContainer();
 
 }

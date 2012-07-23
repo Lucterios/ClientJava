@@ -251,7 +251,7 @@ public class SForm extends JFrame implements GUIForm {
 		toFront();
 	}
 
-	public GUIContainer getContainer(){
+	public GUIContainer getGUIContainer(){
 		return mContainer;
 	}
 	

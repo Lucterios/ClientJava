@@ -59,7 +59,7 @@ public class DatePickerSimple implements DialogVisitor {
 	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
 		dialog.setTextTitle("Date");
-		mPanel=dialog.getContainer();
+		mPanel=dialog.getGUIContainer();
 		buildGUI();
 	}
 

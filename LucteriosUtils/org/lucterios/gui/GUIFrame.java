@@ -11,7 +11,7 @@ public interface GUIFrame extends GUIObject {
 	
 	public GUIGenerator getGenerator();
 
-	public GUIContainer getContainer();
+	public GUIContainer getGUIContainer();
 	
 	public GuiFormList getFormList();
 	

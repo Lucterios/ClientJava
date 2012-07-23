@@ -255,7 +255,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 				data = data	+ transfertFileFromServerString(MANAGER_FILE, aXmlParam);
 			} catch (TransportException e) {
 				throw new LucteriosException("<b>Le serveur ne répond pas.</b>" +
-						"<br>Vérifiez la connection réseau et les configurations de l'outil.",e);
+						"<br>Vérifiez la connection réseau et les configurations de l'outil.","","",e,LucteriosException.IMPORTANT);
 			}
 			try {
 				data = java.net.URLDecoder.decode(data.trim(), ENCODE);

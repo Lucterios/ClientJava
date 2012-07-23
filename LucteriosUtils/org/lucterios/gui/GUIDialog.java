@@ -29,7 +29,7 @@ public interface GUIDialog extends GUIObject {
 
 	public void refreshSize();
 	
-	public GUIContainer getContainer();
+	public GUIContainer getGUIContainer();
 
 	public void pack();
 	

@@ -192,7 +192,7 @@ public class MockForm implements GUIForm {
 	
 	public void refreshSize() {	}
 
-	public GUIContainer getContainer(){
+	public GUIContainer getGUIContainer(){
 		return mContainer;
 	}
 	

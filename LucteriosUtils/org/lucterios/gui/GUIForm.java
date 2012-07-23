@@ -12,7 +12,7 @@ public interface GUIForm extends GUIObject {
 	
 	public GUIGenerator getGenerator();
 
-	public GUIContainer getContainer();
+	public GUIContainer getGUIContainer();
 	
 	public void setFormVisitor(FormVisitor formVisitor);
 	

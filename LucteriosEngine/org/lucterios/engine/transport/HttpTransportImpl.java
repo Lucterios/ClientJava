@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Set;
 
 import org.apache.commons.httpclient.Credentials;
@@ -138,6 +139,8 @@ public class HttpTransportImpl extends HttpTransportAbstract {
 				throw new TransportException(except.toString(),
 						TransportException.TYPE_STANDARD, 0, param_txt, "",
 						except);
+			else if (UnknownHostException.class.isInstance(except))
+				throw new LucteriosException(String.format("Serveur '%s' inconnu.\nVeuillez verrifier votre configuration.",except.getMessage()), param_txt, "", except,LucteriosException.IMPORTANT);
 			else if (IOException.class.isInstance(except))
 				throw new LucteriosException(except.toString(), param_txt, "",
 						except);

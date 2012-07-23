@@ -36,7 +36,7 @@ public class DialogExample implements DialogVisitor {
 	public void execute(GUIDialog dialog) {
 		mDialog=dialog;
 		mDialog.setTextTitle("Example dialog");
-		mTab=mDialog.getContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0, 0));
+		mTab=mDialog.getGUIContainer().createContainer(ContainerType.CT_TAB, new GUIParam(0, 0));
 		initScroll();	
 		initGraph();	
 		initComp();
@@ -101,7 +101,7 @@ public class DialogExample implements DialogVisitor {
 	}
 
 	private void initBtn() {
-		GUIContainer btnPnl=mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,1,1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL));
+		GUIContainer btnPnl=mDialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1,1,1, ReSizeMode.RSM_HORIZONTAL, FillMode.FM_HORIZONTAL));
 		GUIButton bt1=btnPnl.createButton(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_NONE));
         bt1.setTextString("Open file");
         bt1.addActionListener(new GUIActionListener() {		

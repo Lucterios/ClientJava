@@ -66,7 +66,7 @@ public class SetupDialog implements DialogVisitor {
 		InitSubPanel();
 		Setup();
 		GUIButton[] btns = { btn_Ok, btn_Cancel, btn_import };
-		mDialog.getContainer().calculBtnSize(btns);
+		mDialog.getGUIContainer().calculBtnSize(btns);
 		mDialog.setDefaultButton(btn_Ok);
 		mDialog.pack();
 		mDialog.initialPosition();
@@ -82,7 +82,7 @@ public class SetupDialog implements DialogVisitor {
 	}
 
 	public void Init() {
-		pnl_main = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 0, 4, 1));
+		pnl_main = mDialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL,new GUIParam(0, 0, 4, 1));
 		mDialog.setTextTitle("Configuration");
 
 		lbl_Title = pnl_main.createLabel(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));
@@ -93,7 +93,7 @@ public class SetupDialog implements DialogVisitor {
 		txt_Title.setEnabled(true);
 		txt_Title.setTextString("Lucterios");
 
-		pnl_btn = mDialog.getContainer().createContainer(ContainerType.CT_NORMAL,
+		pnl_btn = mDialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL,
 				new GUIParam(1, 4, 4, 1, ReSizeMode.RSM_HORIZONTAL,FillMode.FM_BOTH));
 
 		btn_Ok = pnl_btn.createButton(new GUIParam(0, 0, 1, 1, ReSizeMode.RSM_NONE, FillMode.FM_BOTH));

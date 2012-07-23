@@ -3,4 +3,4 @@
 
 VA_APP_HOME=`dirname $0`
 cd $VA_APP_HOME
-java -Xmx64m -jar "$VA_APP_HOME/LucteriosClient.jar" $*
+java -Xmx256m -jar "$VA_APP_HOME/LucteriosClient.jar" $*

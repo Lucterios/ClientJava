@@ -50,20 +50,20 @@ public class AboutBox {
 		mDialog.setTextTitle("A propos");
 		mDialog.setResizable(false);
 		
-		m_ImageLogo=mDialog.getContainer().createImage(new GUIParam(0, 0, 1, 2));
-		m_TitleLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 0));
-		m_VersionLbl = mDialog.getContainer().createHyperText(new GUIParam(1, 1));
-		m_CopyRigthLbl = mDialog.getContainer().createHyperText(new GUIParam(0, 2, 2, 1));
-		GUIImage lucterios_logo = mDialog.getContainer().createImage(new GUIParam(0, 3, 2, 1));
+		m_ImageLogo=mDialog.getGUIContainer().createImage(new GUIParam(0, 0, 1, 2));
+		m_TitleLbl = mDialog.getGUIContainer().createHyperText(new GUIParam(1, 0));
+		m_VersionLbl = mDialog.getGUIContainer().createHyperText(new GUIParam(1, 1));
+		m_CopyRigthLbl = mDialog.getGUIContainer().createHyperText(new GUIParam(0, 2, 2, 1));
+		GUIImage lucterios_logo = mDialog.getGUIContainer().createImage(new GUIParam(0, 3, 2, 1));
 		lucterios_logo.setImage(Singletons.getWindowGenerator().CreateImage(Resources.class.getResource("LucteriosImage.gif")));	
-		GUIHyperText lucterios = mDialog.getContainer().createHyperText(new GUIParam(0, 4, 2, 1));
+		GUIHyperText lucterios = mDialog.getGUIContainer().createHyperText(new GUIParam(0, 4, 2, 1));
 		lucterios.setTextString("<font size='-1'><center><i>Outil de gestion presonnalisé sous licence GPL</i></center></font>");		
 
-		GUIHyperText lucterios_web = mDialog.getContainer().createHyperText(new GUIParam(0, 5, 2, 1));		
+		GUIHyperText lucterios_web = mDialog.getGUIContainer().createHyperText(new GUIParam(0, 5, 2, 1));		
 		lucterios_web.setTextString("http://www.lucterios.org");
 		lucterios_web.setHyperLink("http://www.lucterios.org");
 				
-		GUIButton supportBtn = mDialog.getContainer().createButton(new GUIParam(0, 6, 2, 1));
+		GUIButton supportBtn = mDialog.getGUIContainer().createButton(new GUIParam(0, 6, 2, 1));
 		supportBtn.setTextString("Ecrire au support");
 		supportBtn.addActionListener(new GUIActionListener() {		
 			public void actionPerformed() {
@@ -73,7 +73,7 @@ public class AboutBox {
 		});
 		
 
-		m_ConfigMore = mDialog.getContainer().createHyperText(new GUIParam(2, 6, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_NONE));	
+		m_ConfigMore = mDialog.getGUIContainer().createHyperText(new GUIParam(2, 6, 2, 1, ReSizeMode.RSM_BOTH, FillMode.FM_NONE));	
 		m_ConfigMore.setTextString("...");
 		m_ConfigMore.addActionListener(new GUIActionListener() {		
 			public void actionPerformed() {
@@ -112,7 +112,7 @@ public class AboutBox {
 		GUIDialog config = Singletons.getWindowGenerator().newDialog(mDialog,null);
 		config.setTextTitle("Configuration");
 
-		GUIHyperText text = config.getContainer().createHyperText(new GUIParam(0, 0));
+		GUIHyperText text = config.getGUIContainer().createHyperText(new GUIParam(0, 0));
 		text.setTextString(mDescription.getHTML(null));
 
 		config.pack();

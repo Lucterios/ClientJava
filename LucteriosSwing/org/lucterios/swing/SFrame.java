@@ -93,7 +93,7 @@ public class SFrame extends JFrame implements GUIFrame {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 	
-	public GUIContainer getContainer() {
+	public GUIContainer getGUIContainer() {
 		return mContainer;
 	}
 

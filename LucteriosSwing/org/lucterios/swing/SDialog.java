@@ -197,7 +197,7 @@ public class SDialog extends JDialog implements GUIDialog {
 		setSize(size);
 	}
 
-	public GUIContainer getContainer(){
+	public GUIContainer getGUIContainer(){
 		return mContainer;
 	}
 
