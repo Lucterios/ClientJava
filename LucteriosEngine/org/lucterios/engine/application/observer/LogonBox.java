@@ -39,7 +39,7 @@ import org.lucterios.gui.GUIContainer.ContainerType;
 import org.lucterios.gui.GUIParam.FillMode;
 import org.lucterios.gui.GUIParam.ReSizeMode;
 
-public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
+public class LogonBox implements GUIDialog.DialogVisitor {
 	GUIContainer editPnl;
 	GUIContainer btnPnl;
 	GUIButton btn_SetUp;
@@ -96,14 +96,6 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 			cmp_Server.setSelectedIndex(Math.max(0,index));
 			cmp_Server.setVisible(true);
 			btn_OK.setEnabled(true);
-		}
-	}
-
-	public void actionPerformed() {
-		int index=cmp_Server.getSelectedIndex();
-		if (index>0) {
-			Server new_server=Singletons.getConfiguration().getServers().get(index);
-			setLastServer(new_server);
 		}
 	}
 
@@ -188,7 +180,6 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 
 		cmp_Server = editPnl.createCombo(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
-		cmp_Server.addActionListener(this);
 		
 		txt_Server = editPnl.createLabel(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
 		txt_Server.setTextString("");
@@ -257,7 +248,7 @@ public class LogonBox implements GUIActionListener, GUIDialog.DialogVisitor {
 
 	void btn_OK_actionPerformed() {
 		mModalResult = 1;
-		actionPerformed();
+		setLastServer((Server) cmp_Server.getSelectedItem());
 		if (getLastServer()==null) {
 			setLastServer(Singletons.getConfiguration().GetServer(0));			
 		}

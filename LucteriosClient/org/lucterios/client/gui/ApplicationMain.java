@@ -48,6 +48,7 @@ import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.ui.GUIAction;
 import org.lucterios.ui.GUIActionListener;
+import org.lucterios.utils.Logging;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.TimeLabel;
 import org.lucterios.graphic.ExceptionDlg;
@@ -310,6 +311,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 		pnl=mStatBarPnl.createContainer(ContainerType.CT_NORMAL,param);
 		mMemoryJauge = new MemoryJauge(pnl);
 		pnl.setSize(PROGRESS_SIZE * 20,PROGRESS_SIZE*2);
+		pnl.setVisible(Logging.getInstance().isLogActivate());
 
 		mTimeValue.addActionListener(mMemoryJauge);
 		mTimeValue.start();
