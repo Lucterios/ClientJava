@@ -1,4 +1,4 @@
-<?
+<?php
 
 $appli_dir="../../extensions/applis";
 if (!is_dir($appli_dir)) $appli_dir="./extensions/applis";
@@ -83,7 +83,7 @@ header('Content-Type: text/html; charset=ISO-8859-1');
 ?>
 <html>
 <head>
-  <title><? echo $extention_description;?></title>
+  <title><?php echo $extention_description;?></title>
 	<style type="text/css">
 	<!--
 		BODY {
@@ -206,10 +206,10 @@ header('Content-Type: text/html; charset=ISO-8859-1');
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                 <tr>
                     <td>
-                        <img src='<? echo $appli_dir."/images/logo.gif";?>' alt='logo' />
+                        <img src='<?php echo $appli_dir."/images/logo.gif";?>' alt='logo' />
                     </td>
                     <td align="center">
-                        <h1 class="banniere"><? echo $extention_description;?></h1>
+                        <h1 class="banniere"><?php echo $extention_description;?></h1>
                     </td>
                 </tr>
             </table>
@@ -247,7 +247,7 @@ header('Content-Type: text/html; charset=ISO-8859-1');
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                 <tr>
                     <td class="pied">
-                        <? echo $copy_right;?> - Mise à jour <? echo date ("d/m/Y", filemtime("index.php")); ?>
+                        <?php echo $copy_right;?> - Mise à jour <?php echo date ("d/m/Y", filemtime("index.php")); ?>
                     </td>
                 </tr>
             </table>
