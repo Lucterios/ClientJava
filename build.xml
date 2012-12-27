@@ -1,23 +1,10 @@
 <project name="JavaClient" default="all" basedir=".">
 	<property environment="env"/>
-	<property name="svn.url" value="http://projets.lucterios.org/svn"/>
-	<property name="svn.username" value="user"/>
-	<property name="svn.password" value="user123"/>
 
 	<target name="all">
 		<buildnumber />
--		<property name="env.BUILD_NUMBER" value="${build.number}"/>
-		<antcall target="svn" />
+		<property name="env.BUILD_NUMBER" value="${build.number}"/>
 		<ant antfile="build_all.xml" />
-	</target>		
-
-	<target name="svn">
-		<exec executable="svn">
-			<arg line="checkout" />
-			<arg line="${svn.url}/Clients/java" />
-			<arg line="." />
-			<arg line="--username=${svn.username}" />
-			<arg line="--password=${svn.password}" />
-		</exec>
-	</target>		
+	</target>
+	
 </project>

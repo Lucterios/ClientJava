@@ -46,8 +46,8 @@
 	 <target name="compile" description="Compilation des classes">
 		<javac srcdir="${projet.sources.dir}"
 			destdir="${projet.bin.dir}"
-			target="1.5"
-			source="1.5"
+			target="1.6"
+			source="1.6"
 			debug="off"
 			optimize="on" 
 			includeAntRuntime="false"
