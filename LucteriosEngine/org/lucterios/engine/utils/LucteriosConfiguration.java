@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.lucterios.gui.GridInterface;
 import org.lucterios.ui.GUIActionListener;
+import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.SimpleParsing;
 
 public class LucteriosConfiguration implements GridInterface {
@@ -39,6 +40,11 @@ public class LucteriosConfiguration implements GridInterface {
 	public final static String[] MODE_TEXTS = new String[] { "Normal", "Sécurisé" };
 
 	public class Server {
+		
+		public final static String CONNEXION_CAT = "connexion";
+		public final static String LOGON_CNP = "logon";
+		public final static String PASSWORD_CNP = "password";
+		
 		public Server(String aServerName, String aHostName, int aHostPort,
 				String aDirectory, int aConnectionMode, boolean aUseProxy) {
 			ServerName = aServerName;
@@ -61,6 +67,20 @@ public class LucteriosConfiguration implements GridInterface {
 
 		public String toString() {
 			return ServerName;
+		}
+		
+		public IniFileManager getPreference() {
+			try {
+				StringBuilder filename = new StringBuilder();
+				for (char my_char : ServerName.toCharArray()) {
+				  if (my_char=='.' || Character.isJavaIdentifierPart(my_char)) {
+				    filename.append(my_char);
+				  }
+				}				
+				return new IniFileManager(getStoragePath()+String.format("%s.pref", filename));
+			} catch (IOException e) {
+				return null;
+			}
 		}
 	}
 
@@ -111,7 +131,7 @@ public class LucteriosConfiguration implements GridInterface {
 	public String ProxyAdress = "";
 	public int ProxyPort = 0;
 
-	public File	getStoragePath(){
+	public File	 getStoragePath(){
 		return mStoragePath;
 	}
 	

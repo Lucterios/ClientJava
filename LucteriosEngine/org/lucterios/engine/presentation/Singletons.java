@@ -27,6 +27,7 @@ import org.lucterios.engine.application.Action;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosSetting;
+import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.gui.GUIGenerator;
 import org.lucterios.utils.DesktopInterface;
 import org.lucterios.utils.Tools;
@@ -56,8 +57,19 @@ public class Singletons {
 	private static LucteriosConfiguration gConfiguration = null;
 
 	private static GUIGenerator gWindowGenerator = null;
-	
+
+	private static Server gLastServer = null;
+
 	//------------------------------------------------------------------
+	
+	public static void setLastServer(Server lastServer) {
+		if (lastServer!=null)
+			gLastServer = lastServer;
+	}
+
+	public static Server getLastServer() {
+		return gLastServer;
+	}
 	
 	public static LucteriosConfiguration getConfiguration() {
 		if (gConfiguration==null)

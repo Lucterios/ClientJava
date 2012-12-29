@@ -20,14 +20,18 @@
 
 package org.lucterios.engine.application.observer;
 
+import java.io.IOException;
+
 import org.lucterios.engine.presentation.Singletons;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.utils.LucteriosConfiguration;
 import org.lucterios.engine.utils.LucteriosConfiguration.Server;
 import org.lucterios.ui.GUIActionListener;
+import org.lucterios.utils.IniFileManager;
 import org.lucterios.utils.LucteriosException;
 import org.lucterios.graphic.ExceptionDlg;
 import org.lucterios.gui.GUIButton;
+import org.lucterios.gui.GUICheckBox;
 import org.lucterios.gui.GUICombo;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.gui.GUIDialog;
@@ -49,24 +53,17 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 	GUILabel lb_Server;
 	GUILabel lb_PassWord;
 	GUILabel lb_User;
+	GUILabel lb_savepassword;
 	GUILabel txt_Server;
 	GUICombo cmp_Server;
 	GUIEdit txt_User;
 	GUIEdit txt_PassWord;
+	GUICheckBox chk_savepassword;
 
 	private static String mLastUserLogon = "";
-	private static Server mLastServer = null;
+	private String mLastPassword = "";
 
 	private String mReason="";
-
-	private static void setLastServer(Server lastServer) {
-		if (lastServer!=null)
-			LogonBox.mLastServer = lastServer;
-	}
-
-	public static Server getLastServer() {
-		return LogonBox.mLastServer;
-	}
 
 	public int mModalResult = 0;
 
@@ -77,26 +74,44 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 		cmp_Server.setVisible(false);
 		txt_Server.setVisible(false);
 		if (Singletons.getConfiguration().ServerCount() == 0) {
-			setLastServer(null);
+			Singletons.setLastServer(null);
 			txt_Server.setTextString("");
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(false);
 		} else if (Singletons.getConfiguration().ServerCount() == 1) {
-			setLastServer(Singletons.getConfiguration().GetServer(0));
-			txt_Server.setTextString(getLastServer().ServerName);
+			Singletons.setLastServer(Singletons.getConfiguration().GetServer(0));
+			txt_Server.setTextString(Singletons.getLastServer().ServerName);
 			txt_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		} else {
 			cmp_Server.removeAllElements();
 			for (int server_idx=0;server_idx<Singletons.getConfiguration().ServerCount();server_idx++)
 				cmp_Server.addElement(Singletons.getConfiguration().GetServer(server_idx));
-			if (getLastServer() == null)
-				setLastServer(Singletons.getConfiguration().GetServer(0));
-			int index=Singletons.getConfiguration().getServers().indexOf(getLastServer());
+			if (Singletons.getLastServer() == null)
+				Singletons.setLastServer(Singletons.getConfiguration().GetServer(0));
+			int index=Singletons.getConfiguration().getServers().indexOf(Singletons.getLastServer());
 			cmp_Server.setSelectedIndex(Math.max(0,index));
 			cmp_Server.setVisible(true);
 			btn_OK.setEnabled(true);
 		}
+	}
+	
+	private void changeServerSelect() {
+		Server selected_server = (Server) cmp_Server.getSelectedItem();
+		if (selected_server!=null) {
+			IniFileManager pref_server = selected_server.getPreference();
+			if (pref_server!=null) {			
+				txt_User.setTextString(pref_server.getValueSection(Server.CONNEXION_CAT, Server.LOGON_CNP));
+				txt_PassWord.setTextString(pref_server.getValueSection(Server.CONNEXION_CAT, Server.PASSWORD_CNP));
+				if ((txt_User.getTextString().length()==0) && (txt_PassWord.getTextString().length()==0)) {
+					chk_savepassword.setSelected(false);				
+					txt_User.setTextString(mLastUserLogon);
+					txt_PassWord.setTextString("");
+				}
+				else
+					chk_savepassword.setSelected(true);
+			}
+		}		
 	}
 
 	private void setReason() {
@@ -128,16 +143,15 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 			HttpTransport transp = Singletons.Transport();
 			transp.setProxy(Singletons.getConfiguration().ProxyAdress,
 					Singletons.getConfiguration().ProxyPort);
+			Server selected_server = Singletons.getLastServer();
 			transp.connectToServer(
-							getLastServer().HostName,
-							getLastServer().Directory,
-							getLastServer().HostPort,
-							getLastServer().ConnectionMode == LucteriosConfiguration.MODE_SECURITY,
-							getLastServer().UseProxy);
-			mLastUserLogon = txt_User.getTextString();
+					selected_server.HostName,
+					selected_server.Directory,
+					selected_server.HostPort,
+					selected_server.ConnectionMode == LucteriosConfiguration.MODE_SECURITY,
+					selected_server.UseProxy);
 			try {
-				Singletons.Factory().setAuthentification(txt_User.getTextString(),
-						new String(txt_PassWord.getTextString()));
+				Singletons.Factory().setAuthentification(mLastUserLogon, mLastPassword);
 			} catch (LucteriosException e) {
 				ExceptionDlg.throwException(e);
 				result=false;
@@ -180,6 +194,12 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 
 
 		cmp_Server = editPnl.createCombo(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
+		cmp_Server.addActionListener(new GUIActionListener() {
+			@Override
+			public void actionPerformed() {
+				changeServerSelect();
+			}
+		});
 		
 		txt_Server = editPnl.createLabel(new GUIParam(1,1,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
 		txt_Server.setTextString("");
@@ -200,6 +220,12 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 		txt_PassWord = editPnl.createEdit(new GUIParam(1,3,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE,150, 19));
 		txt_PassWord.setPassword('*');
 		txt_PassWord.setTextString("");
+		
+		lb_savepassword = editPnl.createLabel(new GUIParam(0,4,1,1,ReSizeMode.RSM_NONE,FillMode.FM_HORIZONTAL));
+		lb_savepassword.setStyle(1);
+		lb_savepassword.setTextString("Se souvenir?");
+		chk_savepassword = editPnl.createCheckBox(new GUIParam(1,4,1,1,ReSizeMode.RSM_NONE,FillMode.FM_NONE));
+		chk_savepassword.setSelected(false);
 		
 		btnPnl = mContainer.createContainer(ContainerType.CT_NORMAL,new GUIParam(0,1));
 
@@ -233,8 +259,7 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 		dialog.setDefaultButton(btn_OK);
 
 		setReason();	
-		txt_User.setTextString(mLastUserLogon);
-		txt_PassWord.setTextString("");
+		changeServerSelect();
 		
 		dialog.setPosition(1.0/3.0);
 		
@@ -248,9 +273,29 @@ public class LogonBox implements GUIDialog.DialogVisitor {
 
 	void btn_OK_actionPerformed() {
 		mModalResult = 1;
-		setLastServer((Server) cmp_Server.getSelectedItem());
-		if (getLastServer()==null) {
-			setLastServer(Singletons.getConfiguration().GetServer(0));			
+		Server selected_server = (Server) cmp_Server.getSelectedItem();
+		if (selected_server==null) {
+			selected_server = Singletons.getConfiguration().GetServer(0);			
+		}
+		Singletons.setLastServer(selected_server);
+		mLastUserLogon = txt_User.getTextString();
+		mLastPassword = txt_PassWord.getTextString();				
+		if (selected_server!=null) {
+			IniFileManager pref_server = selected_server.getPreference();
+			if (pref_server!=null) {			
+				if (chk_savepassword.isSelected()) {
+					pref_server.setValueSection(Server.CONNEXION_CAT, Server.LOGON_CNP, mLastUserLogon);
+					pref_server.setValueSection(Server.CONNEXION_CAT, Server.PASSWORD_CNP, mLastPassword);
+				}
+				else {
+					pref_server.setValueSection(Server.CONNEXION_CAT, Server.LOGON_CNP, "");
+					pref_server.setValueSection(Server.CONNEXION_CAT, Server.PASSWORD_CNP, "");
+				}
+				try {
+					pref_server.save();
+				} catch (IOException e) {
+				}
+			}
 		}
 		mDialog.setVisible(false);
 	}

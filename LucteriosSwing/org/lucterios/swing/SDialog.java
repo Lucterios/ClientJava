@@ -21,6 +21,7 @@
 package org.lucterios.swing;
 
 import java.awt.Cursor;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -87,7 +88,7 @@ public class SDialog extends JDialog implements GUIDialog {
 	}
 
 	private void initial() {
-		setModal(true);
+		setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {

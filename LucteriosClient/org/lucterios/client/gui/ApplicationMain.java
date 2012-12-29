@@ -582,7 +582,7 @@ public class ApplicationMain implements RefreshButtonPanel,
 			mFrame.setTextTitle(mDescription.getTitle() + " - " + sub_title);
 		else
 			mFrame.setTextTitle(mDescription.getTitle());
-		Server server = LogonBox.getLastServer();
+		Server server = Singletons.getLastServer();
 		mConnectionLogo.setImage(Resources.class.getResource("connection" + server.ConnectionMode + ".png"));
 		mLogName.setTextString(aRealName);
 		mServer.setTextString(aLogin + "@" + server.ServerName);
