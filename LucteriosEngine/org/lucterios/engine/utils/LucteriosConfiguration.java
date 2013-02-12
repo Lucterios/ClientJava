@@ -178,6 +178,7 @@ public class LucteriosConfiguration implements GridInterface {
 			while ((ligne = lecture.readLine()) != null) {
 				contenu += ligne;
 			}
+			lecture.close();
 			read(contenu);
 		}
 	}

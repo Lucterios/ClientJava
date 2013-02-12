@@ -83,8 +83,18 @@ public class Main
 					Runtime rt=Runtime.getRuntime();
 					try 
 					{
-						String java_dir=System.getProperty("java.home");
-						String[] file_jar={java_dir+"/bin/java","-jar",target_dir.getAbsolutePath()+"/LucteriosClient.jar"};
+						String[] file_jar;
+						boolean for_mac_osx=false;
+						if (System.getProperty("os.name").toLowerCase().startsWith("mac os"))
+							for_mac_osx=target_dir.getParentFile().getParentFile().getParent().endsWith(".app");
+						
+						if (for_mac_osx) {// MAC OS-X
+							file_jar=new String[]{"open",target_dir.getParentFile().getParentFile().getParent()};
+						}
+						else {
+							String java_dir=System.getProperty("java.home");
+							file_jar=new String[]{java_dir+"/bin/java","-jar",target_dir.getAbsolutePath()+"/LucteriosClient.jar"};
+						}
 						System.out.println("Restart:"+file_jar.toString());
 						rt.exec(file_jar);
 					} 

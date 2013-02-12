@@ -38,6 +38,8 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	final static String MANAGER_FILE = "coreIndex.php";
 	final static String AUTH_REQUETE="<REQUETE extension='common' action='authentification'>";
 	final static String AUTH_PARAM="<PARAM name='ses' type='str'>";
+
+	static private int mCounter = 0;	
 	
 	static private String mServerHost = "";
 	static private int mCurrentPort = 0;
@@ -57,6 +59,10 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		imageCache = new ImageCache(this);
 	}
 
+	public int getCounter(){
+		return mCounter;
+	}
+	
 	public void setDesktop(DesktopInterface desktop){
 		mDesktop=desktop;
 	}
@@ -230,41 +236,46 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	public String transfertXMLFromServer(MapContext aXmlParam) throws LucteriosException {
 		String data = "";
 		synchronized (mSynchronizedObj) {
-			String xml_param = "<?xml version='1.0' encoding='" + ENCODE
-					+ "'?>";
-			xml_param = xml_param + "<REQUETES>\n";
-			if (!"".equals( mSession ) && (!aXmlParam.containsKey(POST_VARIABLE) || !aXmlParam.get(POST_VARIABLE).toString().startsWith(AUTH_REQUETE))) {
-				xml_param = xml_param + AUTH_REQUETE;
-				xml_param = xml_param + AUTH_PARAM + mSession + "</PARAM>";
-				xml_param = xml_param + "</REQUETE>";
-			}
-			if (aXmlParam.containsKey(POST_VARIABLE))
-				xml_param = xml_param + aXmlParam.get(POST_VARIABLE).toString();
-			xml_param = xml_param + "</REQUETES>";
-			Logging.getInstance().setInText(xml_param);
-	        try
-	        {
-	        	aXmlParam.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
-	        }
-	        catch(java.io.UnsupportedEncodingException e)
-	        {
-	            throw new LucteriosException(e.toString(),e);
-	        }
+			mCounter++;
 			try {
-				data = "<?xml version='1.0' encoding='ISO-8859-1'?>";
-				data = data	+ transfertFileFromServerString(MANAGER_FILE, aXmlParam);
-			} catch (TransportException e) {
-				throw new LucteriosException("<b>Le serveur ne répond pas.</b>" +
-						"<br>Vérifiez la connection réseau et les configurations de l'outil.","","",e,LucteriosException.IMPORTANT);
+				String xml_param = "<?xml version='1.0' encoding='" + ENCODE
+						+ "'?>";
+				xml_param = xml_param + "<REQUETES>\n";
+				if (!"".equals( mSession ) && (!aXmlParam.containsKey(POST_VARIABLE) || !aXmlParam.get(POST_VARIABLE).toString().startsWith(AUTH_REQUETE))) {
+					xml_param = xml_param + AUTH_REQUETE;
+					xml_param = xml_param + AUTH_PARAM + mSession + "</PARAM>";
+					xml_param = xml_param + "</REQUETE>";
+				}
+				if (aXmlParam.containsKey(POST_VARIABLE))
+					xml_param = xml_param + aXmlParam.get(POST_VARIABLE).toString();
+				xml_param = xml_param + "</REQUETES>";
+				Logging.getInstance().setInText(xml_param);
+		        try
+		        {
+		        	aXmlParam.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
+		        }
+		        catch(java.io.UnsupportedEncodingException e)
+		        {
+		            throw new LucteriosException(e.toString(),e);
+		        }
+				try {
+					data = "<?xml version='1.0' encoding='ISO-8859-1'?>";
+					data = data	+ transfertFileFromServerString(MANAGER_FILE, aXmlParam);
+				} catch (TransportException e) {
+					throw new LucteriosException("<b>Le serveur ne répond pas.</b>" +
+							"<br>Vérifiez la connection réseau et les configurations de l'outil.","","",e,LucteriosException.IMPORTANT);
+				}
+				try {
+					data = java.net.URLDecoder.decode(data.trim(), ENCODE);
+				} catch (java.io.UnsupportedEncodingException e) {
+					throw new LucteriosException(e.toString(), e);
+				}
+				if ((data.length() > 0) && (data.charAt(0) != '<'))
+					throw new TransportException(data,TransportException.TYPE_HTTP, 2, xml_param, data);
+				Logging.getInstance().setOutText(data);
+			} finally{
+				mCounter--;
 			}
-			try {
-				data = java.net.URLDecoder.decode(data.trim(), ENCODE);
-			} catch (java.io.UnsupportedEncodingException e) {
-				throw new LucteriosException(e.toString(), e);
-			}
-			if ((data.length() > 0) && (data.charAt(0) != '<'))
-				throw new TransportException(data,TransportException.TYPE_HTTP, 2, xml_param, data);
-			Logging.getInstance().setOutText(data);
 		}
 		return data;
 	}

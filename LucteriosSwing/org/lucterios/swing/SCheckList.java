@@ -18,7 +18,7 @@ import org.lucterios.ui.GUIActionListener;
 public class SCheckList extends JScrollPane implements GUICheckList, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 
-	private JList<Object> cmp_list;
+	private JList cmp_list;
 	
 	private CursorMouseListener mCursorMouseListener;
 	
@@ -60,7 +60,7 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 	public SCheckList(GUIComponent aOwner){
         super();
         mOwner=aOwner;
-		cmp_list = new JList<Object>();
+		cmp_list = new JList();
         mCursorMouseListener=new CursorMouseListener(cmp_list,this);
 		cmp_list.setFocusable(true);
 		cmp_list.setAutoscrolls(true);
@@ -84,7 +84,7 @@ public class SCheckList extends JScrollPane implements GUICheckList, ListSelecti
 	}
 	
 	public Object[] getSelectedValues(){
-		return cmp_list.getSelectedValuesList().toArray();
+		return cmp_list.getSelectedValues();
 	}
 
 	public void setBackgroundColor(int color) {

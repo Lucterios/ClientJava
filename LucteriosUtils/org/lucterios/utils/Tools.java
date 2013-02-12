@@ -172,8 +172,10 @@ public class Tools {
 
 	static public void copyFile(File in, File out) throws LucteriosException {
 		try {
-			FileChannel inChannel = new FileInputStream(in).getChannel();
-			FileChannel outChannel = new FileOutputStream(out).getChannel();
+			FileInputStream fileInputStream = new FileInputStream(in);
+			FileOutputStream fileOutputStream = new FileOutputStream(out);
+			FileChannel inChannel = fileInputStream.getChannel();
+			FileChannel outChannel = fileOutputStream.getChannel();
 			try {
 				// magic number for Windows, 64Mb - 32Kb)
 				int maxCount = (64 * 1024 * 1024) - (32 * 1024);
@@ -187,6 +189,8 @@ public class Tools {
 					inChannel.close();
 				if (outChannel != null)
 					outChannel.close();
+				fileInputStream.close();
+				fileOutputStream.close();
 			}
 		} catch (IOException ioe) {
 			throw new LucteriosException("Echec de copie", ioe);

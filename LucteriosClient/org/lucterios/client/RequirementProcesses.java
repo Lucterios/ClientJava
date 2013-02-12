@@ -34,6 +34,7 @@ public class RequirementProcesses implements ApplicationTerminate {
 			while ((ligne = lecture.readLine()) != null) {
 				contenu += ligne;
 			}
+			lecture.close();
 			read(contenu);
 		}
 	}

@@ -228,6 +228,9 @@ public class SContainer extends Container implements GUIContainer,ComponentListe
 			mSpliter.removeMouseListener(mCursorMouseListener);
 			mSpliter.removeComponentListener(this);
 			mSpliter=null;
+			break;
+		default:
+			break;
 		}
 		removeFocusListener(mFocusListener);
 		removeMouseListener(mCursorMouseListener);

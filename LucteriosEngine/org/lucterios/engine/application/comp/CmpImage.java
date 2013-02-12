@@ -55,6 +55,7 @@ public class CmpImage extends Cmponent {
 		if (type.equals(""))
 			image = Singletons.Transport().getIcon(val, 0);
 		else {
+			@SuppressWarnings("resource")
 			DecodeBase64ToInputStream decoder = new DecodeBase64ToInputStream(val);
 			image = Singletons.getWindowGenerator().CreateImage(decoder.readData());
 		}

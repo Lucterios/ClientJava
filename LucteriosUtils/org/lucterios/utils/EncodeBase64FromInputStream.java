@@ -8,17 +8,19 @@ import org.apache.batik.util.Base64EncoderStream;
 
 public class EncodeBase64FromInputStream {
 	private byte[] outStream=null;
+	private Base64EncoderStream bes;
 	public EncodeBase64FromInputStream(InputStream input) {
 		
 		try {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Base64EncoderStream bes=new Base64EncoderStream(baos);		
+			bes = new Base64EncoderStream(baos);		
 	        byte[] buffer = new byte[4096];
 	        int len;
 	        while((len = input.read(buffer)) != -1) 
 	        	bes.write(buffer, 0, len);
 	        input.close();
 	        outStream=baos.toByteArray();
+	        bes.close();
     	} catch(IOException e) {}
 	}
 

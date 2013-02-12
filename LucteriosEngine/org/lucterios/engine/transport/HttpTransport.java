@@ -30,6 +30,8 @@ import org.lucterios.utils.LucteriosException;
 public interface HttpTransport {
 	public final static String POST_VARIABLE = "XMLinput";
 
+	public int getCounter();
+	
 	public void setDesktop(DesktopInterface desktop);
 	
 	public String getSession();

@@ -613,6 +613,7 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
 					text+=new String(buff, 0, nch);
 					progress.setValue(progress.getValue() + nch);
 				}
+				in.close();
 				load(text);
 			}
 			catch (IOException e) {

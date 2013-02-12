@@ -148,4 +148,8 @@ public class HttpTransportStub implements HttpTransport {
 
 	public void setDesktop(DesktopInterface desktop) {		
 	}
+
+	public int getCounter() {
+		return 0;
+	}
 }

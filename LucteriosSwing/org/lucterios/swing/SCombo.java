@@ -14,7 +14,7 @@ import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIContainer;
 import org.lucterios.ui.GUIActionListener;
 
-public class SCombo extends JComboBox<Object> implements GUICombo  {
+public class SCombo extends JComboBox implements GUICombo  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class SCombo extends JComboBox<Object> implements GUICombo  {
 		mCursorMouseListener.remove(l);
 	}
 
-	private DefaultComboBoxModel<Object> m_comboModel;
+	private DefaultComboBoxModel m_comboModel;
 	
 	private GUIComponent mOwner=null;
 	public GUIComponent getOwner(){
@@ -60,7 +60,7 @@ public class SCombo extends JComboBox<Object> implements GUICombo  {
         addFocusListener(mFocusListener);	
         addActionListener(mCursorMouseListener);
         addMouseListener(mCursorMouseListener);
-		m_comboModel = new DefaultComboBoxModel<Object>();
+		m_comboModel = new DefaultComboBoxModel();
 		setModel(m_comboModel);
 	}
 	

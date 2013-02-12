@@ -43,6 +43,7 @@ public class WatchDog extends TimerTask {
 	public void run() {
 		if (mTimer != null) {
 			synchronized (mTimer) {
+				if (mHttpTransport.getCounter()==0)
 				try {
 					if (mWatchDogRefresher!=null)
 						mWatchDogRefresher.refreshClient();
