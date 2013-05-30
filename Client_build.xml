@@ -113,6 +113,7 @@
 	<target name="compile" depends="init" description="Compilation des classes">
 		<javac srcdir="${projet.src.dir}"
 			destdir="${projet.src.dir}"
+			encoding="utf-8"
 			target="1.6"
 			source="1.6"
 			debug="true" 

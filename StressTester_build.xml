@@ -49,6 +49,7 @@
 	 <target name="compile" description="Compilation des classes">
 		<javac srcdir="${projet.sources.dir}"
 			destdir="${projet.bin.dir}"
+			encoding="utf-8"
 			target="1.6"
 			source="1.6"
 			debug="off"
