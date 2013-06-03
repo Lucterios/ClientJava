@@ -102,12 +102,11 @@ public class ObserverMenu extends ObserverAbstract {
 		newMenu.setMenuImage(Singletons.Transport().getIcon(aIcon, aSizeIcon),!aMainMenu);
 
 		for (int menu_idx = 0; menu_idx < aXml.length; menu_idx++) {
-			String help_text;
+			String help_text = aXml[menu_idx].getCDataOfFirstTag("HELP");
 			try {
-				help_text = java.net.URLDecoder.decode(aXml[menu_idx]
-						.getCDataOfFirstTag("HELP"), ENCODE);
+				help_text = java.net.URLDecoder.decode(help_text, ENCODE);
 			} catch (UnsupportedEncodingException e) {
-				help_text = "";
+				help_text = help_text.replaceAll("+"," ");
 			}
 			GUIMenu new_menu = null;
 			SimpleParsing[] sub_xml_menus = aXml[menu_idx].getSubTag("MENU");
