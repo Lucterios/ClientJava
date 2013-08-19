@@ -119,14 +119,16 @@ public class ObserverPrint extends ObserverAbstract {
 				File pdf_file = getSelectedFileName(getDefaultFileName(title,ExtensionFilter.EXTENSION_EXPORT_PDF),
 						owner_form, owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_PDF);
-				saveFile(pdf_file, print_stream);
+				if (pdf_file!=null)
+					saveFile(pdf_file, print_stream);
 				break;
 			}
 			case MODE_EXPORT_CSV: {
 				File csv_file = getSelectedFileName(getDefaultFileName(title,ExtensionFilter.EXTENSION_EXPORT_CSV),
 						owner_form, owner_dialog,
 						ExtensionFilter.EXTENSION_EXPORT_CSV);
-				saveFile(csv_file, print_stream);
+				if (csv_file!=null)
+					saveFile(csv_file, print_stream);
 				break;
 			}
 			default:

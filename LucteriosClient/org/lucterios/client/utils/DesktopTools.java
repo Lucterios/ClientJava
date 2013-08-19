@@ -42,7 +42,7 @@ public class DesktopTools extends DesktopInterface {
 	    			cmd+=arg+" ";
 	    		process = Runtime.getRuntime().exec(aArgs);
 	    		start();
-				System.out.println("Commande '"+cmd+"' lancée");
+				System.out.println("Commande <"+cmd+"> lancée");
 			} catch (IOException e) {
 				throw new LucteriosException("Commande '"+cmd+"' non lancée!",e);
 			}
@@ -130,7 +130,7 @@ public class DesktopTools extends DesktopInterface {
 		String[] args;
         Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
 		if (OS_NAME.toLowerCase().startsWith("windows")) {
-			String file_path = convertWinFilePath(aUrl);
+			String file_path = convertWinFilePath(aUrl, false);
 			args = new String[]{"rundll32","url.dll","FileProtocolHandler",file_path};
 		}
 		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
@@ -152,21 +152,22 @@ public class DesktopTools extends DesktopInterface {
 			new ProcessExitDetector(args);			
 		} 
 		else {
-			String file_path = convertWinFilePath(aUrl);
-			openInWeb(file_path);
+			openInWeb(aUrl);
 		}
 	}
 
-	private String convertWinFilePath(String aUrl) throws LucteriosException {
+	private String convertWinFilePath(String aUrl, boolean aWithProtocole) throws LucteriosException {
 		String file_path=aUrl;
-		if (OS_NAME.toLowerCase().startsWith("windows")) {
-			try {
-				URL url = new URL(aUrl);
+		try {
+			URL url = new URL(aUrl);
+			if (!aWithProtocole) {
 				File current_file=new File(url.toURI());
 				file_path='"'+current_file.getAbsolutePath()+'"';
-			} catch (Exception e) {
-				throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
 			}
+			else
+				file_path='"'+url.toString()+'"';
+		} catch (Exception e) {
+			throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
 		}
 		return file_path;
 	}
@@ -175,9 +176,9 @@ public class DesktopTools extends DesktopInterface {
 		String[] args;
         Logging.getInstance().writeLog("OS to open URL",OS_NAME,1);
 		if (OS_NAME.toLowerCase().startsWith("windows"))
-			args = new String[]{"rundll32","url.dll","FileProtocolHandler",aUrl};
+			args = new String[]{"rundll32","url.dll","FileProtocolHandler",convertWinFilePath(aUrl, false)};
 		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
-			args = new String[] {"open",aUrl};
+			args = new String[] {"open",convertWinFilePath(aUrl, true)};
 		else
 			args=new String[] {searchBrowserFromUnix(), aUrl};				
 		new ProcessExitDetector(args);			
