@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Arrays;
 
 import org.lucterios.graphic.ExceptionDlg;
@@ -165,8 +167,10 @@ public class DesktopTools extends DesktopInterface {
 				file_path='"'+current_file.getAbsolutePath()+'"';
 			}
 			else
-				file_path='"'+url.toString()+'"';
-		} catch (Exception e) {
+				file_path=URLDecoder.decode(url.toString(), "UTF-8");
+		} catch (IOException e) {
+			throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
+		} catch (URISyntaxException e) {
 			throw new LucteriosException("Fichier '"+aUrl+"' non ouvrable!",e);
 		}
 		return file_path;
@@ -180,7 +184,7 @@ public class DesktopTools extends DesktopInterface {
 		else if (OS_NAME.toLowerCase().startsWith("mac os")) // MAC OS-X
 			args = new String[] {"open",convertWinFilePath(aUrl, true)};
 		else
-			args=new String[] {searchBrowserFromUnix(), aUrl};				
+			args=new String[] {searchBrowserFromUnix(), convertWinFilePath(aUrl, true)};				
 		new ProcessExitDetector(args);			
 	}
 	

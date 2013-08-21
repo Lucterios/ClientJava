@@ -173,15 +173,8 @@ public class ObserverPrint extends ObserverAbstract {
 	
     public String getDefaultFileName(String aTitle,String aExtFile)
     {
-		String homeDir = System.getProperty("user.home");
-		java.io.File home_dir=new java.io.File(homeDir);
-		if (new java.io.File(homeDir+"/Desktop").exists())
-			home_dir=new java.io.File(homeDir+"/Desktop");
-		if (new java.io.File(homeDir+"/Bureau").exists())
-			home_dir=new java.io.File(homeDir+"/Bureau");
 		String title=Tools.getFileNameWithoutForgottenChar(aTitle);
-		java.io.File file_exp=new java.io.File(home_dir,title+aExtFile);
-		return file_exp.getAbsolutePath();
+		return title+aExtFile;
     }
 
     public java.io.File getSelectedFileName(String aInitFileName,GUIForm aOwnerF,GUIDialog aOwnerD,String aExtFile) 

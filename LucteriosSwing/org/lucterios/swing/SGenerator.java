@@ -49,6 +49,8 @@ import org.lucterios.swing.SForm;
 
 public class SGenerator implements GUIGenerator {
 
+	private static java.io.File directory_file_dialog=null;
+	
 	public SGenerator() {
 		super();
 		HtmlLabel.changeFontSize(0.9f);
@@ -141,9 +143,13 @@ public class SGenerator implements GUIGenerator {
 	}
 	
 	public File selectOpenFileDialog(final FileFilter filter,final GUIObject aGUIOwner) {
+		if (directory_file_dialog==null) {
+			defaultDirectoryFileDialog();
+		}
 		File result=null;
 		JFileChooser file_dlg;
 		file_dlg = new JFileChooser();
+		file_dlg.setCurrentDirectory(directory_file_dialog);
 		file_dlg.setFileFilter(new javax.swing.filechooser.FileFilter() {
 			public boolean accept(File aFile) {
 				return filter.accept(aFile);
@@ -153,17 +159,22 @@ public class SGenerator implements GUIGenerator {
 			}
 
 		});
-		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
+		if (file_dlg.showOpenDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION) {
 			result = file_dlg.getSelectedFile();
+			directory_file_dialog = result.getParentFile();
+		}
 		return result;
 	}
 
 	public File selectSaveFileDialog(final FileFilter filter,final GUIObject aGUIOwner,
 			String aDefaultFileName) {
+		if (directory_file_dialog==null) {
+			defaultDirectoryFileDialog();
+		}
 		File result=null;
 		JFileChooser file_dlg;
 		file_dlg = new JFileChooser();
-		file_dlg.setSelectedFile(new File(aDefaultFileName));
+		file_dlg.setSelectedFile(new File(directory_file_dialog, aDefaultFileName));
 		file_dlg.setFileFilter(new javax.swing.filechooser.FileFilter() {
 			public boolean accept(File aFile) {
 				return filter.accept(aFile);
@@ -173,9 +184,20 @@ public class SGenerator implements GUIGenerator {
 			}
 
 		});
-		if (file_dlg.showSaveDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION)
+		if (file_dlg.showSaveDialog((Component)aGUIOwner) == JFileChooser.APPROVE_OPTION) {
 			result = file_dlg.getSelectedFile();
+			directory_file_dialog = result.getParentFile();
+		}
 		return result;
+	}
+
+	private void defaultDirectoryFileDialog() {
+		String homeDir = System.getProperty("user.home");
+		directory_file_dialog=new java.io.File(homeDir);
+		if (new java.io.File(homeDir+"/Desktop").exists())
+			directory_file_dialog=new java.io.File(homeDir+"/Desktop");
+		if (new java.io.File(homeDir+"/Bureau").exists())
+			directory_file_dialog=new java.io.File(homeDir+"/Bureau");
 	}
 	
 	public void invokeLater(Runnable runnable){
