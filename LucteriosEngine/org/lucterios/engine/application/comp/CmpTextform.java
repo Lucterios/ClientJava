@@ -22,10 +22,12 @@ package org.lucterios.engine.application.comp;
 
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUIHyperMemo;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam.FillMode;
 
-public class CmpTextform extends CmpAbstractEvent  {
+public class CmpTextform extends CmpAbstractEvent implements MemoAction.Insert {
 	private GUIHyperMemo cmp_text;
+	private GUIMenu SubMenu;
 	
 	public CmpTextform() {
 		super();
@@ -33,6 +35,10 @@ public class CmpTextform extends CmpAbstractEvent  {
 		setWeightx(1.0);
 		setWeighty(1.0);
 		
+	}
+	
+	public void insertText(String text){
+		cmp_text.insertText(text);
 	}
 
 	public void requestFocus() {
@@ -62,6 +68,8 @@ public class CmpTextform extends CmpAbstractEvent  {
 	protected void initComponent() {
 		cmp_text = mPanel.createHyperMemo(mParam);
 		cmp_text.load("");
+		
+		SubMenu = cmp_text.getPopupMenu();
 	}
 
 	protected void refreshComponent() {
@@ -69,6 +77,8 @@ public class CmpTextform extends CmpAbstractEvent  {
 		String in_text = getXmlItem().getText().trim();
 		cmp_text.load(in_text);
 		cmp_text.addFocusListener(this);
+		MemoAction.fillSubMenu(this, SubMenu, getXmlItem().getSubTag("SUBMENU"));
+		SubMenu.setVisible(SubMenu.getMenuCount() > 0);
 	}
 
 	protected boolean hasChanged() {

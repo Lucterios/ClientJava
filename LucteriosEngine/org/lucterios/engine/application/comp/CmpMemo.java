@@ -26,41 +26,23 @@ import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.gui.GUIMemo;
 import org.lucterios.gui.GUIMenu;
 import org.lucterios.gui.GUIParam.FillMode;
-import org.lucterios.ui.GUIActionListener;
 import org.lucterios.utils.GCTools;
-import org.lucterios.utils.SimpleParsing;
 import org.lucterios.utils.Tools;
 
-public class CmpMemo extends CmpAbstractEvent {
-	final static public String ENCODE = "ISO-8859-1";
-	private static final String SUB_MENU_SPECIAL = "@MENU@";
+public class CmpMemo extends CmpAbstractEvent implements MemoAction.Insert {
 	private GUIMemo cmp_text;
 	private GUIMenu SubMenu;
 	private boolean mEncode = false;
 
-	class MemoAction implements GUIActionListener {
-
-		private String actionName = "";
-		
-		public MemoAction(String actionName) {
-			this.actionName=actionName;
-		}
-		
-		public void actionPerformed() {
-			if (actionName.startsWith(SUB_MENU_SPECIAL)) {
-				String special_to_add = actionName.substring(SUB_MENU_SPECIAL.length());
-				cmp_text.insertText(special_to_add);
-			} else
-				CmpMemo.this.actionPerformed();
-		}
-		
-	}
-	
 	public CmpMemo() {
 		super();
 		mFill = FillMode.FM_BOTH;
 		setWeightx(1.0);
 		setWeighty(1.0);
+	}
+	
+	public void insertText(String text){
+		cmp_text.insertText(text);
 	}
 
 	public void requestFocus() {
@@ -77,7 +59,7 @@ public class CmpMemo extends CmpAbstractEvent {
 		String out_text = cmp_text.getValue().trim();
 		if (mEncode)
 			try {
-				out_text = java.net.URLEncoder.encode(out_text.trim(), ENCODE);
+				out_text = java.net.URLEncoder.encode(out_text.trim(), MemoAction.ENCODE);
 			} catch (UnsupportedEncodingException e) {
 				out_text = "";
 				e.printStackTrace();
@@ -102,51 +84,13 @@ public class CmpMemo extends CmpAbstractEvent {
 		SubMenu = cmp_text.getPopupMenu();
 	}
 
-	protected GUIMenu getSubMenu(GUIMenu aMenu, String aName) {
-		GUIMenu sub_menu = null;
-		for (int index = 0; (sub_menu == null)
-				&& (index < aMenu.getMenuCount()); index++)
-			if (aMenu.getMenu(index).isNode()) {
-				GUIMenu current_menu = aMenu.getMenu(index);
-				if (current_menu.getText().equals(aName))
-					sub_menu = current_menu;
-			}
-		if (sub_menu == null) {
-			sub_menu = aMenu.addMenu(true);
-			sub_menu.setText(aName);
-		}
-		return sub_menu;
-	}
-
-	protected void fillSubMenu(SimpleParsing[] aSubMenu) {
-		SubMenu.removeAll();
-		for (int index = 0; index < aSubMenu.length; index++) {
-			String type = aSubMenu[index].getCDataOfFirstTag("TYPE");
-			try {
-				String name = java.net.URLDecoder.decode(aSubMenu[index]
-						.getCDataOfFirstTag("NAME"), ENCODE);
-				String value = java.net.URLDecoder.decode(aSubMenu[index]
-						.getCDataOfFirstTag("VALUE"), ENCODE);
-				GUIMenu current = getSubMenu(SubMenu, type);
-				if ("-".equals(name))
-					current.addSeparator();
-				else {
-					GUIMenu variable_item = current.addMenu(false);
-					variable_item.setText(name);
-					variable_item.setActionListener(new MemoAction(SUB_MENU_SPECIAL+value));
-				}
-			} catch (java.io.UnsupportedEncodingException e) {
-			}
-		}
-	}
-
 	protected void refreshComponent() {
 		super.refreshComponent();
 		String in_text = getXmlItem().getText().trim();
 		mEncode = (getXmlItem().getAttributeInt("Encode", 0) != 0);
 		if (mEncode)
 			try {
-				in_text = java.net.URLDecoder.decode(in_text.trim(), ENCODE);
+				in_text = java.net.URLDecoder.decode(in_text.trim(), MemoAction.ENCODE);
 			} catch (UnsupportedEncodingException e) {
 				in_text = "";
 				e.printStackTrace();
@@ -157,7 +101,7 @@ public class CmpMemo extends CmpAbstractEvent {
 		cmp_text.setStringSize(getXmlItem().getAttributeInt("stringSize", 0));
 		cmp_text.setFirstLine(getXmlItem().getAttributeInt("FirstLine", -1));
 		cmp_text.addFocusListener(this);
-		fillSubMenu(getXmlItem().getSubTag("SUBMENU"));
+		MemoAction.fillSubMenu(this, SubMenu, getXmlItem().getSubTag("SUBMENU"));
 		SubMenu.setVisible(SubMenu.getMenuCount() > 0);
 		GCTools.postOrderGC();
 	}

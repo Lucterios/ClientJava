@@ -45,7 +45,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 	SimpleParsing style_elements = null;
 
 	protected int mModelId = 0;
-	protected String mTitle = "";
+	protected String mPrintTitle = "";
 
 	private GUIContainer pnl_Cst;
 	private GUIContainer pnl_Btn;
@@ -69,7 +69,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		SimpleParsing template = mContent.getFirstSubTag("TEMPLATE");
 		if (template != null) {
 			mModelId = template.getAttributeInt("model", 0);
-			mTitle = template.getAttribute("title");
+			mPrintTitle = template.getAttribute("title");
 			data_elements = template.getFirstSubTag("XMLOBJECT");
 			style_elements = template.getFirstSubTag("XSLTEXT");
 		}
@@ -92,7 +92,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		super.show(aTitle);
 		String data_str = data_elements.getText();
 		String style_str = style_elements.getText();
-		setValue(data_str, style_str, mTitle);
+		setValue(data_str, style_str, mPrintTitle);
 	}
 
 	public void show(String aTitle, GUIForm new_frame) throws LucteriosException {
