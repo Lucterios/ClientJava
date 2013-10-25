@@ -80,6 +80,10 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
         editor.addCaretListener(this);
         editor.addMouseListener(popupListener);
 	}
+	
+	public PopupListener getPopupListener() {
+		return popupListener;
+	}	
 
     public void setOpaque(boolean isOpaque)
     {
@@ -314,20 +318,23 @@ public class LucteriosEditor extends JPanel implements ActionListener, CaretList
     	String action_name=event.getActionCommand();
     	if (action_name.indexOf(ADD_SPECIAL)==0)
     	{
-    		String special_to_add=action_name.substring(ADD_SPECIAL.length());
-    		StyledDocument style=(StyledDocument)editor.getDocument();
-    	    try 
-    	    {
-    	    	if (mDot!=mMark)
-    	    		style.remove(Math.min(mDot,mMark),Math.abs(mMark-mDot));
-				style.insertString(Math.min(mDot,mMark),special_to_add,null);
-			} 
-    	    catch (BadLocationException e) 
-    	    {
-				e.printStackTrace();
-			}
+    		insertText(action_name.substring(ADD_SPECIAL.length()));
     	}
     	
+    }
+    
+    public void insertText(String text) {
+		StyledDocument style=(StyledDocument)editor.getDocument();
+	    try 
+	    {
+	    	if (mDot!=mMark)
+	    		style.remove(Math.min(mDot,mMark),Math.abs(mMark-mDot));
+			style.insertString(Math.min(mDot,mMark),text,null);
+		} 
+	    catch (BadLocationException e) 
+	    {
+			e.printStackTrace();
+		}
     }
     
     int mDot=0;

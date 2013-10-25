@@ -2,11 +2,14 @@ package org.lucterios.swing;
 
 import java.awt.Color;
 
+import javax.swing.JMenu;
+
 import org.lucterios.graphic.CursorMouseListener;
 import org.lucterios.graphic.LucteriosEditor;
 import org.lucterios.graphic.FocusListenerList;
 import org.lucterios.gui.GUIComponent;
 import org.lucterios.gui.GUIHyperMemo;
+import org.lucterios.gui.GUIMenu;
 import org.lucterios.ui.GUIActionListener;
 
 public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
@@ -69,4 +72,11 @@ public class SHyperMemo extends LucteriosEditor implements GUIHyperMemo {
 	public void setNbClick(int mNbClick) {
 		mCursorMouseListener.setNbClick(mNbClick);
 	}
+	
+	public GUIMenu getPopupMenu() {
+		JMenu menu=new JMenu();
+		getPopupListener().getPopup().add(menu);
+		return new SMenu(menu);
+	}
+	
 }
