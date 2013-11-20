@@ -45,6 +45,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 	SimpleParsing style_elements = null;
 
 	protected int mModelId = 0;
+	protected boolean mReadOnly = false;
 	protected String mPrintTitle = "";
 
 	private GUIContainer pnl_Cst;
@@ -69,6 +70,7 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		SimpleParsing template = mContent.getFirstSubTag("TEMPLATE");
 		if (template != null) {
 			mModelId = template.getAttributeInt("model", 0);
+			mReadOnly = template.getAttributeInt("readonly", 0)==1;
 			mPrintTitle = template.getAttribute("title");
 			data_elements = template.getFirstSubTag("XMLOBJECT");
 			style_elements = template.getFirstSubTag("XSLTEXT");
@@ -107,7 +109,10 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 	}
 
 	public void execute(GUIDialog dialog) {
-		dialog.setTextTitle(mTitle);
+		if (mReadOnly)
+			dialog.setTextTitle(mTitle+" (lecture seule)");
+		else
+			dialog.setTextTitle(mTitle);
 		GUIParam param;
 
 		param=new GUIParam(0,0);
@@ -132,14 +137,15 @@ public class ObserverTemplate extends ObserverAbstract implements DialogVisitor 
 		param.setReSize(ReSizeMode.RSM_HORIZONTAL);
 		pnl_Btn = dialog.getGUIContainer().createContainer(ContainerType.CT_NORMAL, param);
 		SimpleParsing act = new SimpleParsing();
-		act.parse("<ACTIONS>"
-						+ "<ACTION extension='"
-						+ getSourceExtension()
-						+ "' action='"
-						+ getSourceAction()
-						+ "' close='1' modal='0' icon='images/ok.png'><![CDATA[_Ok]]></ACTION>"
-						+ "<ACTION close='1' modal='0' icon='images/cancel.png'><![CDATA[_Annuler]]></ACTION>"
-						+ "</ACTIONS>");
+		String action_xml="";
+		if (!mReadOnly) {
+			action_xml="<ACTION extension='" + getSourceExtension()  + "' action='"
+					+ getSourceAction() + "' close='1' modal='0' icon='images/ok.png'><![CDATA[_Ok]]></ACTION>";
+			action_xml+="<ACTION close='1' modal='0' icon='images/cancel.png'><![CDATA[_Annuler]]></ACTION>";
+		}
+		else
+			action_xml="<ACTION close='1' modal='0' icon='images/close.png'><![CDATA[_Fermer]]></ACTION>";
+		act.parse("<ACTIONS>" + action_xml + "</ACTIONS>");
 		GUIButton btn=GraphicTool.fillPanelByButton(pnl_Btn, this, Singletons.Factory(),act, true);
 		getGUIDialog().setDefaultButton(btn);
 		show(mTitle);
