@@ -4,13 +4,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<projet.version.max>1</projet.version.max>
 		<projet.version.min>4</projet.version.min>
 		<projet.version.release>6</projet.version.release>
 		<projet.version.build>${env.BUILD_NUMBER}</projet.version.build>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<groupId>org.lucterios</groupId>
