@@ -10,6 +10,7 @@
 		<projet.version.min>4</projet.version.min>
 		<projet.version.release>6</projet.version.release>
 		<projet.version.build>${env.BUILD_NUMBER}</projet.version.build>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<groupId>org.lucterios</groupId>
