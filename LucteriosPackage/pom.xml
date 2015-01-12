@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>Lucterios</artifactId>
+    <groupId>org.lucterios</groupId>
+    <version>${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build}</version>
+  </parent>
+  <groupId>org.lucterios</groupId>
+  <artifactId>LucteriosPackage</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>LucteriosPackage</name>
+  <url>http://maven.apache.org</url>
+  <packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+					  <goals>
+						 <goal>run</goal>
+					  </goals>
+					  <phase>install</phase>
+					  <configuration>
+						 <tasks>
+								<property name="projet.lpk.dir" value="../bin"/>
+								<delete dir="${projet.lpk.dir}"/> 
+								<mkdir dir="${projet.lpk.dir}"/>	
+
+								<zip destfile="${projet.lpk.dir}/Lucterios_JavaClient_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.zip">
+									<fileset dir="../LucteriosClient/target" includes="LucteriosClient.jar"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosClient.bat"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosClient.sh"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosLogo.png"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosLogo.ico"/>
+								</zip>
+		
+								<tar destfile="JavaClient.tar">
+									<fileset dir="../LucteriosClient/target" includes="JavaClient.zip"/>
+									<fileset dir="../LucteriosUpdate/target" includes="LucteriosUpdate.jar"/>
+									<fileset dir="../LucteriosClient/src/main/resources" includes="version.txt"/>
+									<fileset dir="../LucteriosClient" includes="index.php"/>
+									<fileset dir="../LucteriosClient" includes="setup.inc.php"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosClient.bat"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosClient.sh"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosLogo.png"/>
+									<fileset dir="../LucteriosClient" includes="LucteriosLogo.ico"/>
+								</tar>
+								<gzip src="JavaClient.tar" destfile="${projet.lpk.dir}/java_${projet.version.max}-${projet.version.min}-${projet.version.release}-${projet.version.build}.lpk"/>
+		
+								<copy file="../LucteriosStressTester/target/LucteriosStressTester.jar" todir="${projet.lpk.dir}" overwrite="true"/>
+								<copy file="../LucteriosStressTester/inputExample.xml" todir="${projet.lpk.dir}" overwrite="true"/>
+						 </tasks>
+					  </configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

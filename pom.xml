@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<projet.version.max>1</projet.version.max>
+		<projet.version.min>4</projet.version.min>
+		<projet.version.release>6</projet.version.release>
+		<projet.version.build>${env.BUILD_NUMBER}</projet.version.build>
+	</properties>
+
+	<groupId>org.lucterios</groupId>
+	<artifactId>Lucterios</artifactId>
+	<version>${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build}</version>
+	<packaging>pom</packaging>
+
+	<name>Lucterios</name>
+	<url>http://www.lucterios.org</url>
+
+	<modules>
+		<module>LucteriosClient</module>
+		<module>LucteriosUpdate</module>
+		<module>LucteriosStressTester</module>
+	   <module>LucteriosPackage</module>
+  </modules>
+
+</project>
