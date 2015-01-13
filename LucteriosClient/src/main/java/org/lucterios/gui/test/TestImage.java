@@ -33,7 +33,7 @@ public class TestImage extends AbstractImage {
 		int ret=0;
 		if ((begin+4)<mImageData.length) {
 			for(int step=begin;step<(begin+4);step++)
-				ret=ret*256+mImageData[step];
+				ret=ret*256+(((int)mImageData[step]) & 0x0FF);
 		}
 		return ret;
 	}
