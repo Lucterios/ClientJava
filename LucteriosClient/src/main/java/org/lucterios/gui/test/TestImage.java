@@ -38,7 +38,17 @@ public class TestImage extends AbstractImage {
 		return ret;
 	}
 
-	private byte[] mImageData=new byte[]{}; 
+	private byte[] mImageData=new byte[]{};
+	
+	
+	public int getInternalSize() {
+		return mImageData.length;
+	}
+
+	public String getInternalString() {
+		return new String(mImageData);
+	}
+	
 	@Override
 	protected void initialize(byte[] imageData) {
 		mImageData=imageData;

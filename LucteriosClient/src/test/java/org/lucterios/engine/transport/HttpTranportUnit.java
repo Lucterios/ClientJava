@@ -20,12 +20,15 @@
 
 package org.lucterios.engine.transport;
 
+import java.io.File;
+
 import org.lucterios.engine.presentation.Observer.MapContext;
 import org.lucterios.engine.transport.HttpTransport;
 import org.lucterios.engine.transport.ImageCache;
 import org.lucterios.gui.AbstractImage;
 import org.lucterios.gui.test.TestImage;
 import org.lucterios.utils.LucteriosException;
+import org.lucterios.utils.Tools;
 
 import junit.framework.TestCase;
 
@@ -36,6 +39,7 @@ public class HttpTranportUnit extends TestCase {
 		super.setUp();
 		ImageCache.ImageClass=TestImage.class;
 		http_transport = new HttpTransportImpl();
+		Tools.deleteDir(new File(".LucteriosCache"));
 	}
 	
 	private MapContext getParam(String aText){
@@ -90,6 +94,8 @@ public class HttpTranportUnit extends TestCase {
 
 		AbstractImage add_icon = http_transport.getIcon("images/add.png",0);
 		assertTrue("Add icon", add_icon != AbstractImage.Null);
+		assertEquals("Class", TestImage.class, add_icon.getClass());
+		assertEquals("Internal Size of :"+((TestImage)add_icon).getInternalString(), 786, ((TestImage)add_icon).getInternalSize());
 		assertEquals("Add Height", 22, add_icon.getHeight());
 		assertEquals("Add Width", 22, add_icon.getWidth());
 	}
@@ -113,6 +119,7 @@ public class HttpTranportUnit extends TestCase {
 				"2eme reponse",
 				"<?xml version='1.0' encoding='ISO-8859-1'?><REPONSES><REPONSE observer='CORE.Auth' source_extension='CORE' source_action='authentification'>",
 				xml_retour.substring(0, 140));
+		
 		int pos_in = xml_retour.indexOf("<PARAM name='ses' type='str'>");
 		int pos_out = xml_retour.indexOf("</PARAM>", pos_in);
 		String session = xml_retour.substring(pos_in + 29, pos_out);

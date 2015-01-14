@@ -27,6 +27,10 @@ public class ImageCache {
 	
 	public ImageCache(HttpTransport aTransport){
 		mTransport=aTransport;
+		checkCacheDir();
+	}
+
+	protected void checkCacheDir() {
 		File cache_dir=new File(CACHE_DIR);
 		if (!cache_dir.isDirectory())
 			cache_dir.mkdir();
@@ -104,7 +108,8 @@ public class ImageCache {
 	
 	public AbstractImage addImage(String aIconName,InputStream aImageStream) {
 		if (aImageStream != null)
-			try {			
+			try {
+				checkCacheDir();				
 				String cache_file_name=getCacheFileName(aIconName);
 				File dummy_file=new File(cache_file_name+SUFIX_FOR_DUMMY);
 				if (dummy_file.isFile())
