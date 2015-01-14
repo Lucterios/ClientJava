@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.net.URL;
 
 import org.lucterios.gui.AbstractImage;
-import org.lucterios.utils.Tools;
 
 public class TestImage extends AbstractImage {
 
