@@ -46,7 +46,11 @@ public class TestImage extends AbstractImage {
 	}
 
 	public String getInternalString() {
-		return new String(mImageData);
+		String res="";
+		for(byte val:mImageData) {
+			res+=String.format("%2h ",((int)val) & 0x00FF);
+		}
+		return res;
 	}
 	
 	@Override
