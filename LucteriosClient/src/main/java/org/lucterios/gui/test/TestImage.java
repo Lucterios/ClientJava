@@ -1,5 +1,6 @@
 package org.lucterios.gui.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -21,12 +22,12 @@ public class TestImage extends AbstractImage {
 
 	@Override
 	public int getHeight() {
-		return intValue(18);
+		return intValue(16);
 	}
 
 	@Override
 	public int getWidth() {
-		return intValue(22);
+		return intValue(20);
 	}
 	
 	private int intValue(int begin){
@@ -61,9 +62,16 @@ public class TestImage extends AbstractImage {
 	@Override
 	public boolean load(File file) {
 		try {
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			FileInputStream fis = new FileInputStream(file);
-			String value=Tools.parseISToString(fis);
-			initialize(value.getBytes());
+			int nRead;
+			byte[] data = new byte[16384];
+			while ((nRead = fis.read(data, 0, data.length)) != -1) {
+				buffer.write(data, 0, nRead);
+			}
+			fis.close();
+			buffer.flush();
+			initialize(buffer.toByteArray());
 			return true;
 		} catch (Exception e) {
 			return false;	
@@ -73,9 +81,8 @@ public class TestImage extends AbstractImage {
 	@Override
 	public boolean load(URL url) {
 		try {
-			String value=Tools.parseISToString(url.openStream());
-			initialize(value.getBytes());
-			return false;
+			File file=new File(url.toURI());
+			return load(file);
 		} catch (Exception e) {
 			return false;	
 		}

@@ -95,7 +95,7 @@ public class HttpTranportUnit extends TestCase {
 		AbstractImage add_icon = http_transport.getIcon("images/add.png",0);
 		assertTrue("Add icon", add_icon != AbstractImage.Null);
 		assertEquals("Class", TestImage.class, add_icon.getClass());
-		assertEquals("Internal Size of :"+((TestImage)add_icon).getInternalString(), 786, ((TestImage)add_icon).getInternalSize());
+		assertEquals("Internal Size of :"+((TestImage)add_icon).getInternalString(), 487, ((TestImage)add_icon).getInternalSize());
 		assertEquals("Add Height", 22, add_icon.getHeight());
 		assertEquals("Add Width", 22, add_icon.getWidth());
 	}
