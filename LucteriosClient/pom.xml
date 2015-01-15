@@ -59,7 +59,40 @@
 	<build>
 
 		<plugins>
-
+			<plugin>
+			  <artifactId>maven-clean-plugin</artifactId>
+			  <version>2.6.1</version>
+			  <configuration>
+			    <filesets>
+			      <fileset>
+			        <directory>src/main/resources/</directory>
+			        <includes>
+			          <include>version.txt</include>
+			        </includes>
+			        <followSymlinks>false</followSymlinks>
+			      </fileset>
+			      <fileset>
+			        <directory>target</directory>
+			        <includes>
+			          <include>JavaClient.zip</include>
+			        </includes>
+			        <followSymlinks>false</followSymlinks>
+			      </fileset>
+			      <fileset>
+			        <directory>.</directory>
+			        <includes>
+			          <include>setup.inc.php</include>
+			          <include>LucteriosClient.conf</include>
+			          <include>LucteriosClientDebug.html</include>
+			          <include>dist.xml</include>
+			          <include>examples.txt</include>			          
+			        </includes>
+			        <followSymlinks>false</followSymlinks>
+			      </fileset>
+			    </filesets>
+			  </configuration>
+			</plugin>
+  
 			<plugin>
 			    <artifactId>maven-compiler-plugin</artifactId>
 			    <version>2.3.2</version>
