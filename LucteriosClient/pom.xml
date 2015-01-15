@@ -16,9 +16,7 @@
 		<version>${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build}</version>
 	</parent>
 
-	<groupId>org.lucterios</groupId>
 	<artifactId>LucteriosClient</artifactId>
-	<version>${projet.version.max}.${projet.version.min}.${projet.version.release}.${projet.version.build}</version>
 	<packaging>jar</packaging>
 
 	<name>LucteriosClient</name>

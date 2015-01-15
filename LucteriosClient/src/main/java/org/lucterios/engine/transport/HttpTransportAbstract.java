@@ -36,11 +36,11 @@ import org.lucterios.utils.Tools;
 public abstract class HttpTransportAbstract implements HttpTransport {
 	final static public String ENCODE = "utf-8";
 	final static String MANAGER_FILE = "coreIndex.php";
-	final static String AUTH_REQUETE="<REQUETE extension='common' action='authentification'>";
-	final static String AUTH_PARAM="<PARAM name='ses' type='str'>";
+	final static String AUTH_REQUETE = "<REQUETE extension='common' action='authentification'>";
+	final static String AUTH_PARAM = "<PARAM name='ses' type='str'>";
 
-	static private int mCounter = 0;	
-	
+	static private int mCounter = 0;
+
 	static private String mServerHost = "";
 	static private int mCurrentPort = 0;
 	static private String mRootPath = "";
@@ -48,33 +48,34 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	static private boolean mCurrentUseProxy = true;
 
 	private ImageCache imageCache = null;
-	private DesktopInterface mDesktop=null;
+	private DesktopInterface mDesktop = null;
 
 	static protected String mProxyServer = "";
 	static protected int mProxyPort = 0;
-	static protected boolean mSecurity=false;
-	
+	static protected boolean mSecurity = false;
+
 	public HttpTransportAbstract() {
 		super();
 		imageCache = new ImageCache(this);
 	}
 
-	public int getCounter(){
+	public int getCounter() {
 		return mCounter;
 	}
-	
-	public void setDesktop(DesktopInterface desktop){
-		mDesktop=desktop;
+
+	public void setDesktop(DesktopInterface desktop) {
+		mDesktop = desktop;
 	}
 
-	public void connectToServer(String aServerHost, String aRootPath, int aPort, boolean aSecurity, boolean aCurrentUseProxy) {
+	public void connectToServer(String aServerHost, String aRootPath,
+			int aPort, boolean aSecurity, boolean aCurrentUseProxy) {
 		mCurrentPort = aPort;
 		mServerHost = aServerHost;
 		mRootPath = aRootPath;
 		mSecurity = aSecurity;
 		if ((mRootPath.length() > 0) && (mRootPath.charAt(0) != '/'))
 			mRootPath = "/" + mRootPath;
-		mCurrentUseProxy=aCurrentUseProxy;
+		mCurrentUseProxy = aCurrentUseProxy;
 	}
 
 	public void setProxy(String aProxyServer, int aProxyPort) {
@@ -89,8 +90,8 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		mRootPath = "";
 		mProxyServer = "";
 		mProxyPort = 0;
-		mSecurity=false;
-		mCurrentUseProxy=true;
+		mSecurity = false;
+		mCurrentUseProxy = true;
 	}
 
 	public String getSession() {
@@ -115,7 +116,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		else
 			return "http";
 	}
-	
+
 	public String getRootPath() {
 		return mRootPath;
 	}
@@ -127,7 +128,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	public boolean getUseProxy() {
 		return mCurrentUseProxy;
 	}
-	
+
 	public URL getUrl() {
 		return getUrl("");
 	}
@@ -135,14 +136,15 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 	protected java.net.URL getUrl(String aWebName) {
 		if (aWebName != null) {
 			try {
-				if (aWebName.startsWith("http://") || aWebName.startsWith("https://"))
+				if (aWebName.startsWith("http://")
+						|| aWebName.startsWith("https://"))
 					return new java.net.URL(aWebName);
 				if ((aWebName.length() > 0) && (aWebName.charAt(0) != '/')
 						&& (mRootPath.length() > 0)
 						&& (mRootPath.charAt(mRootPath.length() - 1) != '/'))
 					aWebName = "/" + aWebName;
-				return new java.net.URL(getProtocol(), mServerHost, mCurrentPort,
-						mRootPath + aWebName);
+				return new java.net.URL(getProtocol(), mServerHost,
+						mCurrentPort, mRootPath + aWebName);
 			} catch (MalformedURLException e) {
 				return null;
 			}
@@ -150,18 +152,19 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 			return null;
 	}
 
-	public AbstractImage getIcon(String aIconName,int aSize)  {
+	public AbstractImage getIcon(String aIconName, int aSize) {
 		if ((aIconName != null) && (aIconName.length() > 0)) {
-			if (imageCache.isInCache(aIconName,aSize)) {
+			if (imageCache.isInCache(aIconName, aSize)) {
 				return imageCache.getImage(aIconName);
-			}
-			else {
+			} else {
 				AbstractImage icon_result = AbstractImage.Null;
 				try {
 					try {
-						Logging.getInstance().writeLog("### TELECHARGEMENT ###",aIconName,2);
-						InputStream reponse = transfertFileFromServer(aIconName, new MapContext());
-						icon_result=imageCache.addImage(aIconName, reponse);
+						Logging.getInstance().writeLog(
+								"### TELECHARGEMENT ###", aIconName, 2);
+						InputStream reponse = transfertFileFromServer(
+								aIconName, new MapContext());
+						icon_result = imageCache.addImage(aIconName, reponse);
 					} catch (Exception e) {
 						imageCache.addDummy(aIconName);
 						e.printStackTrace();
@@ -188,12 +191,14 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 
 	protected abstract void downloadFinished();
 
-	protected abstract InputStream transfertFileFromServer(String aWebFile, MapContext aParams) throws LucteriosException;
+	protected abstract InputStream transfertFileFromServer(String aWebFile,
+			MapContext aParams) throws LucteriosException;
 
-	public abstract int getFileLength(String aWebFile) throws LucteriosException;
-	
-	public String transfertFileFromServerString(String aWebFile, MapContext aParams)
-			throws LucteriosException {
+	public abstract int getFileLength(String aWebFile)
+			throws LucteriosException;
+
+	public String transfertFileFromServerString(String aWebFile,
+			MapContext aParams) throws LucteriosException {
 		String input_reponse = null;
 		synchronized (mSynchronizedObj) {
 			try {
@@ -224,7 +229,7 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 		synchronized (mSynchronizedObj) {
 			try {
 				InputStream is = transfertFileFromServer(aServerFileName, null);
-				Tools.saveFileStream(new File(aLocalFileName),is);
+				Tools.saveFileStream(new File(aLocalFileName), is);
 			} finally {
 				downloadFinished();
 			}
@@ -233,7 +238,8 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 
 	protected Object mSynchronizedObj = new Object();
 
-	public String transfertXMLFromServer(MapContext aXmlParam) throws LucteriosException {
+	public String transfertXMLFromServer(MapContext aXmlParam)
+			throws LucteriosException {
 		String data = "";
 		synchronized (mSynchronizedObj) {
 			mCounter++;
@@ -241,29 +247,35 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 				String xml_param = "<?xml version='1.0' encoding='" + ENCODE
 						+ "'?>";
 				xml_param = xml_param + "<REQUETES>\n";
-				if (!"".equals( mSession ) && (!aXmlParam.containsKey(POST_VARIABLE) || !aXmlParam.get(POST_VARIABLE).toString().startsWith(AUTH_REQUETE))) {
+				if (!"".equals(mSession)
+						&& (!aXmlParam.containsKey(POST_VARIABLE) || !aXmlParam
+								.get(POST_VARIABLE).toString()
+								.startsWith(AUTH_REQUETE))) {
 					xml_param = xml_param + AUTH_REQUETE;
 					xml_param = xml_param + AUTH_PARAM + mSession + "</PARAM>";
 					xml_param = xml_param + "</REQUETE>";
 				}
 				if (aXmlParam.containsKey(POST_VARIABLE))
-					xml_param = xml_param + aXmlParam.get(POST_VARIABLE).toString();
+					xml_param = xml_param
+							+ aXmlParam.get(POST_VARIABLE).toString();
 				xml_param = xml_param + "</REQUETES>";
 				Logging.getInstance().setInText(xml_param);
-		        try
-		        {
-		        	aXmlParam.put(POST_VARIABLE,java.net.URLEncoder.encode(xml_param,ENCODE));
-		        }
-		        catch(java.io.UnsupportedEncodingException e)
-		        {
-		            throw new LucteriosException(e.toString(),e);
-		        }
+				try {
+					aXmlParam.put(POST_VARIABLE,
+							java.net.URLEncoder.encode(xml_param, ENCODE));
+				} catch (java.io.UnsupportedEncodingException e) {
+					throw new LucteriosException(e.toString(), e);
+				}
 				try {
 					data = "<?xml version='1.0' encoding='ISO-8859-1'?>";
-					data = data	+ transfertFileFromServerString(MANAGER_FILE, aXmlParam);
+					data = data
+							+ transfertFileFromServerString(MANAGER_FILE,
+									aXmlParam);
 				} catch (TransportException e) {
-					throw new LucteriosException("<b>Le serveur ne répond pas.</b>" +
-							"<br>Vérifiez la connection réseau et les configurations de l'outil.","","",e,LucteriosException.IMPORTANT);
+					throw new LucteriosException(
+							"<b>Le serveur ne répond pas.</b>"
+									+ "<br>Vérifiez la connection réseau et les configurations de l'outil.",
+							"", "", e, LucteriosException.IMPORTANT);
 				}
 				try {
 					data = java.net.URLDecoder.decode(data.trim(), ENCODE);
@@ -271,9 +283,10 @@ public abstract class HttpTransportAbstract implements HttpTransport {
 					throw new LucteriosException(e.toString(), e);
 				}
 				if ((data.length() > 0) && (data.charAt(0) != '<'))
-					throw new TransportException(data,TransportException.TYPE_HTTP, 2, xml_param, data);
+					throw new TransportException(data,
+							TransportException.TYPE_HTTP, 2, xml_param, data);
 				Logging.getInstance().setOutText(data);
-			} finally{
+			} finally {
 				mCounter--;
 			}
 		}

@@ -43,7 +43,7 @@ public class WaitWindow extends JWindow
         title.setText("<center><b>"+aTitle+"</b></center>");
         getContentPane().add(title, BorderLayout.NORTH);
 
-		JLabel image = new JLabel(new javax.swing.ImageIcon(getClass().getResource("resources/install.png")));
+		JLabel image = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/install.png")));
         image.setAlignmentX(0.5f);
         image.setAlignmentY(0.5f);
         getContentPane().add(image, BorderLayout.CENTER);
