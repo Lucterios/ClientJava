@@ -60,6 +60,19 @@
 									<fileset dir="../LucteriosClient" includes="LucteriosLogo.png"/>
 									<fileset dir="../LucteriosClient" includes="LucteriosLogo.ico"/>
 								</zip>
+
+								<zip destfile="../LucteriosClient/target/JavaClient.zip" >
+									<fileset dir="../LucteriosClient/target" includes="LucteriosClient.jar"/>
+								</zip>
+								
+								<delete file="../LucteriosClient/setup.inc.php"/>
+								<exec executable="./createSetup.sh" dir="../LucteriosClient">
+									<arg line="${projet.version.max}" />
+									<arg line="${projet.version.min}" />
+									<arg line="${projet.version.release}" />
+									<arg line="${projet.version.build}" />
+									<arg line="." />
+								</exec>
 		
 								<tar destfile="JavaClient.tar">
 									<fileset dir="../LucteriosClient/target" includes="JavaClient.zip"/>
